@@ -1,0 +1,191 @@
+@import '../../../../../../../styles.scss';
+
+.transferTypeHeaderClass {
+  height: 38px;
+  background-color: #111111;
+  font-weight: bold;
+  cursor: pointer;
+  border: none;
+  font-size: 12px;
+  padding-bottom: 10px;
+  margin-right: 1px;
+  margin-bottom: 2px;
+  width: 197px;
+  text-align: center;
+  height: 35px;
+  padding-top: 8px;
+  border-top-right-radius: 4px;
+  border-top-left-radius: 4px;
+}
+
+.activeTab {
+  color: #fe7801;
+}
+
+.disableTab {
+  color: white;
+}
+
+.innerNav {
+  height: 93px;
+  border-radius: 3.1px;
+  box-shadow: 0px 2px 3px 0 rgba(0, 0, 0, 0.1);
+  padding-top: 22px;
+  width: 16rem;
+  margin-left: 7rem;
+}
+
+.carterXlogo {
+  display: none;
+}
+
+.beforeNav {
+  position: absolute;
+  margin-top: -76px;
+  left: 0;
+  right: 0;
+  display: flex;
+  z-index: 99999;
+}
+
+.stickyNav {
+
+  position: fixed;
+  top: 0;
+  left: 0;
+  padding-left: 0;
+  padding-right: 0;
+  animation: slideInDown 0.2s linear;
+  z-index: 3;
+
+  .innerNav {
+    width: 100%;
+    padding-left: 0px;
+    padding-top: 11px;
+    height: 82px;
+    margin-left: 7rem;
+  }
+
+  .carterXlogo {
+    display: block;
+  }
+
+  .signinDiv {
+    display: inline-flex;
+  }
+
+  .active {
+    border-bottom: none;
+  }
+
+  .newImage {
+    display: none;
+  }
+
+  .newWord {
+    display: none;
+  }
+
+}
+
+.signinDiv {
+  display: none;
+}
+
+.newImage {
+  position: absolute;
+  top: -10px;
+  width: 34px;
+  margin-left: 12px;
+}
+
+
+.newWord {
+  position: absolute;
+  top: -7px;
+  margin-left: 30px;
+  font-size: 9px;
+  font-weight: 500;
+  color: white;
+}
+
+
+.navHeaders {
+  font-size: 11px;
+  font-weight: 600;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.1;
+  letter-spacing: normal;
+}
+
+.signIn {
+  font-size: 11px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  letter-spacing: normal;
+  color: #333333;
+}
+
+.cuserPointer {
+  cursor: pointer;
+}
+
+.active {
+  border-bottom: 3px solid #F47521;
+}
+
+.unActive {
+  border-bottom: none;
+}
+
+.borderRadius11 {
+  border-radius: 11px;
+}
+
+.container-fluid {
+  padding-left: 7rem;
+  padding-right: 7rem;
+}
+
+a {
+  text-decoration: none;
+}
+
+// .navHeaders:hover {
+//   border-bottom: 3px solid #F47521;
+//   padding-bottom: 2px;
+// }
+
+.my-trips {
+  color: white;
+  display: inline-block;
+  cursor: pointer;
+  outline: 0 !important;
+  background: none;
+  border: none;
+
+  &:disabled {
+    cursor: not-allowed;
+  }
+}
+
+.iconSize {
+  width: 43px;
+  height: 40px;
+}
+
+.carterXLogoImage {
+  width: 10rem;
+  cursor: pointer;
+}
+
+.signIn_image {
+  height: 12px;
+}
+
+.indigoImage{
+  width: 5rem;
+}
+

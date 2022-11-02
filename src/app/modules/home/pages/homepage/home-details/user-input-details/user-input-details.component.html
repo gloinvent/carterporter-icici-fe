@@ -1,0 +1,55 @@
+<div id="top"></div>
+<div class="customNav beforeNav col-12" id="nav">
+    <div class="bg-white d-flex pl-4 pr-4 innerNav justify-content-center">
+        <!-- <div class="carterXlogo mt-1" style="margin-right: 3.8rem;">
+            <img class="pt-2 carterXLogoImage" src="../../../../../../assets/images/CarterXLogoHorizontal(Transparent).png" (click)="reload()" />
+        </div> -->
+
+        <div class="text-center cuserPointer" [ngClass]="{ active: numValue == 1, unActive: numValue != 1 }" (click)="selectTab(1)">
+            <img src="../../../../../../assets/images/AirportTransfers_vector.svg" style="height: 38px;" />
+            <div class="navHeaders mb-0" style="margin-top: 6px;" (click)="selectTab(1)">Airport
+                <p (click)="selectTab(8)">Transfers</p>
+            </div>
+        </div>
+
+        <div class="text-center cuserPointer" [ngClass]="{ active: numValue == 8, unActive: numValue != 8 }" style="margin-left: 36px" (click)="selectTab(8)">
+            <!-- <img class="newImage" src="../../../../../../assets/images/New.svg" />
+            <p class="newWord" style="margin-left: 16px;">Rush</p> -->
+            <img src="../../../../../../assets/images/rushCargoNlo.jpeg" style="width: 64px;height: 42px;" />
+            <div class="navHeaders mb-0" style="margin-top: 1px" (click)="selectTab(8)">Cargo
+                <p (click)="selectTab(8)">Transfers</p>
+            </div>
+        </div>
+
+        <!-- <div class="text-center cuserPointer" [ngClass]="{ active: numValue == 9, unActive: numValue != 9 }" style="margin-left: 36px" (click)="selectTab(9)">
+            <img src="../../../../../../assets/images/rushLocal.jpeg" style="width: 45px;" />
+            <p class="navHeaders mb-0" style="margin-top: 1px">HyperLocal <br /> Rush</p>
+        </div> -->
+
+        <!-- <div id="signPart" class="signinDiv mt-3" style="margin-left: 50px;">
+            <div class="signIn cuserPointer">
+                <img class="signIn_image" src="../../../../../../assets/images/Sign in_Blue.svg" *ngIf="disableMyTrips == true" />
+                <a (click)="signin()" class="text-capitalize" style="margin-left: 11px;">{{userName}}</a>
+            </div>
+            <div class="signIn cuserPointer">
+                <img class="signIn_image" src="../../../../../../assets/images/My Trips_Grey.svg" *ngIf="disableMyTrips" />
+                <img class="signIn_image" src="../../../../../../assets/images/My Trips_Blue.svg" *ngIf="disableMyTrips == false" />
+                <button class="bg-white border-0 pl-0 ml-1" routerLink="/my-trips" [disabled]='disableMyTrips'>My Trip</button>
+            </div>
+        </div> -->
+    </div>
+</div>
+
+<div class="container-fluid mb-3" >
+    <div class="bg-white borderRadius11" *ngIf="numValue === 1">
+        <app-new-airport-transfer></app-new-airport-transfer>
+        <!-- <app-airport-transfer></app-airport-transfer> -->
+    </div>
+
+    <div class="bg-white borderRadius11" *ngIf="numValue === 8">
+        <app-cargo-transfer [type] = 1></app-cargo-transfer>
+    </div>
+    <div class="bg-white borderRadius11" *ngIf="numValue === 9">
+        <app-cargo-transfer [type] = 4></app-cargo-transfer>
+    </div>
+</div>

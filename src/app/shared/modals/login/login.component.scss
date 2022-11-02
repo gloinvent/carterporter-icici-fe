@@ -1,0 +1,217 @@
+@import "../../../../styles.scss";
+
+#login {
+  width: 100%;
+.phone-no{
+  padding-left: 0px;
+}
+
+  ::ng-deep {
+    .mat-dialog-title {
+      color: black;
+      font-size: 15px;
+      font-weight: 600;
+      text-align: center;
+    }
+    .mat-dialog-actions {
+      flex-direction: column;
+    }
+    .close-image {
+      margin-left: 16rem;
+      margin-top: -2rem;
+      height: 35px;
+      cursor: pointer;
+    }
+
+    .modal-dialog-centered {
+      width: fit-content;
+    }
+
+    .modal-header {
+      display: flex;
+      padding: 0;
+      color: black;
+      flex-direction: column;
+      align-items: center;
+      border: none;
+
+      .modal-title {
+        margin-bottom: 0;
+        line-height: 0.5;
+        font-size: 15px;
+        font-weight: 600;
+      }
+    }
+    .modal-body {
+      position: relative;
+      flex: 1 1 auto;
+      // padding: 25px;
+      // padding-top: 20px;
+      background: #f1f1f1;
+      font-size: 13px;
+      .input {
+        margin-top: 10px;
+        .mobile-no {
+          border: none;
+          background: #f1f1f1;
+          display: inline-block;
+          width: 42%;
+          padding-left: 10px;
+          flex: 1 1 60%;
+          border-bottom: 1px groove $border;
+          font-size: 12px;
+          height: 40px;
+        }
+        .cc-mobile {
+          border-bottom: 1px groove $border;
+          padding-bottom: 4px;
+        }
+        .country-code {
+        padding-right: 0px;
+        }
+        .inputcontrol{
+            border: none;
+            background: #f1f1f1;
+            display: inline-block;
+            border-bottom: 2px groove #f9f9f98f;
+            font-size: 12px;
+            height: 40px;
+            border-radius: 0;
+        }
+        .form-control:focus {
+          outline: none !important;
+          box-shadow: none;
+        }
+        .mobile-no-label {
+          font-size: 12px;
+          color: orange;
+          display: inline-block;
+          // margin-top: 10px;
+          .phone-icon {
+            height: 13px;
+          }
+        }
+      }
+
+      .mobile-input-group {
+        width: 100%;
+        display: flex;
+        flex-flow: row nowrap;
+        .country-wrap{
+          flex: 1 0 84px;
+        }
+        .mobile-wrap{
+          flex: 1 1 80%;
+        }
+      }
+      .star-info {
+        font-size: 9px;
+        padding-top: 0px;
+        color: black;
+        margin-top: -5px;
+        margin-left: 15px;
+      }
+      .submit-button {
+        border: none;
+        inline-size: -webkit-fill-available;
+        background: $lightblue;
+        font-size: 12px;
+        padding: 8px;
+        border-radius: 3px;
+        color: white;
+        margin: 10px 15px;
+      }
+      .submit-button:disabled {
+        cursor: not-allowed;
+      }
+      .register-option {
+        font-size: 10px;
+        text-align: center;
+        margin-top: 10px;
+        margin-bottom: 0;
+        color: black;
+        .register-link {
+          color: $lightblue;
+          margin-bottom: 0;
+          cursor: pointer;
+        }
+      }
+    }
+    .footer-style {
+      font-size: 8px;
+      color: $lightblue;
+      margin-top: 20px;
+      margin-bottom: -24px;
+      .policy-terms {
+        cursor: pointer;
+      }
+    }
+    .info-icon {
+      margin-top: -10px;
+    }
+  }
+  @media screen and (max-width: 500px) {
+    .phone-no{
+      padding-left: 15px;
+    }
+    .mobile-input-group {
+      width: 100%;
+      flex-wrap: wrap;
+      display: block;
+      .country-wrap{
+        flex: 1 0 100%;
+      }
+      .mobile-wrap{
+        flex: 1 1 100%;
+      }
+
+      
+    }
+    .mobile-no{
+      margin-top: 15px;
+    }
+  
+  }
+  @media screen and (max-width: 320px) {
+   .phone-no{
+     padding-left: 15px;
+   }
+    .close-image {
+      margin-left: 14rem;
+    }
+    .mobile-input-group {
+      width: 100%;
+      flex-flow: row wrap;
+      display: block;
+    }
+   .mobile-no{
+     margin-top: 15px;
+   }
+    .modal-body {
+      .input {
+        .mobile-no-label {
+          font-size: 11px;
+          color: orange;
+          display: inline-block;
+          margin-left: -10px;
+        }
+      }
+    }
+  }
+}
+
+input[type="text"],
+select {
+  outline: none;
+}
+
+.dark-modal .modal-content {
+  background-color: #292b2c;
+  color: white;
+}
+.dark-modal .close {
+  color: white;
+}
+.light-blue-backdrop {
+  background-color: #5cb3fd;
+}

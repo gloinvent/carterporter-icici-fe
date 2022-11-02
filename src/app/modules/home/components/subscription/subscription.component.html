@@ -1,0 +1,226 @@
+<!-- margin: 95px 0 0 !important;    only for ICIC prestege -->
+
+<!-- mt-5 -->
+<div class="subSection icic-marigin  pt-5" >
+  <div class="container">
+    <h3 class="pt-3 heading">Buy Subscription</h3>
+
+    <!-- align-items-center    only for carterporter-->
+    <div class="row">
+
+      <!-- pt-md-5  only for icic and amex -->
+      <div class="col-md-6 pt-md-5">
+
+
+        <div class="subCard mb-3" *ngFor="let item of subscription_list"
+          [class.subCardSecond]="item.subscriber_name != 'Prestige' && item.subscriber_name == 'ICICI Prestige' && item.subscriber_name == 'Amex Prestige'">
+          <div class="d-flex">
+            <div class="prestigeLogo mobile-prestigeLogo">
+              <img
+                [src]="item.subscriber_name == 'Prestige' || item.subscriber_name == 'ICICI Prestige' || item.subscriber_name == 'Amex Prestige' ? '../../../../../assets/subscription/Icon Prestige.png' : '../../../../../assets/subscription/Icon Prestigeplus.png'">
+            </div>
+            <div class="flex-fill">
+              <div class="d-flex justify-content-between">
+                <div>
+                  <h1 class="subscription-title">{{item.subscriber_name == 'ICICI Prestige' ? 'Prestige' : item.subscriber_name}}</h1>
+                  <h6>{{item.no_of_usages}} usages</h6>
+                  <ul class="pl-3">
+                    <li>Departure Services</li>
+                    <li>Arrival Services</li>
+                  </ul>
+                </div>
+                <div class="text-right">
+                  <h2 class="price" style="min-width: 90px;">INR {{item.subscription_cost}}/-</h2>
+                  <p style="color: #337bb7;">Annual Fee</p>
+                  <div class="d-flex justify-content-end align-items-center">
+                    <span style="padding: 2px 0 0px 0;" class="d-flex justify-content-center align-items-center" (click)="purchaseSubscription('remove',item.subscriber_name)">-</span>
+                    <p class="m-0" style="padding: 2px 0.5rem 0;">{{item.count}}</p>
+                    <span style="padding: 2px 0 0px 0;" class="d-flex justify-content-center align-items-center" (click)="purchaseSubscription('add',item.subscriber_name)">+</span>
+                  </div>
+                </div>
+              </div>
+              <div class="d-none d-md-block">
+                <h6>Cities Applicable</h6>
+                <p class="m-0">Chennai | Bangalore | Hyderabad | New Delhi | Mumbai</p>
+              </div>
+            </div>
+          </div>
+          <div class="d-block d-md-none">
+            <h6>Cities Applicable</h6>
+            <p class="m-0">Chennai | Bangalore | Hyderabad | New Delhi | Mumbai</p>
+          </div>
+        </div>
+
+        <!-- <div class="subCard subCardSecond">
+          <div class="d-flex">
+            <div class="prestigeLogo">
+              <img src="../../../../../assets/subscription/Icon Prestigeplus.png">
+            </div>
+            <div class="flex-fill">
+              <div class="d-flex justify-content-between">
+                <div>
+                  <h1>Prestige Plus</h1>
+                  <h6>8 usages</h6>
+                  <ul class="pl-3">
+                    <li>Departure Services</li>
+                    <li>Arrival Services</li>
+                  </ul>
+                </div>
+                <div class="text-right">
+                  <h2 class="price">INR 3,899/-</h2>
+                  <p style="color: #337bb7;">Annual Fee</p>
+                  <div class="d-flex justify-content-end align-items-center">
+                    <button>-</button>
+                    <p class="m-0 px-2">1</p>
+                    <button>+</button>
+                  </div>
+                </div>
+              </div>
+              <div class="d-none d-md-block">
+                <h6>Cities Applicable</h6>
+                <p class="m-0">Chennai | Bangalore | Hyderabad | NewDelhi | Mumbai</p>
+              </div>
+            </div>
+          </div>
+          <div class="d-block d-md-none">
+            <h6>Cities Applicable</h6>
+            <p class="m-0">Chennai | Bangalore | Hyderabad | NewDelhi | Mumbai</p>
+          </div>
+        </div> -->
+
+
+        <div>
+          <div class="text-right">
+            <h2 class="price py-4 min-height-77">{{getPrice() != 0 ? 'INR ' : ''}} {{getPrice() != 0 ? getPrice() : ''}} {{getPrice() != 0 ? '/- ' : ''}}</h2>
+            <button [class.disabled]="getPrice() == 0" class="proceedBuy"
+              (click)="getPrice() != 0 ? openDialog() : null">Proceed to Buy</button>
+          </div>
+          <div class="prestigeLogo d-md-block d-none" style="min-height: 135px;">
+            <!-- <img src="../../../../../assets/subscription/Icon Prestige.png"> -->
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6 mt-4 mt-md-0 d-md-block">
+        <div class="subDetails">
+          <div class="row">
+            <div class="col-6">
+              <img class="carterXLogo" src="../../../../../assets/images/Carterx-Logo.png">
+            </div>
+            <div class="col-6">
+              <p class="airportBaggage">Airport Baggage Assistance Curbside Or Doorstep</p>
+            </div>
+          </div>
+          <div class="departureService">
+            <div class="departureCard">
+              <h6>Departure Services 24/7 Across Airports</h6>
+              <div class="row pb-2">
+                <div class="col-4">
+                  <img src="../../../../../assets/subscription/1@4x@3x.png">
+                </div>
+                <div class="col-4">
+                  <img src="../../../../../assets/subscription/2@4x@3x.png">
+                </div>
+                <div class="col-4">
+                  <img src="../../../../../assets/subscription/3@4x@3x.png">
+                </div>
+              </div>
+              <div class="row progressBar">
+                <div class="col-4 p-0">
+                  <p class="progressCircle"></p>
+                </div>
+                <div class="col-4 justify-content-center d-flex p-0">
+                  <p class="progressCircle"></p>
+                </div>
+                <div class="col-4 justify-content-end d-flex p-0">
+                  <p class="progressCircle"></p>
+                </div>
+              </div>
+            </div>
+            <div class="row progressBarText pt-3">
+              <div class="col-4">
+                <p class="progressText">Book Your Pick-Up</p>
+              </div>
+              <div class="col-4 justify-content-center d-flex">
+                <p class="progressText">Assistance from Drop off Point or Doorstep</p>
+              </div>
+              <div class="col-4 justify-content-end d-flex">
+                <p class="progressText">Assistance to Airport
+                  Check-in</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-12 my-3">
+              <div class="text-center">
+                <h1>Chennai | Bangalore | Hyderabad | New Delhi | Mumbai</h1>
+              </div>
+            </div>
+            <div class="col-3 p-0">
+              <div class="logoDetails">
+                <img src="../../../../../assets/subscription/Icon@3x.png">
+              </div>
+              <p class="logoText">Contact-less <br> Process</p>
+            </div>
+            <div class="col-3 p-0">
+              <div class="logoDetails">
+                <img src="../../../../../assets/subscription/Icon@3x copy.png">
+              </div>
+              <p class="logoText">SMS at every point your luggage</p>
+            </div>
+            <div class="col-3 p-0">
+              <div class="logoDetails">
+                <img src="../../../../../assets/subscription/Icon@3x copy 2.png">
+              </div>
+              <p class="logoText">Any Airport, Any Terminal</p>
+            </div>
+            <div class="col-3 p-0">
+              <div class="logoDetails">
+                <img src="../../../../../assets/subscription/Icon@3x copy 3.png">
+              </div>
+              <p class="logoText">Only BCAS Approved Company</p>
+            </div>
+          </div>
+          <div class="departureService pt-3">
+            <div class="departureCard">
+              <h6>Arrival Services 24/7 Across Airports</h6>
+              <div class="row pb-2">
+                <div class="col-4">
+                  <img src="../../../../../assets/subscription/1@4x@3x.png">
+                </div>
+                <div class="col-4">
+                  <img src="../../../../../assets/subscription/2@4x@3x copy.png">
+                </div>
+                <div class="col-4">
+                  <img src="../../../../../assets/subscription/2@4x@3x.png">
+                </div>
+              </div>
+              <div class="row progressBar">
+                <div class="col-4 p-0">
+                  <p class="progressCircle"></p>
+                </div>
+                <div class="col-4 justify-content-center d-flex p-0">
+                  <p class="progressCircle"></p>
+                </div>
+                <div class="col-4 justify-content-end d-flex p-0">
+                  <p class="progressCircle"></p>
+                </div>
+              </div>
+            </div>
+            <div class="row progressBarText pt-3">
+              <div class="col-4">
+                <p class="progressText">Book Your Drop-off</p>
+              </div>
+              <div class="col-4 justify-content-center d-flex">
+                <p class="progressText">Assistance at Airport Baggage Belt</p>
+              </div>
+              <div class="col-4 justify-content-end d-flex">
+                <p class="progressText">Drop to Pickup Point or Delivery to Doorstep</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

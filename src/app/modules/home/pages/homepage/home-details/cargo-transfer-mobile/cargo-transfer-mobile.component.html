@@ -1,0 +1,592 @@
+<div class="container pb-4 d-md-none" style="position: relative;">
+  <div class="row">
+    <div class="col-md-12 col-sm-12 d-flex header extra-bold">
+      <p class="pt-3">
+        <img
+          class="btn backImg"
+          src="./../../../../../assets/images/Navigation_Back arrow.svg"
+          (click)="backBtn()"
+        />
+      </p>
+      <p class="mb-0 ml-auto mr-auto pb-2 pr-5 pt-2 pt-3">Cargo Transfers</p>
+    </div>
+    <div class="col-md-12 col-sm-12 col-12">
+      <div class="row">
+        <div
+          class="col-md-6 col-sm-6 col-6 localOutstation text-center pr-0 pl-0"
+          [ngClass]="{
+            activeBaggage: travel_type == 1,
+            nonactiveBaggage: travel_type != 1
+          }"
+          (click)="changeTravelType(1)"
+        >
+        DOMESTIC CARGO
+        </div>
+
+        <div
+          class="col-md-6 col-sm-6 col-6 localOutstation disabled text-center pl-0 pr-0"
+        >
+        INTERNATIONAL CARGO
+        </div>
+      </div>
+    </div>
+    <div class="col-12 col-sm-12 mt-2 pb-2 border-bottom">
+      <form class="pt-2 pb-1">
+        <div  class="mt-3">
+          <input
+            type="radio"
+            checked="{{ type_of_services == 1 ? 'checked' : '' }}"
+            (change)="selectTypeofWay(1)"
+          />
+          <label class="form-check-label mb-0 ml-2 radioLabel">
+            Rush Cargo - Air <span style="font-size: 13px;">(3-4 Days)</span> <br/>
+            (Delivery anywhere in India)
+          </label>
+        </div>
+
+        <div class="mt-3">
+          <input
+            type="radio"
+            class=""
+            checked="{{ type_of_services == 2 ? 'checked' : '' }}"
+            (change)="selectTypeofWay(2)"
+          />
+          <label class="ml-2 mb-0 radioLabel form-check-label">
+            Rush Cargo - Surface <span style="font-size: 13px;">(4-7 Days)</span> <br/>
+            (Delivery anywhere in India)
+          </label>
+        </div>
+
+        <div class="mt-3">
+          <input
+            type="radio"
+            class=""
+            checked="{{ type_of_services == 3 ? 'checked' : '' }}"
+            (change)="selectTypeofWay(3)"
+          />
+          <label class="ml-2 mb-0 radioLabel form-check-label">
+            Rush Cargo - Air Express <span style="font-size: 13px;">(36 - 48 Hours)</span> <br/>
+            (Deplivery anywhere in India)
+          </label>
+        </div>
+      </form>
+    </div>
+    <div class="col-12 col-sm-12 mt-3 ">
+      <div class="row">
+        <div class="col-12">
+        <form [formGroup]="cf">
+          <div class="row">
+            <div class="col-12 ">
+              <input class="form-control pin" allowOnly="[^a-zA-Z_ ]" formControlName="name" placeholder="Enter Name *"
+              [ngClass]="{ '1-is-invalid':  cf.controls['name'].errors }"
+              [ngStyle]="{'border':cf.get('name').hasError('required') && cf.get('name').touched || (cf.controls['name'].invalid && cf.controls['name'].untouched && submitted) ? '1px solid #fe7801' : '1px solid #c7c7c7'}" />
+              <p class="font-color bottom-note notValid mb-0"
+                *ngIf="notValidName && cf.controls['name'].invalid ">
+                Please enter your Name
+              </p>
+            </div>
+            <div class="col-12 mt-2">
+              <div class="countryCodeDropDown">
+                <div class="countrycode-toggle pl-0 d-flex pb-0 pt-0" id="dropdownBasic1">
+                  <p class="font-weight-bold w-25 mb-0 pl-2 pr-2 pt-2" (click)="showCuntryDropDown($event)"
+                    id="mobile_drop"
+                    [ngStyle]="{'border':cf.get('mobile_number').hasError('required') && cf.get('mobile_number').touched || (cf.controls['mobile_number'].invalid && cf.controls['mobile_number'].untouched && submitted) ? '1px solid #fe7801' : '1px solid #c7c7c7'}"
+                    style="font-size: 14px;border-top-left-radius: 5px;border-bottom-left-radius: 5px">
+                    +{{this.cf.get('country').value}}
+                    <img src="../../../../../../../assets/images/Drop-Arrow_Orange.png" />
+                  </p>
+                  <div class="w-100">
+                    <input id="mobile_number"
+                      class="form-control leftRadius0 outLineNone border-left-0 mr-4"
+                      formControlName="mobile_number" allowOnly="[^0-9]" minlength="10" maxlength="10" numbersOnly
+                      [ngClass]="{ '1-is-invalid':  cf.controls['mobile_number'].errors }"
+                      placeholder="Enter Mobile Number*"
+                      [ngStyle]="{'border':cf.get('mobile_number').hasError('required') && cf.get('mobile_number').touched || (cf.controls['mobile_number'].invalid && cf.controls['mobile_number'].untouched && submitted) ? '1px solid #fe7801' : '1px solid #c7c7c7'}"
+                      (keyup)="getMobile()" />
+                  </div>
+                </div>
+                <p class="font-color bottom-note mb-0 notValid"
+                  *ngIf="notValidMobile || cf.get('mobile_number').touched && cf.controls['mobile_number'].value.length !== 10">
+                  Please enter the Valid Mobile Number
+                </p>
+                <div class="countrycode-list ml-3 bg-white border" aria-labelledby="dropdownBasic1"
+                  *ngIf="showCountryDropDown">
+                  <div class=" countrycode-toggle border-top-0" type="button"
+                    *ngFor="let c of countryCodeList | filterArr: searchText "
+                    (click)="this.cf.get('country').setValue(c.country_code); selectedCountry = c; showCuntryDropDown()"
+                    [ngStyle]="{'border':cf.get('mobile_number').hasError('required') && cf.get('mobile_number').touched || (cf.controls['mobile_number'].invalid && cf.controls['mobile_number'].untouched && submitted) ? '1px solid #fe7801' : '1px solid #c7c7c7'}"
+                    style="border-top-left-radius: 0;    border-bottom-left-radius: 0;">
+                    +{{c.country_code}} - {{c.country_name}}
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-12 mt-2 mb-3">
+              <input class="form-control outLineNone mr-4" formControlName="email" type="text"
+                id="email" placeholder="Enter Email Address*"
+                [ngStyle]="{'border':cf.get('email').hasError('required') && cf.get('email').touched || (cf.controls['email'].invalid && cf.controls['email'].untouched && submitted) ? '1px solid #fe7801' : '1px solid #c7c7c7'}"
+                (keyup)="getEmail()"
+              />
+              <p class="font-color bottom-note notValid mb-0"
+                *ngIf="notValidEmail || cf.get('email').touched && cf.get('email').invalid">
+                Please enter the Valid Email Address
+              </p>
+            </div>
+          </div>
+          <div class="row mt-5">
+            <!--Pickup City-->
+           <div class="col-12">
+            <div class="bookingCards text-center pr-2 pb-2">
+              <div
+              class="informDiv pt-2 d-flex pr-1"
+              style="height: 3rem"
+              
+              >
+                <img
+                  class="informImg mr-2"
+                  src="../../../../../../../assets/images/Static Info.svg"
+                />
+                <p class="mb-2 pt-1">Address will be updated post booking </p>
+              </div>
+              <p
+                class="mb-0 dropdownHeader mt-2"
+                (click)="selectCityDropdown($event)"
+              >
+                  <span>PICKUP CITY</span>
+
+                <img
+                  class="ml-1 dropDownArrow"
+                  src="../../../../../../../assets/images/Drop-Arrow_Orange.png"
+                />
+              </p>
+              <div
+                class="customDropdown shadow text-center"
+                *ngIf="showCityDropDown"
+                style="height: 6.5rem"
+              >
+                <div
+                  class="customDropdownList"
+                  *ngFor="let item of selected_pincode_array"
+                >
+                  <p
+                    class="listItem mb-0 pb-2 pt-2"
+                    (click)="selectpickupcity(item)"
+                    [ngClass]="{
+                      highliteBackground:
+                        item.city_id == cf.value.pickup_city_id
+                    }"
+                  >
+                      {{ item.city  }}
+                  </p>
+                </div>
+              </div>
+              <p class="mb-0">
+                <span class="bagNumber text-uppercase">{{ showCity }}</span>
+              </p>
+            </div>
+            </div>  
+            <!--PickUp city ends here-->
+          </div>
+          <!-- <div class="row mt-5">
+                        
+            <div class="col-12">
+              <div class="bookingCards text-center pr-2 pb-2">
+                <div
+                class="informDiv pt-2 d-flex pr-1"
+                style="height: 3rem"
+                
+                >
+                  <img
+                    class="informImg mr-2"
+                    src="../../../../../../../assets/images/Static Info.svg"
+                  />
+                  <p class="mb-2 pt-1">Address will be updated post booking </p>
+                </div>
+                <p
+                  class="mb-0 dropdownHeader mt-2"
+                  (click)="selectdeliveryCityDropdown($event)"
+                >
+                    <span>DELIVERY CITY</span>
+  
+                  <img
+                    class="ml-1 dropDownArrow"
+                    src="../../../../../../../assets/images/Drop-Arrow_Orange.png"
+                  />
+                </p>
+                <div
+                  class="customDropdown shadow text-center"
+                  *ngIf="showDeliveryCityDropDown"
+                  style="height: 6.5rem"
+                >
+                  <div
+                    class="customDropdownList"
+                    *ngFor="let item of cityNames"
+                  >
+                    <p
+                      class="listItem mb-0 pb-2 pt-2"
+                      (click)="selectdeliverycity(item)"
+                      [ngClass]="{
+                        highliteBackground:
+                          item.region_id == cf.value.delivery_city_id
+                      }"
+                      *ngIf="item.region_id != 7 
+                        && item.region_id != 8 && item.region_id != 9
+                        && item.region_id != cf.value.pickup_city_id
+                      "
+                    >
+                      <Span *ngIf="item.region_id == 6">
+                        Noida & NCR
+                      </Span>
+      
+                      <Span *ngIf="item.region_id == 4">
+                        Navi Mumbai
+                      </Span>
+      
+                      <span *ngIf="item.region_id != 6  && item.region_id != 4">
+                        {{ item.region_name  }}
+                      </span>
+                    </p>
+                  </div>
+                </div>
+                <p class="mb-0">
+                  <span class="bagNumber text-uppercase">{{ showDeliveryCity }}</span>
+                </p>
+                <p class="font-color bottom-note notValid mb-0" *ngIf="notValidDelivery">
+                  Please Select Delivery City
+                </p>
+              </div>
+            </div> 
+                       
+          </div> -->
+          <div class="row mt-5">
+            <div class="col-12">
+              <div class="bookingCards pt-1 text-center pb-2" style="height: 6rem;">
+                <div class="dateSection border-left-0">
+                  <div
+                  class="informDiv pt-2 d-flex pr-1"
+                  style="height: 3rem"
+                  
+                  >
+                    <img
+                      class="informImg mr-2"
+                      src="../../../../../../../assets/images/Static Info.svg"
+                    />
+                    <p class="mb-2 pt-1">Slot based Pickup before 6pm </p>
+                  </div>
+                  <span class="mb-0 dropdownHeader"
+                    >DATE FOR PICKUP
+                    <img
+                      class="ml-1 dropDownArrow"
+                      src="../../../../../../../assets/images/Drop-Arrow_Orange.png"
+                    />
+                  </span>
+                  <input
+                    class=""
+                    formControlName="date"
+                    id="datePicker"
+                    [(ngModel)]="selected_date_for_date_picker"
+                    [owlDateTimeTrigger]="dt1"
+                    [min]="current_date"
+                    [owlDateTime]="dt1"
+                    placeholder="Date Time"
+                    placeholder="Date Time"
+                    style="
+                      opacity: 0;
+                      height: 12px;
+                      margin-left: -177px;
+                      cursor: pointer;
+                      position: absolute;
+                      margin-top: 9px;
+                    "
+                    (click)="click()"
+                  />
+                  <owl-date-time
+                    [pickerType]="'calendar'"
+                    #dt1
+                    (afterPickerClosed)="setUpDate()"
+                  >
+                  </owl-date-time>
+                  <p class="mb-0">
+                    <span class="bagNumber">{{ showDate[2] }}</span>
+                    <span class="bags ml-2"
+                      >{{ showDate[1] }}'{{ showDate[3] }}</span
+                    >
+                    <span class="bags ml-2" *ngIf="showDate[0] == 'Mon'">
+                      Monday
+                    </span>
+                    <span class="bags ml-2" *ngIf="showDate[0] == 'Tue'">
+                      Tuesday
+                    </span>
+                    <span class="bags ml-2" *ngIf="showDate[0] == 'Wed'">
+                      Wednesday
+                    </span>
+                    <span class="bags ml-2" *ngIf="showDate[0] == 'Thu'">
+                      Thursday
+                    </span>
+                    <span class="bags ml-2" *ngIf="showDate[0] == 'Fri'">
+                      Friday
+                    </span>
+                    <span class="bags ml-2" *ngIf="showDate[0] == 'Sat'">
+                      Saturday
+                    </span>
+                    <span class="bags ml-2" *ngIf="showDate == 'Sun'">
+                      Sunday
+                    </span>
+                  </p>
+                     
+                  
+                </div>
+              </div>
+              </div>
+          </div>
+          <div class="row mt-3">
+            <!-- <div class="col-6"> -->
+              <div class="col-12 ">
+                <div class="bookingCards text-center pr-2" style="height: 6.5rem;">
+                  <div class="bagsSection mt-2">
+                    <p
+                      class="mb-0 dropdownHeader mt-2 mb-2"
+                    >
+                    DROP PINCODE
+                    </p>
+
+                    <input class="form-control outLineNone w-50 ml-auto mr-auto form fontSize12" formControlName="drop_pincode" type="text"
+                    placeholder="Enter Drop Pincode" minlength="6" maxlength=6 type="number" (keyup)="validatePickupPincode()"
+                    id="pincode"
+                    [ngStyle]="{'border':cf.get('drop_pincode').hasError('required') && cf.get('drop_pincode').touched || (cf.controls['drop_pincode'].invalid && cf.controls['drop_pincode'].untouched && submitted) ? '1px solid #fe7801' : '1px solid #c7c7c7'}"
+                    style="height: 2.5rem;font-size: 12px;" />
+                    <p class="font-color bottom-note notValid mb-0" *ngIf="isPincodeValid">
+                      Please enter the Valid Pincode
+                    </p>
+                  </div>
+                </div>
+              </div>
+            <!-- </div>   -->
+        </div>
+          <div class="row mt-5">
+              <!-- <div class="col-6"> -->
+                <div class="col-12 ">
+                  <div class="bookingCards text-center">
+                    <div class="bagsSection mt-2">
+                      <div
+                      class="informDiv pt-2 d-flex pr-1"
+                      style="height: 3rem;"
+                      
+                      >
+                        <img
+                          class="informImg mr-2"
+                          src="../../../../../../../assets/images/Static Info.svg"
+                        />
+                        <p class="mb-2 pt-1">All items need to be packed in 1 package </p>
+                      </div>
+                      <p
+                        class="mb-0 dropdownHeader mt-2"
+                        (click)="selectBagDropdown($event)"
+                      >
+                      WEIGHT
+                        <img
+                          class="ml-1 dropDownArrow"
+                          src="../../../../../../../assets/images/Drop-Arrow_Orange.png"
+                        />
+                      </p>
+                      <div
+                        class="customDropdown shadow text-center"
+                        *ngIf="showBagDropdown"
+                        style="height: 8rem"
+                      >
+                      <ng-container *ngIf="type_of_services != 4">
+                        <div
+                          class="customDropdownList"
+                          *ngFor="let item of bagJson.bags"
+                        >
+                          <p
+                            class="listItem mb-0 pb-2 pt-2"
+                            [ngClass]="{
+                              highliteBackground:
+                                item.no_of_bags == cf.value.bags
+                            }"
+                            (click)="selectBag(item)"
+                          >
+                            {{ item.no_of_bags }}
+                          </p>
+                        </div>
+                        </ng-container>
+          
+                        <ng-container *ngIf="type_of_services == 4">
+                        <div
+                          class="customDropdownList"
+                          *ngFor="let item of hyperLocalBagJson.bags"
+                        >
+                          <p
+                            class="listItem mb-0 pb-2 pt-2"
+                            [ngClass]="{
+                              highliteBackground:
+                                item.no_of_bags == cf.value.bags
+                            }"
+                            (click)="selectBag(item)"
+                          >
+                            {{ item.no_of_bags }}
+                          </p>
+                        </div>
+                        </ng-container>
+                      </div>
+                      <p class="mb-0" *ngIf="notValidBag == false">
+                        <span class="bagNumber"> 
+                          {{ cf.value.bags }}
+                        </span
+                        ><span class="bags ml-2">Weight</span>
+                      </p>
+
+                      <p class="font-color bottom-note notValid mb-0"
+                        *ngIf="notValidBag && cf.controls['bags'].invalid ">
+                        Please Select Weight
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              <!-- </div>   -->
+          </div>
+
+
+      
+            <div class="row mt-3">
+              <div class="col-12">
+                <div class="fontSize11 text-muted">
+                <p>Fragile Chrages will be applied for all electronics and TVs in original packing only.</p>
+                <p>All items need to be fully packed. Cargo forms will have to be filled additionally.</p>
+               </div> 
+             </div>
+            </div>
+            <div class="row mt-3">
+              <div class="col-12 form-check" style="padding-left: 2.25rem !important">
+                <input
+                  class="form-check-input terms-checkbox"
+                  [checked]="terms_con_checkbox"
+                  type="checkbox"
+                  id="termsCheckbox"
+                  (change)="changeCheckBoxValue()"
+                  style="margin-top: 3.4px"
+                />
+                <label
+                  class="form-check-label fontSize11 terms-label  pl-3"
+                  for="termsCheckbox"
+                >
+                  I argee and understand the 
+                  <a
+                    class="text-primary"
+                    target="_blank"
+                    routerLink="/cargo/terms-and-conditions"
+                    href="#"
+                    >
+                    Terms And Condition
+                  </a> 
+                  I certify that there are no passport(s), personal documents
+                  of importance, cash, illegal items/substance, immediate medicine, alcohol
+                  or expensive jewellery and the carriers(s) i.e CarterX and its associate are
+                  further released from anyliability arising from the contents of my property.
+                </label>
+              </div>
+
+              <div class="col-12 ">
+                <a
+                  class="fontSize11"
+                  routerLink="/cargo/booking-information"
+                  target="_blank"
+                >
+                  Cargo Booking Information
+                </a>
+    
+                <a
+                  class="fontSize11 ml-3"
+                  routerLink="/cargo/cancellation-and-refund-policy"
+                  target="_blank"
+                >
+                  Cancellation & Refund Policy
+                </a>
+
+                <br />
+
+                <a
+                  class="fontSize11"
+                  href="../../../../../../../assets/wordFile/PACKINGLIST.docx"
+                  download=""
+                  target="_blank"
+                >
+                  Packing List
+                </a>
+
+                <a
+                  class="fontSize11 ml-3"
+                  href="../../../../../../../assets/pdf/CargoSecurityDeclaration.pdf"
+                  download=""
+                  target="_blank"
+                >
+                  Cargo Security Declaration
+                </a>
+              </div>
+
+              <div class="col-12 mt-3">
+                <div class="row">
+                  <div class="col-12">
+                    <p class="text-right mb-0 font-weight-bold">
+                      {{showDeliveryDate.toString().split(' ')[2]}} {{showDeliveryDate.toString().split(' ')[1]}} {{showDeliveryDate.toString().split(' ')[3]}}
+                      Before 11:55 PM
+                    </p>
+                  </div>
+                  <div class="col-6">
+                    <mat-progress-spinner
+                      class="d-inline-block mr-5 mt-3"
+                      *ngIf="loading"
+                      diameter="20"
+                      color="accent"
+                      mode="indeterminate"
+                    >
+                    </mat-progress-spinner>
+                    <div
+                      *ngIf="approximateAmount > 0"
+                      class="price-approx bold priceDiv mr-5"
+                    >
+                      &#8377; {{ approximateAmount }}
+                      <div *ngIf="approximateAmount > 0" class="price-terms">
+                        <span class=""> Inclusive of GST </span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-6">
+                    <div class="text-right">
+                      <button type="submit" class="btn btn-proceed-to-pay  mt-2"
+                        [disabled]="cf.invalid || terms_con_checkbox == false" (click) = "generateRazorpay()"
+                        *ngIf="
+                          cf.valid &&
+                          approximateAmount > 0 &&
+                          terms_con_checkbox == true
+                        "
+                      >
+                        PROCEED
+                      </button>
+
+                      <button
+                        type="submit"
+                        class="btn btn-proceed-to-pay disabled mt-2"
+                        *ngIf="
+                          cf.invalid ||
+                          approximateAmount == 0 ||
+                          terms_con_checkbox == false
+                        "
+                      >
+                        PROCEED
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+        </form>
+      </div>
+    </div>
+    </div>
+          
+  </div> 
+  </div>

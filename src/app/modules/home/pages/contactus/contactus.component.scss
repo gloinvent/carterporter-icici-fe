@@ -1,0 +1,219 @@
+@import '../../../../../styles.scss';
+
+#rate-card{
+    .rate-card-body{
+        background: #dedddd30;
+        margin-top: 79px;
+        .body-header{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            border-bottom: 1px groove #ffffff7d;
+            padding: 40px;
+            padding-bottom: 20px;
+            .body-heading{
+              font-size: 30px;
+                margin: 0;
+            }
+            .body-tagline{
+                font-size: 20px;
+                color: $darkgrey;
+            }
+        }
+    }
+
+    .headers{
+        color: black;
+        font-weight: 500;
+        font-size: 22px;
+    }
+
+    .info-icon{
+        margin-top: -12px;
+        cursor: pointer;
+    }
+
+    .subHeader{
+        font-size: 12px;
+        font-weight: normal;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: 1.5;
+        letter-spacing: normal;
+        color: #999999;
+    }
+
+    .contactNumbersRow{
+        border-bottom: 1px solid #ddd;
+    }
+
+    .contactNumberHeading{
+        font-size: 12px;
+        font-weight: 600;
+        font-stretch: normal;
+        font-style: normal;
+        letter-spacing: normal;
+        color: #555555;
+    }
+
+    .queryBoxHeader{
+        font-size: 24px;
+        font-weight: normal;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: 1;
+        letter-spacing: normal;
+        text-align: center;
+        color: #ffffff;
+        background-color: #555555;
+        padding-top: 13px;
+        padding-bottom: 9px;
+    }
+
+    .padding97{
+        padding-left: 97.5px
+    }
+
+    .inputField{
+        border: solid 1px #cccccc;
+        background-color: #ffffff;
+        border-radius: 4px;
+        font-size: 12px;
+    }
+
+    ::placeholder {
+        color: #999999;
+    }
+
+    .submitBtn{
+        border-radius: 4px;
+        background-color: #00bff3;
+        font-size: 13px;
+        font-weight: bold;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: 1.85;
+        letter-spacing: normal;
+        text-align: center;
+        color: #ffffff;
+    }
+
+    .active{
+        background-color: #00bff3;
+        border-color: #00bff3;
+        color: #fff;
+        border-top-right-radius: 4px;
+        border-top-left-radius: 4px;
+        height: 40px;
+        cursor: pointer;
+        font-size: 12px;
+        padding-top: 12px;
+        font-weight: 500;
+    }
+
+    .disable{
+        background-color:#ebebeb;
+        border-color:orange;
+        border-top-right-radius: 4px;
+        border-top-left-radius: 4px;
+        height: 40px;
+        cursor: pointer;
+        color: #7e7e7e;
+        font-size: 12px;
+        padding-top: 12px;
+        font-weight: 500;
+    }
+
+    .borderBottomBtn{
+        border-bottom: 3px solid  #00bff3;
+    }
+
+    .chooseAirport{
+        font-size: 12px;
+        font-weight: bold;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: 2;
+        letter-spacing: normal;
+        color: #555555;
+    }
+
+    .airportLocation{
+        font-size: 12px;
+        font-weight: normal;
+        font-stretch: normal;
+        font-style: normal;
+        letter-spacing: normal;
+        text-align: left;
+        color: #555555;
+    }
+
+    .mediaCards{
+        height: 167px;
+        border: solid 1px #ababab;
+        background-color: #ffffff;
+        border-radius: 21px;
+    }
+
+    .borderRadius{
+        border-radius: 21px;
+    }
+
+    .dropdownbtn{
+        width: 193px;
+        height: 35px;
+        border: solid 1px #cccccc;
+        background-color: #ffffff;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+    .dropdownListContainer{
+        height: 12rem;
+        overflow: scroll;
+        width: 193px;
+        position: absolute;
+        z-index: 1;
+    }
+
+
+    .listData:hover{
+        color:white;
+        background-color: blue;
+        cursor: pointer;
+    }
+
+    .onDisable{
+        cursor: not-allowed;
+    }
+
+    .notDisable{
+        cursor: pointer;
+    }
+      
+    
+
+
+    @media (max-width: 600px) {
+        .padding97{
+            padding-left: 12px;
+        }
+    }
+
+    @media (max-width: 800px) {
+        .padding97{
+            padding-left: 21px;
+        }
+    }
+}
+
+::ng-deep .custom-snackbar{
+    color: #fff !important;
+    margin-top: 50% !important;
+    font-weight: bold !important;
+    background-color: #fe7801 !important;
+    .mat-simple-snackbar-action {
+        color: #fff !important;
+    }
+}
+

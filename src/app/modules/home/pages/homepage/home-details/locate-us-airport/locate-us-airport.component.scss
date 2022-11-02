@@ -1,0 +1,137 @@
+#nav {
+  width: 738px;
+  overflow-x: scroll;
+}
+
+.card {
+  height: 304px;
+  width: 380px;
+  margin-right: 16px;
+  font-size: 11px;
+  box-shadow: 0 0 4.4px 0.7px rgba(2, 3, 3, 0.18);
+  border-radius: 10px;
+}
+
+.backImage {
+  height: 303px;
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
+  opacity: 0.9;
+  object-position: left;
+  width: 100%;
+  object-fit: cover;
+  filter: brightness(0.7);
+}
+
+.containerPadding {
+  padding-left: 7.7rem;
+  padding-right: 7rem;
+  padding-top: 71px;
+}
+
+
+.plusBtn {
+  position: absolute;
+  z-index: 2;
+  cursor: pointer;
+  left: 20px;
+  top: 39%;
+}
+
+.innerDiv {
+  position: absolute;
+  top: 0;
+}
+
+.cityName {
+  font-size: 22px;
+  width: 10rem;
+  line-height: 1.1;
+}
+
+.airportName {
+  font-size: 11px;
+  font-weight: 600;
+  width: 9rem;
+}
+
+.rightBtn {
+  top: 39%;
+  cursor: pointer;
+  position: absolute;
+  z-index: 2;
+  right: -7px;
+}
+
+.h2 {
+  font-size: 30px;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 0.8;
+  letter-spacing: normal;
+  text-align: left;
+  color: #333333;
+  padding-bottom: 10px;
+}
+
+
+.background {
+  background: #dedddd30;
+}
+
+.download {
+  font-size: 14.5px;
+  font-weight: 600;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.24;
+  letter-spacing: normal;
+  text-align: center;
+  color: #00bff3;
+}
+
+.delhiImage {
+  object-position: -153px 10% !important;
+}
+
+
+a:hover {
+  text-decoration: none;
+}
+
+.stampWidth {
+  width: 5rem;
+}
+
+.delhiStamp {
+  width: 3.5rem !important;
+}
+
+.delhiStamp2 {
+  width: 3.5rem !important;
+}
+
+.delhiStamp3 {
+  width: 3.5rem !important;
+}
+
+.mumbailT2 {
+  object-position: right;
+}
+
+.delhiImage2 {
+  object-position: -52px 10% !important;
+}
+
+.hyderabImage {
+  object-position: -48px 10% !important;
+}
+
+.delhi3Image {
+  object-position: -48px 10% !important;
+}
+
+.mumbaiStamp {
+  width: 3.5rem !important;
+}

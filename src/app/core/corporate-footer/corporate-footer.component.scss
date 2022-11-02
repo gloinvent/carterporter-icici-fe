@@ -1,0 +1,35 @@
+footer{
+    background: #47143d;
+    height: 15em;
+}
+.ulist{
+    list-style-type: none;
+    color: white;
+    li{
+        cursor: pointer;
+    }
+}
+.row-custom{
+    border-bottom: inset;
+    border-width: 1px;
+}
+.info{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.contact{
+    display: inline-block;
+    padding-right: 10px;
+}
+.social{
+    display: inline-block;
+    padding-right: 5px;
+}
+.copyrights{
+    text-align: center;
+    color: white;
+    padding-top: 15px;
+    margin-bottom: 0;
+    font-size: 12px;
+}

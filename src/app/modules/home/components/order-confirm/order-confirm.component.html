@@ -1,0 +1,37 @@
+<app-header></app-header>
+<div id="booking-confirmation">
+  <div class="container h-100">
+    <div class="d-flex align-items-center justify-content-center h-100">
+      <div class="order-confirmation text-center">
+        <!--  -->
+        <div class="tick d-flex justify-content-center">
+          <svg class="checkmark" viewBox="0 0 52 52">
+            <circle class="checkmark__circle" cx="26" cy="26" r="25" fill="none" />
+            <path class="checkmark__check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8" />
+          </svg>
+        </div>
+        <!--  -->
+        <div class="thank-you pb-2">
+          <h6 class="m-0">Thank You</h6>
+        </div>
+        <!--  -->
+        <div class="order-details m-3">
+          <h6 class="m-0" *ngFor="let item of orders">Order #{{item}}</h6>
+        </div>
+        <!--  -->
+        <p class="order-txt m-3">Your order has been confirmed</p>
+        <!--  -->
+        <div class="policy mt-3 d-flex align-items-center justify-content-around flex-column flex-md-row">
+          <a class="security-declaration" [href]="order_from == 'cargo' ? '/assets/pdf/CargoSecurityDeclaration.pdf' : '/assets/pdf/passenger_security.pdf' " download="">
+            {{order_from == 'cargo' ? 'Cargo Security Declaration' : 'Airport Security Declaration'}}</a>
+          <a class="cancellation-policy pt-3 pt-md-0" target="_blank"
+            [href]="order_from == 'cargo' ? '/cargo/cancellation-and-refund-policy' : '/information/cancellation-and-refund'">
+            Cancellation & Refund Policy</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<app-footer></app-footer>

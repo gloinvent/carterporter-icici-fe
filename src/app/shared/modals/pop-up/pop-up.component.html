@@ -1,0 +1,23 @@
+<section id="popUp" class="popUp">
+
+  <!-- Pop UP header -->
+  <div class="popUP-header">
+    <h4 class="popUP-title bold">Information<span><img mat-dialog-close="true" src="../../../../../../../assets/icons/close.png"></span></h4>
+  </div>
+  <hr class="hr-top">
+
+  <!-- Pop UP body  -->
+  <div mat-dialog-content class="popup-body">
+    <ng-container *ngFor="let note of popUpData.notes">
+      <p class="note">{{note.paragraph}}</p>
+    </ng-container>
+    <a class="know-more" target="_blank" routerLink="information/faq" mat-dialog-close type=''>Know more</a>
+  </div>
+  <hr class="hr-bottom">
+
+  <!-- pop UP close -->
+  <div class="close-popup-container">
+    <button class="close-popUp bold" type="submit" mat-dialog-close="true">OK</button>
+  </div>
+
+</section>

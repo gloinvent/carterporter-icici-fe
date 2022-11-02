@@ -1,0 +1,125 @@
+<app-header></app-header>
+<section id="booking-confirmation">
+
+  <!-- Header Image and layer -->
+  <div class="header-image w-100">
+  </div>
+
+  <!--Booking confirmation body  -->
+  <div class=" booking-confirmation-body">
+    <div class="container">
+      <div class="body-header border-bottom-0">
+        <div class="border-bottom col-md-10 mt-5 text-center">
+          <label class="body-heading medium">Thank You - Your booking is confirmed</label>
+          <label class="body-tagline regular">Welcome to Hassle free Baggage Transfer Service</label>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container mt-4 pb-5">
+    <div class="row">
+      <div class="col-md-8">
+        <p class="order-number bold">YOUR ORDER NUMBER IS {{order_id}}</p>
+      </div>
+      <!-- <div class="col-md-4">
+        <button class="manage-booking medium small-font w-100" [routerLink]="['/my-trips']">
+          MY TRIPS
+        </button>
+      </div> -->
+    </div>
+    <div class="row">
+      <div class="col-sm-12 col-md-8 col-lg-8">
+        <p class="descParagraph" style="text-align: justify;">
+          - Our Exexutives will now arrive at your doorstep to pack, bar code and check in your baggages <br>
+          - The price Indicated is for Baggage within the dimension (inches) of 30 x 23 x 14 (LxHxW). Baggage beyond
+          these dimensions will be modified at the time of pick up and extra charges will be levied. Any Item that
+          needs special care in transportation will be regarded as Fragile baggage during pick up on assessment.
+          Portable electronics, Laptops, cameras, Glass items, Duty Free and liquid items etc. will be treated as
+          Fragile on pick up and extra charges will be levied. All Baggage should be properly packed and locked. The
+          baggage will be accepted upon physical inspection and discretion.
+        </p>
+        <div class="">
+          <div class="row icons-headings small-font mt-3 mb-0">
+            <div class="col-md-2 col-4">
+              <a class="icons" target="_blank" href="{{path}}" class="cuserPointer" style="cursor: pointer">
+                <img class="icons cuserPointer" src="../../../../../assets/icons/booking-confirmed/Share.png">
+                <label class="text-dark">Share</label>
+              </a>
+            </div>
+            <div class="col-md-2 col-4">
+              <a class="icons" target="_blank" href="{{path}}" class="cuserPointer" style="cursor: pointer">
+                <img class="icons cuserPointer" src="../../../../../assets/icons/booking-confirmed/Print.png">
+                <label class="text-dark">Print</label>
+              </a>
+            </div>
+            <div class="col-md-2 col-4">
+              <a class="icons" target="_blank" href="{{path}}" class="cuserPointer" style="cursor: pointer">
+                <img class="cuserPointer icons pl-3" src="../../../../../assets/icons/booking-confirmed/Save as PDF.png"
+                  style="cursor: pointer">
+                <label class="text-dark cuserPointer">Save as PDF</label>
+              </a>
+            </div>
+          </div>
+          <div class="mb-3 d-none d-lg-block" style="font-size: 12px;color: #00bff3;">
+            <a class="fontSize11 text-decoration-none" routerLink="/information/arrival-details" target="_blank" *ngIf="toOrfrom == 2">
+              Arrival Booking Information
+            </a>
+
+            <a class="fontSize11 text-decoration-none" routerLink="/information/departure-details" target="_blank" *ngIf="toOrfrom == 1">
+              Departure Booking Information
+            </a>
+
+            <a class="ml-3 fontSize11 text-decoration-none" routerLink="/information/cancellation-and-refund" target="_blank">
+              Cancellation and refund policy
+            </a>
+
+            <a class="cuserPointer ml-lg-4 text-decoration-none" href="../../../../../../../assets/pdf/passenger_security.pdf" download="" target="_blank">
+              <img class="" src="../../../../../assets/icons/booking-confirmed/Vector Smart Object.jpg" style="width: 12px;">
+
+              <span class="ml-1" style="font-size: 12px;color: #007bff;">
+                Download Security Declaration
+              </span>
+            </a>
+          </div>
+
+          <div class="mb-3 d-block d-lg-none" style="font-size: 12px;color: #00bff3;">
+            <a class="fontSize11 text-decoration-none d-block" routerLink="/information/arrival-details" target="_blank" *ngIf="toOrfrom == 2">
+              Arrival Booking Information
+            </a>
+
+            <a class="fontSize11 text-decoration-none d-block" routerLink="/information/departure-details" target="_blank" *ngIf="toOrfrom == 1">
+              Departure Booking Information
+            </a>
+
+            <a class=" fontSize11 text-decoration-none d-block" routerLink="/information/cancellation-and-refund" target="_blank">
+              Cancellation and refund policy
+            </a>
+
+            <a class="cuserPointer ml-lg-4 text-decoration-none" href="../../../../../../../assets/pdf/passenger_security.pdf" download="" target="_blank">
+              <img class="" src="../../../../../assets/icons/booking-confirmed/Vector Smart Object.jpg" style="width: 12px;">
+
+              <span class="ml-1" style="font-size: 12px;color: #007bff;">
+                Download Security Declaration
+              </span>
+            </a>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-4 col-md-4 col-sm-12">
+        <div class="">
+          <section id="need-help">
+            <div class="need-help-body">
+              <img src="../../../../assets/icons/Neeed Help.png">
+              <label class="need-help-text regular">Need &nbsp;<label class="help">Help?</label></label>
+              <label class="contact-number regular">+91 911 063 5588</label>
+              <label class="timings regular small-font mt-0">Monday-Sunday  9 AM - 7 PM</label>
+            </div>
+          </section>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</section>
+<app-footer></app-footer>

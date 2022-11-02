@@ -1,0 +1,711 @@
+<div
+  class="col-md-12 col-lg-12 olaParentDiv"
+  style="padding-top: 2rem; padding-bottom: 1rem"
+>
+  <div class="row">
+    <!-- First rows -->
+    <div class="col-12">
+      <div class="row">
+        <div class="col-5">
+          <!-- Drop to sweep switch -->
+          <div class="">
+            <button
+              class="drop border-right-0 baggagePriority pl-4 pr-4"
+              [ngClass]="{
+                activeBaggage: travel_type == 1,
+                nonactiveBaggage: travel_type != 1
+              }"
+              (click)="changeTravelType(1)"
+            >
+              Local
+            </button>
+            <button
+              class="sweep border-left-0 baggagePriority"
+              (click)="changeTravelType(2)"
+              disabled
+            >
+              Outstation
+            </button>
+          </div>
+        </div>
+
+        <div class="col-7 mt-2">
+          <p class="firstDesc mb-0 text-right">
+            Book doorstep baggage services to and from the airport with complete
+            assistance
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Second row -->
+    <div class="col-12 secondRow mt-2">
+      <form class="pt-2 pb-1">
+        <input
+          type="radio"
+          checked="{{ type_of_services == 2 ? 'checked' : '' }}"
+          (change)="selectTypeofWay(2)"
+        />
+        <label class="form-check-label mb-0 ml-2 radioLabel">
+          To the Airport
+        </label>
+        <input
+          type="radio"
+          class="ml-4"
+          checked="{{ type_of_services == 1 ? 'checked' : '' }}"
+          (change)="selectTypeofWay(1)"
+        />
+        <label class="ml-2 mb-0 radioLabel form-check-label">
+          From the Airport
+        </label>
+      </form>
+    </div>
+
+    <!-- Third row Form -->
+    <div class="col-12">
+      <form [formGroup]="olaDataForm">
+        <!--Personal Info-->
+        <div class="row mt-3">
+          <div class="col-4">
+            <input class="form-control pin" allowOnly="[^a-zA-Z_ ]" formControlName="name" placeholder="Enter Name *"
+            [ngClass]="{ '1-is-invalid':  olaDataForm.controls['name'].errors }" />
+            <!-- <p class="font-color bottom-note notValid mb-0"
+              *ngIf="olaDataForm.controls['name'].invalid ">
+              Please enter your Name
+            </p> -->
+          </div>
+
+          <!-- Mobile Number -->
+          <div class="col-4 mb-2">
+            <div class="countryCodeDropDown">
+              <div class="countrycode-toggle d-flex pb-0 pt-0" id="dropdownBasic1">
+                <p class="font-weight-bold bg-white mb-0 pl-2 pr-2 pt-2" (click)="showCuntryDropDown($event)"
+                  id="mobile_drop"
+                  style="font-size: 14px;border-top-left-radius: 5px;border-bottom-left-radius: 5px; width: 80px; border:1px solid #c7c7c7">
+                  +{{this.olaDataForm.get('country').value}}
+                  <img src="../../../../../../../assets/images/Drop-Arrow_Orange.png" />
+                </p>
+                <div class="w-100">
+                  <input id="mobile_number"
+                    class="form-control leftRadius0 outLineNone border-left-0 mr-4"
+                    formControlName="mobile_number" allowOnly="[^0-9]" minlength="10" maxlength="10" numbersOnly
+                    [ngClass]="{ '1-is-invalid':  olaDataForm.controls['mobile_number'].errors }"
+                    placeholder="Enter Mobile No.*"
+                    (keyup)="getMobile()" 
+                  />
+                </div>
+              </div>
+              <p class="font-color bottom-note mb-0 notValid pl-2"
+                *ngIf="olaDataForm.get('mobile_number').touched && olaDataForm.controls['mobile_number'].value.length !== 10">
+                Please enter the Valid Mobile Number
+              </p>
+              <div class="countrycode-list ml-3 bg-white border" aria-labelledby="dropdownBasic1"
+                *ngIf="showCountryDropDown">
+                <div class=" countrycode-toggle border-top-0" type="button"
+                  *ngFor="let c of countryCodeList | filterArr: searchText "
+                  (click)="this.olaDataForm.get('country').setValue(c.country_code); selectedCountry = c; showCuntryDropDown()"
+                  style="border-top-left-radius: 0;    border-bottom-left-radius: 0;">
+                  +{{c.country_code}} - {{c.country_name}}
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-4 mb-2">
+            <input class="form-control outLineNone mr-4" formControlName="email" type="text"
+              id="email" placeholder="Enter Email Address*"
+              (keyup)="getEmail()" />
+            <p class="font-color bottom-note notValid mb-0"
+              *ngIf="notValidEmail && olaDataForm.get('email').touched && olaDataForm.get('email').invalid">
+              Please enter the Valid Email Address
+            </p>
+          </div>
+
+
+        </div>
+        <div class="row  mt-4">
+          <div class="col-12 d-flex mt-4">
+            <!-- Select Bag -->
+            <div
+              class="bagsSection w-100"
+              [ngClass]="{
+                bgwhite: showBagDropdown == false,
+                backgroundColor: showBagDropdown == true
+              }"
+            >
+              <div
+                class="informDiv pt-2 d-flex pr-1"
+                style="width: 12.5rem; height: 3rem"
+                *ngIf="travel_type === 1"
+              >
+                <img
+                  class="informImg mr-2"
+                  src="../../../../../../../assets/images/Static Info.svg"
+                  style="margin-top: -9px"
+                />
+                <p class="mb-2">
+                  Adding bags / weight at the time of pick is allowed.
+                </p>
+              </div>
+              <p
+                class="mb-0 dropdownHeader"
+                (click)="selectBagDropdown($event)"
+              >
+                BAGS
+                <img
+                  class="ml-1 dropDownArrow"
+                  src="../../../../../../../assets/images/Drop-Arrow_Orange.png"
+                />
+              </p>
+              <div
+                class="customDropdown shadow text-center"
+                *ngIf="showBagDropdown"
+                style="height: 8rem"
+              >
+                <div
+                  class="customDropdownList"
+                  *ngFor="let item of bagJson.bags"
+                >
+                  <p
+                    class="listItem mb-0 pb-2 pt-2"
+                    [ngClass]="{
+                      highliteBackground:
+                        item.no_of_bags == olaDataForm.value.bags
+                    }"
+                    (click)="selectBag(item)"
+                  >
+                    {{ item.no_of_bags }} Bags
+                  </p>
+                </div>
+              </div>
+              <p class="mb-0">
+                <span class="bagNumber">Upto {{ olaDataForm.value.bags }}</span
+                ><span class="bags ml-2">Bags</span>
+              </p>
+              <p class="bagDesc mt-1">Check in Bags upto 25kg</p>
+            </div>
+
+            <!-- Select Date -->
+            <div class="dateSection border-left-0 w-100">
+              <div class="informDiv pt-2 d-flex" *ngIf="travel_type === 2" style="height: 3rem">
+                <img
+                  class="informImg mr-2"
+                  src="../../../../../../../assets/images/Static Info.svg"
+                />
+                <p class="mb-2">Bookings must be made at least 3 days prior</p>
+              </div>
+              <span class="mb-0 dropdownHeader"
+                >DATE FOR PICKUP
+                <img
+                  class="ml-1 dropDownArrow"
+                  src="../../../../../../../assets/images/Drop-Arrow_Orange.png"
+                />
+              </span>
+              
+              <input
+                class=""
+                formControlName="date"
+                id="datePicker"
+                [(ngModel)]="selected_date_for_date_picker"
+                [owlDateTimeTrigger]="dt1"
+                [min]="Currentdate"
+                [owlDateTime]="dt1"
+                placeholder="Date Time"
+                style="
+                  opacity: 0;
+                  height: 2px;
+                  margin-left: -177px;
+                  cursor: pointer;
+                  position: absolute;
+                  margin-top: 9px;
+                "
+                (click)="click()"
+              />
+              <owl-date-time
+                [pickerType]="'calendar'"
+                #dt1
+                (afterPickerClosed)="onChange()"
+              >
+              </owl-date-time>
+              <p class="mb-0">
+                <span class="bagNumber">{{ showDate[2] }}</span>
+                <span class="bags ml-2"
+                  >{{ showDate[1] }}'{{ showDate[3] }}</span
+                >
+                <span class="bags ml-2" *ngIf="showDate[0] == 'Mon'">
+                  Monday
+                </span>
+                <span class="bags ml-2" *ngIf="showDate[0] == 'Tue'">
+                  Tuesday
+                </span>
+                <span class="bags ml-2" *ngIf="showDate[0] == 'Wed'">
+                  Wednesday
+                </span>
+                <span class="bags ml-2" *ngIf="showDate[0] == 'Thu'">
+                  Thursday
+                </span>
+                <span class="bags ml-2" *ngIf="showDate[0] == 'Fri'">
+                  Friday
+                </span>
+                <span class="bags ml-2" *ngIf="showDate[0] == 'Sat'">
+                  Saturday
+                </span>
+                <span class="bags ml-2" *ngIf="showDate[0] == 'Sun'">
+                  Sunday
+                </span>
+              </p>
+            </div>
+
+            <!-- Select City -->
+            <div
+              class="citySection border-left-0 w-100"
+              [ngClass]="{
+                bgwhite: showCityDropDown == false,
+                backgroundColor: showCityDropDown == true
+              }"
+            >
+              <div class="informDiv pt-2 d-flex pr-1" *ngIf="travel_type === 2" style="height: 2rem;top: -22px">
+                <img
+                  class="informImg mr-2"
+                  src="../../../../../../../assets/images/Static Info.svg"
+                  style="margin-top: -7px"
+                />
+                <p class="mb-2">Delivery may take 4 days minimum</p>
+              </div>
+              <div
+                class="informDiv pt-2 d-flex pr-1"
+                *ngIf="travel_type === 1"
+                style="top: -20px"
+              >
+                <img
+                  class="informImg mr-2"
+                  src="../../../../../../../assets/images/Static Info.svg"
+                  style="margin-top: -9px;height: 2rem;"
+                />
+                <p class="mb-2">All pin-codes are serviceable</p>
+              </div>
+              <p
+                class="mb-0 dropdownHeader"
+                (click)="selectCityDropdown($event)"
+              >
+              <ng-container *ngIf="travel_type == 1">
+                <span *ngIf="type_of_services == 1">DELIVERY CITY</span>
+                <span *ngIf="type_of_services == 2">PICKUP CITY</span>
+              </ng-container>
+
+              <ng-container *ngIf="travel_type == 2">
+                <span *ngIf="type_of_services == 1">DELIVERY CITY</span>
+                <span *ngIf="type_of_services == 2">ARRIVAL CITY</span>
+              </ng-container>
+                <img
+                  class="ml-1 dropDownArrow"
+                  src="../../../../../../../assets/images/Drop-Arrow_Orange.png"
+                />
+              </p>
+              <div
+                class="customDropdown shadow text-center"
+                *ngIf="showCityDropDown"
+                style="height: 8rem"
+              >
+                <ng-container *ngIf="travel_type == 2">
+                  <div class="customDropdownList" *ngFor="let item of cityNames">
+                    <ng-container *ngIf="travel_type == 2">
+                      <p
+                        class="listItem mb-0 pb-2 pt-2"
+                        (click)="selectcity(item);hideMeet()"
+                        [ngClass]="{
+                          highliteBackground:
+                          item.region_id == olaDataForm.value.city_id
+                        }"
+                        *ngIf="item.region_id != 6 && item.region_id != 7 
+                          && item.region_id != 8 && item.region_id != 9
+                        "
+                      >
+                        {{ item.region_name }}
+                      </p>
+                    </ng-container>
+  
+  
+                    <ng-container *ngIf="travel_type == 1">
+                      <p
+                        class="listItem mb-0 pb-2 pt-2"
+                        (click)="selectcity(item);hideMeet()"
+                        [ngClass]="{
+                          highliteBackground:
+                          item.region_id == olaDataForm.value.city_id
+                        }"
+                      >
+                        {{ item.region_name }}
+                      </p>
+                    </ng-container>
+                  </div>
+                </ng-container>
+
+                <ng-container *ngIf="travel_type == 1">
+                  <div class="customDropdownList" *ngFor="let item of selected_pincode_array">
+                    <ng-container *ngIf="travel_type == 2">
+                      <p
+                        class="listItem mb-0 pb-2 pt-2"
+                        (click)="selectcity(item);hideMeet()"
+                        [ngClass]="{
+                          highliteBackground:
+                          item.city_id == olaDataForm.value.city_id
+                        }"
+                        *ngIf="item.city_id != 6 && item.city_id != 7 
+                          && item.city_id != 8 && item.city_id != 9
+                        "
+                      >
+                        {{ item.city }}
+                      </p>
+                    </ng-container>
+  
+  
+                    <ng-container *ngIf="travel_type == 1">
+                      <p
+                        class="listItem mb-0 pb-2 pt-2"
+                        (click)="selectcity(item);hideMeet()"
+                        [ngClass]="{
+                          highliteBackground:
+                          item.city_id == olaDataForm.value.city_id
+                        }"
+                      >
+                        {{ item.city }}
+                      </p>
+                    </ng-container>
+                  </div>
+                </ng-container>
+              </div>
+              <p class="mb-0">
+                <span class="bagNumber text-uppercase">{{ showCity }}</span>
+              </p>
+            </div>
+
+            <!-- Select Terminal -->
+            <div
+              class="terminalSection border-left-0 w-100"
+              [ngClass]="{
+                bgwhite: showAirportDropDown == false,
+                backgroundColor: showAirportDropDown == true,
+                borderRadius0: travel_type == 2
+              }"
+            >
+              <p
+                class="mb-0 dropdownHeader"
+                (click)="selectAirportDropdown($event)"
+              >
+                <span *ngIf="type_of_services == 2">DELIVERY AIRPORT</span>
+                <span *ngIf="type_of_services == 1">ARRIVAL AIRPORT</span>
+                <img
+                  class="ml-1 dropDownArrow"
+                  src="../../../../../../../assets/images/Drop-Arrow_Orange.png"
+                />
+              </p>
+              <div
+                class="customDropdown shadow text-center"
+                *ngIf="showAirportDropDown"
+              >
+                <div class="customDropdownList" *ngFor="let item of airports">
+                  <p
+                    class="listItem mb-0 pb-2 pt-2"
+                    (click)="selectAirport(item)"
+                    [ngClass]="{
+                      highliteBackground:
+                        item.airport_name_id == olaDataForm.value.airport_id
+                    }"
+                  >
+                    {{ item.airport_name }}
+                  </p>
+                </div>
+              </div>
+              <p class="mb-0">
+                <span class="bagNumber text-uppercase">{{ showAirport }}</span>
+              </p>
+
+              <p class="font-color bottom-note notValid mb-0" *ngIf="showAirport == ''">
+                Please Select Airport
+              </p>
+
+              <!-- <input
+              class="form-control outLineNone form w-50 fontSize12"
+              formControlName="pincode"
+              type="text"
+              placeholder="Enter Pincode"
+              minlength="6"
+              maxlength="6"
+              type="number"
+              (keyup)="getPinCode()"
+              id="pincode"
+              [ngStyle]="{
+                border:
+                  (olaDataForm.get('pincode').hasError('required') &&
+                    olaDataForm.get('pincode').touched) ||
+                  (olaDataForm.controls['pincode'].invalid &&
+                    olaDataForm.controls['pincode'].untouched &&
+                    submitted)
+                    ? '1px solid #fe7801'
+                    : '1px solid #c7c7c7'
+              }"
+              style="height: 1.5rem"
+              *ngIf="travel_type == 1"
+            /> -->
+            <p
+              class="font-color bottom-note notValid mb-0"
+              *ngIf="isPincodeValid && travel_type == 1"
+            >
+              Please enter the Valid Pincode
+            </p>
+            <div
+              class="meet-time-error-box errorDiv"
+              *ngIf="local_pincode_box"
+            >
+              <div class="d-flex">
+                <img
+                  class="errorImg mr-1 mt-2 ml-2"
+                  src="../../../../../../../assets/images/Error.svg"
+                />
+                <p class="pt-3">
+                  {{ pincode_error_msg }}
+                </p>
+              </div>
+            </div>
+            </div>
+
+            <!-- Select State -->
+            <div
+              class="terminalSection border-left-0 w-100"
+              [ngClass]="{
+                bgwhite: showStateDropdown == false,
+                backgroundColor: showStateDropdown == true
+              }"
+              *ngIf="travel_type == 2"
+            >
+              <div
+                class="informDiv pt-2 d-flex pr-1"
+                *ngIf="travel_type === 2"
+                style="width: 12rem;height: 3rem"
+                
+              >
+                <img
+                  class="informImg mr-2"
+                  src="../../../../../../../assets/images/Static Info.svg"
+                />
+                <p class="mb-2">All Pincode within the state are serviceable</p>
+              </div>
+              <p
+                class="mb-0 dropdownHeader"
+                (click)="selectStateDropdown($event)"
+              >
+                <span *ngIf="type_of_services == 2">DELIVERY STATE</span>
+                <span *ngIf="type_of_services == 1">PICKUP STATE</span>
+                <img
+                  class="ml-1 dropDownArrow"
+                  src="../../../../../../../assets/images/Drop-Arrow_Orange.png"
+                />
+              </p>
+              <div
+                class="customDropdown shadow text-center height8rem"
+                *ngIf="showStateDropdown"
+              >
+                <div
+                  class="customDropdownList"
+                  *ngFor="let item of states_array"
+                >
+                  <p
+                    class="listItem mb-0 pb-2 pt-2"
+                    (click)="selectState(item)"
+                    [ngClass]="{
+                      highliteBackground:
+                        item.airport_name_id == olaDataForm.value.airport_id
+                    }"
+                  >
+                    {{ item.stateName }}
+                  </p>
+                </div>
+              </div>
+              <p class="mb-0" *ngIf="show_state != ''">
+                <span class="bagNumber text-uppercase" *ngIf="show_state != ''">{{ show_state }}</span>
+              </p>
+
+              <p class="mb-1"  *ngIf="show_state == ''">
+                <span class="font-color bottom-note notValid mb-0">
+                  Please Select State
+                </span>
+              </p>
+
+              <input
+                class="form-control outLineNone form fontSize12"
+                formControlName="pincode"
+                type="text"
+                placeholder="Enter Pincode"
+                minlength="6"
+                maxlength="6"
+                type="number"
+                (keyup)="getPinCode()"
+                id="pincode"
+                [ngStyle]="{
+                  border:
+                    (olaDataForm.get('pincode').hasError('required') &&
+                      olaDataForm.get('pincode').touched) ||
+                    (olaDataForm.controls['pincode'].invalid &&
+                      olaDataForm.controls['pincode'].untouched &&
+                      submitted)
+                      ? '1px solid #fe7801'
+                      : '1px solid #c7c7c7'
+                }"
+                style="height: 1.5rem; width: 8rem"
+                *ngIf="travel_type == 2"
+              />
+              <p
+                class="font-color bottom-note notValid mb-0"
+                *ngIf="isPincodeValid"
+              >
+                Please enter the Valid Pincode
+              </p>
+              <div
+                class="meet-time-error-box errorDiv"
+                *ngIf="outstation_pincode_box"
+                style="width: 10rem"
+              >
+                <div class="d-flex">
+                  <img
+                    class="errorImg mr-1 mt-2 ml-2"
+                    src="../../../../../../../assets/images/Error.svg"
+                  />
+                  <p class="pt-3">
+                    {{ pincode_error_msg }}
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <!-- Forth Row -->
+    <div class="col-12 mt-2">
+      <div class="row">
+        <div class="col-8">
+          <div class="form-check">
+            <input
+              class="form-check-input terms-checkbox"
+              [checked]="terms_con_checkbox"
+              type="checkbox"
+              id="termsCheckbox"
+              (change)="changeTermandCon()"
+              style="margin-top: 3.4px"
+            />
+            <label
+              class="form-check-label fontSize11 terms-label"
+              for="termsCheckbox"
+            >
+              I am 18 years and above and agree and understand the 
+              <a
+                class="text-primary"
+                target="_blank"
+                routerLink="/information/terms-and-conditions"
+                href="#"
+                >
+                Terms And Condition
+              </a> and 
+              <a
+                class="text-primary"
+                target="_blank"
+                routerLink="/information/privacy-policy"
+                href="#"
+                >Privacy Policy.
+              </a> 
+              I certify that there are no passport(s), personal documents of importance, cash, illegal 
+              items/substances, immediate medicine, alcohol or expensive jewellery. I Agree and certify 
+              that CarterX and its associates do not know the contents of the bag and are further released 
+              from any liability arising from the contents of my baggage(s).
+            </label>
+
+            <a
+              class="fontSize11"
+              routerLink="/information/arrival-details"
+              target="_blank"
+              *ngIf="type_of_services == 2"
+            >
+              Arrival Booking Information
+            </a>
+
+            <a
+              class="fontSize11"
+              routerLink="/information/departure-details"
+              target="_blank"
+              *ngIf="type_of_services == 1"
+            >
+              Departure Booking Information
+            </a>
+
+            <a
+              class="ml-3 fontSize11"
+              routerLink="/information/cancellation-and-refund"
+              target="_blank"
+            >
+              Cancellation And Refund Policy
+            </a>
+          </div>
+        </div>
+
+        <div class="col-4">
+          <div class="font-weight-bold mr-2 text-right" *ngIf="show_delivery">
+            {{ delivery_date.toString().split(" ")[2] }}
+            {{ delivery_date.toString().split(" ")[1] }}
+            {{ delivery_date.toString().split(" ")[3] }}
+            <p class="mb-0">{{ afterBefore }} {{ show_delivery_time }}</p>
+          </div>
+          <div class="d-flex justify-content-end">
+            <mat-progress-spinner
+              class="d-inline-block mr-5 mt-3"
+              *ngIf="loading"
+              diameter="20"
+              color="accent"
+              mode="indeterminate"
+            >
+            </mat-progress-spinner>
+
+            <div
+              *ngIf="approximateAmount > 0"
+              class="price-approx bold priceDiv mr-5"
+            >
+              &#8377; {{ approximateAmount }}
+              <div *ngIf="approximateAmount > 0" class="price-terms pl-3">
+                <span class=""> Inclusive of GST </span>
+              </div>
+            </div>
+
+            <ng-container
+            >
+              <button
+                type="submit"
+                class="btn btn-proceed-to-pay disabled mt-2 mr-2"
+                *ngIf="
+                  olaDataForm.invalid ||
+                  approximateAmount == 0 ||
+                  terms_con_checkbox == false
+                "
+              >
+                PROCEED
+              </button>
+
+              <button
+                type="submit"
+                class="btn btn-proceed-to-pay mt-2 mr-2"
+                (click)="proceedToPay()"
+                *ngIf="
+                  olaDataForm.valid &&
+                  approximateAmount != 0 &&
+                  terms_con_checkbox == true
+                "
+              >
+                PROCEED
+              </button>
+            </ng-container>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

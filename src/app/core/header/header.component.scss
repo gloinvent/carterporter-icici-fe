@@ -1,0 +1,431 @@
+// @import "../../../styles.scss";
+
+// #header {
+//   width: 100%;
+//   z-index: 999999;
+//   position: fixed;
+//   top: 0;
+//   opacity: 0.9;
+
+//   .navbar{
+//     background:#1d3557;
+//   }
+
+//   .header-top {
+//     border-bottom: groove;
+//     border-width: 1px;
+
+//     .header-container {
+//       height: 20px;
+//       font-size: 12px;
+//       color: white !important;
+//     }
+//   }
+
+//   .collapse-custom {
+//     float: right;
+
+//     .nav-link-custom {
+//       color: white;
+//       display: inline-block;
+//       cursor: pointer;
+
+//       &:disabled {
+//         cursor: not-allowed;
+//       }
+
+//       &:hover {
+//         color: $orange;
+//       }
+//     }
+
+//     .rate-card-db {
+//       display: inline-block;
+//       cursor: not-allowed !important;
+//       background: none;
+//       border: none;
+//       color: white;
+//       font-weight: 600;
+//     }
+
+//     .my-trips {
+//       color: white;
+//       display: inline-block;
+//       cursor: pointer;
+//       outline: 0 !important;
+//       background: none;
+//       border: none;
+
+//       &:disabled {
+//         cursor: not-allowed;
+//       }
+//     }
+
+//     .act {
+//       color: $orange;
+//     }
+
+//     .logout-dropdown {
+//       color: white;
+//       display: inline-block;
+//       cursor: pointer;
+//       background: none;
+//       border: none;
+//       outline: none;
+//       padding-right: 0px;
+//       margin-right: 15px;
+//     }
+
+//     .pipe {
+//       margin-left: -25px;
+//       margin-right: -10px;
+//     }
+
+//     .menu-list {
+//       font-size: 12px;
+//       padding: 15px;
+
+//       :last-child {
+//         padding-right: 0;
+//       }
+
+//       a:active {
+//         color: $orange;
+//       }
+//     }
+//   }
+
+//   .height {
+//     height: 91px;
+//   }
+
+//   .mytrips {
+//     margin-top: -1px;
+//     margin-right: -10px;
+//   }
+
+//   .nav-item {
+//     img {
+//       margin-top: -4px;
+//       margin-right: -9px;
+//     }
+//   }
+
+//   .dark-modal .modal-content {
+//     background-color: #292b2c;
+//     color: white;
+//   }
+
+//   .dark-modal .close {
+//     color: white;
+//   }
+
+//   .light-blue-backdrop {
+//     background-color: #5cb3fd;
+//   }
+// }
+
+// .demoCls {
+//   display: none;
+//   position: absolute;
+//   top: 27px;
+//   z-index: 99;
+//   margin-left: 10px;
+//   padding: 5px 10px;
+//   background: #676f77;
+// }
+
+// .showLogout {
+//   display: block;
+// }
+
+// .logout {
+//   display: inline;
+//   cursor: pointer;
+// }
+
+// .logo {
+//   cursor: pointer;
+//   outline: none;
+//   width: 169px;
+//   height: 27px;
+// }
+
+// .collapse-custom-menu {
+//   float: right;
+//   margin-left: 255px;
+//   float: right;
+
+//   .nav-link-custom {
+//     color: white;
+//     display: inline-block;
+//     cursor: pointer;
+
+//     &:disabled {
+//       cursor: not-allowed;
+//     }
+
+//     &:hover {
+//       color: $orange;
+//     }
+//   }
+
+//   .rate-card-db {
+//     display: inline-block;
+//     cursor: not-allowed !important;
+//     background: none;
+//     border: none;
+//     color: white;
+//     font-weight: 600;
+//   }
+
+//   .my-trips {
+//     color: white;
+//     display: inline-block;
+//     cursor: pointer;
+//     background: none;
+//     border: none;
+
+//     &:disabled {
+//       cursor: not-allowed;
+//     }
+//   }
+
+//   .act {
+//     color: $orange;
+//   }
+
+//   .logout-dropdown {
+//     color: white;
+//     display: inline-block;
+//     cursor: pointer;
+//     background: none;
+//     border: none;
+//     outline: none;
+//     padding-right: 0px;
+//     margin-right: 15px;
+//   }
+
+//   .pipe {
+//     margin-left: -25px;
+//     margin-right: -10px;
+//   }
+
+//   .menu-list {
+//     height: 34px;
+//     font-size: 12px;
+//     padding: 5px 15px 5px 15px;
+
+//     :last-child {
+//       padding-right: 0;
+//     }
+
+//     a:active {
+//       color: $orange;
+//     }
+//   }
+// }
+
+// .logoWts{
+//   outline: none;
+//   cursor: pointer;
+//   width: 10rem;
+// }
+
+
+// .trackOrderBtn {
+//   font-size: 14px;
+//   border-radius: 9px;
+//   background: #354967;
+//   font-weight: 600;
+//   color:white;
+// }
+
+// .trackOrderBtn a {
+//   color: white !important;
+// }
+
+// .trackOrderBtn a:hover {
+//   text-decoration: none
+// }
+
+// button:focus {outline:none;}
+// *:focus {outline:0;}
+// button {
+//   outline:0;
+// }
+
+// .btn:focus {
+//   outline:0 !important;
+// }
+
+// //===================== RESPONSIVENESS ====================//
+// .contact-info {
+//   padding: 0;
+//   text-align: center;
+// }
+
+// @media (max-width: 1025px) {
+//   .collapse-custom-menu {
+//     margin-right: auto;
+//     margin-left: 0;
+//   }
+// }
+
+// @media (max-width: 990px) {
+//   .logo {
+//     width: 169px;
+//     height: 27px;
+//   }
+
+//   .collapse-custom-menu.show {
+//     position: fixed;
+//     left: 0;
+//     top: 100px;
+//     width: 100vw;
+//     background: #2d363c;
+//   }
+// }
+
+// .justify-content-end {
+//   width: max-content;
+// }
+
+// .parentContainer{
+//   padding-left: 7rem;
+// }
+
+// @media (max-width: 500px){
+//   .parentContainer{
+//     padding-left: 0px;
+//   }
+
+//   .logoWts{
+//     width: 6rem;
+//   }
+
+//   .logo{
+//     width: 122px;
+//   }
+
+//   .trackOrderBtn{
+//     font-size: 9px;
+//   }
+// }
+
+// #header {
+//   width: 100%;
+//   z-index: 999;
+//   position: fixed;
+//   top: 0;
+//   background-color: #fff;
+//   box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16);
+
+//   .partner-logo {
+//     height: 34px;
+//     padding: 8px 10px;
+//     background-color: #e4e4e4;
+
+//     .partner-logo-txt {
+//       font-size: 18px;
+//       color: #222;
+//     }
+//   }
+
+//   .brand-logo {
+//     img {
+//       height: 22px;
+//     }
+//   }
+
+//   .sign-in,
+//   .track-order {
+//     font-size: 14px;
+//     font-weight: 600;
+//     color: #666;
+//   }
+
+// }
+
+// .gap-20 {
+//   gap: 20px;
+// }
+.navbar {
+  padding: 14px 1rem !important;
+}
+
+.partner-logo {
+  padding: 8px 10px;
+  background-color: #e4e4e4;
+}
+
+.partner-logo-txt {
+  font-size: 18px;
+  color: #222;
+}
+
+.brand-logo {
+  img {
+    width: 135px;
+    height: 22px;
+  }
+}
+
+.navList {
+  font-size: 14px;
+  font-weight: 600;
+  color: #666 !important;
+}
+
+.header {
+  width: 100%;
+  z-index: 9999;
+  background-color: #fff;
+  box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16);
+}
+
+@media only screen and (max-width: 768px) {
+  .partner-logo-txt {
+    font-size: 16px;
+  }
+
+  .brand-logo {
+    img {
+      width: 100px;
+      height: 16px;
+    }
+  }
+}
+
+@media only screen and (min-width: 768px) {
+
+  .header .navbar ul {
+    gap: 10px;
+  }
+}
+
+.demoCls {
+  cursor: pointer;
+  border-radius: 4px;
+  display: none;
+  position: absolute;
+  top: 35px;
+  left: 8px;
+  z-index: 99;
+  color: #ffff;
+  padding: 5px 10px;
+  list-style: none;
+  background: #ed7533;
+}
+
+.showLogout {
+  display: block;
+}
+
+.not-allowed {
+  cursor: not-allowed !important;
+}
+
+.navbar-nav .active {
+  color: #ed7533 !important;
+}

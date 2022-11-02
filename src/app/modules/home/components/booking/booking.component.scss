@@ -1,0 +1,497 @@
+.bookingSection {
+  .container {
+    border-radius: 16px;
+    box-shadow: 0 0px 6px 0 rgba(0, 0, 0, 0.16);
+    background-color: #fff;
+
+    .heading {
+      font-size: 24px;
+      font-weight: 600;
+      color: #222;
+    }
+
+    .error {
+      color: #ed7533;
+      font-size: 10px;
+      margin: 0;
+    }
+
+    .mobTexty {
+      span {
+        font-size: 14px;
+        color: #1a7dc1;
+      }
+
+      span::before,
+      span::after {
+        background-color: #1a7dc1;
+        content: "";
+        display: inline-block;
+        height: 2px;
+        position: relative;
+        vertical-align: middle;
+        width: 48px;
+        margin: 10px;
+      }
+    }
+  }
+
+  legend {
+    color: #21242d;
+    font-size: 11px;
+    margin-bottom: 0px;
+  }
+
+  fieldset {
+    padding: 0 10px 8px 10px;
+    font-size: 14px;
+
+    .dropdown-item {
+      font-size: 14px;
+    }
+  }
+
+  .myBtn {
+    border-radius: 20px;
+    border: solid 1px #f47521;
+    background-color: #f47521;
+    color: #fff;
+    font-size: 14px;
+    padding: 6px 10px;
+  }
+
+  .subNumber {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    width: 100%;
+
+    input {
+      flex: 1;
+      height: 32px;
+    }
+
+    input:focus-visible {
+      outline: none !important;
+    }
+
+    .dropdown {
+      width: 100%;
+    }
+
+    .dropdown-toggle {
+      text-align: start;
+      width: 100%;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      padding-top: 5px;
+      color: #000;
+    }
+  }
+
+  .texty {
+    span {
+      font-size: 14px;
+      color: #1a7dc1;
+      height: 108px;
+      width: 50px;
+      display: inline-block;
+      text-align: center;
+      padding-top: 48px;
+    }
+
+    span:before {
+      border-left: 2px solid #1a7dc1;
+      content: "";
+      display: block;
+      height: 48px;
+      left: 40px;
+      position: absolute;
+      top: 0px;
+      width: 1px;
+      z-index: 0;
+    }
+
+    span:after {
+      border-left: 2px solid #1a7dc1;
+      content: "";
+      display: block;
+      height: 48px;
+      left: 40px;
+      position: absolute;
+      top: 70px;
+      width: 1px;
+      z-index: 0;
+    }
+  }
+
+  .redeem {
+    gap: 10px;
+    align-items: center;
+
+    .redeemCodeSection {
+      
+      overflow-x: auto;
+      gap: 8px;
+    }
+
+    .redeemCode {
+      cursor: pointer;
+      border: solid 1px #1a7dc1;
+      min-width: fit-content;
+      height: fit-content;
+      padding: 6px 16px;
+      border-radius: 16px;
+      background-color: #1a7dc1;
+
+      p {
+        font-size: 12px;
+      }
+    }
+
+    .usages {
+      margin-top: 15px;
+      margin-bottom: 0;
+      font-size: 8px;
+    }
+  }
+
+  .dropdown button {
+    border: none;
+    background-color: inherit;
+  }
+
+  .description {
+    input[type=checkbox] {
+      accent-color: #f47521;
+    }
+
+    .round {
+      position: relative;
+    }
+
+    .round label {
+      background-color: #fff;
+      border: 1px solid #ccc;
+      border-radius: 50%;
+      cursor: pointer;
+      height: 16px;
+      left: 0;
+      position: absolute;
+      top: 0;
+      width: 16px;
+    }
+
+    .round label:after {
+      border: 2px solid #fff;
+      border-top: none;
+      border-right: none;
+      content: "";
+      height: 5px;
+      left: 2.5px;
+      opacity: 0;
+      position: absolute;
+      top: 4px;
+      transform: rotate(-45deg);
+      width: 9px;
+    }
+
+    .round input[type="checkbox"] {
+      visibility: hidden;
+    }
+
+    .round input[type="checkbox"]:checked+label {
+      background-color: #f47521;
+      border-color: #f47521;
+    }
+
+    .round input[type="checkbox"]:checked+label:after {
+      opacity: 1;
+    }
+
+    .bookBtn {
+      border-radius: 24px;
+      border: solid 1px #f47521;
+      background-color: #f47521;
+      color: #fff;
+      font-size: 14px;
+      padding: 10px 22px;
+      font-weight: 600;
+    }
+
+    .paragraph {
+      font-size: 11px;
+      font-weight: 400;
+      line-height: 18px;
+      cursor: default;
+    }
+
+    .staticLink {
+      font-size: 11px;
+      font-weight: 400;
+      color: #1a7dc1;
+      text-decoration: none;
+    }
+
+    .ammountSection {
+      font-size: 24px;
+      color: #f47521;
+      gap: 5px;
+    }
+
+    .priceIcon {
+      font-size: 22px;
+      padding-top: 2px;
+      margin-bottom: 0;
+      font-family: Arial, Helvetica, sans-serif !important;
+    }
+
+    .gst {
+      font-size: 12px;
+      color: #666666;
+    }
+  }
+
+  .dropdown button {
+    justify-content: space-between;
+    align-items: center;
+    display: flex;
+  }
+
+  .dateDropdown {
+    display: inline-block;
+    margin-left: 0.255em;
+    vertical-align: 0.255em;
+    content: "";
+    border-top: 0.3em solid;
+    border-right: 0.3em solid transparent;
+    border-bottom: 0;
+    border-left: 0.3em solid transparent;
+    margin-right: 7px;
+  }
+
+  .dropdownSection {
+    .meetCarterXadropadown {
+      padding-top: 5px;
+    }
+
+    fieldset {
+      min-height: 53px;
+      align-items: baseline;
+    }
+
+    input {
+      padding-top: 5px;
+    }
+
+    .dateSection {
+      padding-top: 5px;
+    }
+  }
+
+  .dropdown-menu {
+    overflow-y: auto;
+    max-height: 146px;
+    text-align: center;
+    left: -11px !important;
+    box-shadow: 0 3px 6px 0 rgb(0 0 0 / 16%);
+    width: calc(100% + 22px);
+  }
+
+  .dropdown-menu::-webkit-scrollbar {
+    -webkit-appearance: none;
+    width: 5px;
+  }
+
+  .dropdown-menu::-webkit-scrollbar-thumb {
+    border-radius: 4px;
+    background-color: #00000080;
+    box-shadow: 0 0 1px #ffffff80;
+  }
+
+  .dropdown-item:focus,
+  .dropdown-item:hover {
+    color: #fff;
+    text-decoration: none;
+    background-color: #f47521;
+    cursor: pointer;
+  }
+
+}
+
+.owl-dt-calendar-table .owl-dt-calendar-cell-selected {
+  background-color: #ff6300 !important;
+}
+
+
+@keyframes growProgressBar {
+
+  0%,
+  33% {
+    --pgPercentage: 0;
+  }
+
+  100% {
+    --pgPercentage: var(--value);
+  }
+}
+
+@property --pgPercentage {
+  syntax: '<number>';
+  inherits: false;
+  initial-value: 0;
+}
+
+div[role="progressbar"] {
+  --size: 4rem;
+  --fg: #369;
+  --bg: #def;
+  --pgPercentage: var(--value);
+  animation: growProgressBar 3s 1 forwards;
+  width: var(--size);
+  height: var(--size);
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background:
+    radial-gradient(closest-side, white 80%, transparent 0 99.9%, white 0),
+    conic-gradient(var(--fg) calc(var(--pgPercentage) * 1%), var(--bg) 0);
+  font-family: Helvetica, Arial, sans-serif;
+  font-size: calc(var(--size) / 5);
+  color: var(--fg);
+}
+
+div[role="progressbar"]::before {
+  counter-reset: percentage var(--value);
+  // content: counter(percentage) '%';
+}
+
+
+// vivekananthan added -------------------------------------------------------------------------
+
+
+select {
+  border: none;
+  width: -webkit-fill-available;
+}
+
+select:focus-visible {
+  outline: none;
+}
+
+.owl-dt-calendar-table .owl-dt-calendar-cell-selected {
+  background-color: red !important;
+}
+
+input {
+  width: -webkit-fill-available;
+}
+
+input:focus-visible {
+  outline: none;
+}
+
+
+.customDropdownAddressLocal {
+  width: calc(100% - 32px);
+  background: white;
+  font-size: 14px;
+  border-radius: 5px;
+  z-index: 2;
+  padding: 0 11px 11px 0px;
+  overflow: hidden;
+  left: 16px;
+  color: #ff6300;
+}
+
+.addressInput {
+  height: 28px;
+  border: 1px solid #ed7533;
+  border-radius: 4px;
+}
+
+.cdk-overlay-pane {
+  margin-top: 60px !important;
+}
+
+.meetCarterXDropdown {
+  background: #fff;
+  z-index: 2;
+  width: calc(100% - 52px);
+}
+
+// ------------------------------------------------------------------------------------------------
+@media only screen and (max-width: 768px) {
+  .bookingSection .description .staticLink {
+    font-size: 10px !important;
+  }
+
+  .hyper-link-section {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+
+  }
+}
+
+.customDrop::after {
+  display: inline-block;
+  margin-right: 6px;
+  content: "";
+  border-top: 0.3em solid;
+  border-right: 0.3em solid transparent;
+  border-bottom: 0;
+  border-left: 0.3em solid transparent;
+}
+
+.dropdownSection .message {
+  display: flex;
+  padding-top: 3px;
+  p {
+    font-size: 9px;
+    line-height: 12px;
+    color: #000;
+    padding-left: 3px;
+    margin-bottom: 0;
+  }
+}
+
+.meetCarterXDropdown .rotate {
+  transform: rotate(180deg);
+}
+
+.otp-btn-disabled {
+  cursor: not-allowed !important;
+  opacity: 0.5 !important;
+}
+
+.no-need-pay {
+    font-size: 15px;
+    font-weight: 600;
+    color: #f07639;
+    margin: 15px 0;
+}
+
+
+.redeemCodeSection::-webkit-scrollbar {
+  display: none;
+}
+
+.pickup-poit-address{
+  gap: 5px;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.mIcon {
+  font-size: 10px;
+  padding: 0px 6px;
+  border-radius: 50%;
+  background-color: #1b7dc1;
+  color: #fff;
+  max-height: 14px;
+}
+
+.m-pickup-address{
+  margin: 15px 0px 25px;
+}

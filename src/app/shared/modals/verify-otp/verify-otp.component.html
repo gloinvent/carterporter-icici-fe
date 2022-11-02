@@ -1,0 +1,40 @@
+<!-- Login section starts -->
+<section id="otp">
+    <!-- login header starts -->
+    <div class="modlheader">
+        <img class="back-icon" src="../../../../assets/icons/Back.png" (click)="onNoClick('Back')">
+        <label class="modal-title bold">VERIFY YOUR OTP</label>
+        <div>
+            <img class="close-image" (click)="onNoClick('Close')" src="../../../../assets/icons/Close Button.png">
+        </div>
+    </div>
+    <!-- login header ends -->
+
+    <!-- Login body starts -->
+    <div class="modal-body">
+        <form [formGroup]="otpForm" (ngSubmit)="onSubmit(otpForm)">
+            <div class="textbox w-75">
+                <input type="text" formControlName="otp" maxlength="4" placeholder="Enter your OTP" class="form-control regular" numbersOnly>
+            </div>
+            <div>
+                <button class="submit-button bold" type="submit" [disabled]="disableButton">LOGIN</button>
+            </div>
+            <a class="resend-otp regular" (click)="login()">Resend OTP&nbsp;<img class="info-icon" [InfoDialog]="getInfoKey('Otp info')" src="../../../../assets/icons/information.png"></a>
+        </form>
+    </div>
+    <!-- Login body ends -->
+
+    <!-- Login footer starts -->
+    <div class="container">
+        <div class="row footer-style bold">
+            <div class="col-md-6">
+                <p class="policy-terms" routerLink="/information/privacy-policy" (click)="onNoClick('Login')">Privacy Policy</p>
+            </div>
+            <div class="col-md-6">
+                <p class="policy-terms" routerLink="/information/terms-and-conditions" (click)="onNoClick('Login')">Terms and Condition</p>
+            </div>
+        </div>
+    </div>
+    <!-- Login body ends -->
+    <!-- Login section ends -->
+</section>

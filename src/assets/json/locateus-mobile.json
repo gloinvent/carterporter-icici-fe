@@ -1,0 +1,94 @@
+{
+  "locations": [{
+    "Bangalore": [{
+      "location": "24/7 CarterX kiosk at Arrivals. Opp. Relay store",
+      "Departures": "Order Delivery up to Airline Check-in counters",
+      "Arrivals": "Order Pick up at Luggage Carousel/baggage belts (Domestic & International)",
+      "Luggage": "Available",
+      "Inter_Terminal": "NA",
+      "city": "Bangalore KIAL",
+      "airport": "Kempegowda International Airport",
+      "image": "../../../../../../assets/images/bangalore-palace.jpg",
+      "stamp": "../../../../../../assets/images/Bangalore_Stamps.svg",
+      "city_name": "Bangalore"
+    }],
+    "Delhi": [{
+        "location": "CarterX  Executive presence with a Signage board",
+        "Departures": "Delivery till terminal entry gates",
+        "Arrivals": "Bags to be handed over to CarterX Executive with Signage board",
+        "Luggage": "NA",
+        "Inter_Terminal": "Available",
+        "city": "Delhi/NCR T1 IGI",
+        "airport": "Indira Gandhi International Airport",
+        "image": "../../../../../../assets/images/Delhi-T1.png",
+        "stamp": "../../../../../../assets/images/Delhi_Stamps.svg",
+        "city_name": "Delhi"
+      },
+
+      {
+        "location": "CarterX  Executive presence with a Signage board",
+        "Departures": "Delivery till terminal entry gates",
+        "Arrivals": "Bags to be handed over to CarterX Executive with Signage board",
+        "Luggage": "NA",
+        "Inter_Terminal": "Available",
+        "city": "Delhi/NCR T2 IGI",
+        "airport": "Indira Gandhi International Airport",
+        "image": "../../../../../../assets/images/DelhiT2.png",
+        "stamp": "../../../../../../assets/images/Delhi_Stamps.svg",
+        "city_name": "Delhi"
+      },
+
+      {
+        "location": "24/7 CarterX kiosk at Arrival. Opp. Plaza Premium Lounge & next to CarzOnRent COunter 24/7 CarterX kiosk at Departure Opp. Gate 8 on Departure level",
+        "Departures": "Delivery till airline check-in counter",
+        "Arrivals": "Pick-up from Baggagebelts",
+        "Luggage": "NA",
+        "Inter_Terminal": "Available",
+        "city": "Delhi/NCR T3 IGI",
+        "airport": "Indira Gandhi International Airport",
+        "image": "../../../../../../assets/images/Delhi-T3.png",
+        "stamp": "../../../../../../assets/images/Delhi_Stamps.svg",
+        "city_name": "Delhi"
+      }
+    ],
+    "Hyderabad": [{
+      "location": "24/7 CarterX kiosk",
+      "Departures": "Delivery till terminal entry gates",
+      "Arrivals": "Bags to be dropped at CarterX kiosk at Arrivals village. Opp. Café Coffee Day",
+      "Luggage": "Available",
+      "Inter_Terminal": "Available",
+      "city": "Hyderabad RGIA",
+      "airport": "Rajiv Gandhi International Airport",
+      "image": "../../../../../../assets/images/Hyderabad RGIA.png",
+      "stamp": "../../../../../../assets/images/Hyderabad_Stamps.svg",
+      "city_name": "Hyderabad"
+    }],
+    "Mumbai": [{
+        "location": "24/7 CarterX kiosk. Opp. Arrival gate & next to Meru cabs counter",
+        "Departures": "Delivery till terminal entry gates",
+        "Arrivals": "Bages to be dropped at CarterX kiosk at Arrival gate & next to Meru cabs counter",
+        "Luggage": "NA",
+        "Inter_Terminal": "Available",
+        "city": "Mumbai/Navi Mumbai T1 CSMIA",
+        "airport": "Chhatrapati Shivaji Maharaj International Airport",
+        "image": "../../../../../../assets/images/Mumbai T1.png",
+        "stamp": "../../../../../../assets/images/Mumbai_Stamp.svg",
+        "city_name": "Mumbai"
+      },
+
+      {
+        "location": "24/7 CarterX kiosk at Arrival. Opp. Sivsagar & KFC outlets. Between Departure gate 5 & 6 next to Secure Wap",
+        "Departures": "Delivery till terminal entry gates",
+        "Arrivals": "Bages to be dropped at CarterX kiosk at Arrival gate & next to Meru cabs counter",
+        "Luggage": "NA",
+        "Inter_Terminal": "Available",
+        "city": "Mumbai/Navi Mumbai T2 CSMIA",
+        "airport": "Chhatrapati Shivaji Maharaj International Airport",
+        "image": "../../../../../../assets/images/Mumbai-T2.png",
+        "stamp": "../../../../../../assets/images/Mumbai_Stamp.svg",
+        "city_name": "Mumbai"
+      }
+    ]
+  }]
+
+}

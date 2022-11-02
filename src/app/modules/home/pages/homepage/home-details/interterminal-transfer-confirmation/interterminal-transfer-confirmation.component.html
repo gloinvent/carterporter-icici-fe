@@ -1,0 +1,176 @@
+<app-header></app-header>
+
+
+<section id="booking-confirmation">
+
+  <!-- Header Image and layer -->
+  <div class="header-image">
+
+  </div>
+
+  <!--Booking confirmation body  -->
+  <div class=" booking-confirmation-body">
+    <div class="container">
+      <div class="body-header">
+        <label class="body-heading medium">Thank You - Your booking is confirmed</label>
+        <label class="body-tagline regular">Welcome to Hassle free Baggage Transfer Service</label>
+      </div>
+    </div>
+  </div>
+
+  <div class="container my-5  ">
+    <div class="row my-2">
+      <div class="col-12 text-center">
+        <p class="body-heading medium your-order">Order Details</p>
+      </div>
+      <div class="col-lg-8 col-sm-12 col-md-8">
+        <ng-container *ngFor="let orders of roundTripOneOrderId;let i = index">
+          <div class="information-faqs">
+            <p class="" style="font-size: 14px;"><span class="medium">Your Order Number: </span>
+              <span class="goldenColor font-weight-bold">{{orders}}</span>
+            </p>
+            <ng-container *ngIf="i==0">
+              <ng-container *ngFor="let item of singleAirport">
+                <p class="medium m-0">{{item[0]}}</p>
+                <p class="small">{{item[1]}}</p>
+              </ng-container>
+            </ng-container>
+
+            <ng-container *ngIf="i==1">
+              <ng-container *ngFor="let item of secondAirport">
+                <p class="medium m-0">{{item[0]}}</p>
+                <p class="small">{{item[1]}}</p>
+              </ng-container>
+            </ng-container>
+          </div>
+          <div class="d-flex pl-3">
+            <figure class="share-icons mx-3 text-center cursor-pointer">
+              <img class="cursor-pointer" src="../../../../../assets/icons/booking-confirmed/Print.png" alt="alt" srcset="">
+              <label class="small cursor-pointer" for=""> Print </label>
+            </figure>
+            <figure class="share-icons mx-3 text-center">
+              <img class="cursor-pointer" src="../../../../../assets/icons/booking-confirmed/Share.png" alt="alt" srcset="">
+              <label class="small cursor-pointer" for=""> Share </label>
+            </figure>
+            <figure class="share-icons mx-3 text-center cursor-pointer" (click)="downloadPdf()">
+              <img class="cursor-pointer" src="../../../../../assets/icons/booking-confirmed/Save as PDF.png" alt="alt" srcset="">
+              <label class="small cursor-pointer" for=""> Save as PDF </label>
+            </figure>
+          </div>
+        </ng-container>
+      </div>
+
+
+      <div class="col-lg-4 col-md-4 col-sm-12 d-lg-block d-none">
+        <div class="card help-card mt-md-5">
+          <figure>
+            <img src="../../../../assets/icons/Neeed Help.png" alt="" srcset="">
+          </figure>
+          <span class="need-help">Need Help?</span>
+          <h3 class="help-phone">+91 911 063 5588</h3>
+          <span class="support-time">Monday to Friday 9:00 AM to 7:00 PM</span>
+        </div>
+      </div>
+    </div>
+
+
+    <ng-container>
+      <div class="row my-2">
+        <div class="col-lg-8 co-md-8 col-sm-12">
+          <div>
+            <div class="d-none d-lg-block pl-3">
+              <div class="d-flex">
+                <p class="fontSize12px mb-0 pt-1" *ngIf="tab_type == 'inter'">
+                  <a target="_blank" href='#' routerLink="/information/cancellation-and-refund">
+                    Cancellation and Refund Policy
+                  </a>
+                </p>
+
+                <p class="fontSize12px ml-lg-2 mb-0 pt-1" *ngIf="tab_type == 'cargo'">
+                  <a target="_blank" href='#' routerLink="/cargo/booking-information">
+                    Cargo Booking Information 
+                  </a>
+
+                  <a target="_blank" class="ml-2" href='#' routerLink="/cargo/cancellation-and-refund-policy">
+                    Cancellation and Refund Policy
+                  </a>
+
+
+                  <a
+                    class="fontSize11 ml-2"
+                    style="color: #007bff; text-decoration: none; background-color: transparent;"
+                    href="../../../../../../../assets/wordFile/PACKINGLIST.docx"
+                    download=""
+                    target="_blank"
+                  >
+                    Packing List
+                  </a>
+
+                  <a
+                    class="fontSize11 ml-2"
+                    style="color: #007bff; text-decoration: none; background-color: transparent;"
+                    href="../../../../../../../assets/pdf/CargoSecurityDeclaration.pdf"
+                    download=""
+                    target="_blank"
+                  >
+                    Cargo Security Declaration
+                  </a>
+                </p>
+              </div>
+            </div>
+            <div class="d-block d-lg-none pl-3 mb-3">
+              <div class="">
+                <p class="fontSize12px mb-0 pt-1" *ngIf="tab_type == 'inter'">
+                  <a target="_blank" href='#' routerLink="/information/cancellation-and-refund">
+                    Cancellation and Refund Policy
+                  </a>
+                </p>
+
+                <p class="fontSize12px ml-lg-2 mb-0 pt-1 pl-3" *ngIf="tab_type == 'cargo'">
+                  <a target="_blank" href='#' routerLink="/cargo/booking-information">
+                    Cargo Booking Information 
+                  </a>
+                  <br/>
+                  <a target="_blank" href='#' routerLink="/cargo/cancellation-and-refund-policy">
+                    Cancellation and Refund Policy
+                  </a>
+                  <br/>
+                  <a
+                    class="fontSize11"
+                    href="../../../../../../../assets/wordFile/PACKINGLIST.docx"
+                    download=""
+                    target="_blank"
+                  >
+                    Packing List
+                  </a>
+                  <br/>
+                  <a
+                    class="fontSize11"
+                    href="../../../../../../../assets/pdf/CargoSecurityDeclaration.pdf"
+                    download=""
+                    target="_blank"
+                  >
+                    Cargo Security Declaration
+                  </a>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-4 col-md-4 col-sm-12 d-lg-none d-block">
+          <div class="card help-card mt-md-5">
+            <figure>
+              <img src="../../../../assets/icons/Neeed Help.png" alt="" srcset="">
+            </figure>
+            <span class="need-help">Need Help?</span>
+            <h3 class="help-phone">+91 911 063 5588</h3>
+            <span class="support-time">Monday to Friday 9:00 AM to 7:00 PM</span>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+
+</section>
+<app-footer></app-footer>

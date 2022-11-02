@@ -1,0 +1,37 @@
+@import '../../../../styles.scss';
+
+
+
+
+
+input[type="text"], select { 
+    outline: none;
+}
+.dark-modal .modal-content {
+    background-color: #292b2c;
+    color: white;
+  }
+  .dark-modal .close {
+    color: white;
+  }
+  .light-blue-backdrop {
+    background-color: #5cb3fd;
+  }
+  .countrycodes{
+    width: 46px;
+
+  }
+  .mobilenumber{
+   
+    height: calc(2.25rem + 2px);
+  }
+  .mat-dialog-content{
+    overflow: hidden;
+    overflow-y:auto !important;
+  }
+  @media screen and (max-width: 500px) {
+  .countrycodes{
+    width:58px;
+  }
+
+  }

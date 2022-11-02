@@ -1,0 +1,148 @@
+@import '../../../../../../styles.scss';
+
+.rate-card {
+  padding-top: 8px;
+}
+
+.rate-card-heading {
+  font-size: 30px;
+  margin: 0;
+  text-transform: uppercase;
+}
+
+.rate-card-info {
+  margin: 0;
+  font-size: 14px;
+}
+
+.know-more {
+  border: none;
+  background: white;
+  padding: 6px 20px 6px 20px;
+  color: $orange;
+  margin: 35px;
+  border-radius: 3px;
+  font-size: 13px;
+
+  &:hover {
+    text-decoration: none;
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+  }
+}
+
+.km-btn {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+
+.headerF {
+  font-size: 30px;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 0.8;
+  letter-spacing: normal;
+  text-align: left;
+  color: #333333;
+  border-bottom: 1px solid #dddddd;
+  padding-bottom: 10px;
+}
+
+.selectBoxDesc {
+  font-size: 15px;
+  font-weight: 500;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.6;
+  letter-spacing: normal;
+}
+
+.background {
+  background: #dedddd30;
+}
+
+
+@media only screen and (max-width: 824px) {}
+
+@media (max-width: 1025px) {}
+
+@media (max-width: 580px) {}
+
+.rateDiv {
+  background: #3182cd;
+  color: white;
+}
+
+.container-fluid {
+  padding-left: 7rem;
+  padding-right: 7rem;
+}
+
+
+.dropdown {
+  width: 16rem;
+  font-weight: 500;
+  font-size: 12px;
+  background: white;
+  border-radius: 11px;
+  position: absolute;
+  z-index: 2;
+}
+
+.drpdownBtn {
+  width: 16rem;
+  background: white;
+  border: 1px solid #cccccc;
+  font-size: 11px;
+  padding-top: 6px;
+  padding-bottom: 6px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+
+.dropdownitem {
+  cursor: pointer;
+  margin-bottom: 0;
+  padding-bottom: 5px;
+  padding-top: 5px;
+}
+
+.dropdownitem:hover {
+  background-color: #F47521;
+  color: white;
+}
+
+.seeVideo {
+  position: absolute;
+  right: 67px;
+  font-size: 11px;
+  font-weight: 500;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 2;
+  letter-spacing: normal;
+  text-align: left;
+  color: #ffffff;
+  cursor: pointer;
+  top: 0;
+}
+
+.nameofImage {
+  font-size: 23.5px;
+  font-weight: 600;
+  font-stretch: normal;
+  font-style: normal;
+  letter-spacing: normal;
+  color: #3182cd;
+}
+
+.highliteBackground {
+  background-color: #F47521;
+  color: white;
+}

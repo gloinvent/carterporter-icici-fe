@@ -1,0 +1,307 @@
+.cards {
+  width: 180px;
+  height: 116px;
+  border-radius: 5px;
+  box-shadow: 0 0 4.8px 0.2px rgba(2, 3, 3, 0.22);
+  border: solid 1.2px #a36209;
+  background-color: var(--colors-white-100);
+  padding-top: 12px;
+
+  img {
+    width: 41px;
+    height: 62px;
+  }
+
+  p {
+    font-size: 14px;
+    font-weight: 500;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1;
+    letter-spacing: normal;
+    color: #555555;
+    margin-top: 9px;
+  }
+}
+
+.locateUs {
+  margin-top: 25px;
+
+  .locateUsTitle {
+    font-size: 18px;
+    font-weight: bold;
+    color: #333333;
+    border-bottom: 2px solid #cccccc;
+  }
+
+  a:hover {
+    text-decoration: none;
+  }
+
+  a {
+    text-decoration: none;
+  }
+
+  .download {
+    font-size: 11.5px;
+    font-weight: 600;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.24;
+    letter-spacing: normal;
+    text-align: center;
+    color: #00bff3;
+  }
+
+  .downloadImgP {
+    padding-top: 8px;
+  }
+
+  .downloadImg {
+    width: 30px;
+    height: 30px;
+  }
+
+  .locateUsStamp {
+    width: 131px;
+    height: 55px;
+    // box-shadow: 4.5px 7.8px 8px 0 rgba(0, 0, 0, 0.22);
+  }
+
+
+}
+
+
+.dropdown {
+  width: 16rem;
+  font-weight: 500;
+  font-size: 12px;
+  background: white;
+  border-radius: 11px;
+  position: absolute;
+  z-index: 2;
+  top: -2px;
+}
+
+.drpdownBtn {
+  width: 16rem;
+  background: white;
+  border: 1px solid #cccccc;
+  font-size: 11px;
+  padding-top: 6px;
+  padding-bottom: 6px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+
+.dropdownitem {
+  cursor: pointer;
+  margin-bottom: 0;
+  padding-bottom: 5px;
+  padding-top: 5px;
+}
+
+.dropdownitem:hover {
+  background-color: #F47521;
+  color: white;
+}
+
+.locateUsTitle2 {
+  font-size: 15px;
+  font-weight: 500;
+  color: #333333;
+}
+
+.hamburgerMenu {
+  height: 18px
+}
+
+.carterPorterLogo {
+  width: 149px;
+  height: 24px;
+}
+
+.topMenu {
+  padding-top: 14px;
+  padding-bottom: 14px;
+  background: #1d3557;
+}
+
+
+// .modal.fade:not(.in).right .modal-dialog {
+//   transform: translate3d(-5%, 0, 0);
+// }
+
+.modal.left.fade .modal-dialog {
+  left: -80px;
+  -webkit-transition: opacity 0.3s linear, left 0.3s ease-out;
+  -moz-transition: opacity 0.3s linear, left 0.3s ease-out;
+  -o-transition: opacity 0.3s linear, left 0.3s ease-out;
+  transition: opacity 0.3s linear, left 0.3s ease-out;
+}
+
+.modal.left.fade.in .modal-dialog {
+  left: 0;
+}
+
+// .modal.left .modal-dialog,
+// .modal.right .modal-dialog {
+//   position: fixed;
+//   margin: auto;
+//   -webkit-transform: translate3d(0%, 0, 0);
+//   -ms-transform: translate3d(0%, 0, 0);
+//   -o-transform: translate3d(0%, 0, 0);
+//   transform: translate3d(0%, 0, 0);
+// }
+
+
+.header_content {
+  font-size: 10px;
+  font-weight: 300;
+  line-height: 1.5;
+  letter-spacing: 0.48px;
+  color: #555555;
+}
+
+.foter {
+  background: #1e3556;
+  width: 100%;
+}
+
+.borderYellow {
+  border: solid 1.2px #fcae45;
+}
+
+.borderRed {
+  border: solid 1.2px #d61920;
+}
+
+.borderPurpel {
+  border: solid 1.2px #46133b;
+}
+
+.borderBlack {
+  border: solid 1.2px black;
+}
+
+.borderBlue {
+  border: solid 1.2px #2b36a1;
+  background-color: white;
+}
+
+.borderGolden {
+  border: solid 1.2px #a36209;
+}
+
+.footer {
+  background: #1d3557;
+  height: 47px;
+  padding-top: 18px;
+  font-size: 12.5px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1;
+  letter-spacing: normal;
+  text-align: left;
+  color: #f9f9f9;
+}
+
+.coseBtn {
+  width: 26px;
+  height: 26px;
+  position: absolute;
+  right: -2px;
+  margin-top: 36px;
+}
+
+@media only screen and (max-width: 768px) {
+  .marginLeftNeg {
+    margin-left: -22px;
+  }
+}
+
+@media only screen and (min-width: 360px) {
+
+  .locateUsStamp {
+    width: 131px !important;
+    height: 55px;
+  }
+}
+
+
+@media only screen and (max-width: 410px) {
+  .cards {
+    width: 146px !important;
+  }
+}
+
+// @media only screen and (min-width: 360px) {
+
+//   .locateUsStamp {
+//     width: 155px !important;
+//     height: 55px;
+//   }
+// }
+
+.flyPorter {
+  width: 5rem !important;
+}
+
+.indogo {
+  width: 56px !important;
+  height: 13px !important;
+}
+
+.olaIcon {
+  width: 57px !important;
+  height: 24px !important;
+}
+
+.myTripIcon {
+  width: 10px;
+  height: 12px;
+}
+
+.newImage {
+  position: absolute;
+  top: -10px;
+  width: 34px !important;
+  margin-left: 70px;
+}
+
+.newWord {
+  position: absolute;
+  top: -9px;
+  margin-left: 125px;
+  font-size: 9px !important;
+  font-weight: 500 !important;
+  color: white !important;
+}
+
+.icon-style {
+  height: 100%;
+}
+
+.indigoNewDiv{
+  position: absolute;
+  right: 31px;
+  top: -12px;
+}
+
+.innerDivOfModel{
+  overflow-y: scroll;
+}
+
+.backGroundImg{
+  background-image: linear-gradient(rgba(20, 20, 20, 0.6), rgba(20, 20, 20, 0.6)), url(/../../../../../../assets/images/wtfaresbg.png);
+  background-position: center;
+  background-size: cover;
+}
+
+.interNew{
+  margin-top: -27px !important;
+  font-size: 7px !important;
+  padding-top: 1px;
+}

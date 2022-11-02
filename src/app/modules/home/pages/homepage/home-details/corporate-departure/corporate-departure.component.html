@@ -1,0 +1,117 @@
+<div class="test">
+
+    <form [formGroup]="userDataForm" (ngSubmit)="onSubmit(userDataForm)">
+        <!-- Pick State and Pin Code -->
+        <div class="container container-custom">
+            <div class="row">
+                <div class="col-md-4">
+                    <p class="headings bold">Select Date <img class="info-icon"
+                            src="../../../../../../../assets/icons/information.png"></p>
+                    <div class="date-picker">
+                        <div class="form-inline">
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <input class="form-control form-height small-font medium" placeholder="{{today}}"
+                                        formControlName="date" ngbDatepicker #d="ngbDatepicker" [minDate]="minDate">
+                                    <div class="input-group-append">
+                                        <button class="btn btn-outline-secondary calendar" (click)="d.toggle()"
+                                            type="button"></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <label class="info medium">Outstation bookings must be made atleast 3 days prior</label>
+                </div>
+                <div class="col-md-4">
+                    <p class="headings bold">Select City <img class="info-icon"
+                            src="../../../../../../../assets/icons/information.png"></p>
+                    <select formControlName="city" class="select-state" (change)="setAirport()">
+                        <option value="" selected disabled>City of Travel</option>
+                        <option *ngFor="let c of city" [ngValue]="c">
+                            {{c.region_name}}
+                        </option>
+                    </select>
+                </div>
+                <!-- Select Airport -->
+                <div class="col-md-4">
+                    <p class="headings bold">Select Airport <img class="info-icon"
+                            src="../../../../../../../assets/icons/information.png"></p>
+                    <select formControlName="airport" class="select-state"
+                        [ngClass]="{ 'is-invalid': submitted && f.airport.errors }" (change)="setState(airports)">
+                        <option value="" selected disabled>Select Airport</option>
+                        <option *ngFor="let ap of airports" [ngValue]="ap">
+                            {{ap.airport_name}}
+                        </option>
+                    </select>
+                    <div *ngIf="submitted && !!f.airport.errors.required" class="invalid-feedback">
+                        <div *ngIf="!!f.airport.errors.required">Airport is required</div>
+                    </div>
+                </div>
+                <!-- Luggage Quantity  -->
+
+                <!-- Pick Date and Airport -->
+                <div class="container container-custom">
+                    <div class="row">
+                        <!-- Select Date -->
+                        <div class="col-md-4">
+                            <input class="form-control pin" formControlName="pincode" placeholder="Enter pin Code"
+                                [ngClass]="{ 'is-invalid': submitted && userDataForm.controls['pincode'].errors }">
+                        </div>
+                        <div class="col-md-4">
+                            <input class="form-control pin" formControlName="pincode" placeholder="Enter pin Code"
+                                [ngClass]="{ 'is-invalid': submitted && userDataForm.controls['pincode'].errors }">
+                        </div>
+                        <div class="col-md-4">
+                            <input class="form-control pin" formControlName="pincode" placeholder="Enter pin Code"
+                                [ngClass]="{ 'is-invalid': submitted && userDataForm.controls['pincode'].errors }">
+                            <!-- <div *ngIf="submitted && userDataForm.controls['pincode'].errors.required">
+                                <div *ngIf="userDataForm.controls['pincode'].errors.required">Pincode is required</div>
+                            </div> -->
+                            <label class="info medium">Services available in selected pincode only</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container container-custom">
+            <div class="row">
+                <div class="container container-custom">
+                    <div class="row">
+                        <!-- Select Date -->
+                        <div class="col-md-4">
+                            <input class="form-control pin" formControlName="pincode" placeholder="Enter pin Code"
+                                [ngClass]="{ 'is-invalid': submitted && userDataForm.controls['pincode'].errors }">
+                        </div>
+                        <div class="col-md-4">
+                            <input class="form-control pin" formControlName="pincode" placeholder="Enter pin Code"
+                                [ngClass]="{ 'is-invalid': submitted && userDataForm.controls['pincode'].errors }">
+                        </div>
+                        <div class="col-md-4">
+                            <input class="form-control pin" formControlName="pincode" placeholder="Enter pin Code"
+                                [ngClass]="{ 'is-invalid': submitted && userDataForm.controls['pincode'].errors }">
+                            <!-- <div *ngIf="submitted && userDataForm.controls['pincode'].errors.required">
+                                        <div *ngIf="userDataForm.controls['pincode'].errors.required">Pincode is required</div>
+                                    </div> -->
+                            <label class="info medium">Services available in selected pincode only</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+
+    <div class="container bottom small-font">
+        <span>Airport display text to come here</span>
+    </div>
+</div>
+<div class="col-md-3">
+    <p class="headings bold">Luggage Count <img class="info-icon"
+            src="../../../../../../../assets/icons/information.png"></p>
+    <div class="luggage-count">
+        <button type="button" (click)="decrement()">-</button>
+        <input formControlName="numberOfBags" type="text" class="counter small-font medium">
+        <button type="button" (click)="increment()">+</button>
+    </div>
+    <label class="info medium">Max 8 items</label>
+</div>

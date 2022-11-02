@@ -1,0 +1,104 @@
+
+.orderNumber{
+    font-size: 12px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 2;
+    letter-spacing: normal;
+    color: #fe7801;
+}
+
+.heading{
+    font-size: 30px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 0.8;
+    letter-spacing: normal;
+    text-align: center;
+    color: #333333;
+}
+
+.subHeading{
+    font-size: 20px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.2;
+    letter-spacing: normal;
+    text-align: center;
+    color: #565a5c;
+}
+
+.borderBottom{
+    border-bottom: 1px solid #e4e4e4;
+}
+
+.cards{
+    border-radius: 3.7px;
+    box-shadow: 0 0 2.9px 0.1px rgba(0, 0, 0, 0.27);
+}
+
+.cardQuestion{
+    font-size: 20px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.2;
+    letter-spacing: normal;
+    text-align: center;
+    color: #565a5c;
+}
+
+.emojs{
+    width: 29px;
+    height: 29px;
+}
+
+.allEmojsName{
+    font-size: 14px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    letter-spacing: normal;
+    text-align: center;
+    color: rgba(85, 85, 85, 0.5);
+}
+
+.yourFeedback{
+    font-size: 20px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    letter-spacing: normal;
+    text-align: center;
+    color: #565a5c;
+}
+
+.textBox{
+    border: solid 1px #cccccc;
+}
+
+.checkBoxLabel{
+    font-size: 12px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    color: #565a5c;
+}
+
+.submitBtn{
+    background-color: #51bce6;
+    font-size: 12px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 0.67;
+    letter-spacing: normal;
+    text-align: center;
+    color: #ffffff;
+    height: 41px;
+}

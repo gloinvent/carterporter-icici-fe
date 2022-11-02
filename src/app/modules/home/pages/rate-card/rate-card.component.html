@@ -1,0 +1,279 @@
+<section id="rate-card">
+  <!-- Header component -->
+  <app-header></app-header>
+  <!-- Rate Card body starts -->
+  <div class="rate-card-body bg-white">
+    <div class="container">
+      <div class="body-header">
+        <label class="body-heading bold">RATE CARD</label>
+        <label class="body-tagline regular">Calculate your baggage transfer rate.</label>
+      </div>
+    </div>
+
+
+    <!-- Body content starts -->
+    <div class="container pb-5">
+      <div class="row">
+        <div class="col-md-12 baggage-cost">
+          <!-- local tabs data -->
+          <div class="dataRow">
+            <h5>Local Transfer</h5>
+            <div class="row d-none d-md-block">
+              <div class="col-md-12 py-3 border-bottom">
+                <div class="row">
+                  <div class="col-2"></div>
+                  <div class="col-2">
+                    <h1>1st bag</h1>
+                  </div>
+                  <div class="col-2">
+                    <h1>Subsequent Bag</h1>
+                  </div>
+                  <div class="col-2">
+                    <h1>Distance from the Airport</h1>
+                  </div>
+                  <div class="col-2">
+                    <h1>Pick Up/Delivery Timelines</h1>
+                  </div>
+                  <div class="col-2">
+                    <h1>Refund</h1>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row ml-0 ">
+              <h1 class="pt-3">Purchase</h1>
+              <div class="col-md-12 py-3 border-bottom" *ngFor="let item of local.purchase">
+                <div class="row">
+                  <div class="col-md-2 col-12">{{item.type}}</div>
+                  <div class="col-md-2 col-12">{{item.one_bag}}</div>
+                  <div class="col-md-2 col-12">{{item.subsequent_bag}}</div>
+                  <div class="col-md-2 col-12">{{item.distance_from_airport}}</div>
+                  <div class="col-md-2 col-12">{{item.express_service}}</div>
+                </div>
+              </div>
+            </div>
+            <div class="row ml-0 ">
+              <h1 class="pt-3">Subscription</h1>
+              <div class="col-md-12 py-3" *ngFor="let item of local.subscription_list">
+                <div class="row  border-bottom">
+                  <div class="col-md-2 col-12">{{item.type}}</div>
+                  <div class="col-md-2 col-12">{{item.one_bag}}</div>
+                  <div class="col-md-2 col-12">{{item.subsequent_bag}}</div>
+                  <div class="col-md-2 col-12">{{item.distance_from_airport}}</div>
+                  <div class="col-md-2 col-12">{{item.express_service}}</div>
+                  <div class="col-md-2 col-12">{{item.refund}}</div>
+                </div>
+              </div>
+            </div>
+            <div class="row ml-0 ">
+              <h1 class="pt-3">Terms</h1>
+              <div class="col-md-12 py-3 border-bottom">
+                <ul>
+                  <li class="mb-0" *ngFor="let item of local.terms">{{item}}</li>
+                </ul>
+              </div>
+            </div>
+            <div class="row ml-0 ">
+              <h1 class="pt-3">Order Modification</h1>
+              <div class="col-md-12 py-3 border-bottom">
+                <p class="mb-0" *ngFor="let item of local.order_modification">{{item}}</p>
+              </div>
+            </div>
+            <div class="row ml-0 ">
+              <h1 class="pt-3">Maximum Size for CarterX carriage</h1>
+              <div class="col-md-12 py-3 border-bottom">
+                <p class="mb-0" *ngFor="let item of local.max_ize_for_carterx">{{item}}</p>
+              </div>
+            </div>
+            <div class="row ml-0  py-4">
+              <h1 class="mt-0">GST</h1>
+              <p style="line-height:18px;" class="mb-0 pl-3" *ngFor="let item of local.gst">{{item}}</p>
+            </div>
+          </div>
+
+          <!-- outstation tabs data -->
+          <div class="dataRow">
+            <h5>Outstation Transfer</h5>
+            <div class="row d-none d-md-block">
+              <div class="col-md-12 py-3 border-bottom">
+                <div class="row">
+                  <div class="col-2"></div>
+                  <div class="col-2">
+                    <h1>1st bag</h1>
+                  </div>
+                  <div class="col-2">
+                    <h1>Subsequent Bag</h1>
+                  </div>
+                  <div class="col-2">
+                    <h1>Distance from the Airport</h1>
+                  </div>
+                  <div class="col-2">
+                    <h1>Pick Up/Delivery Timelines</h1>
+                  </div>
+                  <div class="col-2">
+                    <h1>Refund</h1>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- Purchase -->
+            <div class="row ml-0 ">
+              <h1 class="pt-3">Purchase</h1>
+              <div class="col-md-12 py-3 border-bottom" *ngFor="let item of outstation.purchase">
+                <div class="row">
+                  <div class="col-md-2 col-12">{{ item.type }}</div>
+                  <div class="col-md-2 col-12">{{ item.one_bag }}</div>
+                  <div class="col-md-2 col-12">{{ item.subsequent_bag }}</div>
+                  <div class="col-md-2 col-12">{{ item.distance_from_airport }}</div>
+                  <div class="col-md-2 col-12">{{ item.pickup_delivery }}</div>
+                  <div class="col-md-2 col-12"></div>
+                </div>
+              </div>
+            </div>
+            <!-- subscription_list -->
+            <div class="row ml-0 ">
+              <h1 class="pt-3">Subscription
+                <span class="pl-3" *ngFor="let item of outstation.subscription_title">{{item}}</span>
+              </h1>
+              <div class="col-md-12 py-3 border-bottom" *ngFor="let item of outstation.subscription_list">
+                <div class="row">
+                  <div class="col-md-2 col-12">{{ item.type }}</div>
+                  <div class="col-md-2 col-12">{{ item.one_bag }}</div>
+                  <div class="col-md-4 col-12">{{ item.subsequent_bag }}</div>
+                  <div class="col-md-2 col-12">{{ item.pickup_delivery }}</div>
+                  <div class="col-md-2 col-12">{{ item.refund }}</div>
+                </div>
+              </div>
+            </div>
+            <!-- terms -->
+            <div class="row ml-0 ">
+              <h1 class="pt-3">Terms</h1>
+              <div class="col-md-12 py-3 border-bottom">
+                <ul>
+                  <li class="m-0" *ngFor="let item of outstation.terms">
+                    {{ item }}
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <!-- order modification -->
+            <div class="row ml-0 ">
+              <h1 class="pt-3">Order Modification</h1>
+              <div class="col-md-12 py-3 border-bottom">
+                <p class="m-0" *ngFor="let item of outstation.order_modification">
+                  {{ item }}
+                </p>
+              </div>
+            </div>
+            <!-- Maximum Size for CarterX carriage-->
+            <div class="row ml-0 ">
+              <h1 class="pt-3">Maximum Size for CarterX carriage</h1>
+              <div class="col-md-12 py-3 border-bottom">
+                <p class="m-0" *ngFor="let item of outstation.max_ize_for_carterx">
+                  {{ item }}
+                </p>
+              </div>
+            </div>
+            <!-- gst -->
+            <div class="row ml-0  py-4">
+              <h1 class="m-0">GST</h1>
+              <p style="line-height:18px;" class="mb-0 pl-5" *ngFor="let item of outstation.gst">{{item}}
+              </p>
+            </div>
+          </div>
+
+          <!-- subscription tabs data -->
+          <div class="dataRow">
+            <h5>Subscription Cost</h5>
+            <div class="row ml-0 ">
+              <div class="col-md-12 py-3 border-bottom" *ngFor="let item of subscription">
+                <div class="row">
+                  <div class="col-md-3 col-12">{{item.type}}</div>
+                  <div class="col-md-3 col-12">{{item.price}}</div>
+                  <div class="col-md-3 col-12">{{item.no_of_usage}}</div>
+                  <div class="col-md-3 col-12">{{item.airline}}</div>
+                </div>
+              </div>
+            </div>
+            <!-- gst -->
+            <div class="row ml-0  py-4">
+              <h1 class="m-0">GST</h1>
+              <p style="line-height:18px;" class="mb-0 pl-5" *ngFor="let item of outstation.gst">{{item}}
+              </p>
+            </div>
+          </div>
+
+          <!-- cargo tabs data -->
+          <div class="dataRow">
+            <h5>Cargo Orders</h5>
+            <div class="row d-none d-md-block">
+              <div class="col-md-12 py-3 border-bottom">
+                <div class="row">
+                  <div class="col-3"></div>
+                  <div class="col-3">
+                    <h1>Per Kg (Volumetric or Actual - Higner will be charged)</h1>
+                  </div>
+                  <div class="col-2">
+                    <h1>Handling Cost</h1>
+                  </div>
+                  <div class="col-2">
+                    <h1>Local Pick Up</h1>
+                  </div>
+                  <div class="col-2">
+                    <h1>Local Delivery</h1>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row ml-0 ">
+              <div class="col-md-12 py-3 border-bottom" *ngFor="let item of cargo.cargo_list">
+                <div class="row">
+                  <div class="col-md-3 col-12">{{item.type}}</div>
+                  <div class="col-md-3 col-12">{{item.handling_cost}}</div>
+                  <div class="col-md-2 col-12">{{item.per_kg}}</div>
+                  <div class="col-md-2 col-12">{{item.local_pick_up}}</div>
+                  <div class="col-md-2 col-12">{{item.local_delivery}}</div>
+                </div>
+              </div>
+            </div>
+            <div class="row ml-0 ">
+              <h1 class="pt-3">Terms</h1>
+              <div class="col-md-12 py-3 border-bottom">
+                <ul>
+                  <li class="mb-0" *ngFor="let item of cargo.terms">{{item}}</li>
+                </ul>
+              </div>
+            </div>
+            <div class="row ml-0 ">
+              <h1 class="pt-3">Order Modification</h1>
+              <div class="col-md-12 py-3 border-bottom">
+                <p class="mb-0" *ngFor="let item of cargo.order_modification">{{item}}</p>
+              </div>
+            </div>
+            <div class="row ml-0 ">
+              <h1 class="pt-3">Maximum Size for CarterX carriage</h1>
+              <div class="col-md-12 py-3 border-bottom">
+                <p class="mb-0" *ngFor="let item of cargo.max_size_carterx">{{item}}</p>
+              </div>
+            </div>
+            <div class="row ml-0  py-4">
+              <h1 class="mt-0">GST</h1>
+              <p style="line-height:18px;" class="mb-0 pl-3" *ngFor="let item of cargo.gst">{{item}}</p>
+            </div>
+          </div>
+
+          <div class="row ml-0 " *ngIf="avtiveTab == 'cargo'">
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- partner component -->
+  <app-partner></app-partner>
+
+  <!-- Footer component -->
+  <app-footer></app-footer>
+</section>
+<ng4-loading-spinner [timeout]="99000"> </ng4-loading-spinner>

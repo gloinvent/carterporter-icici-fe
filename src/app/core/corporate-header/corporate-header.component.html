@@ -1,0 +1,30 @@
+<section id="header">
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark height">
+    <div class="container">
+      <!-- logo -->
+      <a class="col-md-10 col-sm-10 col-xs-10">
+        <img src="../../../assets/images/Carterx-Logo.png" routerLink="/home">
+      </a>
+      <!-- Menu items -->
+      <div class="col-md-2 col-sm-2 col-xs-2">
+        <button class="navbar-toggler" type="button" (click)="toggleNavbar()">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse collapse-custom" id="navbarText" [ngClass]="{ 'show': navbarOpen }">
+          <ul class="navbar-nav mr-auto nav">
+            <!-- Home -->
+            <li class="nav-item menu-list regular">
+              <a class="nav-link nav-link-custom" routerLink="/home">Home</a>
+            </li>
+            <!-- About Us -->
+            <li class="nav-item menu-list regular">
+                <img src="../../../assets/icons/home-signin.png" class="nav-link-custom">
+              <a class="nav-link nav-link-custom" href="#">Sign In</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <!-- Menu items end -->
+    </div>
+  </nav>
+</section>

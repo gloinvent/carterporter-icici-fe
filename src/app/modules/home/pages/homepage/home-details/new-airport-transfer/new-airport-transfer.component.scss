@@ -1,0 +1,477 @@
+.olaParentDiv {
+  border-radius: 11.6px;
+}
+
+.firstDesc {
+  font-size: 14px;
+  font-weight: 500;
+  font-stretch: normal;
+  font-style: normal;
+  letter-spacing: normal;
+}
+
+.secondRow {
+  border-top: 1px solid #dddddd;
+  border-bottom: 1px solid #dddddd;
+}
+
+.baggagePriority {
+  font-size: 12px;
+  font-weight: 500;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 2;
+  letter-spacing: normal;
+  text-align: left;
+  border-radius: 8px;
+  border: 1px solid #3182cd;
+  padding-top: 3px;
+  padding-bottom: 3px;
+  padding-left: 12px;
+  padding-right: 15px;
+}
+
+.drop {
+  border-bottom-right-radius: 0;
+  border-top-right-radius: 0;
+}
+
+.sweep {
+  border-bottom-left-radius: 0;
+  border-top-left-radius: 0;
+}
+
+.activeBaggage {
+  background: #3182cd;
+  color: white;
+  outline: none;
+}
+
+.nonactiveBaggage {
+  background: white;
+  color: black;
+  outline: none;
+}
+
+.width213 {
+  width: 235px;
+}
+
+.fontSize12 {
+  font-size: 11px;
+}
+
+.bagsSection {
+  min-width: 209px;
+  border: solid 0.6px #cccccc;
+  padding-left: 20px;
+  padding-top: 20px;
+  border-radius: 10px;
+  border-top-right-radius: 0px;
+  border-bottom-right-radius: 0px;
+}
+
+.dropdownHeader {
+  font-size: 12px;
+  font-weight: 600;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 2;
+  letter-spacing: normal;
+  color: #555555;
+  cursor: pointer;
+}
+
+.bagDesc {
+  font-size: 11.5px;
+  font-weight: 300;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.17;
+  letter-spacing: normal;
+  color: #999999;
+}
+
+.bagNumber {
+  font-size: 21.5px;
+  font-weight: 600;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.26;
+  letter-spacing: normal;
+  text-align: left;
+  color: #333333;
+}
+
+.bags {
+  font-size: 12.5px;
+  font-weight: 500;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 2.16;
+  letter-spacing: normal;
+  text-align: left;
+  color: #555555;
+}
+
+.customDropdown {
+  width: 150px;
+  position: absolute;
+  background: white;
+  font-size: 12px;
+  border-radius: 13px;
+  overflow: scroll;
+  z-index: 2;
+}
+
+.listItem {
+  cursor: pointer;
+}
+
+.listItem:hover {
+  background-color: #f47521;
+  color: white;
+}
+
+.backgroundColor {
+  background-color: #dae8f6;
+}
+
+.bgwhite {
+  background-color: white;
+}
+
+.dateSection {
+  min-width: 213px;
+  border: solid 0.6px #cccccc;
+  padding-left: 20px;
+  padding-top: 20px;
+}
+
+.citySection {
+  min-width: 288px;
+  border: solid 0.6px #cccccc;
+  padding-left: 20px;
+  padding-top: 20px;
+}
+
+.terminalSection {
+  min-width: 263px;
+  border: solid 0.6px #cccccc;
+  padding-left: 20px;
+  padding-top: 20px;
+  border-radius: 10px;
+  border-top-left-radius: 0px;
+  border-bottom-left-radius: 0px;
+}
+
+.radioLabel {
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.baggageDesc {
+  font-size: 10px;
+  font-weight: 300;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.6;
+  letter-spacing: normal;
+  text-align: left;
+  color: #999999;
+}
+
+.price-terms {
+  font-size: 10px;
+  font-weight: 300;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 2.4;
+  letter-spacing: normal;
+  color: #555555;
+  margin-top: -6px;
+}
+
+.priceDiv {
+  font-size: 28px;
+  font-weight: 800;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.46;
+  letter-spacing: normal;
+  color: #fe7801;
+}
+
+.btn-proceed-to-pay {
+  background-color: #00bff3;
+  font-size: 13px;
+  font-weight: 600;
+  font-stretch: normal;
+  font-style: normal;
+  letter-spacing: normal;
+  text-align: center;
+  color: #ffffff;
+  height: 31px;
+}
+
+.notValid {
+  font-size: 11px;
+  color: orange;
+}
+
+:host {
+  .owl-dt-container {
+    margin-top: 17px !important;
+  }
+}
+
+.customDropdown::-webkit-scrollbar {
+  display: none;
+}
+
+.customDropdown {
+  -ms-overflow-style: none;
+  /* IE and Edge */
+  scrollbar-width: none;
+  /* Firefox */
+}
+
+.timeSlotDropDown {
+  width: 16rem !important;
+}
+
+.countrycode-toggle {
+  font-size: 12px !important;
+  padding: 0.375rem 0.75rem;
+}
+
+.countrycode-list {
+  max-height: 7rem;
+  height: 7rem;
+  overflow-y: auto;
+  width: 16rem;
+  border-radius: 10px;
+  width: 15rem;
+  position: absolute;
+  z-index: 2;
+}
+
+.highliteBackground {
+  background-color: #f47521;
+  color: white;
+}
+
+.fontSize11 {
+  font-size: 11px;
+}
+
+// hide Remove Arrows/Spinners
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+.outLineNone {
+  box-shadow: -1px 0 16px -10px #88888c;
+}
+
+input:focus {
+  outline: none;
+}
+
+.leftRadius0 {
+  border-bottom-left-radius: 0;
+  border-top-left-radius: 0;
+}
+
+input[type="radio"]:checked:after {
+  background-color: #ffa500 !important;
+}
+
+// :host {
+.owl-dt-calendar-table .owl-dt-calendar-cell-selected {
+  background-color: red !important;
+}
+
+// }
+
+.disabled {
+  background-color: #d7d7d7;
+}
+
+.btnColor {
+  background-color: #00bff3;
+}
+
+.borderRadius0 {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.givenShowDate {
+  width: 6.5rem;
+  border: solid 0.6px orange;
+  height: 2.4rem;
+  border-radius: 4px;
+  font-size: 11.5px;
+  font-weight: 300;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.17;
+  letter-spacing: normal;
+  color: #999999;
+  padding-top: 12px;
+  cursor: pointer;
+}
+
+.height8rem {
+  height: 8rem;
+}
+
+.insuranceBox {
+  width: 15.5rem;
+  border: 1px solid #3182cd;
+  font-size: 9px;
+  border-radius: 4px;
+}
+
+.meetCarterXadropadown {
+  border: 1px solid #cccccc;
+  width: 16rem;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.meetCarterXDropdown {
+  width: 15rem;
+  border-radius: 7px;
+  position: absolute;
+  z-index: 1000;
+  background: white;
+}
+
+.rotate {
+  transform: rotate(180deg);
+}
+
+.hour {
+  font-size: 14px;
+  color: #3182cd;
+}
+
+.confirmBtn {
+  background-color: #3182cd;
+  font-size: 11px;
+  color: white;
+}
+
+.changeBox {
+  background: #f47521;
+  color: white;
+  border: 0;
+}
+
+.normalBox {
+  border: solid 0.6px #f47521;
+  background-color: #fff;
+  color: #999999;
+}
+
+.informDiv {
+  width: 15rem;
+  background: #f2f5fd;
+  border-radius: 10px;
+  font-weight: 500;
+  padding-left: 8px;
+  position: absolute;
+  top: -33px;
+  font-size: 11px;
+  margin-left: -21px;
+}
+
+.informImg {
+  width: 16px;
+  margin-top: -15px;
+}
+
+.loginBtn {
+  background-color: #3182cd;
+  font-size: 11px;
+  border-radius: 4px;
+  color: white;
+}
+
+.dateandTimeBox {
+  width: 34rem;
+  border: solid 0.6px #cccccc;
+  border-radius: 10px;
+  border-top-right-radius: 0px;
+  border-bottom-right-radius: 0px;
+  padding-top: 12px;
+  padding-left: 17px;
+}
+
+.couponAndInsuranceBox {
+  width: 21rem;
+  border: solid 0.6px #cccccc;
+  border-radius: 10px;
+  border-top-left-radius: 0px;
+  border-bottom-left-radius: 0px;
+  padding-top: 12px;
+  padding-left: 17px;
+}
+
+.errorDiv {
+  background: #f2f5fd;
+  position: absolute;
+  z-index: 1000;
+  border-radius: 4px;
+  font-size: 13px;
+}
+
+.meet-time-error-box {
+  width: 16.4rem;
+}
+
+.errorImg {
+  width: 1.2rem;
+}
+
+.dropDownArrow {
+  height: 5px;
+}
+
+.couponRemoveImg {
+  width: 16px;
+}
+
+.insuranceBoxActive {
+  width: 17rem;
+  border: 1px solid #f47521;
+  font-size: 11px;
+  border-radius: 4px;
+}
+
+.couponRemoveImg {
+  width: 14px;
+}
+
+.countrycode-list {
+  max-height: 7rem;
+  height: 7rem;
+  overflow-y: auto;
+  width: 16rem;
+  border-radius: 10px;
+  width: 15rem;
+  position: absolute;
+  z-index: 2;
+}

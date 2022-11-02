@@ -1,0 +1,300 @@
+@import '../../../../../styles.scss';
+
+#rate-card {
+  .rate-card-body {
+    background: #dedddd30;
+    margin-top: 100px;
+
+    div {
+      font-size: 14px;
+    }
+
+    ul {
+      padding-left: 0;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 14px;
+      font-weight: 600;
+
+      span {
+        // font-size: 14px !important;
+        font-weight: 400;
+      }
+    }
+
+    h5 {
+      font-size: 24px;
+      font-weight: 600;
+      padding: 20px 0px 15px 0;
+      border-bottom: 1px groove #ffffff7d;
+    }
+
+    .body-header {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      //   border-bottom: 1px groove #ffffff7d;
+      padding: 40px;
+      padding-bottom: 20px;
+
+      .body-heading {
+        font-size: 30px;
+        margin: 0;
+      }
+
+      .body-tagline {
+        font-size: 20px;
+        color: $darkgrey;
+      }
+    }
+
+    .baggage-cost {
+      //   padding: 40px;
+
+      .content-heading {
+
+        .rate-card-heading {
+          display: block;
+          font-size: 22px;
+          margin-bottom: 0;
+        }
+
+        .rate-card-tagline {
+
+          font-size: 12px;
+        }
+      }
+
+      .tab {
+        font-size: 12px;
+
+        .tab-data {
+          border-bottom: 1px groove #fff9f96e;
+          margin-top: 25px;
+
+          .info {
+            color: orange;
+          }
+        }
+      }
+    }
+
+    .rate {
+      margin-bottom: 30px;
+    }
+  }
+
+  .info-icon {
+    cursor: pointer;
+    margin-top: -12px;
+  }
+
+  .luggage-guide {
+    color: $lightblue;
+    cursor: pointer;
+  }
+
+  .active {
+    background-color: #00bff3;
+    border-color: #00bff3;
+    color: #fff;
+    border-top-right-radius: 4px;
+    border-top-left-radius: 4px;
+    height: 40px;
+    cursor: pointer;
+    font-size: 12px;
+    padding-top: 12px;
+    font-weight: 500;
+  }
+
+  .disable {
+    background-color: #dedddd30;
+    border-color: orange;
+    border-top-right-radius: 4px;
+    border-top-left-radius: 4px;
+    height: 40px;
+    cursor: pointer;
+    color: #7e7e7e;
+    font-size: 12px;
+    padding-top: 12px;
+    font-weight: 500;
+  }
+
+  .borderBottomBtn {
+    border-bottom: 3px solid #00bff3;
+  }
+
+  .marginTop31px {
+    margin-top: 31px;
+  }
+
+  .chooseAirport {
+    font-size: 12px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 2;
+    letter-spacing: normal;
+    color: #555555;
+  }
+
+  .dataRow {
+    background-color: #fafafa;
+    padding-left: 38px;
+    padding-right: 38px;
+  }
+
+  .tableDescription {
+    font-size: 22px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 0.64;
+    letter-spacing: normal;
+    text-align: center;
+    color: #333333;
+  }
+
+  .webView {
+    display: block;
+    margin-top: 50px;
+  }
+
+  .tableHeader {
+    font-size: 13px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.85;
+    letter-spacing: normal;
+    text-align: center;
+    color: #555555;
+    background-color: #fff;
+    border-bottom: 3px solid #dddddd;
+    padding-top: 8px;
+    padding-bottom: 8px;
+  }
+
+  .tableData {
+    font-size: 12px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 2;
+    letter-spacing: normal;
+    color: #555555;
+    text-align: center;
+    padding-top: 31px;
+    padding-bottom: 31px;
+    border-bottom: 1px solid #fafafa;
+  }
+
+  .mobileView {
+    display: none;
+  }
+
+
+  @media only screen and (max-width: 768px) {
+    .dataRow {
+      background-color: #fafafa;
+      padding-left: 5px;
+    }
+
+    .webView {
+      display: none;
+    }
+
+    .mobileView {
+      display: block;
+      padding-left: 30px;
+    }
+  }
+
+
+  .stepTo {
+    font-size: 18px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1;
+    letter-spacing: normal;
+    color: #333333;
+  }
+
+  .stepNumber {
+    width: 30px;
+    height: 30px;
+    background-color: #fe7801;
+    border-radius: 50%;
+    padding: 5px;
+    font-size: 18px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.33;
+    letter-spacing: normal;
+    text-align: center;
+    color: #ffffff;
+  }
+
+  .setps {
+    font-size: 12px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 3.42;
+    letter-spacing: normal;
+    text-align: left;
+    color: #555555;
+  }
+
+  .verticalLine {
+    border-left: 1px solid #dddddd;
+    height: 9px;
+    margin-top: -6px;
+    margin-left: 14px;
+    position: absolute;
+  }
+
+  .outStationTab {
+    font-size: 18px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1;
+    letter-spacing: normal;
+    text-align: center;
+    color: #333333;
+    margin-top: 61px;
+    margin-bottom: 40px;
+  }
+
+  .dropdownbtn {
+    width: 205px;
+    height: 35px;
+    border: solid 1px #cccccc;
+    background-color: #ffffff;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 13px;
+  }
+
+  .dropdownListContainer {
+    height: 12rem;
+    overflow: scroll;
+    width: 203px;
+    position: absolute;
+    z-index: 1;
+    font-size: 14px;
+  }
+
+
+  .listData:hover {
+    color: white;
+    background-color: blue;
+    cursor: pointer;
+  }
+
+}

@@ -1,0 +1,206 @@
+.subSection {
+  .container {
+    border-radius: 16px;
+    box-shadow: 0 0px 6px 0 rgba(0, 0, 0, 0.16);
+    background-color: #fff;
+
+    .heading {
+      font-size: 24px;
+      font-weight: 600;
+      color: #222;
+    }
+
+    .prestigeLogo img {
+      width: 136px;
+    }
+
+    .price {
+      font-size: 24px;
+      color: #337bb7;
+      margin-bottom: 0;
+    }
+
+    .proceedBuy {
+      border-radius: 24px;
+      border: solid 1px #f47521;
+      background-color: #f47521;
+      color: #fff;
+      font-size: 14px;
+      padding: 10px 22px;
+      font-weight: 600;
+    }
+
+    .subCard {
+      padding: 16px;
+      border-radius: 8px;
+      background-image: linear-gradient(to right, #f7f7f7, #fff4ed 101%);
+
+      h1 {
+        font-size: 18px;
+        color: #f47521;
+      }
+
+      h6 {
+        font-size: 12px;
+        color: #000;
+        font-weight: 600;
+      }
+
+      ul li,
+      p {
+        font-size: 12px;
+        color: #000;
+      }
+
+      span {
+        cursor: pointer;
+        border: 0;
+        width: 24px;
+        height: 24px;
+        border-radius: 50px;
+        background-color: #f47521;
+      }
+    }
+
+    .subCardSecond {
+      background-image: linear-gradient(to right, #f7f7f7, #eaf6ff 101%);
+    }
+
+    .subDetails {
+      .airportBaggage {
+        font-size: 16px;
+        font-weight: 600;
+        color: #222;
+      }
+
+      .carterXLogo {
+        // width: 252px;
+        width: 100%;
+        object-fit: contain;
+      }
+
+      h6 {
+        font-size: 12px;
+        color: #222222;
+        font-weight: 600;
+      }
+
+      .departureService {
+        text-align: center;
+        margin: 0 45px 0 45px;
+
+
+        .departureCard {
+          border-radius: 12px;
+          border: solid 3px #fde3d2;
+          background-color: #fff;
+          padding: 8px 0;
+        }
+
+        img {
+          width: 120px;
+          height: 120px;
+        }
+
+        .progressBar {
+          position: absolute;
+          width: 60%;
+          background-color: #eee;
+          margin: 0 50px;
+          border-radius: 10px;
+        }
+
+        .progressCircle {
+          background-color: #1a7dc1;
+          border-radius: 50%;
+          height: 16px;
+          width: 16px;
+          margin: 0;
+          outline: 5px solid #eee;
+        }
+
+        .progressBarText p {
+          font-size: 12px;
+          color: #222;
+        }
+      }
+
+      h1 {
+        font-size: 18px;
+        color: #f47521;
+      }
+
+      .logoDetails {
+        background-color: #f47521;
+        border-radius: 50%;
+        width: 55px;
+        height: 55px;
+        margin: auto;
+        padding: 7px;
+
+        img {
+          width: 40px;
+        }
+      }
+
+      .logoText {
+        text-align: center;
+        font-size: 12px;
+        font-weight: 600;
+        color: #222;
+        margin: 8px 0;
+      }
+    }
+  }
+}
+
+.disabled {
+  cursor: not-allowed !important;
+  opacity: 0.5 !important;
+}
+
+@media only screen and (max-width: 768px) {
+  .subSection .container .price {
+    font-size: 16px;
+  }
+  .mobile-prestigeLogo{
+    margin: 0 0 0px -15px;
+    img{
+      width: 110px !important;
+    }
+  }
+  .subscription-title{
+    font-size: 16px!important;
+  }
+
+  .airportBaggage{
+    font-size: 14px!important;
+  }
+
+  .departureService {
+    margin: 0 !important;
+  }
+
+  .departureCard{
+    img{
+      width: 100% !important;
+      object-fit: contain;
+    }
+  }
+
+  .icic-marigin{
+    margin: 70px 0 0 !important;
+  }
+
+  .progressBar{
+    margin: 0 60px !important;
+  }
+}
+
+.min-height-77{
+  min-height: 77px;
+}
+
+.icic-marigin{
+  margin: 95px 0 0;
+}

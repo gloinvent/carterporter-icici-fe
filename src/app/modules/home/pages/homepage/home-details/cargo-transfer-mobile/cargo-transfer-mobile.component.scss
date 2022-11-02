@@ -1,0 +1,164 @@
+.header {
+  font-size: 16px;
+  font-weight: 600;
+  color: #555555;
+  border: solid 1.2px #dddddd;
+}
+.backImg {
+  width: 57px;
+  height: 25px;
+}
+.localOutstation {
+  font-size: 16px;
+  font-weight: 600;
+  font-stretch: normal;
+  color: #555555;
+  border-top: 1px solid #3182cd;
+  border-bottom: 1px solid #3182cd;
+  padding-top: 12px;
+  padding-bottom: 12px;
+}
+.activeBaggage {
+  background: #3182cd;
+  color: white;
+  outline: none;
+}
+.radioLabel {
+  font-size: 16px;
+  font-weight: 500;
+  color: #555555;
+}
+
+.secondRow {
+  padding-left: 2.1rem;
+}
+.customDropdown {
+  width: 150px;
+  position: absolute;
+  background: white;
+  font-size: 12px;
+  border-radius: 13px;
+  overflow: scroll;
+  z-index: 2;
+  margin-left: 7rem;
+}
+.listItem {
+  cursor: pointer;
+}
+
+.listItem:hover {
+  background-color: #F47521;
+  color: white;
+}
+
+.bagNumber {
+  font-size: 16px;
+  font-weight: 600;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.26;
+  letter-spacing: normal;
+  text-align: left;
+  color: #333333;
+}
+.bookingCards {
+  border-radius: 5px;
+  border: solid 0.9px #dddddd;
+  padding-left: 12px;
+  height: 4.5rem;
+}
+
+.dropdownHeader {
+  font-size: 14px;
+  font-weight: 500;
+  color: #555555;
+}
+.bags {
+  font-size: 14px;
+  font-weight: 500;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 2.16;
+  letter-spacing: normal;
+  text-align: left;
+  color: #555555;
+}
+.countrycode-list {
+  max-height: 7rem;
+  height: 7rem;
+  overflow-y: auto;
+  width: 16rem;
+  border-radius: 10px;
+  width: 15rem;
+  position: absolute;
+  z-index: 2;
+}
+
+.fontSize11 {
+  font-size: 10px;
+}
+
+.btn-proceed-to-pay {
+  background-color: #00bff3;
+  font-size: 13px;
+  font-weight: 600;
+  font-stretch: normal;
+  font-style: normal;
+  letter-spacing: normal;
+  text-align: center;
+  color: #ffffff;
+  height: 31px;
+}
+
+.notValid {
+  font-size: 13px;
+  color: orange;
+}
+
+.disabled {
+  background-color: #d7d7d7;
+  cursor: not-allowed;
+}
+
+.price-terms {
+  font-size: 10px;
+  font-weight: 300;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 2.4;
+  letter-spacing: normal;
+  color: #555555;
+  margin-top: -6px;
+}
+
+
+.priceDiv {
+  font-size: 23px;
+  font-weight: 800;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.46;
+  letter-spacing: normal;
+  color: #fe7801;
+}
+
+.informDiv {
+  background: #f2f5fd;
+  border-radius: 10px;
+  font-weight: 500;
+  padding-left: 8px;
+  position: absolute;
+  top: -40px;
+  font-size: 11px;
+  margin-left: -14px;
+}
+
+.informImg {
+  width: 15px;
+  margin-top: -15px;
+}
+
+input[type=checkbox], input[type=radio] {
+  width: 30px;
+  height: 19px;
+}

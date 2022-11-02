@@ -1,0 +1,3171 @@
+<section class="faq">
+  <!-- FAQ's header component  -->
+  <app-header></app-header>
+
+  <!-- FAQ's body  -->
+  <div class="content container">
+    <div class="body-header">
+      <h4 class="body-heading bold" appInfoDialog="PICK_CITY">
+        Frequently Asked Questions
+      </h4>
+      <p class="">
+        Kindly check the FAQ below if you are not very familiar with the
+        functioning of this website or the application
+      </p>
+      <!-- . Our operational websites are: <a href="https://www.carterx.in" target="_blank">www.carterx.in</a> and
+                <a href="https://www.carterporter.in" target="_blank">www.carterporter.in</a> City to City/Airport transfer of luggage/baggage/items are the service provided. If your query is of urgent nature and is different from the set of questions
+                then do write to us at <span class="link">customercare@carterx.in</span> or call us on +919110635588 anytime (24/7) on all days including Sunday to get our immediate help. Our numbers may be busy if there is a high volume of queries or
+                multiple queries being attended, please do not hesitate to reach us out via email with your order# and a quick description of the query.</p> -->
+    </div>
+  </div>
+  <div class="container web-view-faq">
+    <div class="row">
+      <div class="nav-container col-3">
+        <ul class="nav">
+          <li class="nav-item row" *ngFor="let item of navbarItem" (click)="setActive(item.name)"
+            [class.active]="selected_Nav_Item == item.name">
+            <div class="icon col-lg-2 col-md-2 col-sm-12 col-xs-12">
+              <img [src]="item.icon" />
+            </div>
+            <div class="name col-lg-8 col-md-8 col-sm-12 colxs-12">
+              <span> {{ item.name }} </span>
+            </div>
+            <i class="material-icons col-lg-2 col-md-2">
+              keyboard_arrow_right
+            </i>
+          </li>
+          <li class="need-help">
+            <div class="icon">
+              <img height="50" src="../../../../../../../assets/icons/24by7-support.png" />
+            </div>
+            <div class="label">
+              <span class="need">Need </span><span class="help"> Help?</span>
+            </div>
+            <p class="phoneNumber">
+              <a href="mailto:customercare@carterporter.in"
+                style="cursor: pointer;text-decoration: none">customercare@carterporter.in</a>
+            </p>
+            <!-- <p class="time">24/7 Monday - Sunday</p> -->
+          </li>
+        </ul>
+      </div>
+
+      <div class="main-content col-9">
+        <app-faq-content [content]="selected_Nav_Item"></app-faq-content>
+      </div>
+    </div>
+  </div>
+
+  <div class="container mobile-view-faq">
+    <div class="row register">
+      <div class="col">
+        <div class="tabs">
+          <div class="tab">
+            <input type="radio" id="ques" name="mobileTabs" />
+            <label class="tab-label-data" for="ques">
+              <span class="col-1 icon-tab">
+                <img src="./../../../../../../../assets/icons/faq/Registration.png" />
+              </span>
+              <span class="dropdown-label col-10">Registration (06)</span>
+            </label>
+            <div class="tab-content-data">
+              <div class="row register">
+                <div class="col">
+                  <div class="tabs">
+                    <div class="tab">
+                      <input type="radio" id="ques200" name="registration" />
+                      <label class="tab-label" for="ques200">1. Are there any charges for registration ?</label>
+                      <div class="tab-content">
+                        <p>
+                          No. Registration on carterx.in or CarterX application
+                          is absolutely free.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row register">
+                <div class="col">
+                  <div class="tabs">
+                    <div class="tab">
+                      <input type="radio" id="ques300" name="registration" />
+                      <label class="tab-label" for="ques300">2. Do I have to necessarily register to purchase
+                        services on CarterX ?</label>
+                      <div class="tab-content">
+                        <p>
+                          You can browse and check prices for the service
+                          without registration. Only registered users will be
+                          able to give Airport/City location and passenger
+                          information to place orders. Registered users have to
+                          be logged in at the time of placing the order; they
+                          will be prompted to do so if they are not logged in.
+                        </p>
+
+                        <p>
+                          <span class="bold">Corporate houses and other strategic alliance
+                            partners:</span>
+                          For Bookings made by corporate houses and other
+                          strategic alliance partners, the bookings are made
+                          first on behalf of the customer/passenger.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row register">
+                <div class="col">
+                  <div class="tabs">
+                    <div class="tab">
+                      <input type="radio" id="ques400" name="registration" />
+                      <label class="tab-label" for="ques400">3. Can I have multiple registrations ?</label>
+                      <div class="tab-content">
+                        <p>
+                          Each email address and contact mobile phone number can
+                          only be associated with one Carter X account.
+                          Customers can change their information of contact
+                          number and email address later under ‘My Trips’ in
+                          ‘Profile’.
+                        </p>
+
+                        <p>
+                          <span class="bold">Corporate houses and other strategic alliance
+                            partners:</span>
+                          Auto registered customers can change their information
+                          of contact number and email address later under ‘My
+                          Account’ in ‘Profile’.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row register">
+                <div class="col">
+                  <div class="tabs">
+                    <div class="tab">
+                      <input type="radio" id="ques500" name="registration" />
+                      <label class="tab-label" for="ques500">4. Upload ID Proof for Registrations & Delivery
+                        ?</label>
+                      <div class="tab-content">
+                        <p>
+                          Id proof is not mandatory to register. Id proof is
+                          mandatory for booking to be picked up or delivered.
+                          The Id proof can be updated by the porter allocated
+                          also at the time of pick up and delivery. Make sure
+                          the Id proof is clear on the fields of name and date
+                          of birth. CarterX personnel may not deliver/pick up
+                          the booked items if there is no valid ID proof
+                          provided. The user address entered during booking does
+                          not have to match the address in Id proof.
+                          Luggage/package/items will have to be identified
+                          before entering the airport. Meet CarterX personnel
+                          before entering the terminal is MANDATORY
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row register">
+                <div class="col">
+                  <div class="tabs">
+                    <div class="tab">
+                      <input type="radio" id="ques600" name="registration" />
+                      <label class="tab-label" for="ques600">5. Airport Transfers</label>
+                      <div class="tab-content">
+                        <p>
+                          <span class="bold">
+                            To the Airport Transfers at the time of
+                            pickup:</span>
+                          The ID proof will have to match with booking
+                          passenger/travelling passenger for the
+                          luggage/items/package to be picked at the location. If
+                          booking/travelling passenger unavailable then the
+                          ‘assigned person’ handing over the luggage needs to be
+                          nominated in the
+                          <a class="bold" href="http://13.127.78.154/Passenger_Security.pdf" target="_blank">security
+                            declaration</a>
+                          duly signed with valid ID proofs attached. Booking
+                          passenger will have to be over 18 years to book and
+                          use this service, order will be considered cancelled
+                          if user is under age.
+                        </p>
+
+                        <p>
+                          <span class="bold">From the Airport Transfers at the time of pickup: </span>The ID proof will
+                          have to match with booking
+                          passenger/travelling passenger for the
+                          luggage/items/package to be picked at the Luggage
+                          belt/kiosk.
+                          <a class="bold" href="http://13.127.78.154/Passenger_Security.pdf" target="_blank">security
+                            declaration</a>
+                          is NOT required for any orders collected inside the
+                          premises of the airport. Booking passenger will have
+                          to be over 18 years to book and use this service,
+                          order will be considered cancelled if user is under
+                          age.
+                        </p>
+
+                        <p>
+                          <span class="bold">To the Airport Transfers at the time of delivery: </span>The ID proof will
+                          have to match at delivery for
+                          luggage/items/package picked from the booking customer
+                          or the travelling passenger. Luggage will
+                          <span class="bold">only</span> be delivered to
+                          assigned travelling passenger/booking passenger due to
+                          security reasons and compliance. Booking passenger
+                          will have to be over 18 years to book and use this
+                          service, order will be considered cancelled if user is
+                          under age.
+                        </p>
+
+                        <p>
+                          <span class="bold">From the Airport Transfer at the time of
+                            delivery:</span>
+                          The ID proof will have to match at delivery for
+                          luggage/items/package picked from the booking customer
+                          or the travelling passenger. Luggage can be delivered
+                          to alternative person if nominated via email/sms
+                          confirmation to delivery personnel prior to delivery.
+                          Booking passenger will have to be over 18 years to
+                          book and use this service, order will be considered
+                          cancelled if user is under age.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row register">
+                <div class="col">
+                  <div class="tabs">
+                    <div class="tab">
+                      <input type="radio" id="ques700" name="registration" />
+                      <label class="tab-label" for="ques700">6. City to City Transfers</label>
+                      <div class="tab-content">
+                        <p>
+                          <span class="bold">City Transfers at the time of pickup:</span>
+                          The ID proof will have to match with booking
+                          passenger/location contact for the
+                          luggage/items/package to be picked at the location. If
+                          booking/Location passenger unavailable then the
+                          ‘assigned person’ handing over the luggage needs to be
+                          nominated in the
+                          <a class="bold" href="http://13.127.78.154/Passenger_Security.pdf" target="_blank">security
+                            declaration</a>
+                          duly signed with valid ID proofs attached. Booking
+                          passenger will have to be over 18 years to book and
+                          use this service, order will be considered cancelled
+                          if user is under age.
+                        </p>
+
+                        <p>
+                          <span class="bold">City Transfers at the time of delivery:</span>
+                          The ID proof will have to match at delivery for
+                          luggage/items/package picked from the booking customer
+                          or the travelling passenger. Luggage can be delivered
+                          to alternative person if nominated via email/sms
+                          confirmation to delivery personnel prior to delivery.
+                          Booking passenger will have to be over 18 years to
+                          book and use this service, order will be considered
+                          cancelled if user is under age.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row account-related">
+      <div class="col">
+        <div class="tabs">
+          <div class="tab">
+            <input type="radio" id="account" name="mobileTabs" />
+            <label class="tab-label-data" for="account">
+              <span class="col-1 icon-tab">
+                <img src="./../../../../../../../assets/icons/faq/Account Related.png" />
+              </span>
+              <span class="dropdown-label col-10">Account Related (08)</span>
+            </label>
+            <div class="tab-content-data">
+              <div class="row account-related">
+                <div class="col">
+                  <div class="tabs">
+                    <div class="tab">
+                      <input type="radio" id="ques8" name="account" />
+                      <label class="tab-label" for="ques8">1. What is My Account and How do I make changes to it
+                        ?</label>
+                      <div class="tab-content">
+                        <p>
+                          My Account is the section you reach after you log in
+                          at the website or application. My Account allows you
+                          to track your active orders through ‘Manage Orders’,
+                          access order details as well as see your order history
+                          under ‘Manage Orders’ and update your contact details
+                          through ‘Profile’. You can access the Terms &
+                          conditions, the ‘Rate Card’ and other information
+                          through My Account after you log into the
+                          website/application.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row account-related">
+                <div class="col">
+                  <div class="tabs">
+                    <div class="tab">
+                      <input type="radio" id="ques09" name="account" />
+                      <label class="tab-label" for="ques09">2. How do I reset my password ?</label>
+                      <div class="tab-content">
+                        <p>
+                          Your login is the registered mobile number. In the
+                          case of orders made through corporate and alliance
+                          partners the login is the primary mobile contact
+                          number given during the order process. Every login
+                          will require an OTP to enter into your account. The
+                          OTP will be sent to your registered mobile phone
+                          number. Logout will happen from time to time on
+                          closing applications. Landline numbers cannot access
+                          the application.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row account-related">
+                <div class="col">
+                  <div class="tabs">
+                    <div class="tab">
+                      <input type="radio" id="ques9" name="account" />
+                      <label class="tab-label" for="ques9">3. What is the purpose of Security Declaration ?</label>
+                      <div class="tab-content">
+                        <p>
+                          <a class="bold" href="http://13.127.78.154/Passenger_Security.pdf" target="_blank">Security
+                            Declaration</a>
+                          is mandatory for all pickup to the Airport for airport
+                          transfers. Security Declaration is mandatory for all
+                          pickup for city to city transfer. The security
+                          questions validated that there is no illegal items in
+                          the baggage/luggage/items/package and ensures to
+                          provide guidelines of carriage of goods. Security
+                          Declaration also enables user to assign an alternative
+                          person to hand over the luggage/baggage/items/package
+                          at the time of pickup. ID proof of Assigned person and
+                          booking/travelling/location contact compulsory.
+                          Security declaration should be printed and signed,
+                          alternatively the same can be signed when porter comes
+                          in to pick up luggage/baggage/item/package. Order can
+                          be cancelled if security declaration is not signed.
+                          Security declaration can be found under ‘My Trips’ or
+                          can be acquired by emailing:<span class="link bold">
+                            customercare@carterporter.in</span>
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row account-related">
+                <div class="col">
+                  <div class="tabs">
+                    <div class="tab">
+                      <input type="radio" id="ques10" name="account" />
+                      <label class="tab-label" for="ques10">4. Corporate houses and other strategic alliance
+                        partners:</label>
+                      <div class="tab-content">
+                        <p>
+                          Security Declaration is compulsory for any orders to
+                          be picked to the airport or at the time of pickup at
+                          city locations..
+                        </p>
+                        <p>
+                          Security declaration is NOT mandatory for any
+                          passenger arriving at the airport or any From the
+                          airport bookings placed.
+                        </p>
+
+                        <p>
+                          Luggage/package/items will have to be identified
+                          before entering the airport. Meet CarterX personnel
+                          before entering the terminal is MANDATORY
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row account-related">
+                <div class="col">
+                  <div class="tabs">
+                    <div class="tab">
+                      <input type="radio" id="ques11" name="account" />
+                      <label class="tab-label" for="ques11">5. What are Airport Transfers and City-City Transfer
+                        ?</label>
+                      <div class="tab-content">
+                        <p>
+                          <span class="bold">Airport Transfers:</span> Any
+                          transfer made to and from the airport is classified
+                          under Airport Transfers. The
+                          luggage/baggage/items/package will be available at the
+                          airport or picked at the airport. All the airports of
+                          service are listed and the order is scheduled to be
+                          picked only from that airport of service/terminal. All
+                          projections/facilities available at the airport are
+                          displayed before and after making the booking and the
+                          confirmation page. Luggage Storage and Interterminal
+                          transfers are available in most airports of service.
+                          We also service airport transfer local and outstation.
+                          Pin code is essential to determine the value of the
+                          order, use outstation transfer if the pin code is not
+                          available. Luggage/package/items will have to be
+                          identified before entering the airport. Meet CarterX
+                          personnel before entering the terminal is MANDATORY
+                        </p>
+
+                        <p>
+                          <span class="bold"> City to City Transfers:</span> Any
+                          transfer made between 2 locations within the city
+                          limits or outstations is classified as City to City
+                          Transfers. Intra and Inter city transfers are both
+                          available as Local and Outstation transfers. All the
+                          cities of service are listed and the order is
+                          scheduled to be picked only from that location of the
+                          city of service. Pin code is essential to determine
+                          the value of the order, use outstation transfer if the
+                          pin code is not available.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row account-related">
+                <div class="col">
+                  <div class="tabs">
+                    <div class="tab">
+                      <input type="radio" id="ques12" name="account" />
+                      <label class="tab-label" for="ques12">6. What are My Trips and Order Status ?</label>
+                      <div class="tab-content">
+                        <p>
+                          <span class="bold">My Trips reflect all the orders made:</span>
+                          current and past. The status of each order is
+                          displayed. The details of each order can be found on
+                          clicking the same. Additionally, you will be notified
+                          via Email or SMS or Notifications once the Order
+                          status changes. English will be the medium of
+                          communication for all SMS/Email
+                        </p>
+                        <p>
+                          Luggage/package/items will have to be identified
+                          before entering the airport. Meet CarterX personnel
+                          before entering the terminal is MANDATORY
+                        </p>
+                        <p>
+                          <span class="bold">
+                            Corporate houses and other strategic alliance
+                            partners:</span>
+                          The orders made by corporate and strategic alliance
+                          partners on behalf of the customer can also be found
+                          under Trips section. Additionally, you will be
+                          notified via SMS or Notifications once the Order
+                          status changes. Invoice is NOT applicable and all
+                          invoices will be sent directly to corporates unless
+                          payment is made directly.
+                        </p>
+                        <p>
+                          Some of the status may not apply to your
+                          order/booking.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row account-related">
+                <div class="col">
+                  <div class="tabs">
+                    <div class="tab">
+                      <input type="radio" id="ques13" name="account" />
+                      <label class="tab-label" for="ques13">7. Status Descriptions:</label>
+                      <div class="tab-content">
+                        <p>
+                          <span class="bold">‘Confirmed’:</span> Your order been
+                          logged to be scheduled for service. Carter will be
+                          allocated 30 minutes prior to schedule time. The
+                          invoice will be sent once the order is delivered to
+                          your registered email address.
+                        </p>
+
+                        <p>
+                          <span class="bold">‘Payment Pending’:</span> Your
+                          order has been logged and we are waiting for
+                          authorization from the payment gateway. Retry payment.
+                          Your order will be confirmed once we receive payment
+                          authorization. If no payment has been charged then
+                          order is not confirmed.
+                        </p>
+
+                        <p>
+                          <span class="bold">‘Cancelled’:</span>The order was
+                          cancelled.
+                        </p>
+
+                        <p>
+                          <span class="bold">‘Refunded’:</span>The order is
+                          closed with refund completed. Refunds will be
+                          processed in 7 working days.
+                        </p>
+
+                        <p>
+                          <span class="bold">‘Pending Refund’:</span> The order
+                          was cancelled or modified to incur refund. The same
+                          will be processed within 7 working days.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row account-related">
+                <div class="col">
+                  <div class="tabs">
+                    <div class="tab">
+                      <input type="radio" id="ques14" name="account" />
+                      <label class="tab-label" for="ques14">8. Order Status:</label>
+                      <div class="tab-content">
+                        <p class="bold">
+                          Orders towards the Airport/City of service:
+                        </p>
+                        <p>
+                          <span class="bold">‘Open’:</span>Your order has been
+                          scheduled on the date of service. This is a
+                          personalized service, i.e: an appointed personnel will
+                          personally pick up your luggage from you or the
+                          location contact. All luggage/baggage/items/package
+                          needs to be packed and ready at the location. Carter’s
+                          details (name, image and number) for easy
+                          identification will be uploaded 30 minutes prior.
+                        </p>
+
+                        <p>
+                          <span class="bold">‘Picked-up’:</span>The Baggage
+                          items have been picked by the Carter from the
+                          specified location.
+                        </p>
+                        <p>
+                          <span class="bold">‘At the Airport’:</span> The
+                          Luggage items have reached the airport of service.
+                          Luggage/package/items will have to be identified
+                          before entering the airport. Meet CarterX personnel
+                          before entering the terminal is MANDATORY
+                        </p>
+                        <p>
+                          <span class="bold">‘At the City’’:</span>The Luggage
+                          items have reached the city of service.
+                        </p>
+                        <p>
+                          <span class="bold">‘At Gate ’:</span>
+                          Luggage/package/items will have to be identified
+                          before entering the airport. Meet CarterX personnel
+                          before entering the terminal is MANDATORY. The Luggage
+                          items are available at Gate in the departure section
+                          of the airport before the security checks the
+                          credentials. This is a personalized service, i.e: an
+                          appointed personnel will personally deliver your
+                          luggage to you or the passenger. The Carter’s details
+                          (name, image and number) for easy identification will
+                          be uploaded 30 minutes prior.
+                        </p>
+
+                        <P>For all booking of service made by via
+                          <span class="bold">corporate and partner alliances</span>, passengers are
+                          <span class="bold"> requested to make contact</span>
+                          with CarterX. Luggage/package/items will have to be
+                          identified before entering the airport. Meet CarterX
+                          personnel before entering the terminal is MANDATORY
+                        </P>
+
+                        <p>
+                          <span class="bold">‘Delivered’:</span> Order has been
+                          delivered either directly to passenger or channel
+                          partners. Order invoice will be sent to registered
+                          email address. Corporates and partnered alliance
+                          bookings may not receive invoice if payment is not
+                          directly made to CarterX.
+                        </p>
+
+                        <p>
+                          <span class="bold">‘Reschedule Delivery’:</span>‘Initiate Redirect luggage’ will be activated
+                          once
+                          the order is ‘picked up’. The order can be routed to
+                          another location incase of change in travel plan.
+                          Carterx.in can hold/transit you luggage for a maximum
+                          of 20 hours after the order has been picked up.
+                          Reschedule delivery is a chargeable service and will
+                          be taken as a fresh order when done voluntary or when
+                          undelivered. Outstation transfer will incur full value
+                          and delivery personnel will wait up to 60 minutes to
+                          make delivery. Order will be rescheduled post multiple
+                          attempts to deliver the primary order.
+                        </p>
+
+                        <p class="bold">For Orders from the Airport:</p>
+
+                        <p>
+                          <span class="bold">‘Open’:</span>Your order has been
+                          scheduled on the date of arrival.
+                        </p>
+
+                        <p>
+                          <span class="bold">‘At Arrival Gate’:</span>This is a
+                          personalized service, i.e: an appointed personnel will
+                          personally pickup your luggage from you or the
+                          passenger. Carter’s details (name, image and number)
+                          for easy identification will be uploaded 30 minutes
+                          prior to Arrival meet time. Check airport
+                          projections/services for location of the counter or
+                          pick up from luggage belts availability at the airport
+                          of service.
+                        </p>
+                        <P>For all booking made for service via
+                          <span class="bold">corporates/partnered alliances </span>passengers can proceed to leave the
+                          airport after
+                          identification of luggage to CarterX. Meeting of
+                          CarterX personnel at Airport is MANDATORY. Luggage
+                          will be delivered at the location specified during the
+                          time of booking directly.
+                        </P>
+
+                        <p>
+                          <span class="bold">‘Picked-up’:</span>The Baggage
+                          items have been handed over to the Carter X at the
+                          Airport either directly or through channel partners.
+                        </p>
+
+                        <p>
+                          <span class="bold">‘At Location’:</span>Order has
+                          reached location for delivery.
+                        </p>
+
+                        <p>
+                          <span class="bold"> ‘Delivered’:</span>Order has been
+                          delivered. Order invoice will be sent to registered
+                          email address. This is a personalized service, i.e:
+                          appointed personnel will personally deliver your
+                          luggage to you or the location contact. The Carter’s
+                          details (name, image and number) for easy
+                          identification will be uploaded 30 minutes prior.
+                          Corporates and partnered alliance bookings may not
+                          receive invoice if payment is not directly made to
+                          CarterX.
+                        </p>
+
+                        <p>
+                          <span class="bold">‘Reschedule Delivery’:</span>‘Initiate Redirect luggage’ will be activated
+                          once
+                          the order is ‘picked up’. The order can be routed to
+                          another location incase of change in drop location.
+                          Carterx.in can hold/transit you luggage for a maximum
+                          of 20 hours after the order has been picked up.
+                          Reschedule delivery is a chargeable service and will
+                          be taken as a fresh order when done voluntary or when
+                          undelivered.
+                        </p>
+
+                        <p>
+                          <span class="bold">
+                            Corporate houses and other strategic alliance
+                            partners:</span>
+                          For <span class="bold">outstation</span> deliveries
+                          reschedule will be activated if there is no response
+                          from customer at the time of delivery. Reschedule
+                          delivery is a chargeable service and will be taken as
+                          a fresh order when done voluntary or when undelivered.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row order-related">
+      <div class="col">
+        <div class="tabs">
+          <div class="tab">
+            <input type="radio" id="order" name="mobileTabs" />
+            <label class="tab-label-data" for="order">
+              <span class="col-1 icon-tab">
+                <img style="color: black" src="./../../../../../../../assets/icons/faq/Order Related.png" />
+              </span>
+              <span class="dropdown-label col-10">Order Related (11)</span>
+            </label>
+            <div class="tab-content-data">
+              <div class="row order-related">
+                <div class="col">
+                  <div class="tabs">
+                    <div class="tab">
+                      <input type="radio" id="ques15" name="order" />
+                      <label class="tab-label" for="ques15">1. What are Input Details ?</label>
+                      <div class="tab-content">
+                        <p class="bold">
+                          For Orders to the Airport/City of service:
+                        </p>
+
+                        <p>
+                          <span class="bold">Select Airport/City:</span> Carterx
+                          offers its services in multiple airports/cities and
+                          will keep increasing the number of airports/cities the
+                          service is available as we grow. Make a choice of the
+                          airport you are travelling ‘to’ if available in the
+                          drop down given. Select the terminal is multiple
+                          terminals are available. The location address of pick
+                          up or delivery should be in the same city as the
+                          airport/city of service if local delivery is selected.
+                          Intercity pick up and delivery is available under
+                          Outstation. The airport/city of service cannot be
+                          changed once the order is confirmed.
+                        </p>
+
+                        <p>
+                          <span class="bold">Corporate houses and other strategic alliance
+                            partners:</span>
+                          Local and Outstation pickup and deliveries are also
+                          available for bookings made by corporate and other
+                          strategic alliance partners.
+                        </p>
+                        <p>
+                          Luggage/package/items will have to be identified
+                          before entering the airport. Meet CarterX personnel
+                          before entering the terminal is MANDATORY
+                        </p>
+
+                        <p class="bold">Local Transfers</p>
+                        <p>
+                          <span class="bold">Pickup Date:</span> The date of
+                          service.
+                        </p>
+                        <p>
+                          <span class="bold">For Airport Transfers: </span>The
+                          date of service is the same date as arrival.
+                        </p>
+                        <p>
+                          <span class="bold"> For City to City Transfers</span>
+                          the date of delivery will be based on the time of pick
+                          up on the date of service: same day or next day
+                          delivery.
+                        </p>
+
+                        <p class="bold">Outstation Transfers</p>
+                        <p>
+                          <span class="bold">For Airport/City to City Transfers:</span>
+                          the date of service can be the current date. The date
+                          of delivery is at least 3 day post the pickup date to
+                          allow us to allocate our resource to offer
+                          personalized service.
+                        </p>
+                        <p>
+                          <span class="bold">Luggage Count:</span> The number of
+                          pieces/items that needs to carried or carted. The
+                          maximum of 8 pieces/items can be booked per order.
+                        </p>
+
+                        <p class="bold">
+                          For Orders from the Airport/City of Service:
+                        </p>
+                        <p class="bold">Select Airport/City:</p>
+                        <p>
+                          Carterx offers its services in multiple
+                          airports/cities and will keep increasing the number of
+                          airports/cities the service is available as we grow.
+                          Make a choice of the airport you are travelling from
+                          if available in the drop down given. Select the
+                          terminal is multiple terminals are available. The
+                          location address of delivery should be in the same
+                          city as the airport/city of service if local delivery
+                          is selected. Intercity pick up and delivery is
+                          available under Outstation. The airport/city of
+                          service cannot be changed once the order is confirmed.
+                          Luggage/package/items will have to be identified
+                          before entering the airport. Meet CarterX personnel
+                          before entering the terminal is MANDATORY
+                        </p>
+
+                        <p class="bold">
+                          Corporate houses and other strategic alliance
+                          partners: Local and Outstation
+                        </p>
+                        <p>
+                          pickup and deliveries are also available for bookings
+                          made by corporate and other strategic alliance
+                          partners.
+                        </p>
+
+                        <p class="bold">Local Transfers</p>
+                        <p>
+                          <span class="bold">Pickup Date:</span> The date of
+                          service.
+                        </p>
+                        <p></p>
+                        <p>
+                          <span class="bold">For Airport Transfers: </span> The
+                          date of service is the same date as arrival.
+                        </p>
+                        <p></p>
+                        <p>
+                          <span class="bold">For City to City Transfers:</span>The date of delivery will be based on the
+                          time of
+                          pick up on the date of service: same day or next day
+                          delivery.
+                        </p>
+                        <p></p>
+
+                        <p class="bold">Outstation Transfers</p>
+                        <p>
+                          <span class="bold">For Airport/City to City Transfers:
+                          </span>
+                          the date of service can be the current date. The date
+                          of delivery is at least 3 day post the pickup date to
+                          allow us to allocate our resource to offer
+                          personalized service.
+                        </p>
+                        <p></p>
+                        <p>
+                          <span class="bold">Luggage Count:</span>The number of
+                          pieces/items that needs to carried or carted. The
+                          maximum of 8 pieces/items can be booked per order.
+                        </p>
+                        <p></p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row order-related">
+                <div class="col">
+                  <div class="tabs">
+                    <div class="tab">
+                      <input type="radio" id="ques16" name="order" />
+                      <label class="tab-label" for="ques16">2. What are Pick up & Drop off Slot Selection ?</label>
+                      <div class="tab-content">
+                        <p>
+                          Slot time cannot be changed once order is confirmed.
+                          In case of an urgent requirement of change of slot
+                          please contact our customer support team and we will
+                          try our best to accommodate your request.
+                        </p>
+
+                        <p>
+                          <span class="bold">Corporate houses and other strategic alliance
+                            partners:</span>
+                          For all orders made by corporate and strategic
+                          alliance partners, the slot timing for pick up and
+                          delivery maybe different than the standard ones
+                          applicable on the CarterX application and interface.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row order-related">
+                <div class="col">
+                  <div class="tabs">
+                    <div class="tab">
+                      <input type="radio" id="ques17" name="order" />
+                      <label class="tab-label" for="ques17">3. For Orders to the Airport/City of Service:</label>
+                      <div class="tab-content">
+                        <p class="bold">Airport Transfer:</p>
+
+                        <p>
+                          Luggage will be picked up in the slot time selected by
+                          the user at the time of booking. Carter allocated will
+                          be at the location given within the slot time selected
+                          by the user. Luggage will be available at the airport
+                          at the time indicated but delivery will be made only
+                          on ‘Time to meet CarterX’.<span class="bold">
+                            Meet time cannot be before before luggage arrives at
+                            the airport. Meet Time cannot be more than 20 hours
+                            after the luggage is picked up, if that is the case
+                            select another slot closer to departure time.</span>
+                        </p>
+                        <p>
+                          Luggage/package/items will have to be identified
+                          before entering the airport. Meet CarterX personnel
+                          before entering the terminal is MANDATORY
+                        </p>
+
+                        <p>
+                          Pick Up Slot times and indicative time of luggage
+                          available at the airport of service are only
+                          applicable for
+                        </p>
+                        <span class="bold">LOCAL Transfers:</span>
+                        <ul>
+                          <li>7am – 11 am | Package available after 2pm</li>
+                          <li>11 am – 3 pm | Package available after 6pm</li>
+                          <li>3 pm – 7 pm | Package available after 10pm</li>
+                          <li>7 pm – 12 am | Package available after 3am</li>
+                          <li>4 am – 7 am | Package available after 10am</li>
+                        </ul>
+
+                        <p>
+                          Slots of pick up are indicative for Outstation
+                          transfers.
+                        </p>
+
+                        <p class="bold">For Orders from the Airport:</p>
+                        <p class="bold">Airport Transfer:</p>
+
+                        <p>
+                          Luggage will be delivered in the slot time selected by
+                          the user. The slot time is based on flight arrival
+                          time. Carter will be at the Arrival Gate given at the
+                          time given to us as ‘Arrival gate time’ by the user.
+                          Luggage will be delivered between the times selected
+                          as per your slot at the location given to us by the
+                          user.
+                          <span class="bold">‘Arrival Gate time’ should be at least 30 minutes
+                            after your flight lands (to collect your bags and
+                            exit). ‘Arrival Gate time’ cannot be before the time
+                            your flight arrives as entered. Please select the
+                            slot timings accordingly since we cannot hold
+                            luggage for more than 20 hours after luggage is
+                            picked up.
+                          </span>
+                        </p>
+
+                        <p>
+                          <span class="bold">Corporate houses and other strategic alliance
+                            partners: Outstation </span>deliveries made by corporate and other strategic
+                          alliance partners, delivery may take more 20 hours to
+                          deliver based on proximity from the airport of
+                          arrival.Currently Carterx.in offers 2 slot schedules
+                          for Local Delivery:
+                        </p>
+                        <ul>
+                          <li>
+                            Arrival from 12am - 3pm | Same day delivery between
+                            5pm – 11.55pm
+                          </li>
+                          <li>
+                            Arrival from 3pm – 12 am|Next day delivery between
+                            7am– 2pm
+                          </li>
+                        </ul>
+                        <p>
+                          Delivery timelines are up to +3days for Outstation
+                          transfers.
+                        </p>
+
+                        <p class="bold">City Transfer:</p>
+                        <p>
+                          Luggage will be picked up in the slot time selected by
+                          the user at the time of booking. Carter allocated will
+                          be at the location given within the slot time selected
+                          by the user. Luggage will be available for delivery at
+                          the time indicated but delivery will be made only on
+                          delivery slot time.<span class="bold">
+                            Any luggage available for delivery before 3pm will
+                            be delivered on the same while the others will be
+                            delivered the next day. We cannot store luggage
+                            formore than 20 hours after the luggage is picked
+                            up, if that is the case select another slot closer
+                            to delivery time.</span>
+                        </p>
+                        <p>
+                          Pick Up Slot times and indicative time of luggage
+                          available for LOCAL delivery at city of service:
+                        </p>
+
+                        <ul>
+                          <li>
+                            7am – 11 am | Package available after 2pm | Same day
+                            delivery before 11.55pm
+                          </li>
+                          <li>
+                            11 am – 3 pm | Package available after 6pm | Next
+                            day delivery before 2pm,
+                          </li>
+                          <li>
+                            3 pm – 7 pm | Package available after 10pm | Next
+                            day delivery before 2pm
+                          </li>
+                          <li>
+                            7 pm – 12 am |Package available after 3am | Next day
+                            delivery before 2pm
+                          </li>
+                          <li>
+                            4 am – 7 am | Package available after 10am |Same day
+                            delivery before 11.55pm
+                          </li>
+                          <li>
+                            Slots of pick up are indicative for Outstation
+                            transfers.
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row order-related">
+                <div class="col">
+                  <div class="tabs">
+                    <div class="tab">
+                      <input type="radio" id="ques18" name="order" />
+                      <label class="tab-label" for="ques18">4. What is extra weight ?</label>
+                      <div class="tab-content">
+                        <p>
+                          ‘Extra weight’ charge is applicable only above 20
+                          Kgs/luggage for all categories except Fragile. For
+                          Fragile luggage, ‘extra weight’ will be charged beyond
+                          3 Kgs/luggage. Weight unused on one piece of luggage
+                          cannot be carried over to another. Extra weight is
+                          applicable for all types of transfer: Airport and City
+                          to city Transfers: Local and Outstation Transfers.
+                        </p>
+
+                        <p>
+                          <span class="bold">Corporate houses and other strategic alliance
+                            partners: Extra Weight </span>may be extra or included in corporate rate based on
+                          the agreement/contract between carterx and partners.
+                          Payment will not be collected unless notified by
+                          carterx and the receipt will be given if payment is
+                          collected as proof of payment.
+                        </p>
+                        <p>
+                          For bookings made through partnered airlines for
+                          check-in service, the airline guidelines will apply
+                          for luggage and extra weight modification.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row order-related">
+                <div class="col">
+                  <div class="tabs">
+                    <div class="tab">
+                      <input type="radio" id="ques19" name="order" />
+                      <label class="tab-label" for="ques19">5. I am a corporate/ business. Can I place orders with
+                        carterx.in ?</label>
+                      <div class="tab-content">
+                        <p>
+                          Yes, we do bulk luggage pickup/drop-off beyond 08
+                          luggage pieces at special prices. We also have
+                          customized service offerings to institutions such as
+                          hotels, delegations and corporate houses'. Want to be
+                          a corporate or authorized partner with benefits and
+                          customization at each of the cities and airports we
+                          service - Please contact as at
+                          <span class="link bold">customercare@carterporter.in</span>
+                          to know more.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row order-related">
+                <div class="col">
+                  <div class="tabs">
+                    <div class="tab">
+                      <input type="radio" id="ques20" name="order" />
+                      <label class="tab-label" for="ques20">6. What is Order Modification ?</label>
+                      <div class="tab-content">
+                        <p>
+                          Order modification shall apply after we reach location
+                          and inspect the Package. For any of the reasons
+                          mentioned below Order Modification may apply to the
+                          order. Details of Order Modification will be available
+                          under Manage Orders. Payment for Order Modification
+                          should be made application/interface before or at the
+                          time delivery of order.
+                        </p>
+
+                        <p>
+                          <span class="bold">Corporate houses and other strategic alliance
+                            partners: Order Modification </span>may be extra or included in corporate rate based on
+                          the agreement/contract between carterx and partners.
+                          Payment will not be collected unless notified by
+                          carterx and the receipt will be given if payment is
+                          collected as proof of payment. For bookings made
+                          through partnered airlines for check-in service, the
+                          airline guidelines will apply for luggage and extra
+                          weight modification.
+                        </p>
+                        <p>
+                          <span class="bold">Order Modification is applicable for all types of
+                            transfer:</span>
+                          Airport and City to city Transfers: Local and
+                          Outstation Transfers.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row order-related">
+                <div class="col">
+                  <div class="tabs">
+                    <div class="tab">
+                      <input type="radio" id="ques21" name="order" />
+                      <label class="tab-label" for="ques21">7. For orders made with Offers/Coupons Order
+                        modification will apply.</label>
+                      <div class="tab-content">
+                        <p>
+                          The distance between the airport/city of service and
+                          location of service is beyond permissible predefined
+                          kms, Extra Kms charge will apply. All distances will
+                          be calculated from google maps and the pincode
+                          provided at the time of booking. Pincode cannot be
+                          changed after the booking is made. If the distance
+                          between the serviceable pincode and the actual service
+                          pincode is <span class="bold">beyond 2kms </span>at
+                          the time of pick up/delivery, additional kms charges
+                          of up to INR 20/kms can be charged to complete the
+                          order. The distance will be calculated based on the
+                          shortest time take to reach the location from the
+                          selected airport/city or vice versa. The levy of extra
+                          kms charge is subject to management discretion and can
+                          may or may not apply during some period of offers or
+                          promotions.
+                        </p>
+                        <p>
+                          <span class="bold">Package categorized under the wrong category:</span>
+                          The changed category cost will apply after subtracting
+                          the previously paid value. Fragile items need to be
+                          inspected before they are packed. Package count may
+                          change due to category change. Package weight
+                          selection slab is incorrect. The weight of each
+                          Package shall be checked by us at the time of pickup.
+                          The changed slab value will apply after subtracting
+                          the previously paid value.
+                        </p>
+                        <p>
+                          <span class="bold">Time </span>waited by us is beyond
+                          15 minutes after reaching your door step for pickup or
+                          drop. Every order shall be locked to be picked up or
+                          dropped off within 15 minutes of waiting at your
+                          premises. We will move on to the next location after
+                          15 minutes of waiting at the premises. An extra Rs.
+                          100/- (plus tax) shall be charged for additional
+                          waiting time beyond the allocated 15 minutes. Maximum
+                          waiting time per order once reaching the premises to
+                          include inspection, photo uploads and pickup/drop off
+                          procedure is 30 minutes. The levy of waiting charge is
+                          subject to management discretion and can may or may
+                          not apply during some period of offers or promotions.
+                        </p>
+
+                        <p>
+                          Package piece subtraction is allowed when
+                          CarterPorter’s representatives arrives to pick the
+                          order. Luggage subtraction may incur refunds. Booking
+                          made with offer, coupons, through corporate or
+                          strategic alliances refund with subtraction of bags is
+                          NOT APPLICABLE. Luggage count can be added.
+                        </p>
+
+                        <p>
+                          <span class="bold">Case 1:</span> The customer can
+                          decide to subtract the luggage items to be carted.
+                          Maximum refund is restricted for up to 1 piece of
+                          luggage item. The refund will be processed within 7
+                          working days. This option is unavailable for orders
+                          that have a Package count of one. Additional Insurance
+                          if purchased, amount will not be refunded if luggage
+                          item count is subtracted under order modification.
+                          Booking made with offer, coupons, through corporate or
+                          strategic alliances refund with subtraction of bags is
+                          NOT APPLICABLE. Luggage count can be added.
+                        </p>
+                        <p>
+                          <span class="bold">Case 2:</span> We may not pick up
+                          Package items due to diligence conducted. The amount
+                          for that piece of Package alone shall be refunded
+                          within 7 working days. Booking made with offer,
+                          coupons, through corporate or strategic alliances
+                          refund is NOT APPLICABLE.
+                        </p>
+
+                        <p>
+                          If the user has purchased additional insurance and has
+                          added to the luggage count of the order, then
+                          additional insurance will be charged to freshly added
+                          luggage too. Additional insurance cannot be purchased
+                          at Order Modification time if not purchased earlier.
+                          For luggage subtracted, insurance if purchased cannot
+                          be refunded. Insurance for orders made by corporate or
+                          strategic partners is subject to the contract protocol
+                          and no insurance can be purchased during pick up or
+                          delivery. ‘Offer rates’ are applicable on the order
+                          when placed are seasonal and are based on luggage
+                          category. If the luggage category changes from the
+                          order placed or additional luggage is added or
+                          subtracted, the ‘offer rates’ will change accordingly.
+                          Order will be modified on the rate purchased on the
+                          date of booking. Offers and rates available on the
+                          date of service rates will not apply. Luggage rates
+                          may be reversed to original base rate, if offer is not
+                          applicable to category of luggage on the order after
+                          order modification.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row order-related">
+                <div class="col">
+                  <div class="tabs">
+                    <div class="tab">
+                      <input type="radio" id="ques22" name="order" />
+                      <label class="tab-label" for="ques22">8. How will I get my money back in case of a
+                        cancellation? What are the modes of refund?</label>
+                      <div class="tab-content">
+                        <p>
+                          The amount will be refunded to your source account
+                          within 7 working days as per the cancellation policy.
+                        </p>
+                        <p>
+                          <span class="bold">
+                            Corporate houses and other strategic alliance
+                            partners:</span>
+                          For all orders made by Corporate House and other
+                          strategic alliance partners, cancellation is based on
+                          mutually agreed contract. Payments will be made
+                          directly to the corporate house or strategic alliance
+                          partners if cancellation is applicable and not to the
+                          passenger/customer.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row order-related">
+                <div class="col">
+                  <div class="tabs">
+                    <div class="tab">
+                      <input type="radio" id="ques23" name="order" />
+                      <label class="tab-label" for="ques23">9. How do I add or remove luggage after placing my
+                        order?</label>
+                      <div class="tab-content">
+                        <p>
+                          Once you have placed your order you will not be able
+                          to make modifications on the application or website.
+                          The Carter allocated to your order will be able to add
+                          or subtract luggage under ‘Order Modification’. For
+                          round trip customers, please remember that though
+                          luggage is calculated as the same as the first
+                          booking, you could always add or subtract luggage
+                          through ‘order modification’ when Carter comes to pick
+                          up your order.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row order-related">
+                <div class="col">
+                  <div class="tabs">
+                    <div class="tab">
+                      <input type="radio" id="ques24" name="order" />
+                      <label class="tab-label" for="ques24">10. When and how can I cancel an order ?</label>
+                      <div class="tab-content">
+                        <p>
+                          Cancellation of orders can be made under Manage Orders
+                          of your account.
+                        </p>
+                        <p>
+                          <span class="bold">
+                            Local orders: For orders towards the Airport: </span>You can cancel an order up to four
+                          hours before the
+                          start time of your slot without incurring any charges.
+                        </p>
+
+                        <p>
+                          <span class="bold">
+                            Local Orders: City to City Transfers: For orders
+                            towards/from the city of service:</span>
+                          You can cancel an order up to four hours before the
+                          start time of your slot without incurring any charges.
+                        </p>
+
+                        <p>
+                          <span class="bold">Local Orders: For orders from the Airport:</span>
+                          You can cancel an order up to four hours before the
+                          carter meet time without incurring any charges. Any
+                          cancellation made within 4 hours of scheduled time
+                          will incur cancellation charges. Insurance amount paid
+                          by customers will not be refunded. Please check
+                          cancellation policy under terms & conditions for more
+                          information.
+                        </p>
+
+                        <p>
+                          <span class="bold">
+                            Outstation Orders: Airport transfers/ City to City
+                            Transfer:</span>
+                          Orders can be cancelled 3 days prior to the date of
+                          service for the airport transfers /city to city
+                          transfer orders for full refund and no cancellation
+                          charges. No refunds will be initiated for any
+                          cancellations post 3 days even if the order is
+                          cancelled.
+                        </p>
+
+                        <p>
+                          <span class="bold">Corporate houses and other strategic alliance
+                            partners: </span>Orders placed by corporate and strategic alliance
+                          partners’ cancellations are NOT possible of the
+                          interface or application. Cancellations can be made
+                          only corporate or alliance partners and cancellation
+                          charges are as per protocol of contract.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row order-related">
+                <div class="col">
+                  <div class="tabs">
+                    <div class="tab">
+                      <input type="radio" id="ques25" name="order" />
+                      <label class="tab-label" for="ques25">11. How do I check the current status of my order and
+                        what do they mean ?</label>
+                      <div class="tab-content">
+                        <p>
+                          The order can be tracked under My Trips. The status
+                          bar indicates the current position of your order. All
+                          details of your order including the pictures of your
+                          luggage, order modification, Carters’ designated
+                          details for pickup to delivery are all available under
+                          My Trips. You can also check the status of your order
+                          is by contacting our customer support team.
+                        </p>
+                        <p>
+                          Luggage/package/items will have to be identified
+                          before entering the airport. Meet CarterX personnel
+                          before entering the terminal is MANDATORY
+                        </p>
+
+                        <p>
+                          <span class="bold">
+                            Corporate houses and other strategic alliance
+                            partners:</span>
+                          The orders made by corporate and strategic alliance
+                          partners on behalf of the customer can also be found
+                          under My Trips section.
+                        </p>
+                        <p>
+                          You will be notified via Email or SMS or Notifications
+                          once the Order status changes.
+                        </p>
+
+                        <p class="bold">Status Descriptions:</p>
+
+                        <p>
+                          <span class="bold">‘Confirmed’:</span>Your order been
+                          logged to be scheduled for service. Carter will be
+                          allocated 30 minutes prior to schedule time. The
+                          invoice will be sent once the order is delivered to
+                          your registered email address.
+                        </p>
+
+                        <p>
+                          <span class="bold">‘Payment Pending’:</span>Your order
+                          has been logged and we are waiting for authorization
+                          from the payment gateway. Retry payment. Your order
+                          will be confirmed once we receive payment
+                          authorization. If no payment has been charged then
+                          order is not confirmed.
+                        </p>
+
+                        <p>
+                          <span class="bold">‘Cancelled’:</span> The order was
+                          cancelled.
+                        </p>
+
+                        <p>
+                          <span class="bold">‘Refunded’: </span>The order is
+                          closed with refund completed. Refunds will be
+                          processed in 7 working days
+                        </p>
+
+                        <p>
+                          <span class="bold">‘Pending Refund’:</span> The order
+                          was cancelled or modified to incur refund. The same
+                          will be processed within 7 working days.
+                        </p>
+
+                        <p class="bold">Order Status:</p>
+
+                        <p class="bold">
+                          For Orders towards the Airport/City of service:
+                        </p>
+
+                        <p>
+                          <span class="bold">‘Open’:</span> Your order has been
+                          scheduled on the date of service. This is a
+                          personalized service, i.e: an appointed personnel will
+                          personally pick up your luggage from you or the
+                          location contact. All luggage/baggage/items/package
+                          needs to be packed and ready at the location. Carter’s
+                          details (name, image and number) for easy
+                          identification will be uploaded 30 minutes prior.
+                        </p>
+
+                        <p>
+                          <span class="bold"> ‘Picked-up’: </span>The Baggage
+                          items have been picked by the Carter from the
+                          specified location.
+                        </p>
+
+                        <p>
+                          <span class="bold"> ‘At the Airport’:</span> The
+                          Luggage items have reached the airport of service.
+                          Luggage/package/items will have to be identified
+                          before entering the airport. Meet CarterX personnel
+                          before entering the terminal is MANDATORY
+                        </p>
+
+                        <p>
+                          <span class="bold">‘At the City’:</span>The Luggage
+                          items have reached the city of service.
+                        </p>
+
+                        <p>
+                          <span class="bold">‘At Gate’:</span>
+                          Luggage/package/items will have to be identified
+                          before entering the airport. Meet CarterX personnel
+                          before entering the terminal is MANDATORY. The Luggage
+                          items are available at Gate in the departure section
+                          of the airport before the security checks the
+                          credentials. This is a personalized service, i.e: an
+                          appointed personnel will personally deliver your
+                          luggage to you or the passenger. The Carter’s details
+                          (name, image and number) for easy identification will
+                          be uploaded 30 minutes prior.
+                        </p>
+
+                        <p>
+                          For all booking of service made by via
+                          <span class="bold">corporate and partner alliances,</span>
+                          passengers are
+                          <span class="bold"> requested to make contact</span>
+                          with CarterX. Luggage/package/items will have to be
+                          identified before entering the airport. Meet CarterX
+                          personnel before entering the terminal is MANDATORY
+                        </p>
+
+                        <p>
+                          <span class="bold">‘Delivered’:</span>Order has been
+                          delivered either directly to passenger or channel
+                          partners. Order invoice will be sent to registered
+                          email address. Corporates and partnered alliance
+                          bookings may not receive invoice if payment is not
+                          directly made to CarterX.
+                        </p>
+
+                        <p>
+                          <span class="bold"> ‘Reschedule Delivery’: </span>‘Initiate Redirect luggage’ will be
+                          activated once
+                          the order is ‘picked up’. The order can be routed to
+                          another location incase of change in travel plan.
+                          Carterx.in can hold/transit you luggage for a maximum
+                          of 20 hours after the order has been picked up.
+                          Reschedule delivery is a chargeable service and will
+                          be taken as a fresh order when done voluntary or when
+                          undelivered. Outstation transfer will incur full value
+                          and delivery personnel will wait up to 60 minutes to
+                          make delivery. Order will be rescheduled post multiple
+                          attempts to deliver the primary order.
+                        </p>
+
+                        <p class="bold">For Orders from the Airport:</p>
+
+                        <p>
+                          <span class="bold"> ‘Open’:</span>Your order has been
+                          scheduled on the date of arrival.
+                        </p>
+
+                        <p>
+                          <span class="bold"> ‘At Arrival Gate’: </span>This is
+                          a personalized service, i.e: an appointed personnel
+                          will personally pickup your luggage from you or the
+                          passenger. Carter’s details (name, image and number)
+                          for easy identification will be uploaded 30 minutes
+                          prior to Arrival meet time. Check airport
+                          projections/services for location of the counter or
+                          pick up from luggage belts availability at the airport
+                          of service.
+                        </p>
+                        <p>
+                          For all booking made for service via
+                          corporates/partnered alliances passengers can proceed
+                          to leave the airport after identification of luggage
+                          to CarterX. Meeting of CarterX personnel at Airport is
+                          MANDATORY. Luggage will be delivered at the location
+                          specified during the time of booking directly.
+                        </p>
+
+                        <p>
+                          <span class="bold"> ‘Picked-up’:</span>The Luggage
+                          items have been handed over to the Carter X at the
+                          Airport either directly or through channel partners.
+                        </p>
+
+                        <p>
+                          <span class="bold"> ‘At Location’: </span>Order has
+                          reached location for delivery.
+                        </p>
+
+                        <p>
+                          <span class="bold"> ‘Delivered’:</span> Order has been
+                          delivered. Order invoice will be sent to registered
+                          email address. This is a personalized service, i.e:
+                          appointed personnel will personally deliver your
+                          luggage to you or the location contact. The Carter’s
+                          details (name, image and number) for easy
+                          identification will be uploaded 30 minutes prior.
+                          Corporates and partnered alliance bookings may not
+                          receive invoice if payment is not directly made to
+                          CarterX.
+                        </p>
+
+                        <p>
+                          <span class="bold">‘Reschedule Delivery’:</span>
+                          ‘Initiate Redirect luggage’ will be activated once the
+                          order is ‘picked up’. The order can be routed to
+                          another location incase of change in drop location.
+                          Carterx.in can hold/transit you luggage for a maximum
+                          of 20 hours after the order has been picked up.
+                          Reschedule delivery is a chargeable service and will
+                          be taken as a fresh order when done voluntary or when
+                          undelivered. Corporate houses and other strategic
+                          alliance partners: For outstation deliveries
+                          reschedule will be activated if there is no response
+                          from customer at the time of delivery. Reschedule
+                        </p>
+
+                        <p>
+                          <span class="bold">Corporate houses and other strategic alliance
+                            partners:</span>
+                          For outstation deliveries reschedule will be activated
+                          if there is no response from customer at the time of
+                          delivery. Reschedule delivery is a chargeable service
+                          and will be taken as a fresh order when done voluntary
+                          or when undelivered.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row payment">
+      <div class="col">
+        <div class="tabs">
+          <div class="tab">
+            <input type="radio" id="payment" name="mobileTabs" />
+            <label class="tab-label-data" for="payment">
+              <span class="col-1 icon-tab">
+                <img src="./../../../../../../../assets/icons/faq/Payment.png" />
+              </span>
+              <span class="dropdown-label col-10">Payment (06)</span>
+            </label>
+            <div class="tab-content-data">
+              <div class="row payment">
+                <div class="col">
+                  <div class="tabs">
+                    <div class="tab">
+                      <input type="radio" id="ques26" name="payment" />
+                      <label class="tab-label" for="ques26">1. What are the modes of payment ?</label>
+                      <div class="tab-content">
+                        <p>
+                          You can pay for your order on Carterx.in using the
+                          following modes of payment:
+                        </p>
+                        <ul>
+                          <li>Net banking</li>
+                          <li>Credit and debit cards (VISA/MasterCard)</li>
+                          <li>Wallets</li>
+                          <li>UPI</li>
+                        </ul>
+                        <span class="bold">We do accept Cash or Card (via RazorPay/Payment
+                          Gateway) only for amounts related to Order
+                          Modification.
+                        </span>
+                        <p>
+                          The payments for all online transactions made for
+                          Carter X will be processed/displayed under the name
+                          ‘Carterporter Private Limited’ in your statement.
+                        </p>
+                        <p>
+                          Orders need to be paid in full value inclusive of
+                          order modification before or at delivery.<a class="t-n-c link" target="_blank"
+                            [routerLink]="['/information/terms-and-conditions']">
+                            Terms and Conditions</a>
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row payment">
+                <div class="col">
+                  <div class="tabs">
+                    <div class="tab">
+                      <input type="radio" id="ques27" name="payment" />
+                      <label class="tab-label" for="ques27">2. Do I need to provide tip to the Carter ?</label>
+                      <div class="tab-content">
+                        <p>
+                          No. We strongly suggest not to tip our carters or
+                          other employees of carterx.in.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row payment">
+                <div class="col">
+                  <div class="tabs">
+                    <div class="tab">
+                      <input type="radio" id="ques28" name="payment" />
+                      <label class="tab-label" for="ques28">3. Are there any other charges or taxes in addition to
+                        the price shown ? Is Tax/GST added to the invoice
+                        ?</label>
+                      <div class="tab-content">
+                        <p>
+                          The Tax/GST will be included in the price shown for
+                          payment. There are no additional taxes other than the
+                          one levied added by Carterx.in to your order. The
+                          prices you see on our pages are the prices you pay.
+                          The Tax/GST value breakup will be sent in the detailed
+                          invoice sent to your registered email address after
+                          the order is delivered. Please refer to our rate card
+                          for our detailed prices on the categories of luggage
+                          we service.
+                        </p>
+
+                        <p>
+                          <span class="bold">
+                            Corporate houses and other strategic alliance
+                            partners:</span>
+                          Invoice for all bookings made by corporate house and
+                          strategic alliance partners will be sent directly to
+                          them and not the passenger/customer. For any payments
+                          collected from passenger/customer by carterx.in for
+                          order modification or reschedule payment or direct
+                          payment,receipt sms given at the time of payment will
+                          be treated as confirmation and proof of payment.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row payment">
+                <div class="col">
+                  <div class="tabs">
+                    <div class="tab">
+                      <input type="radio" id="ques29" name="payment" />
+                      <label class="tab-label" for="ques29">4. Is it safe to use my credit/ debit card on Carter X
+                        ?</label>
+                      <div class="tab-content">
+                        <p>
+                          Yes it is absolutely safe to use your card on
+                          Carterx.in. A recent directive from RBI makes it
+                          mandatory to have an additional authentication pass
+                          code verified by VISA (VBV) or MSC (Master Secure
+                          Code) which has to be entered by online users while
+                          paying online using visa or master credit card. It
+                          means extra security for customers, thus making online
+                          payments safer.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row payment">
+                <div class="col">
+                  <div class="tabs">
+                    <div class="tab">
+                      <input type="radio" id="ques30" name="payment" />
+                      <label class="tab-label" for="ques30">5. Is there an option to pay cash/card on delivery
+                        ?</label>
+                      <div class="tab-content">
+                        <p>
+                          This is a pre-paid service and there is no option to
+                          pay cash/card on delivery. Order modification amount
+                          if unpaid via the My Trips or payment link will be
+                          collected in cash. Delivery will be made only on
+                          receipt of complete payment.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row payment">
+                <div class="col">
+                  <div class="tabs">
+                    <div class="tab">
+                      <input type="radio" id="ques31" name="payment" />
+                      <label class="tab-label" for="ques31">6. If I pay by credit card or by other online modes how
+                        do I get the amount back if order cancelled or due to
+                        order modification ?</label>
+                      <div class="tab-content">
+                        <p>
+                          On cancellation, the order status will change in
+                          Manage Orders to ‘Pending Refund’ for full and partial
+                          cancellations. The refund will be processed in 7
+                          working days back to your source mode of payment.
+                        </p>
+
+                        <p>
+                          For Refunds related to Order modification, only the
+                          charge for the item of Baggage will be refunded as
+                          specified.The refund will be processed in 7 working
+                          days back to your source mode of payment.
+                        </p>
+
+                        <p>
+                          Please contact our customer support team for any
+                          further queries.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row pickup-and-delivery-related">
+      <div class="col">
+        <div class="tabs">
+          <div class="tab">
+            <input type="radio" id="pickup" name="mobileTabs" />
+            <label class="tab-label-data" for="pickup">
+              <span class="col-1 icon-tab">
+                <img src="./../../../../../../../assets/icons/faq/Pickup and Delivery Related.png" />
+              </span>
+              <span class="dropdown-label col-10">Pickup and Delivery Related (10)</span>
+            </label>
+            <div class="tab-content-data">
+              <div class="row pickup-and-delivery-related">
+                <div class="col">
+                  <div class="tabs">
+                    <div class="tab">
+                      <input type="radio" id="ques32" name="pickup" />
+                      <label class="tab-label" for="ques32">1. What is the minimum and maximum for an order
+                        ?</label>
+                      <div class="tab-content">
+                        <p>
+                          There should be a minimum of 1 luggage item for an
+                          order. The maximum number of luggage items is
+                          restricted to 08 per order. There is no additional
+                          service charge for the minimum order. For bulk orders
+                          please contact customer care or write to us
+                          <span class="bold link">customercare@carterx.in</span>.
+                        </p>
+
+                        <p>
+                          <span class="bold">Corporate houses and other strategic alliance
+                            partners: </span>The maximum luggage item for an order booked on their
+                          behalf is as per mutually agreed contract/agreement.
+                          The luggage count can be higher than 8 bags per order
+                          for corporate houses and strategic alliance partners.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row pickup-and-delivery-related">
+                <div class="col">
+                  <div class="tabs">
+                    <div class="tab">
+                      <input type="radio" id="ques33" name="pickup" />
+                      <label class="tab-label" for="ques33">2. Where will my luggage be delivered at the Airport of
+                        service ?</label>
+                      <div class="tab-content">
+                        <p>
+                          Luggage/package/items will have to be identified
+                          before entering the airport. Meet CarterX personnel
+                          before entering the terminal is MANDATORY. All
+                          travelling passenger will have to enter the terminal
+                          with CarterX and then is when the luggage will be
+                          delivered if access is till check-in counters. Access
+                          to the airports and facilities are detailed in airport
+                          projections. Airport services and projections are
+                          indicated at the time of booking and under My Trips
+                          post confirmation. Luggage storage and inter terminal
+                          transfers are available at most airports of service.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row pickup-and-delivery-related">
+                <div class="col">
+                  <div class="tabs">
+                    <div class="tab">
+                      <input type="radio" id="ques34" name="pickup" />
+                      <label class="tab-label" for="ques34">3. How is my Baggage protected? Is Carter X safe and
+                        secure to use ?</label>
+                      <div class="tab-content">
+                        <p>
+                          Your luggage is our priority. Each piece of luggage
+                          will be weighed at location and recorded by the images
+                          loaded prior to pickup. The images will be available
+                          under manage Orders.
+                        </p>
+
+                        <p>
+                          Each piece of luggage will be secured in separate
+                          tamper resistant sealable bags. The bags are marked
+                          and bar coded for easy identification. Each bag will
+                          be sealed so as to prevent any tampering with the
+                          bags. We understand the sensitivity and priority; we
+                          ensure the required special care and handling. The
+                          bags are sealed therefore the handles, trolleys and
+                          pockets will not be accessible for carters or
+                          employees of Carterx.in. The tamper evident bag will
+                          be opened only on delivery.
+                        </p>
+
+                        <p>
+                          Items that come under the Fragile category are carried
+                          subject to personalized inspection. Additional packing
+                          of bubble wrap will be completed once the Fragile
+                          luggage item is inspected before it is secured in
+                          separate tamperproof bag. The item of luggage will be
+                          further stored in a separate case to ensure extra care
+                          during transit.
+                        </p>
+
+                        <p>
+                          Maximum weight per luggage is restricted to 40Kgs for
+                          all categories other than Fragile. The maximum
+                          dimension is restricted to 62 linear inches (all 3
+                          sides of the suitcase). We do not accept any luggage
+                          beyond 62 linear inches and this is based on
+                          management discretion.
+                        </p>
+
+                        <p>
+                          <span class="bold">
+                            Corporate houses and other strategic alliance
+                            partners: </span>The luggage sizes are based on the restrictions based
+                          on mutually agreed contract/agreement, carter
+                          allocated will advise the feasibility of pick up. For
+                          bookings made through partner airlines for check in
+                          luggage, the airline guidelines will apply for luggage
+                          and extra weight modification and dimensions.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row pickup-and-delivery-related">
+                <div class="col">
+                  <div class="tabs">
+                    <div class="tab">
+                      <input type="radio" id="ques35" name="pickup" />
+                      <label class="tab-label" for="ques35">4. What are the different kinds of categories of
+                        Luggage ?</label>
+                      <div class="tab-content">
+                        <p>
+                          Please find the list of Baggage categories under
+                          Baggage Type and Size Guide.
+                        </p>
+
+                        <p>
+                          <span class="bold">Corporate houses and other strategic alliance
+                            partners:</span>
+                          The Baggage sizes are based onthe restrictions based
+                          on mutually agreed contract/agreement, carter
+                          allocated will advise the feasibility of pick up. For
+                          bookings made through HBS, the airline guidelines will
+                          apply for Baggage and extra weight modification.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row pickup-and-delivery-related">
+                <div class="col">
+                  <div class="tabs">
+                    <div class="tab">
+                      <input type="radio" id="ques36" name="pickup" />
+                      <label class="tab-label" for="ques36">5. Strong advice on the content of your Baggage
+                        ?</label>
+                      <div class="tab-content">
+                        <p>
+                          <span class="bold">
+                            Corporate houses and other strategic alliance
+                            partners:</span>
+                          For bookings made through HBS, the airline guidelines
+                          on contents of checked-in bag will apply. No power
+                          banks to be packed in check in luggage.
+                          <span class="bold link">Click</span> here to know more
+                          on security guideline questions that will be asked
+                          during pick up of partner airline check in orders.
+                          Other advice also applies.
+                        </p>
+
+                        <p>
+                          You are strongly advised against packing valuable and
+                          fragile items in your Checked Luggage, Cabin Luggage,
+                          Coats and jackets and Oversized Luggage. Food and
+                          beverage can only contain food and beverage. Items
+                          that are sealed and leak proof will be taken to be
+                          carted.
+                        </p>
+                        <p>
+                          Some items of value are listed below to strongly
+                          indicate the contents that are not covered under
+                          Insurance or liability.
+                        </p>
+                        <ul>
+                          <li>Laptops</li>
+                          <li>Portable electronics</li>
+                          <li>
+                            Any item that could be damaged or broken during
+                            transit
+                          </li>
+                          <li>Medication</li>
+                          <li>Securities / negotiable papers</li>
+                          <li>
+                            Silverware / precious metals / precious stones
+                          </li>
+                          <li>Money / jewelry / other valuable items</li>
+                          <li>Business / travel / identification documents</li>
+                          <li>
+                            Any illegal substances or items of explosive nature
+                          </li>
+                          <li>Items which are not leak proof</li>
+                          <li>Inflammable items</li>
+                          <li>Liquids</li>
+                          <li>Perishable items etc…</li>
+                        </ul>
+                        <p>
+                          Note applicable for all points on delivery/drop and
+                          pick up:
+                        </p>
+
+                        <p>
+                          Passengers are advised not to carry valuables such as
+                          jewelry, encashable articles, negotiable papers and
+                          currency in their baggage and not transfer the same
+                          using carterporter’s services. Carterporter is not
+                          liable for loss/damage to or delay in the delivery of
+                          fragile or perishable articles or items of value or
+                          importance such as money, jewelry, silverware,
+                          cameras, electronics/ video/computer or photographic
+                          equipment, negotiable papers, securities, heirlooms,
+                          antiques, artifacts, work of art, irreplaceable books
+                          or publications, manuscripts, business documents,
+                          precious metals and other similar valuables or
+                          commercial effects.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row pickup-and-delivery-related">
+                <div class="col">
+                  <div class="tabs">
+                    <div class="tab">
+                      <input type="radio" id="ques37" name="pickup" />
+                      <label class="tab-label" for="ques37">6. Tips to protect your Baggage ?</label>
+                      <div class="tab-content">
+                        <p>
+                          Your luggage is our priority. Please lock your luggage
+                          or secure them with cable ties available with the
+                          Cater who will pick your luggage. We do take necessary
+                          measures to have your luggage protected and handled
+                          with care. We do suggest that measures are taken by
+                          you as well to have the bags packed and protected
+                          properly. Knowing what you can pack in your check in
+                          luggage and cabin luggage can facilitate packing and
+                          screening.
+                        </p>
+
+                        <p>
+                          Luggage is designed to protect its content and it is
+                          the customer or booking user’s responsibility to pack
+                          the contents appropriately. In the course of normal
+                          handling during transportation or transit or handling
+                          of moving luggage, your luggage will acquire evidence
+                          of use /wear and tear such as, minor cuts, scratches,
+                          dents or soil. We trust your luggage will be able to
+                          handle the movement in handling and during transit,
+                          any spillage of contents during the same will not be
+                          our responsibility or liability. We trust you
+                          understand that we shall have no liability for this
+                          type of damage including but not limited to
+                        </p>
+                        <ul>
+                          <li>
+                            Broken feet/wheels or handles /straps. Plastic
+                            portions of prams
+                          </li>
+                          <li>Damage to over packed/oversized bags</li>
+                          <li>Damage due to unsuitable packing</li>
+                          <li>Damage to pull handles / lost pull handles</li>
+                          <li>Items of a fragile or perishable nature</li>
+                          <li>Manufacturer/s defects</li>
+                        </ul>
+                        <p>
+                          You may purchase additional insurance available on the
+                          CarterPorter to obtain adequate insurance coverage or
+                          through your Insurance Company prior to
+                          travel/shipment.
+                        </p>
+
+                        <p>
+                          The list is a tentative guide in accordance to the TSA
+                          (Transport Security Administration).
+                          <span class="link bold"><a
+                              href="https://www.tsa.gov/travel/security-screening/prohibited-items"
+                              target="_blank">https://www.tsa.gov/travel/security-screening/prohibited-items</a></span>
+                        </p>
+
+                        <p>
+                          Carterx.in endorses and restricts the contents of
+                          Baggage items as per the guide. Use of CarterX to
+                          transfer Dangerous Goods is strictly prohibited by law
+                          and will attract severe punishment and penalties.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row pickup-and-delivery-related">
+                <div class="col">
+                  <div class="tabs">
+                    <div class="tab">
+                      <input type="radio" id="ques38" name="pickup" />
+                      <label class="tab-label" for="ques38">7. What are restricted and prohibited items?</label>
+                      <div class="tab-content">
+                        <p>
+                          Carterx.in prohibits all the items/contents listed in
+                          the links provided and does take any responsibility
+                          for any contents packed in the Baggage, which are
+                          rules and regulations of IATA authorities.
+                        </p>
+                        <p>
+                          The international air transport association (IATA)
+                          rules apply here for contents that are perishable to
+                          carry.
+                          <span class="link bold"><a href="http://www.iata.org/publications/dgr/Pages/index.aspx"
+                              target="_blank">
+                              http://www.iata.org/publications/dgr/Pages/index.aspx</a></span>
+                          The international air transport association (IATA)
+                          rules for DGR (Dangerous goods regulations) apply here
+                          for contents that are dangerous/prohibited to
+                          carry.<span class="link bold"><a href="http://www.iata.org/publications/dgr/Pages/index.aspx"
+                              target="_blank">
+                              http://www.iata.org/publications/dgr/Pages/index.aspx</a></span>
+                        </p>
+
+                        <p>
+                          <span class="bold">Corporate houses and other strategic alliance
+                            partners:</span>
+                          For bookings made through HBS, the airline guidelines
+                          on contents of checked-in bag will apply. No power
+                          banks to be packed in check in luggage.
+                          <span class="link bold"> Click</span> here to know
+                          more on security guideline questions that will be
+                          asked during pick up of partner airline check in
+                          orders. Other advice also applies.
+                        </p>
+                        <p>
+                          Use of CarterX to transfer Dangerous Goods is strictly
+                          prohibited by law and will attract severe punishment
+                          and penalties.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row pickup-and-delivery-related">
+                <div class="col">
+                  <div class="tabs">
+                    <div class="tab">
+                      <input type="radio" id="ques39" name="pickup" />
+                      <label class="tab-label" for="ques39">8. Delivery Checklist ?</label>
+                      <div class="tab-content">
+                        <p>
+                          Luggage/package/items will have to be identified
+                          before entering the airport. Meet CarterX personnel
+                          before entering the terminal is MANDATORY At the time
+                          of delivery, we advise you to kindly check every
+                          luggage item as per the order. Please report any
+                          missing item immediately. If the order has been made
+                          for someone else, carter assigned for delivery needs
+                          to verify and validate with the id proof uploaded. All
+                          travelling passenger will have to enter the terminal
+                          with CarterX and then is when the luggage will be
+                          delivered if access is till check-in counters. Access
+                          to the airports and facilities are detailed in airport
+                          projections. Airport services and projections are
+                          indicated at the time of booking and under My Trips
+                          post confirmation. Luggage storage and inter terminal
+                          transfers are available at most airports of service.
+                        </p>
+
+                        <p>
+                          As a benefit to our customers, if you are not
+                          available at the time of order delivery at location or
+                          are unable to make it to the airport at the time
+                          allocated, you are requested to get in touch with us
+                          immediately through customer care or email to
+                          <span class="link bold"> customercare@carterx.in</span>.
+                        </p>
+
+                        <p class="bold">For order towards the Airport:</p>
+
+                        <p>
+                          The luggage will be removed from the airport premises
+                          immediately if time to meet is not honored.
+                          Re-schedule luggage is active when order is picked up
+                          and up to 1 hour prior to CarterX meet time and we
+                          need a valid location to drop the Luggage. Unclaimed
+                          order if CarterX meet time is not met, order status
+                          will move to ‘undelivered’. The order then will be
+                          forced reschedule to the address of pickup
+                          automatically. The forced reschedule is done by
+                          management and amount will be collected at the time of
+                          delivery. If forced reschedule/reschedule delivery is
+                          unsuccessful then luggage will be handed over to the
+                          closest police station or relevant authorities beyond
+                          6 hours of inability to meet the customer or make
+                          delivery.
+                        </p>
+
+                        <p>
+                          <span class="bold">Corporate houses and other strategic alliance
+                            partners: </span>The CarterX meet time is Mandatory and applicable for
+                          all users including check-in service booked customers.
+                          For bookings made through partner airline check in,
+                          the luggage will be handed over to airline personnel
+                          only after CarterX is met before entering the
+                          terminal.
+                        </p>
+
+                        <p class="bold">
+                          For order from the Airport/City of service:
+                        </p>
+
+                        <p>
+                          Unavailability of customer at delivery location may
+                          incur a second delivery attempt to the same address on
+                          customer’s confirmation or otherwise at an extra
+                          charge. Customer/passenger can Re-schedule luggage
+                          after it is activated up until the time it is
+                          dispatched for schedule slot of delivery. Reschedule
+                          is an extra charge and can be utilized to change
+                          address to an alternative location for delivery. The
+                          second attempt delivery of Forced Reschedule and
+                          re-schedule delivery will be charged as a complete new
+                          order with recalculated order value. Forced reschedule
+                          is done by the management and payment will be
+                          collected on delivery. The location of Forced
+                          Reschedule can be changed to another alternative
+                          address by contacting management via the customer care
+                          or by writing to
+                          <span class="bold link">customercare@carterporter.in</span>
+                          All unclaimed luggage post an unsuccessful forced
+                          reschedule will be handed over to the closest police
+                          station/relevant authorities beyond 6 hours of
+                          inability to make contact with the customer.
+                        </p>
+
+                        <p>
+                          <span class="bold">
+                            Corporate houses and other strategic alliance
+                            partners: </span>The Arrival time is applicable for all users other
+                          than check in service opted passenger from partner
+                          airlines booked customers. Bag/luggage will be picked
+                          only after CarterX is met by the passenger.
+                        </p>
+                        <p>
+                          For bookings made through partner airline check in
+                          service, the luggage reschedule order will be treated
+                          as a new order and payment needs to be made directly
+                          at the time of delivery. Reschedule by customer to an
+                          alternate delivery location will apply to the new
+                          order placed. Forced reschedule: if there is no
+                          response on delivery at the location address given,
+                          the order will be Forced Reschedule back to the same
+                          location on the next slot by management and the
+                          payment of the same will be collected on delivery
+                          directly from customer/passenger. The location of
+                          Forced Reschedule can be changed to another
+                          alternative address by contacting management via the
+                          customer care or by writing to
+                          <span class="link bold">customercare@carterporter.in</span>
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row pickup-and-delivery-related">
+                <div class="col">
+                  <div class="tabs">
+                    <div class="tab">
+                      <input type="radio" id="ques40" name="pickup" />
+                      <label class="tab-label" for="ques40">9. What is Reschedule Delivery ?</label>
+                      <div class="tab-content">
+                        <p>
+                          Reschedule delivery is the service to return the
+                          luggage of customer when CarterX meet time is not
+                          honored or lack of response at the location of
+                          delivery. Lack of response at delivery either towards
+                          the airport/city of service or from will be pushed to
+                          Forced Reschedule: a service that empowers the
+                          management to redirect the order to the same pick up
+                          or drop location on the next available slot time. This
+                          service is chargeable and will be activated once the
+                          order has been picked up. Forced reschedule will
+                          attract compulsory insurance of 2 times the standard
+                          price to cover the liability of the order. Insurance
+                          will also be paid directly by the passenger/customer
+                          on delivery.
+                        </p>
+
+                        <p class="bold">For Orders Towards the Airport:</p>
+
+                        <p>
+                          All travelling passenger will have to enter the
+                          terminal with CarterX and then is when the luggage
+                          will be delivered if access is till check-in counters.
+                          Access to the airports and facilities are detailed in
+                          airport projections. Airport services and projections
+                          are indicated at the time of booking and under My
+                          Trips post confirmation. Luggage storage and inter
+                          terminal transfers are available at most airports of
+                          service. The luggage will be removed from the airport
+                          premises immediately if time to meet is not honored.
+                          Re-schedule luggage is active when order is picked up
+                          and up to 1 hour prior to CarterX meet time and we
+                          need a valid location to drop the Luggage. Unclaimed
+                          order if CarterX meet time is not met, order status
+                          will move to ‘undelivered’. The order then will be
+                          forced reschedule to the address of pickup
+                          automatically. The forced reschedule is done by
+                          management and amount will be collected at the time of
+                          delivery. If forced reschedule/reschedule delivery is
+                          unsuccessful then luggage will be handed over to the
+                          closest police station or relevant authorities beyond
+                          6 hours of inability to meet the customer or make
+                          delivery.
+                        </p>
+
+                        <p>
+                          <span class="bold">Corporate houses and other strategic alliance
+                            partners: </span>The CarterX meet time is Mandatory and applicable for
+                          all users including check-in service booked customers.
+                          For bookings made through partner airline check in,
+                          the luggage will be handed over to airline personnel
+                          only after CarterX is met before entering the
+                          terminal.
+                        </p>
+
+                        <p class="bold">
+                          For order from the Airport/city of service:
+                        </p>
+
+                        <p>
+                          Unavailability of customer at delivery location may
+                          incur a second delivery attempt to the same address on
+                          customer’s confirmation or otherwise at an extra
+                          charge. Customer/passenger can Re-schedule luggage
+                          after it is activated up until the time it is
+                          dispatched for schedule slot of delivery. Reschedule
+                          is an extra charge and can be utilized to change
+                          address to an alternative location for delivery. The
+                          second attempt delivery of Forced Reschedule and
+                          re-schedule delivery will be charged as a complete new
+                          order with recalculated order value. Forced reschedule
+                          is done by the management and payment will be
+                          collected on delivery. The location of Forced
+                          Reschedule can be changed to another alternative
+                          address by contacting management via the customer care
+                          or by writing to
+                          <span class="link bold">
+                            customercare@carterporter.in</span>
+                          All unclaimed luggage post an unsuccessful forced
+                          reschedule will be handed over to the closest police
+                          station/relevant authorities beyond 6 hours of
+                          inability to make contact with the customer.
+                        </p>
+
+                        <p>
+                          <span class="bold">Corporate houses and other strategic alliance
+                            partners:</span>
+                          The Arrival time is applicable for all users other
+                          than check in service opted passenger from partner
+                          airlines booked customers. Bag/luggage will be picked
+                          only after CarterX is met by the passenger.
+                        </p>
+                        <p>
+                          For bookings made through partner airline check in
+                          service, the luggage reschedule order will be treated
+                          as a new order and payment needs to be made directly
+                          at the time of delivery. Reschedule by customer to an
+                          alternate delivery location will apply to the new
+                          order placed. Forced reschedule: if there is no
+                          response on delivery at the location address given,
+                          the order will be Forced Reschedule back to the same
+                          location on the next slot by management and the
+                          payment of the same will be collected on delivery
+                          directly from customer/passenger. The location of
+                          Forced Reschedule can be changed to another
+                          alternative address by contacting management via the
+                          customer care or by writing to
+                          <span class="link bold">customercare@carterporter.in</span>
+                          .
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row pickup-and-delivery-related">
+                <div class="col">
+                  <div class="tabs">
+                    <div class="tab">
+                      <input type="radio" id="ques41" name="pickup" />
+                      <label class="tab-label" for="ques41">10. Upload ID Proof for Delivery ?</label>
+                      <div class="tab-content">
+                        <p>
+                          Id proof is also mandatory for delivery when the
+                          booking is made for someone else other than the
+                          registered user. The Id proof will be checked while
+                          making delivery for identification and validation.
+                          Airport deliveries will be made only if ID proof for
+                          travelling passenger is a 100% match.
+                          Luggage/package/items will have to be identified
+                          before entering the airport. Meet CarterX personnel
+                          before entering the terminal is MANDATORY
+                        </p>
+                        <p>
+                          All travelling passenger will have to enter the
+                          terminal with CarterX and then is when the luggage
+                          will be delivered if access is till check-in counters.
+                          Access to the airports and facilities are detailed in
+                          airport projections. Airport services and projections
+                          are indicated at the time of booking and under My
+                          Trips post confirmation. Luggage storage and inter
+                          terminal transfers are available at most airports of
+                          service.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row insurance-related">
+      <div class="col">
+        <div class="tabs">
+          <div class="tab">
+            <input type="radio" id="insurance" name="mobileTabs" />
+            <label class="tab-label-data" for="insurance">
+              <span class="col-1 icon-tab">
+                <img src="./../../../../../../../assets/icons/faq/Insurance Related.png" />
+              </span>
+              <span class="dropdown-label col-10">Insurance Related (04)</span>
+            </label>
+            <div class="tab-content-data">
+              <div class="row insurance-related">
+                <div class="col">
+                  <div class="tabs">
+                    <div class="tab">
+                      <input type="radio" id="ques42" name="insurance" />
+                      <label class="tab-label" for="ques42">1. What is Standard Cover ?</label>
+                      <div class="tab-content">
+                        <p>
+                          Your order is insured for upto Rs.5000/- per item of
+                          luggage placed in the order. The sum insured is
+                          includes the contents of the luggage as well as the
+                          luggage container. Carterx.in is merely securing and
+                          facilitating insurance purchase for the luggage items
+                          in the order. Insurance will only be paid the booking
+                          customer.
+                        </p>
+                        <p>
+                          <a target="_blank" href="information/terms-and-conditions">Terms and Conditions</a>
+                          for the Cover and coverage are available under
+                          ‘Insurance’ in ‘Manage Orders’.
+                        </p>
+
+                        <p>
+                          All claims need to be made within 48 hours of delivery
+                          of the order. Claims are to be made with the insurance
+                          provider directly.
+                        </p>
+
+                        <p>
+                          <span class="bold">Corporate houses and other strategic alliance
+                            partners: </span>All insurance matters are subject to the mutual
+                          contract signed between carterporter and corporate
+                          house/strategic alliance partners. The same will
+                          prevail in cases of dispute.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row insurance-related">
+                <div class="col">
+                  <div class="tabs">
+                    <div class="tab">
+                      <input type="radio" id="ques43" name="insurance" />
+                      <label class="tab-label" for="ques43">2. Why should I purchase Additional Insurance ?</label>
+                      <div class="tab-content">
+                        <p>
+                          Additional insurance can be purchased. The cover
+                          includes additional cover of Rs. 5000/- for all
+                          luggage items across all categories except Fragile.
+                          Fragile item is covered for Rs.10000/- each. This is
+                          over and above the insurance purchased by carterx.in.
+                        </p>
+
+                        <p>
+                          All insurances are covered under Standard Cover.
+                          <a target="_blank" href="information/terms-and-conditions">Terms and Conditions</a>
+                          for the Cover.
+                        </p>
+                        <p>
+                          All claims need to be made within 48 hours of delivery
+                          of the order. Claims are to be made with the insurance
+                          provider directly. Forced Reschedule placed by
+                          management will cover an additional insurance of 2x
+                          the insurance value of the primary value. This value
+                          is mandatory and will be paid by customer/passenger
+                          directly.
+                        </p>
+
+                        <p>
+                          <span class="bold">Corporate houses and other strategic alliance
+                            partners:</span>No additional insurance can be purchased for any
+                          order already placed by corporate house and strategic
+                          partner alliance customers/passengers.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row insurance-related">
+                <div class="col">
+                  <div class="tabs">
+                    <div class="tab">
+                      <input type="radio" id="ques44" name="insurance" />
+                      <label class="tab-label" for="ques44">3. What is the Coverage of Insurance and liability
+                        ?</label>
+                      <div class="tab-content">
+                        <p>
+                          Insurance coverage is available in the terms &
+                          conditions under Insurance in ‘My Trips’. Insurance
+                          scope and coverage is subject to the claim within 48
+                          hours of delivery.
+                        </p>
+
+                        <p>
+                          Insurance is a subject matter of solicitation please
+                          read coverage document carefully and also read our
+                          Terms & Conditions for more information on Insurance
+                          and protocols.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row insurance-related">
+                <div class="col">
+                  <div class="tabs">
+                    <div class="tab">
+                      <input type="radio" id="ques45" name="insurance" />
+                      <label class="tab-label" for="ques45">4. What is the procedure to claim Insurance ?</label>
+                      <div class="tab-content">
+                        <p>Insurance Policy number:</p>
+                        <p>Step 1:</p>
+                        <ul>
+                          <li>
+                            Download claim form from the link provided under
+                            order# in ‘Manage Orders’
+                          </li>
+                          <li>
+                            Fill the Claim form with details requested, print &
+                            attest with signature
+                          </li>
+                        </ul>
+                        <p>Step 2:</p>
+
+                        <ul>
+                          <li>
+                            Send an email with the scanned copy of signed claim
+                            form along with all supporting documentation
+                            (images, time etc…) available under your order
+                          </li>
+                          <li>
+                            Subject of email: ‘Claim for Order # XXXXXXX’ to the
+                            following recipients
+                          </li>
+                          <li>
+                            <a class="bold" href="http://marineclaim.carterporter@universalinsurance.co.in"
+                              target="_blank">marineclaim.carterporter@universalinsurance.co.in</a>
+                            &
+                            <span class="bold link">customercare@carterporter.in</span>
+                          </li>
+                        </ul>
+                        <p>
+                          <span class="bold">FOR CLAIMS:</span> Please follow
+                          the above steps and complete the procedure mentioned
+                          and submit within 48 hours. Failure to send immediate
+                          notice on the happening of a loss resulting in a claim
+                          may prejudice the Insured's claim under the Policy.
+                          The documents required in support of the claim shall
+                          be forwarded to the Company at the address mentioned
+                          below immediately upon review.
+                        </p>
+
+                        <p>
+                          <span class="bold">Booking Customer can alternatively send documents
+                            to:
+                          </span>
+                          Universal Insurance Brokers Services Private Ltd. # S
+                          26, 2nd Floor, Esteem Mall Hebbal Bangalore - 560024 L
+                          : 080 40911761/63
+                        </p>
+
+                        <p>
+                          <span class="bold">Note:</span> Insurance is purchased
+                          by M/s CarterPorter Private Limited, insurance will be
+                          paid only to the booking customer.
+                        </p>
+
+                        <p>
+                          In case you find any variation between the information
+                          provided by you and the details as mentioned in the
+                          policy certificate, kindly contact us immediately.
+                          Disclaimer: Insurance is subject matter of
+                          solicitation. Please refer to policy wording for terms
+                          and conditions, coverage and exclusions. Policy issued
+                          by CHOLA MS General Insurance Co. Ltd 9th Floor,
+                          Golden Heights Complex, 59th C Cross Rajajinagar
+                          Bangalore-560010
+                        </p>
+                        <p>
+                          website:<a class="bold" href="http://www.cholainsurance.com" target="_blank">
+                            www.cholainsurance.com</a>.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row customer-related">
+      <div class="col">
+        <div class="tabs">
+          <div class="tab">
+            <input type="radio" id="customer" name="mobileTabs" />
+            <label class="tab-label-data" for="customer">
+              <span class="col-1 icon-tab">
+                <img src="./../../../../../../../assets/icons/faq/Customer Related.png" />
+              </span>
+              <span class="dropdown-label col-10">Customer Related (06)</span>
+            </label>
+            <div class="tab-content-data">
+              <div class="row customer-related">
+                <div class="col">
+                  <div class="tabs">
+                    <div class="tab">
+                      <input type="radio" id="ques46" name="customer" />
+                      <label class="tab-label" for="ques46">1. How do I contact customer service ?</label>
+                      <div class="tab-content">
+                        <p>
+                          Our customer service team is available throughout the
+                          week, all seven days and it is 24/7 service. They can
+                          be reached at via email
+                          <span class="bold link"> customerservice@carterporter.in</span>
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row customer-related">
+                <div class="col">
+                  <div class="tabs">
+                    <div class="tab">
+                      <input type="radio" id="ques47" name="customer" />
+                      <label class="tab-label" for="ques47">2. What are your timings to contact customer service
+                        ?</label>
+                      <div class="tab-content">
+                        <p>
+                          Our customer service team is available throughout the
+                          week, all seven days and it is a 24 hours service.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row customer-related">
+                <div class="col">
+                  <div class="tabs">
+                    <div class="tab">
+                      <input type="radio" id="ques48" name="customer" />
+                      <label class="tab-label" for="ques48">3. How can I give feedback on the quality of customer
+                        service ?</label>
+                      <div class="tab-content">
+                        <p>
+                          Our customer support team constantly strives to ensure
+                          optimal experience for all our customers. We would
+                          love to hear about your experience with Carter X. Do
+                          write to us at
+                          <span class="bold link">
+                            ramyareddy@carterporter.in</span>
+                          in case of positive or negative feedback.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row customer-related">
+                <div class="col">
+                  <div class="tabs">
+                    <div class="tab">
+                      <input type="radio" id="ques49" name="customer" />
+                      <label class="tab-label" for="ques49">4. What is the Cancellations & Refund Policy ?</label>
+                      <div class="tab-content">
+                        <p>
+                          Cancellation of orders can be made under My Trips of
+                          your account
+                        </p>
+                        <p class="bold">
+                          AirPort/City to City Transfer Local - For orders
+                          towards the Airport/City of Service:
+                        </p>
+
+                        <table>
+                          <tbody>
+                            <tr>
+                              <td>
+                                <p>
+                                  Up to 4 hours before start time of scheduled
+                                  slot
+                                </p>
+                              </td>
+                              <td>
+                                <p>No cancellation Fee. 100% refund</p>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <p>
+                                  Between 4 Hours to 2 Hours of start time of
+                                  schedule Slot
+                                </p>
+                              </td>
+                              <td>
+                                <p>
+                                  The cancellation charges are 50%&nbsp;of order
+                                  amount.
+                                </p>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <p>
+                                  Under 2 hours of start time of schedule Slot
+                                </p>
+
+                                <p>
+                                  No response from the location contact or
+                                  customer at pick up location, after 15 minutes
+                                  of waiting will be considered as cancelled
+                                  after slot time schedule.
+                                </p>
+                              </td>
+                              <td>
+                                <p>
+                                  The cancellation charges are 100% of order
+                                  amount citing no response at location
+                                </p>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <p>
+                                  <span class="bold"> Post Pick up:</span> No
+                                  show at the airport after 6 hours Gate meet
+                                  time
+                                </p>
+                              </td>
+                              <td>
+                                <p>
+                                  Reschedule order will be made with same order
+                                  value and rescheduled back for delivery at the
+                                  location of pick up. Local delivery to another
+                                  location or delivery at the airport again same
+                                  order value charges will apply for rescheduled
+                                  order.
+                                </p>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <p>
+                                  <span class="bold"> Post Pick up:</span>Delayed show of up to 10 hours after gate
+                                  meet time
+                                </p>
+                              </td>
+                              <td>
+                                <p>
+                                  Reschedule order will be made with local
+                                  delivery charges will apply for rescheduled
+                                  order for luggage storage services.
+                                </p>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                        <br />
+                        <br />
+                        <p class="bold">
+                          AirPort/City to City Transfer Local - For orders from
+                          the Airport/City of Service:
+                        </p>
+
+                        <table>
+                          <tbody>
+                            <tr>
+                              <td>
+                                <p>
+                                  Up to 4 hours before Arrival gate meet time
+                                </p>
+                              </td>
+                              <td>
+                                <p>No cancellation Fee. 100% refund</p>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <p>
+                                  Between 4 Hours to 2 Hours of Arrival gate
+                                  meet time
+                                </p>
+                              </td>
+                              <td>
+                                <p>
+                                  The cancellation charges are 50% of order
+                                  amount.
+                                </p>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <p>Under 2 hours of Arrival gate meet time</p>
+
+                                <p>
+                                  No show After 4 hours Arrival Gate meet time
+                                  unless incoming flight is delayed
+                                </p>
+                              </td>
+                              <td>
+                                <p>
+                                  The cancellation charges are 100% of order
+                                  amount.
+                                </p>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <p>
+                                  <span class="bold"> Post Pick up:</span> No
+                                  response from the location contact or customer
+                                  at delivery location, after 15 minutes of
+                                  waiting will be considered as No response at
+                                  location
+                                </p>
+                              </td>
+                              <td>
+                                <p>
+                                  Order will have to be rescheduled since we
+                                  have moved away from the location. Order will
+                                  be rescheduled for delivery on the same day or
+                                  next day based on available slots. Order
+                                  amount will be of the same original value of
+                                  the order placed.
+                                </p>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+
+                        <br />
+                        <br />
+                        <p class="bold">
+                          AirPort/City to City Transfer Outstation - For orders
+                          towards the Airport/City of Service:
+                        </p>
+
+                        <table>
+                          <tbody>
+                            <tr>
+                              <td>
+                                <p>
+                                  Anytime before Up to 3 days prior/before to
+                                  the date of service
+                                </p>
+                              </td>
+                              <td>
+                                <p>No cancellation Fee. 100% refund</p>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <p>On/Under 3 days to the date of service</p>
+                              </td>
+                              <td>
+                                <p>
+                                  The cancellation charges are 100% of order
+                                  amount
+                                </p>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <p>
+                                  After schedule slot time begins either No
+                                  response from the location contact or customer
+                                  at pick up location, after 25 minutes of
+                                  waiting will be considered as cancelled after
+                                  slot time schedule.
+                                </p>
+                              </td>
+                              <td>
+                                <p>
+                                  The cancellation charges are 100% of order
+                                  amount.
+                                </p>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <p>
+                                  <span class="bold"> Post Pick up:</span>No
+                                  show at the airport after gate meet time
+                                </p>
+                              </td>
+                              <td>
+                                <p>
+                                  Rescheduled with Outstation charges order will
+                                  be made with same order value and rescheduled
+                                  back for delivery at the location of pick up.
+                                  If the order is to be delivered to a local
+                                  address or delivery at the airport again
+                                  <span class="bold"> local delivery </span>
+                                  charges will apply for rescheduled order.
+                                  Local charges of the departure airport will
+                                  apply.
+                                </p>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <p>
+                                  <span class="bold"> Post Pick up:</span>Delayed show of up to 10 hours after gate
+                                  meet time. Delivery back at the airport.
+                                </p>
+                              </td>
+                              <td>
+                                <p>
+                                  Rescheduled order will be made with local
+                                  delivery charges for luggage storage services.
+                                </p>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+
+                        <br />
+                        <br />
+                        <p class="bold">
+                          AirPort/City to City Transfer Outstation - For orders
+                          towards the Airport/City of transfer:
+                        </p>
+
+                        <table>
+                          <tbody>
+                            <tr>
+                              <td>
+                                <p>
+                                  Anytime before Up to 3 days prior/before to
+                                  the date of service
+                                </p>
+                              </td>
+                              <td>
+                                <p>No cancellation Fee.</p>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <p>
+                                  On/Under 3days to the date of date of service.
+                                </p>
+                              </td>
+                              <td>
+                                <p>
+                                  The cancellation charges are 100% of order
+                                  amount.
+                                </p>
+                              </td>
+                            </tr>
+
+                            <tr>
+                              <td>
+                                <p>
+                                  <span class="bold"> Post Pick up:</span> No
+                                  response from the location contact or customer
+                                  at pick up location, after 60 minutes of
+                                  waiting will be considered as cancelled after
+                                  slot time schedule.
+                                </p>
+                              </td>
+                              <td>
+                                <p>
+                                  Order will have to be rescheduled since we
+                                  have moved away from the location. Order will
+                                  be rescheduled for delivery based on the
+                                  distance we have moved and connectivity to
+                                  return. Rescheduled Outstation Order amount
+                                  will be of same original value of the order
+                                  placed if we have moved from your outstation
+                                  location. Rescheduled Local Delivery charges
+                                  will apply of the corresponding incoming
+                                  airport if the delivery can be rescheduled
+                                  within 2 hours of leaving your Outstation
+                                  premises.
+                                </p>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                        <br />
+                        <p>
+                          Both services on a round trip will be cancelled if
+                          cancelation is warranted on any portion of the
+                          service. Return trip bookings will be treated as
+                          individual bookings and cancellation policy applies
+                          independently.
+                        </p>
+
+                        <p>
+                          Insurance amount paid by customers will not be
+                          refunded on cancellation. Refunds can be tracked under
+                          Manage Orders of your account. All refunds will be
+                          processed within 7 working days.
+                        </p>
+                        <p>
+                          For order count subtracted under ‘Order Modification’
+                          maximum refund applicable is only for ONE luggage. The
+                          luggage will be of standard pricing even if other
+                          categories of luggage were cancelled in the order.
+                          This option is unavailable for orders that have a
+                          luggage count of one.
+                        </p>
+                        <p>
+                          No refunds on subtraction of luggage on ‘Order
+                          Modification’ will be apply on the order made with
+                          offers or coupons or both. Following a cancellation,
+                          we will send you an email confirmation to your
+                          registered email id and refund the booking amount
+                          through account credits within 7 days to your source
+                          mode of payment.
+                        </p>
+                        <p>
+                          All refund payments will be processed back to the
+                          source account. Refund amount will reflect under the
+                          name ‘Carterporter Private Limited’ in the source
+                          statement of accounts. Terms & Conditions apply.
+                        </p>
+                        <p>
+                          Forward all queries to
+                          <span class="bold link">customercare@carterporter.in
+                          </span>
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row customer-related">
+                <div class="col">
+                  <div class="tabs">
+                    <div class="tab">
+                      <input type="radio" id="ques50" name="customer" />
+                      <label class="tab-label" for="ques50">5. How and where do I track the Cancellations & Refund
+                        ?</label>
+                      <div class="tab-content">
+                        <p>
+                          On cancellation, the order status will change in My
+                          Trips to ‘Refund’ for full and partial cancellations.
+                          The refund will be processed in 7 working days back to
+                          your source mode of payment.
+                        </p>
+
+                        <p>
+                          For Refunds related to Order modification, only the
+                          charge for the item of luggage will be refunded. The
+                          refund will be processed in 7 working days back to
+                          your source mode of payment.
+                        </p>
+
+                        <p>
+                          <span class="bold">Corporate houses and other strategic alliance
+                            partners: </span>No refunds on cancellation or subtraction of luggage
+                          on ‘Order Modification’ will be given to corporate
+                          house or strategic partner once the order is placed.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row customer-related">
+                <div class="col">
+                  <div class="tabs">
+                    <div class="tab">
+                      <input type="radio" id="ques51" name="customer" />
+                      <label class="tab-label" for="ques51">6. Other FAQs</label>
+                      <div class="tab-content">
+                        <p>
+                          If your query is of urgent nature and is different
+                          from the set of questions then do write to us at
+                          <span class="bold link">
+                            customercare@carterx.in
+                          </span> please do not hesitate to reach us out via
+                          email with your order# and a quick description of the
+                          query.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="need-help-mobile">
+      <section id="need-help">
+        <div class="need-help-body">
+          <img src="../../../../assets/icons/Neeed Help.png" />
+          <label class="need-help-text regular">Need &nbsp;<label class="help">Help?</label></label>
+          <label class="contact-number regular">
+            <a href="mailto:customercare@carterporter.in"
+              style="cursor: pointer;text-decoration: none">customercare@carterporter.in</a>
+          </label>
+          <!-- <label class="timings regular small-font">Monday to Friday 9.00am - 7.30pm</label> -->
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <!-- Faq Footer -->
+  <app-footer></app-footer>
+</section>

@@ -1,0 +1,84 @@
+<!-- Login section starts -->
+<section id="register">
+    <!-- login header starts -->
+    <div class="modalheader">
+        <div (click)="dialogRef.close()">
+            <img class="close-image" src="../../../../assets/icons/Close Button.png">
+        </div>
+    </div>
+    <!-- Register header ends -->
+
+    <!-- Register body starts -->
+    <div mat-dialog-content class="modal-body">
+        <form [formGroup]="subscriptionForm">
+            <div class="input-form">
+
+                <!-- Input Name -->
+                <div class="icon-textbox">
+                    <img class="name-email-icon" src="../../../../assets/icons/Name.png">
+                    <input formControlName="name" type="text" placeholder="Name*" class="form-control regular">
+                </div>
+
+                <!-- Input Mobile number -->
+                <div class="row align-items-center">
+                    <div class="county-code d-flex align-items-center">
+                        <label class="mobile-no-label regular">
+                            <img class="phone-icon" src="../../../../assets/icons/Mobile No.png">
+                        </label>
+                        <div class="country-codes">
+                            <div class="dropdown" style="max-width: fit-content;">
+                                <button class="dropdown-toggle border-0 thin" type="button" id="dropdownMenuButton"
+                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    {{subscriptionForm.controls['country_code'].value == '' ? '91' :
+                                    subscriptionForm.controls['country_code'].value}}
+                                </button>
+                                <ul style="background: #fff;" class="dropdown-menu text-left p-0"
+                                    aria-labelledby="dropdownMenuButton">
+                                    <li style="font-size: 11px;" class="dropdown-item borders"
+                                        *ngFor="let item of showCountryCode"
+                                        (click)="selectedCountryCode(item.country_code)">
+                                        {{item.country_code}} - {{item.country_name}}</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mobile-no">
+                        <input class="form-control mobilenumber" formControlName="mobile" type="text"
+                            placeholder="Mobile No*" numbersOnly minlength='10' maxlength="10">
+                    </div>
+                </div>
+
+
+                <!-- Input email -->
+                <div class="icon-textbox mt-2">
+                    <img class="name-email-icon" src="../../../../assets/icons/email_Dark.png">
+                    <input type="text" formControlName="email" placeholder="Email*" class="form-control regular">
+                </div>
+
+                <!-- OTP  -->
+                <div class="icon-textbox mt-2" *ngIf="otp_details.show_otp">
+                    <img style="width: 21px;" class="name-email-icon" src="../../../../assets/icons/otp_icon.png">
+                    <input class="form-control mobilenumber" formControlName="otp" type="text" placeholder="OTP *"
+                        numbersOnly minlength='4' maxlength="4">
+                </div>
+
+            </div>
+            <div>
+                <button *ngIf="otp_details.verify_otp == false"
+                    (click)="!otp_details.validate_otp ? verify_user() : otp_validate()" class="submit-button bold"
+                    type="submit">Proceed</button>
+                <button *ngIf="otp_details.verify_otp == true" (click)="proceedToPay()" class="submit-button bold"
+                    type="submit" [disabled]="subscriptionForm.status == 'VALID' ? false : true">Proceed</button>
+                <p class="star-info regular">* Denotes Mandatory&nbsp;<img class="info-icon"
+                        src="../../../../assets/icons/information.png"></p>
+            </div>
+
+        </form>
+
+    </div>
+    <!-- Login body ends -->
+
+    <!-- Login footer starts -->
+
+
+</section>

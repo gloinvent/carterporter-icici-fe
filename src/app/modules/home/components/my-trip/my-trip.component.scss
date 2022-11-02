@@ -1,0 +1,92 @@
+@import '../../../../../styles.scss';
+
+#mytrips{
+    .my-trips-body{
+        background: #dedddd30;
+        margin-top: 90px;
+        min-height: 500px;
+        .body-header{
+            display: flex;
+            flex-direction: column;
+            border-bottom: 1px groove #ffffff7d;
+            padding: 40px;
+            padding-bottom: 20px;
+            .body-heading{
+              font-size: 30px;
+                margin: 0;
+            }
+            .body-tagline{
+                font-size: 20px;
+                color: $darkgrey;
+            }
+        }
+        .trip-details{
+            border: 1px groove $border;
+            margin: 40px;
+            box-shadow: 1px 1px 10px 10px #efecec;
+            border-radius: 3px;
+            .trip-details-header{
+                padding: 15px 10px 5px 10px;
+                font-size: 13px;
+                color: #484d53;
+            }
+            .trip-details-data{
+                background: white;
+                padding: 10px;
+                .inner-heading{
+                    border-bottom: 1px groove #f9f9f98f;
+                    padding: 10px;
+                    padding-bottom: 0px;
+                    padding-left: 0;
+                    color: #484d53;
+                    :last-child {
+                        border-bottom: none;
+                    }
+                }
+                .price-rebook{
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    margin-top: 40px;
+                    font-size: 13px;
+                    .price{
+                        color: $orange;
+                    }
+                    .rebook{
+                        color: white;
+                        background: $lightblue;
+                        border: none;
+                        border-radius: 3px;
+                        padding: 10px 35px;
+                    }
+                }
+            }
+        }
+    }
+    .info-icon {
+        margin-top: -10px;
+    }
+    .order-details{
+        color: $lightblue;
+        cursor: pointer;
+    }
+    .pdf{
+        width: 50px;
+        height:50px;
+        margin-left: 60rem;
+        margin-top: -80px;
+    }
+    .icons{
+        margin-left: 60rem;
+    font-size: 12px;
+    margin-top: -15px;
+    color: $lightblue;
+    }
+    .declaration{
+        font-size: 12px;
+        // margin-top: -15px;
+        color: $lightblue;
+
+    }
+
+}

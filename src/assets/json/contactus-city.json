@@ -1,0 +1,20 @@
+{
+    "cityrate": [
+        {
+            "city": "Bangalore",
+            "image": "../../../../../../assets/images/home-bangalore-baggage.png",
+        },
+        {
+            "city": "Hyderabad",
+            "image": "../../../../../../assets/images/home-hyderabad-baggage.png",
+        },
+        {
+            "city": "Mumbai",
+            "image": "../../../../../../assets/images/home-mumbai-baggage.png",
+        },
+        {
+            "city": "New Delhi",
+            "image": "../../../../../../assets/images/delhi.png",
+        }
+    ]
+}

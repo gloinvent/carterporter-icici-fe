@@ -1,0 +1,174 @@
+<p>contactus works!</p>
+<section id="rate-card">
+    <!-- Header component -->
+    <app-header></app-header>
+    <!-- Rate Card body starts -->
+    <div class="rate-card-body pb-5">
+        <div class="container">
+            <div class="body-header">
+                <label class="body-heading bold text-uppercase">Contact Us</label>
+                <!-- <label class="body-tagline regular text-center">subheading will come here</label> -->
+            </div>
+        </div>
+
+
+        <!-- Body content starts -->
+        <div class="container">
+            <div class="row" style="margin-top: 80px;">
+                <div class="col-md-7 col-sm-12">
+                    <p class="headers mb-0">Our Contact Numbers <img class="info-icon" src="../../../../assets/icons/Information-Icon_Big.png" [InfoDialog]="getInfoKey('Luggage Detail')"/></p>
+                    <p class="subHeader">Feel free to contact us for all your queries</p>
+                    <div class="row pl-lg-4 pt-3">
+                        <div class="col-6 contactNumberHeading pr-0"><div class="contactNumbersRow pb-lg-4 pt-3 pb-3">General Queries:</div></div><div class="col-6 contactNumbersRow contactNumberHeading text-center pb-lg-4 pt-3 pb-3">+91-911 063 5588</div>
+                        <div class="col-6 contactNumberHeading pr-0"><div class="contactNumbersRow pb-lg-4 pt-lg-4 pt-3 pb-3">Door Step Baggage Checkin Service:</div></div><div class="col-6 contactNumbersRow contactNumberHeading text-center pb-lg-4 pt-lg-4 pt-3 pb-3">+91-911 063 5588</div>
+                        <div class="col-6 contactNumberHeading pr-0"><div class="contactNumbersRow pb-lg-4 pt-lg-4 pt-3 pb-3">Mishandled Luggage:</div></div><div class="col-6 contactNumbersRow contactNumberHeading text-center pb-lg-4 pt-lg-4 pt-3 pb-3">+91-911 063 5588</div>
+                        <div class="col-6 contactNumberHeading pr-0"><div class="contactNumbersRow pb-lg-4 pt-lg-4 pt-3 pb-3">Make a booking:</div></div><div class="col-6 contactNumbersRow contactNumberHeading text-center pb-lg-4 pt-lg-4 pt-3 pb-3">+91-911 063 5588</div>
+                    </div>
+                </div>
+
+
+                <div class="col-md-5 col-sm-12 padding97 mt-4 mt-lg-0">
+                    <div class="queryBox border">
+                        <p class="queryBoxHeader mb-0">- Have a Query? -</p>
+                        <div class="pl-4 pr-4 bg-white">
+                            <form [formGroup]="queryForm">
+                                <input class="pb-2 pl-3 pt-2 w-100 inputField mt-3" formControlName="name" type = "text" placeholder="Name" />
+                                <input class="pb-2 pl-3 pt-2 w-100 mt-2 inputField mt-3" formControlName="email" type = "text" placeholder="Email" ngModel [email]="true"/>
+                                <textarea placeholder="Query" class="w-100 mt-2 inputField pl-3 pt-2 mt-3" formControlName="query" rows="5"></textarea>
+                                <button class="btn submitBtn mt-3 text-center w-100 mb-3" [disabled] = "!queryForm.valid" [ngClass] = "!queryForm.valid ? 'onDisable' : 'notDisable'" (click) = "submitQueryForm()">SUBMIT</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mt-5">
+                <div class="col-md-12 col-sm-12">
+                    <p class="headers mb-0">Position at Airport <img class="info-icon" src="../../../../assets/icons/Information-Icon_Big.png"  [InfoDialog]="getInfoKey('Luggage Detail')"/></p>
+                    <p class="subHeader">Find us here</p>
+
+                    <!-- tabs -->
+                    <div class="row borderBottomBtn ml-lg-0 mt-5">
+                        <div class="col-md-2 pl-2 text-center" [ngClass] = "avtiveTab == 'airport' ? 'active' : 'disable'" (click)="setFlag('airport')">Airport Transfer</div>
+                        <div class="col-md-2 ml-lg-1 text-center" [ngClass] = "avtiveTab == 'city' ? 'active' : 'disable'" (click)="setFlag('city')">City Transfer</div>
+                    </div>
+
+                    <!-- tab data -->
+                    <div class="row mt-5" *ngIf="avtiveTab == 'airport'">
+                        <div class="col-md-12 marginTop31px">
+                            <p class="mb-1 chooseAirport">Choose Airport</p>
+                            <div>
+                                <!-- Dropdown btn -->
+                                <div class="dropdownbtn d-flex pl-2 pt-1" (click) = "showHideDropDownList()">
+                                    {{airportName}} <div class="ml-auto mr-3"><img class="" src="../../../assets/icons/arrow.png"  /></div>
+                                </div>
+                                <div class="dropdownListContainer bg-white border mt-1 pt-3" *ngIf="showDropdownList">
+                                    <ng-container *ngFor="let ap of airportnames">
+                                        <div class="listData  pl-2" *ngIf="ap.airport_name_id != '10' && ap.airport_name_id != '11'" (click) = "setState(ap.description,ap.airport_name)">
+                                            {{ap.airport_name}}
+                                        </div>
+                                    </ng-container>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-8 col-12 col-sm-12 mt-4">
+                            <ng-container *ngIf="airportContentArray.length>0">
+                                <div class="row"  *ngFor="let a of airportContentArray">
+                                    <div class="col-md-12 col-sm-12 col-12 airportLocation pr-0">
+                                        <div class="border-bottom d-flex pb-3 pt-3 text-capitalize">
+                                            <div class="col-md-4 col-4 col-sm-4">{{a[0]}}</div>
+                                            <div class="col-md-8 col-8 col-sm-8">{{a[1]}}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </ng-container>
+
+                            <ng-container *ngIf="airportContentArray.length == 0">
+                                <div class="row">
+                                    <div class="col-md-12 col-12 airportLocation">
+                                        <p>Please select one Airport from dropdown</p>
+                                    </div>
+                                </div>
+                            </ng-container>
+                        </div>
+                    </div>
+
+                    <div class="row mt-3"  *ngIf="avtiveTab == 'city'">
+                        <div class="col-12">
+                            <div class="row">
+                                <div class="col-sm-12 col-md-3 col-lg-3"     *ngFor="let item of city_list">
+                                    <img class="img-fluid" src={{item.image}} />
+                                    <div class="text-center mt-1">{{item.city}}</div>
+                                </div>
+                            </div>                                
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="row mt-5">
+                <div class="col-12 col-sm-12 co-md-12">
+                    <p class="headers mb-0">Media Coverages <img class="info-icon" src="../../../../assets/icons/Information-Icon_Big.png"  [InfoDialog]="getInfoKey('Luggage Detail')"/></p>
+                    <!-- <p class="subHeader">Sub heading comes here</p> -->
+                </div>
+
+                <div class="col-12 col-sm-12 col-md-12 mt-2">
+                    <div class="row pl-4 pr-4 mt-3">
+                        <div class="col-12 col-md-2 col-sm-2  mt-2 mt-lg-0">
+                            <div class=" mediaCards shadow">
+                                <a href="https://www.outlookindia.com/newsscroll/delhi-airport-launches-doorstep-baggage-pickup-drop-service/1734361" target = "_blank">
+                                    <img class="h-100 w-100 borderRadius" src="../../../assets/icons/Outlook-India-logo.png"  />
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="col-12 col-md-2 col-sm-2  mt-2 mt-lg-0">
+                            <div class=" mediaCards shadow">
+                                <a href="https://www.cnbctv18.com/videos/aviation/hyderabad-international-airport-and-carterx-starts-a-doorstep-baggage-transfer-facility-861931.htm" target = "_blank">
+                                    <img class="h-100 w-100 borderRadius" src="../../../assets/icons/CNBC-logo.jpg"  />
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="col-12 col-md-2 col-sm-2 mt-2 mt-lg-0">
+                            <div class=" mediaCards shadow">
+                                <a href="https://economictimes.indiatimes.com/industry/transportation/airlines-/-aviation/delhi-airport-starts-doorstep-baggage-pick-up-and-drop-service-for-terminal-3/articleshow/74138359.cms?utm_source=whatsapp_pwa&utm_medium=social&utm_campaign=socialsharebuttons&from=mdr" target = "_blank">
+                                    <img class="h-100 w-100 borderRadius" src="../../../assets/icons/ets.jpg"  />
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="col-12 col-md-2 col-sm-2 mt-2 mt-lg-0">
+                            <div class="mediaCards shadow">
+                                <a href="https://www.techcircle.in/2019/04/26/logistics-tech-startup-carterx-raises-capital-from-mumbai-angels" target = "_blank">
+                                    <img class="h-100 w-100 borderRadius" src="../../../assets/icons/tc.jpg"  />
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="col-12 col-md-2 col-sm-2 mt-2 mt-lg-0">
+                            <div class="mediaCards shadow">
+                                <a href="https://www.vccircle.com/mumbai-angels-network-invests-in-logistics-tech-startup-carterx/" target = "_blank">
+                                    <img class="h-100 w-100 borderRadius" src="../../../assets/icons/vccircle.png"  />
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="col-12 col-md-2 col-sm-2 mt-2 mt-lg-0">
+                            <div class="mediaCards shadow">
+                                <a href="https://www.hindustantimes.com/delhi-news/delhi-airport-launches-doorstep-luggage-pick-up-and-drop-service/story-3JrWCdThL9FS4MJuNNlp0M.html" target = "_blank">
+                                    <img class="h-100 w-100 borderRadius" src="../../../assets/icons/hindustan-times.png"  />
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Footer component -->
+    <app-footer></app-footer>
+</section>
+<ng4-loading-spinner [timeout]="99000"> </ng4-loading-spinner>

@@ -1,0 +1,59 @@
+.partner-section {
+  .partnerLogo img {
+    width: 100px;
+  }
+
+  .partner-airports-title,
+  .partner-airlines-title {
+    gap: 10px;
+
+    .logo {
+      width: 64px;
+      height: 64px;
+      padding: 16px;
+      border-radius: 32px;
+      background-color: #eee;
+
+      img {
+        width: 100%;
+        object-fit: contain;
+      }
+    }
+
+    h5 {
+      color: #183754;
+      font-size: 18px;
+    }
+  }
+
+  .airports {
+    a {
+      img {
+        object-fit: contain;
+        width: calc(100% - 70px);
+      }
+    }
+  }
+
+  .airlines {
+    a {
+      img {
+        object-fit: contain;
+        width: 85px;
+      }
+    }
+  }
+
+  .mb-50 {
+    margin: 0 0 50px;
+  }
+
+}
+
+// @media only screen and (max-width: 768px) {
+//   .partnerLogo {
+//     overflow-x: hidden;
+//     flex-wrap: wrap;
+//     gap: 30px;
+//   }
+// }

@@ -1,0 +1,84 @@
+footer {
+  box-shadow: 0 -5px 10px 0 rgba(0, 0, 0, 0.16);
+  background-color: #fff;
+
+  h5 {
+    font-size: 20px;
+    color: #000;
+    font-weight: 600;
+  }
+
+  p {
+    font-size: 16px;
+    color: #000;
+    font-weight: normal;
+  }
+
+  .footerBottom p {
+    font-size: 15px;
+    font-weight: normal;
+    color: #919191;
+  }
+
+  .footerLogo {
+    width: 230px;
+    height: 35px;
+  }
+}
+
+footer .needHelp img {
+  width: 32px;
+}
+
+footer .needHelp {
+  display: flex;
+  align-items: center;
+
+  .email {
+    color: #1a7dc1;
+    font-size: 15px;
+    font-weight: 600;
+  }
+
+  a {
+    font-size: 16px;
+    font-weight: normal;
+    color: #000;
+  }
+}
+
+footer .socialMedia {
+  border-top: 1px solid #cccccc;
+  padding: 10px 0px;
+}
+
+footer .socialMedia .socialIcon img {
+  width: 32px;
+  margin-left: 10px;
+}
+
+@media only screen and (max-width: 768px) {
+  .footerBottom p {
+    font-size: 13px !important;
+  }
+
+  footer p {
+    font-size: 11px;
+  }
+
+  footer .needHelp .email {
+    font-size: 13px;
+  }
+
+  footer .needHelp a {
+    font-size: 13px;
+  }
+}
+
+a {
+  color: inherit;
+}
+
+a:hover {
+  text-decoration: none;
+}

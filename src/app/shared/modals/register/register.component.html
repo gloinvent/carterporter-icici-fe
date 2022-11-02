@@ -1,0 +1,97 @@
+<!-- Login section starts -->
+<section id="register">
+    <!-- login header starts -->
+    <div class="modalheader">
+        <div (click)="onNoClick('closeRegister')">
+            <img class="close-image" src="../../../../assets/icons/Close Button.png">
+        </div>
+    </div>
+    <!-- Register header ends -->
+
+    <!-- Register body starts -->
+    <div mat-dialog-content class="modal-body">
+        <form [formGroup]="registerForm" (ngSubmit)="register(registerForm)">
+            <div class="input-form">
+                <!-- Input Name -->
+                <div class="icon-textbox">
+                    <img class="name-email-icon" src="../../../../assets/icons/Name.png">
+                    <input formControlName="name" type="text" placeholder="Name*" class="form-control regular">
+                </div>
+
+                <!-- Input Mobile number -->
+                <div class="row">
+                    <div class="col-md-6 col-7 pr-0 d-flex">
+                        <label class="mobile-no-label regular">
+                            <img class="phone-icon" src="../../../../assets/icons/Mobile No.png"> Mobile No*
+                        </label>
+                        <select class="form-control countrycodes p-0" formControlName="id_country_code" (change)="selectedCountryCode()">
+                            <option [ngValue]="" selected disabled>+91</option>
+                            <option *ngFor="let c of showCountryCode" [ngValue]="c">
+                                +{{c.country_code}}&nbsp;&nbsp;&nbsp;{{c.country_name}}</option>
+                        </select>
+                    </div>
+
+
+
+                    <div class="col-md-6 col-5 pl-0">
+                        <input class="form-control mobilenumber" formControlName="mobile" type="text" numbersOnly minlength='7'
+                            maxlength="13">
+                    </div>
+                </div>
+                <!-- <label class="mobile-no-label regular">
+                    <img class="phone-icon" src="../../../../assets/icons/Mobile No.png"> Mobile No*
+                    <span class="cc-mobile">
+                        <select class="country-code" formControlName="id_country_code" (change)="selectedCountryCode()">
+                            <option [ngValue]="" selected disabled>+91</option>
+                            <option *ngFor="let c of showCountryCode" [ngValue]="c">
+                                +{{c.country_code}}&nbsp;&nbsp;&nbsp;{{c.country_name}}</option>
+                        </select>
+                        <input class="form-control" formControlName="mobile" type="text" numbersOnly minlength='7'
+                            maxlength="13"></span></label> -->
+
+                <!-- Input email -->
+                <div class="icon-textbox">
+                    <img class="name-email-icon" src="../../../../assets/icons/email_Dark.png">
+                    <input type="text" formControlName="email" placeholder="Email*" class="form-control regular">
+                </div>
+            </div>
+            <div>
+                <button class="submit-button bold" type="submit" [disabled]="disableButton">REGISTER</button>
+                <p class="star-info regular">* Denotes Mandatory&nbsp;<img class="info-icon"
+                        src="../../../../assets/icons/information.png"></p>
+            </div>
+            <p class="register-option bold">Already have an account? <a class="register-link"
+                    (click)="onNoClick('loginFromRegister')">Login &nbsp;<img class="info-icon"
+                        src="../../../../assets/icons/information.png"></a></p>
+        </form>
+    </div>
+    <!-- Login body ends -->
+
+    <!-- Login footer starts -->
+    <div class="container">
+        <div class="row footer-style bold">
+            <div class="col-md-6">
+                <p class="policy-terms" routerLink="/information/privacy-policy" (click)="onNoClick('privacyTerms')">
+                    Privacy Policy</p>
+            </div>
+            <div class="col-md-6">
+                <p class="policy-terms" routerLink="/information/terms-and-conditions"
+                    (click)="onNoClick('privacyTerms')">Terms and Condition</p>
+            </div>
+        </div>
+    </div>
+    <!-- Login body ends -->
+    <!-- Login section ends -->
+
+</section>
+
+
+<!-- <h1 mat-dialog-title>Hi user</h1>
+<div mat-dialog-content>
+  <p>What's your favorite animal?</p>
+    <input matInput>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="onNoClick()">No Thanks</button>
+  <button mat-button cdkFocusInitial>Ok</button>
+</div> -->

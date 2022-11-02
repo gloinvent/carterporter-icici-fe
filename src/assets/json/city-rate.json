@@ -1,0 +1,216 @@
+{
+    "cityrate": [
+        {
+            "city": "Bangalore",
+            "image": "../../../../../../assets/images/home-bangalore-baggage.png",
+            "subcities": [
+                {
+                    "city": "Mysore",
+                    "rate": "65/KG"
+                },
+                {
+                    "city": "Mangalore",
+                    "rate": "142.5/KG"
+                },
+                {
+                    "city": "Visakhapatnam",
+                    "rate": "225/KG"
+                },
+                {
+                    "city": "Kerala",
+                    "rate": "225/KG"
+                },
+                {
+                    "city": "Kerala",
+                    "rate": "225/KG"
+                },
+                {
+                    "city": "Kerala",
+                    "rate": "225/KG"
+                },
+                {
+                    "city": "Kerala",
+                    "rate": "225/KG"
+                },
+                {
+                    "city": "Kerala",
+                    "rate": "225/KG"
+                },
+                {
+                    "city": "Kerala",
+                    "rate": "225/KG"
+                },
+                {
+                    "city": "Kerala",
+                    "rate": "225/KG"
+                },
+                {
+                    "city": "Kerala",
+                    "rate": "225/KG"
+                },
+                {
+                    "city": "Kerala",
+                    "rate": "225/KG"
+                }
+            ]
+        },
+        {
+            "city": "Hyderabad",
+            "image": "../../../../../../assets/images/home-hyderabad-baggage.png",
+            "subcities": [
+                {
+                    "city": "Vijaywada",
+                    "rate": "142.5/KG"
+                },
+                {
+                    "city": "Rajamundry",
+                    "rate": "147.5/KG"
+                },
+                {
+                    "city": "Kakinada",
+                    "rate": "160/KG"
+                },
+                {
+                    "city": "Visakhapatnam",
+                    "rate": "212.5/KG"
+                },
+                {
+                    "city": "Visakhapatnam",
+                    "rate": "212.5/KG"
+                },
+                {
+                    "city": "Visakhapatnam",
+                    "rate": "212.5/KG"
+                },
+                {
+                    "city": "Visakhapatnam",
+                    "rate": "212.5/KG"
+                },
+                {
+                    "city": "Visakhapatnam",
+                    "rate": "212.5/KG"
+                },
+                {
+                    "city": "Visakhapatnam",
+                    "rate": "212.5/KG"
+                },
+                {
+                    "city": "Visakhapatnam",
+                    "rate": "212.5/KG"
+                },
+                {
+                    "city": "Visakhapatnam",
+                    "rate": "212.5/KG"
+                },
+                {
+                    "city": "Visakhapatnam",
+                    "rate": "212.5/KG"
+                }
+            ]
+        },
+        {
+            "city": "Mumbai",
+            "image": "../../../../../../assets/images/home-mumbai-baggage.png",
+            "subcities": [
+                {
+                    "city": "Pune",
+                    "rate": "62.5/KG"
+                },
+                {
+                    "city": "Surat",
+                    "rate": "142.5/KG"
+                },
+                {
+                    "city": "Ahmedabad",
+                    "rate": "200/KG"
+                },
+                {
+                    "city": "Goa",
+                    "rate": "225/KG"
+                },
+                {
+                    "city": "Goa",
+                    "rate": "225/KG"
+                },
+                {
+                    "city": "Goa",
+                    "rate": "225/KG"
+                },
+                {
+                    "city": "Goa",
+                    "rate": "225/KG"
+                },
+                {
+                    "city": "Goa",
+                    "rate": "225/KG"
+                },
+                {
+                    "city": "Goa",
+                    "rate": "225/KG"
+                },
+                {
+                    "city": "Goa",
+                    "rate": "225/KG"
+                },
+                {
+                    "city": "Goa",
+                    "rate": "225/KG"
+                },
+                {
+                    "city": "Goa",
+                    "rate": "225/KG"
+                }
+            ]
+        },
+        {
+            "city": "New Delhi",
+            "image": "../../../../../../assets/images/delhi.png",
+            "subcities": [
+                {
+                    "city": "Jaipur",
+                    "rate": "105/KG"
+                },
+                {
+                    "city": "Rishikesh",
+                    "rate": "125/KG"
+                },
+                {
+                    "city": "Amritsar",
+                    "rate": "175/KG"
+                },
+                {
+                    "city": "Udaipur",
+                    "rate": "225/KG"
+                },
+                {
+                    "city": "Goa",
+                    "rate": "225/KG"
+                },
+                {
+                    "city": "Goa",
+                    "rate": "225/KG"
+                },
+                {
+                    "city": "Goa",
+                    "rate": "225/KG"
+                },
+                {
+                    "city": "Goa",
+                    "rate": "225/KG"
+                },
+                {
+                    "city": "Goa",
+                    "rate": "225/KG"
+                },
+                {
+                    "city": "Goa",
+                    "rate": "225/KG"
+                },
+                {
+                    "city": "Goa",
+                    "rate": "225/KG" 
+                }
+            ]
+        }
+    ]
+}

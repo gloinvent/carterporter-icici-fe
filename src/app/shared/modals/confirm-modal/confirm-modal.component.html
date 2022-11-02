@@ -1,0 +1,39 @@
+<!-- Login section starts -->
+<section id="login">
+
+    <!-- login header starts -->
+    <div class="modal-header">
+        <div aria-label="Close" (click)="onNoClick()">
+            <img class="close-image" src="../../../../assets/icons/Close Button.png">
+        </div>
+    </div>
+    <!-- login header ends -->
+
+    <!-- Login body starts -->
+    <div mat-dialog-content class="modal-body">
+        <label class="text regular">Are you sure you want to cancel this order?</label>
+
+    </div>
+    <!-- Login body ends -->
+
+    <!-- Login footer starts -->
+    <div class="container">
+        <div class="row footer-style bold">
+            <div class="row">
+                <div class="col-md-6"></div>
+                <div class="col-md-6">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <button type="submit" class="no regular" (click)="onNoClick()">No</button>
+                        </div>
+                        <div class="col-md-6">
+                            <button type="submit" class="yes regular" (click)="cancelOrder()">Yes</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Login body ends -->
+    <!-- Login section ends -->
+</section>

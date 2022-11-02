@@ -1,0 +1,50 @@
+<div class="conatiner">
+  <div class="row">
+    <div class="col-md-12 col-sm-12 d-flex header">
+      <p class="pt-3">
+        <img class="btn backImg" src="./../../../../../assets/images/Navigation_Back arrow.svg" (click)="backBtn()" />
+      </p>
+      <p class="mb-0 ml-auto mr-auto pb-2 pr-5 pt-2 pt-3">
+        Locate us
+      </p>
+    </div>
+
+    <ng-container>
+      <div class="border-bottom-0 border-top-0 col-md-12 col-sm-12 header mt-4"
+        *ngFor="let items of location_array[0][item]">
+        <p class="Lheader pl-3 mb-1">
+          {{items.city}}
+        </p>
+
+        <p class="Lheader2 ml-3 mr-3 pb-2">
+          {{items.airport}}
+        </p>
+
+        <p class="Location pl-3">
+          <span class="font-weight-bold">Loaction at Airport:</span> <br />
+          <span>{{items.location}}</span>
+        </p>
+
+        <p class="Location pl-3">
+          <span class="font-weight-bold">Departure:</span> <br />
+          <span>{{items.Departures}}</span>
+        </p>
+
+        <p class="Location pl-3">
+          <span class="font-weight-bold">Arrival:</span> <br />
+          <span>{{items.Arrivals}}</span>
+        </p>
+
+        <p class="Location pl-3">
+          <span class="font-weight-bold">Luggage Storage:</span> <br />
+          <span>{{items.Luggage}}</span>
+        </p>
+
+        <p class="Location pl-3">
+          <span class="font-weight-bold">Inter Terminal Transfer:</span> <br />
+          <span>{{items.Inter_Terminal}}</span>
+        </p>
+      </div>
+    </ng-container>
+  </div>
+</div>

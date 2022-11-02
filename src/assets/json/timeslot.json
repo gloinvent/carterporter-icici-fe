@@ -1,0 +1,14 @@
+{
+    "time":[
+        {
+        "timeslot":"7 AM - 10 AM"
+    },
+    {
+        "timeslot":"10 AM - 1 PM"
+    },
+    {
+        "timeslot":"1 PM - 4PM"
+    }
+]
+
+}

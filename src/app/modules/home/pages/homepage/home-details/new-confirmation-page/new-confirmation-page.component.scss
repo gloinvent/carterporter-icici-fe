@@ -1,0 +1,142 @@
+// @import "../../../../../styles.scss";
+
+#booking-confirmation {
+
+  background: #dedddd30;
+
+  .header-image {
+    z-index: -1;
+    width: 100%;
+    background-image: url('../../../../../../../assets/images/newConfirmationPage.png');
+    padding: 65px 50px 100px;
+    background-size: cover;
+    margin-top: 89px;
+    padding-bottom: 259px;
+    padding: 18%;
+    background-position: center;
+  }
+
+  .manage-booking {
+    border: none;
+    border-radius: 3px;
+    color: white;
+    background: #00bff3;
+    padding: 10px 40px;
+  }
+
+  .order-number {
+    color: #fe7801;
+    font-size: 18px;
+  }
+
+  .descParagraph {
+    font-size: 12px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.5;
+    letter-spacing: normal;
+  }
+
+  .body-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 25px;
+    padding-bottom: 20px;
+    // border-bottom: 1px groove $border;
+
+    .body-heading {
+      font-size: 30px;
+      margin: 0;
+    }
+
+    .body-tagline {
+      font-size: 20px;
+      // color: $lightgrey;
+    }
+  }
+
+  .icons-headings {
+    margin: 60px 0;
+
+    .icons {
+      display: block;
+      padding-bottom: 7px;
+      color: black;
+    }
+
+    .pas-sec {
+      display: block;
+      padding-bottom: 7px;
+      color: black;
+      height: 19px;
+      margin-top: 3px;
+    }
+  }
+
+  #need-help {
+    .need-help-body {
+      background: white;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px;
+      box-shadow: -1px 0px 16px -10px #88888C;
+
+      .need-help-text {
+        display: flex;
+        font-size: 20px;
+        margin-bottom: -5px;
+        margin-top: 15px;
+
+        .help {
+          color: #fe7801;
+        }
+      }
+
+      .contact-number {
+        color: #00bff3;
+        font-size: 24px;
+      }
+
+      .timings {
+        color: #555555;
+        margin-bottom: 0;
+        margin-top: 10px;
+      }
+    }
+
+  }
+}
+
+.cuserPointer{
+  cursor: pointer;
+}
+
+.trackOrderBtn{
+  background: #354967;
+  color: white;
+  font-size: 35px;
+  border-radius: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  letter-spacing: 1.1px;
+  margin-left: 43rem;
+  margin-top: 122px;
+}
+
+.trackOrderBtnMob{
+  background: #354967;
+  color: white;
+  font-size: 19px;
+  border-radius: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  letter-spacing: 1.1px;
+  margin-left: 64px;
+}
+
+
+
+

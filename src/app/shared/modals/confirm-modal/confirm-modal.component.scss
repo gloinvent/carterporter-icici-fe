@@ -1,0 +1,48 @@
+@import "../../../../styles.scss";
+
+.close-image {
+    margin-left: 16rem;
+    margin-top: -2rem;
+    height: 35px;
+    cursor: pointer;
+}
+.text {
+    color: black;
+    font-size: 16px;
+}
+.no {
+    background: #C93C2D;
+    outline: none;
+    border: none;
+    border: 1px groove $border;
+    border-radius: 2px;
+    color: white;
+    padding: 0px 18px;
+}
+.yes{
+    background: $lightblue;
+    outline: none;
+    border: none;
+    border: 1px groove $border;
+    border-radius: 2px;
+    color: white;
+    padding: 0px 18px;
+    margin-left: 20px;
+}
+.modal-header {
+    padding: 0;
+}
+
+@media screen and (max-width: 760px) {
+    .yes {
+        background: #00bff3;
+        outline: none;
+        border: none;
+        border: 1px groove #f9f9f98f;
+        border-radius: 2px;
+        color: white;
+        padding: 0px 18px;
+        margin-left: 0;
+        margin-top: 10px;
+    }
+}

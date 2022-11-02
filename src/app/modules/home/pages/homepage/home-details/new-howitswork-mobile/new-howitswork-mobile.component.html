@@ -1,0 +1,66 @@
+<div class="conatiner">
+  <div class="row">
+    <div class="col-md-12 col-sm-12 d-flex header">
+      <p class="pt-3">
+        <img class="btn backImg" src="./../../../../../assets/images/Navigation_Back arrow.svg" (click)="backBtn()" />
+      </p>
+      <p class="mb-0 ml-auto mr-auto pb-2 pr-5 pt-2 pt-3">
+        How it works?
+      </p>
+    </div>
+    <div class="col-md-12 col-sm-12">
+      <p class="mb-0 text-center title" *ngIf="img == 'Ola Priority'">
+        Arrival Process for <br />
+        Ola Priority Sweep
+      </p>
+
+      <p class="mb-0 text-center title" *ngIf="img == 'Airport Transfer - Arrival'">
+        Arrival Process for <br />
+        Airport Transfers
+      </p>
+
+      <p class="mb-0 text-center title" *ngIf="img == 'Airport Transfer - Departure'">
+        Departure Process for <br />
+        Airport Transfers
+      </p>
+
+      <p class="mb-0 text-center title" *ngIf="img == 'Cargo Transfer'">
+        Process for <br />
+        Cargo Transfers
+      </p>
+
+      <p class="mb-0 text-center title" *ngIf="img == 'City Transfer'">
+        Process for <br />
+        City Transfers
+      </p>
+
+      <p class="mb-0 text-center title2" *ngIf="img == 'Vistara Porter - Departure'">
+        Departure Process for <br />
+        Vistara Airport Transfers
+      </p>
+
+      <p class="mb-0 text-center title2" *ngIf="img == 'Vistara Porter - Arrival'">
+        Arrival Process for <br />
+        Vistara Airport Transfers
+      </p>
+
+
+      <img class="btn ml-auto" src="./../../../../../assets/images/Airport Departure.svg"
+        *ngIf="img == 'Airport Transfer - Departure'" />
+
+      <img class="btn ml-auto" src="./../../../../../assets/images/Airport Arrival.svg"
+        *ngIf="img == 'Airport Transfer - Arrival'" />
+
+      <img class="btn ml-auto" src="./../../../../../assets/images/Cargo Transfers.svg"
+        *ngIf="img == 'Cargo Transfer'" />
+
+      <div class="d-flex">
+        <a class="ml-auto mr-auto" href="https://youtu.be/3GlhCz0sDrM" target="_blank">
+          <img class="ml-auto" src="../../../../../../assets/images/watch-video.png" />
+          <p class="seeVideo pt-2">SEE VIDEO</p>
+        </a>
+      </div>
+    </div>
+  </div>
+
+</div>

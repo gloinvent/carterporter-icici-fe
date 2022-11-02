@@ -1,0 +1,196 @@
+@import '../../../../../styles.scss';
+
+#about-us{
+    .header-image{
+        z-index:-1;
+        width: 100%;
+        background: url('../../../../../assets/images/about-us-header.png');
+        min-height: 480px;
+        .layer{
+            background-color: #4141429e;
+            position: absolute;
+            z-index: 1;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 480px;
+            .text-on-image{
+                color: white;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                margin-top: 200px;
+                .about-us-text{
+                    font-size: 44px;
+                    margin: 0;
+                }
+                .about-us-tagline{
+                    font-size: 19px;
+                }
+            }
+        }
+    }
+    .strip{
+        width: 100%;
+    }
+    .text-on-strip{
+        position: absolute;
+        margin-top: -30px;
+        margin-left: 130px;
+    }
+    .strip-text{
+        color: white;
+        margin-left: 10px;
+        font-size: 10px;
+       
+    }
+    .pointer{
+        cursor: pointer;
+    }
+    .about-us-body{
+        background: #dedddd30;
+        .body-header{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            border-bottom: 1px groove #ffffff7d;
+            padding: 40px;
+            padding-bottom: 20px;
+            .body-heading{
+                font-size: 30px;
+                margin: 0;
+            }
+            .body-tagline{
+                font-size: 20px;
+                color: $lightgrey;
+            }
+        }
+        .body-content{
+            border-bottom: 1px groove #fffdfd73;
+            padding-top: 50px;
+            padding-bottom: 50px;
+        }
+        .card{
+            display: flex;
+            background-color: white;
+            display: block;
+            margin: 10px;
+            margin-top: 0;
+            flex-wrap: wrap;
+            padding: 20px;
+            width: 100%;
+            border: 1px groove #fffdfd73;
+            box-shadow: 5px 5px 10px 10px #69686817;
+            height: 304px;
+            margin-left: 0;
+        .card-heading{
+            font-size: 22px;
+            margin: 0;
+            .card-heading-color{
+                color: $orange;
+            }
+        }
+        .card-details{
+            font-size: 12px;
+            color: $lightgrey;
+        }
+        .icon{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+    }
+}
+    .video-block{
+        padding-top: 20px;
+    .video{
+        background: $darkgrey;
+        height: 400px;
+        width: 100%;
+        .video-icon{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            .center{
+                margin-top: 150px;
+                height: 55px;
+                width: 55px;
+            }
+        }
+    }
+    .how-it-works{
+        background: $lightblue;
+        height: 400px;
+        width: 100%;
+        .video-heading{
+            color: white;
+            font-size: 32px;
+            padding: 5rem;
+            padding-bottom: 0;
+            padding-left: 3rem;
+        }
+        .video-details{
+            padding: 3rem;
+            padding-top: 0;
+            padding-bottom: 0;
+            margin-right: 0;
+            color: white;
+            font-size: 14px;
+        }
+        .call-us{
+            border: none;
+            background: white;
+            color: #00bff3;
+            padding: 5px;
+            width: 18%;
+            margin-left: 3rem;
+        }
+    }
+}
+
+}
+.nopadding {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+}
+
+// ============== RESPONSIVENES =============== //
+@media  (max-width: 992px)  {
+
+  .strip  {
+    height: 32px;
+  }
+
+
+
+}
+
+@media  (max-width: 992px) and (min-width: 582px)  {
+
+  #about-us .about-us-body .card{
+    height: 270px;
+  }
+
+}
+
+@media (max-width: 580px){
+  :host {
+
+    .about-us-tagline{
+      text-align: center;
+    }
+
+    #about-us .video-block .how-it-works{
+      height: auto;
+      padding-bottom: 5em;
+    }
+
+    #about-us .about-us-body .card{
+      height: auto;
+
+      .card-heading {
+        text-align: center;
+      }
+    }
+  }
+}

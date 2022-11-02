@@ -1,0 +1,9 @@
+<section id="app">
+  <router-outlet>
+    <ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }" [template]="app"></ngx-loading>
+  </router-outlet>
+</section>
+
+<ngx-spinner bdOpacity=0.9 bdColor="rgba(32,122,184,0.3)" size="medium" color="#fff" type="ball-scale-pulse"
+  [fullScreen]="true">
+</ngx-spinner>

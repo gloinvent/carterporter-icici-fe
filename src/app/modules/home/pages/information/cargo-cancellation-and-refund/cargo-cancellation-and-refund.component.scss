@@ -1,0 +1,54 @@
+// @import '../../../../../../../styles.scss';
+.cancellation-and-Refund-policy {
+  margin: 0px;
+  padding: 0px;
+  margin-top: 100px;
+  background-color: #f9f9f9f9;
+  .faq-body {
+      .body-header {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          border-bottom: 1px groove #ffffff7d;
+          padding: 40px;
+          padding-bottom: 20px;
+          text-align: center;
+          .body-heading {
+              font-size: 26px;
+          }
+          .body-tagline {
+              font-size: 1rem;
+          }
+          .label-key-point {
+              color: #00bff3;
+              font-size: 1rem;
+          }
+      }
+      .content {
+          color: rgba(0, 0, 0, .6);
+          font-size: 14px;
+          font-family: 'Montserrat', sans-serif;
+          margin-top: 20px;
+          margin-bottom: 50px;
+          table {
+              border-collapse: collapse;
+              tr {
+                  td {
+                      width: 50%;
+                      border: 0.2px solid rgba(0, 0, 0, .26);
+                      padding: 5px;
+                  }
+              }
+          }
+          .key-point {
+              color: #00bff3;
+          }
+      }
+  }
+}
+
+.contact{
+display: inline-block;
+padding-right: 10px;
+cursor: default;
+}

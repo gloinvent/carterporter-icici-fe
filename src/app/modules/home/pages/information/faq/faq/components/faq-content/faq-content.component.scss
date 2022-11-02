@@ -1,0 +1,198 @@
+@import '../../../../../../../../../styles.scss';
+
+.register,
+.account-related,
+.order-related,
+.payment,
+.pickup-and-delivery-related,
+.insurance-related,
+.customer-related {
+  .section-heading {
+    color: #fe7801;
+  }
+
+  p,
+  li,
+  span,
+  label {
+    color: rgba(0, 0, 0, .6);
+    font-size: 14px;
+    font-family: 'Montserrat', sans-serif;
+  }
+
+  .link {
+    font-size: 14px;
+    font-family: 'Montserrat', sans-serif;
+    color: #00bff3;
+  }
+
+  .content-heading {
+    color: #00bff3;
+    padding-bottom: 10px;
+  }
+
+  .key-point {
+    color: rgba(0, 0, 0, .6);
+  }
+
+  .t-n-c {
+    cursor: pointer; //payment
+  }
+
+  p {
+    text-align: justify;
+  }
+
+  table {
+    border-collapse: collapse;
+
+    tr {
+      td {
+        width: 50%;
+        border: 1px solid rgba(0, 0, 0, .26);
+        padding: 5px;
+      }
+    }
+  }
+
+  .claim-form {
+    font-size: 14px;
+    color: #00bff3;
+  }
+}
+
+$white: #ffffff;
+$clouds: #ecf0f1;
+
+// General
+body {
+  color: $white;
+  background: $clouds;
+  padding: 0 1em 1em;
+}
+
+h1 {
+  margin: 0;
+  line-height: 2;
+  text-align: center;
+}
+
+h2 {
+  margin: 0 0 .5em;
+  font-weight: normal;
+}
+
+input {
+  position: absolute;
+  opacity: 0;
+  z-index: -1;
+}
+
+// Layout
+.row {
+  display: flex;
+
+  .col {
+    flex: 1;
+
+    &:last-child {
+      // margin-left: 1em;
+    }
+  }
+}
+
+/* Accordion styles */
+.tabs {
+  // border-radius: 8px;
+  overflow: hidden;
+}
+
+.tab {
+  width: 100%;
+  color: #555555;
+  overflow: hidden;
+
+  &-label {
+    height: 50px;
+    margin-bottom: 0px !important;
+    display: flex;
+    justify-content: space-between;
+    padding: 1em;
+    background: $white;
+    font-weight: bold;
+    cursor: pointer;
+
+    /* Icon */
+    &:hover {
+      background: darken($white, 10%);
+    }
+
+    &::after {
+      content: "\002B";
+      width: 1em;
+      height: 1em;
+      text-align: center;
+      transition: all .50s;
+    }
+  }
+
+  &-content {
+    max-height: 0;
+    padding: 0 1em;
+    color: #555555;
+    background: white;
+    transition: all .50s;
+    height: 0;
+  }
+
+  &-close {
+    display: flex;
+    justify-content: flex-end;
+    padding: 1em;
+    font-size: 0.75em;
+    background: $white;
+    cursor: pointer;
+
+    &:hover {
+      background: darken($white, 10%);
+    }
+  }
+}
+
+// :checked
+input:checked {
+  +.tab-label {
+    color: #fe7801;
+    background: #fafafa;
+
+    &::after {
+      content: "\2212";
+      //  transform: rotate(90deg);
+    }
+  }
+
+  ~.tab-content {
+    max-height: 100%;
+    padding: 1em;
+    height: 100%;
+  }
+}
+
+// .tab input:not(:checked){
+//   max-height: 0;
+//   padding: 0 1em;
+//   color: #555555;
+//   background: white;
+//   transition: all .50s;
+//   height: 0;
+// }
+
+.register,
+.account-related,
+.order-related,
+.payment,
+.pickup-and-delivery-related,
+.insurance-related,
+.customer-related {
+  margin-bottom: 9px;
+}

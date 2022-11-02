@@ -1,0 +1,61 @@
+<div class="background pt-5">
+  <div class="container-fluid width1400 pb-4">
+    <div class="row">
+      <div class="col-md-12" style="padding-left: 17px;">
+        <p class="headerF">How it works?</p>
+      </div>
+
+      <div class="col-md-12">
+        <div class="d-flex">
+          <span class="selectBoxDesc mr-4">Select process category wise</span>
+          <div>
+            <div class="pl-3 drpdownBtn" (click)="showDropDown($event)">
+              {{selected_image}}
+              <img class="float-lg-right mr-2 mt-2" src="../../../../../../assets/images/Drop-Arrow_Orange.png" />
+            </div>
+            <div class="dropdown mt-1 pb-1 pt-3 text-center shadow" *ngIf="show_dropdown">
+              <ng-container *ngFor="let item of source_array">
+                <p class="dropdownitem" (click)="selectItem(item)"
+                  [ngClass]="{highliteBackground: item == selected_image}">{{item}}</p>
+              </ng-container>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-12 mt-4">
+        <div class="d-flex">
+          <div class="nameofImage">Arrival Process for {{selected_image}}</div>
+          <a class="ml-auto" href="https://youtu.be/3GlhCz0sDrM" target="_blank">
+            <img class="ml-auto" src="../../../../../../assets/images/watch-video.png" />
+            <p class="seeVideo pt-2">SEE VIDEO</p>
+          </a>
+        </div>
+        <div class="mt-4">
+          <img class="w-100" src="../../../../../../assets/images/Airport-Transfers_Departure.png"
+            *ngIf="selected_image === 'Airport Transfer - Departure'" />
+          <img class="w-100" src="../../../../../../assets/images/Airport-Transfers_Arrivals.png"
+            *ngIf="selected_image === 'Airport Transfer - Arrival'" />
+          <img class="w-100" src="../../../../../../assets/images/Cargo.png"
+            *ngIf="selected_image === 'Cargo Transfer'" />
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- <div class=" rateDiv">
+  <div class="container-fluid width1400">
+    <div class="row">
+      <div class="col-md-9 rate-card">
+        <p class="rate-card-heading bold">Rate Card Calculator</p>
+        <p class="rate-card-info">Checkout how much your baggage transfer costs before you book!</p>
+      </div>
+      <div class="col-md-3 km-btn">
+        <div class="d-flex ">
+          <a routerLink="/ratecard" target="_blank" class="extra-bold know-more ml-auto mr-0">KNOW MORE</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div> -->

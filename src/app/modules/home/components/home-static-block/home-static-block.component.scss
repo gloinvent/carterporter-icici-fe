@@ -1,0 +1,77 @@
+@import "../../../../../styles.scss";
+
+.container-fluid.custom {
+  background: #3182cd;
+  color: white;
+
+  .container {
+    padding: 10px;
+  }
+}
+
+.rate-card {
+  padding-top: 8px;
+}
+
+.rate-card-heading {
+  font-size: 30px;
+  margin: 0;
+  text-transform: uppercase;
+}
+
+.rate-card-info {
+  margin: 0;
+}
+
+.know-more {
+  background: white;
+  padding: 6px 20px 6px 20px;
+  color: $orange;
+  margin: 35px;
+  border-radius: 5px;
+  font-size: 14px;
+
+  &:hover {
+    text-decoration: none;
+  }
+}
+
+.km-btn {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.features {
+  padding: 40px 0px 10px 0px;
+
+  .img {
+    align-content: center;
+  }
+
+  .feature-heading {
+    line-height: 20px;
+    text-align: center;
+
+    p {
+      padding-top: 10px;
+      color: #333333;
+      font-size: 13px;
+      font-weight: 600;
+      font-stretch: normal;
+      font-style: normal;
+      line-height: normal;
+      letter-spacing: normal;
+    }
+  }
+}
+
+
+.backgrounsdedddd30 {
+  background: #dedddd30;
+}
+
+.container-fluid {
+  padding-left: 5rem;
+  padding-right: 7rem;
+}

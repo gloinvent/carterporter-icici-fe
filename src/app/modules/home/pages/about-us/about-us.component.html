@@ -1,0 +1,155 @@
+<section id="about-us">
+  <!-- Header image -->
+  <div class="header-image">
+      <div class="layer">
+          <div class="text-on-image">
+              <label class="about-us-text bold">ABOUT US</label>
+              <label class="about-us-tagline regular">CarterX - Your Personalized Baggage Porter</label>
+          </div>
+      </div>
+  </div>
+  <img src="../../../../../../assets/images/home-strip.png" class="strip">
+  <div class="text-on-strip" ><img src="../../../../../../assets/icons/Home-1.png" ><label routerLink="/home" class="strip-text pointer">Home</label><label  class="strip-text"> &nbsp;> &nbsp;About Us</label></div>
+  <!-- Header component -->
+  <app-header></app-header>
+  <!-- About us body header -->
+  <div class=" about-us-body">
+      <div class="container">
+          <div class="body-header">
+              <label class="body-heading bold">EFFORTLESS AIR TRAVEL</label>
+              <label class="body-tagline regular">Hassle free Baggage Transfer to and from Airport</label>
+          </div>
+      </div>
+      <!-- About us body  -->
+      <div class="container">
+          <div class="body-content">
+              <div class="row">
+                  <div class="col-md-6">
+                      <div class="card">
+                          <div class="container">
+                              <div class="row">
+                                  <div class="col-md-2 icon">
+                                      <img src="../../../../../assets/icons/about-us/Care for your Business.png">
+                                  </div>
+                                  <div class="col-md-10">
+                                      <p class="card-heading medium">Care for your <label
+                                              class="card-heading-color">Business</label></p>
+                                      <div class="card-details">
+                                          <p>Stop stressing about your Baggage and let us care for it while attending
+                                              to your business in style. We at CarterX also pick up your Shopping
+                                              items
+                                              from your retail stores and deliver directly to you.
+                                          </p>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+                  <div class="col-md-6">
+                      <div class="card">
+                          <div class="container">
+                              <div class="row">
+                                  <div class="col-md-2 icon">
+                                      <img src="../../../../../assets/icons/about-us/Care for your Baggage.png">
+                                  </div>
+                                  <div class="col-md-10">
+                                      <p class="card-heading medium">Care for your <label
+                                              class="card-heading-color">Baggage</label></p>
+                                      <div class="card-details">
+                                          <p>No searching for trolleys, pushing or lugging yourself out from your
+                                              vehicle. We at CarterX help you transfer your baggage to and from
+                                              your airport.
+                                          </p>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+              <div class="row">
+                  <div class="col-md-6">
+                      <div class="card">
+                          <div class="container">
+                              <div class="row">
+                                  <div class="col-md-2 icon">
+                                      <img src="../../../../../assets/icons/about-us/Care for your Families.png">
+                                  </div>
+                                  <div class="col-md-10">
+                                      <p class="card-heading medium">Care for your <label
+                                              class="card-heading-color">Families</label></p>
+                                      <div class="card-details">
+                                          <p>Travelling with kids or a large family can mean chaos? Let CarterX handle
+                                              the
+                                              prams/buggies and suitcases. Get them deliveried personally at the
+                                              departure
+                                              gate
+                                              or hand them over at the arrival gate, travel stress free.
+                                          </p>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+                  <div class="col-md-6">
+                      <div class="card">
+                          <div class="container">
+                              <div class="row">
+                                  <div class="col-md-2 icon">
+                                      <img src="../../../../../assets/icons/about-us/Weighty Issues.png">
+                                  </div>
+                                  <div class="col-md-10">
+                                      <p class="card-heading medium">Weighty <label
+                                              class="card-heading-color">Issues</label>
+                                      </p>
+                                      <div class="card-details">
+                                          <p>Too many and too heavy? We are here to handle your baggage weight and
+                                              count for
+                                              you.
+                                              At CarterX we accept baggage in almost all shapes and sizes. Our quotes
+                                              are
+                                              completely free.
+                                          </p>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+      <app-home-static-block></app-home-static-block>
+      <div class="video-block">
+          <div class="row no-gutters">
+              <div class="col-lg-6 nopadding">
+                  <div class="video">
+                      <video (playing)="onPlayingVideo($event)"  style="width: 100%; height: 100%;" controls poster="../../../../../../assets/images/home-how-it-works.png">
+                          <source src="../../../../../../assets/videos/Carter X 2.0.mp4" type="video/mp4">
+                          Your browser does not support the video tag.
+                      </video>
+                  </div>
+              </div>
+              <div class="col-lg-6 nopadding">
+                  <div class="how-it-works">
+                      <div class="container">
+                          <p class="video-heading regular">See How it Works</p>
+                          <p class="video-details">With CarterPorter's CarterX, your Baggage is efficiently picked up
+                              and securely
+                              transported from the first mile to the last. Book, Move and Track your Baggage
+                              at the tip of your fingers on your smart phone, tablet or PC and stay updated throughout
+                              the service. Your Baggage is waiting ahead of you making your travel light, stress free
+                              without the weight and chaos.
+                          </p>
+                          <button class="call-us medium" type="submit" (click)="scrolldown()">Call Us</button>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+  <!-- Footer component -->
+  <app-footer></app-footer>
+</section>

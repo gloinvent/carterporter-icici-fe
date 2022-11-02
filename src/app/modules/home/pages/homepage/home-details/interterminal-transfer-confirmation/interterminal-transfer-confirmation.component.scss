@@ -1,0 +1,308 @@
+// @import "../../../../../styles.scss";
+:host {
+  // background: #dedddd30;
+}
+
+#booking-confirmation {
+
+  // background: #dedddd30;
+  .header-image {
+    background-image: url('../../../../../../../assets/images/newConfirmationPage.png');
+    z-index: -1;
+    width: 100%;
+    padding: 65px 50px 100px;
+    background-size: cover;
+    margin-top: 89px;
+    padding-bottom: 259px;
+    padding: 26%;
+    background-position: center;
+  }
+
+  .flyporter-branding {
+    text-align: center;
+
+    .moto {
+      font-size: 24px;
+      color: white;
+    }
+  }
+
+  .information-faqs {
+    margin-top: 37px;
+    padding: 10px 30px;
+    display: flex;
+    flex-direction: column;
+    // justify-content: flex-end;;
+    font-size: 0.8em;
+    background: #fefefe;
+    border-radius: 2px;
+
+    a.read-more {
+      color: #227dba;
+      cursor: pointer;
+    }
+  }
+
+  .your-order {
+    font-weight: bold;
+    font-size: 1.5em;
+    text-transform: uppercase;
+    color: var(--primary);
+    ;
+  }
+
+  .share-icons {
+    img {
+      height: 16px;
+      width: 16px;
+      margin-bottom: 8px;
+    }
+
+    label {
+      display: block;
+    }
+  }
+
+  .help-card {
+    text-align: center;
+    padding: 28px;
+  }
+
+  .need-help {}
+
+  h3.help-phone {
+    color: #46143c;;
+  }
+
+  .support-time {
+    margin-top: 20px;
+    font-size: 12px;
+  }
+
+  .booking-confirmation-body {
+    background: #dedddd30;
+    position: relative;
+
+    .pink-right-top {
+      position: absolute;
+      top: 0;
+      right: 0;
+    }
+
+    .body-header {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 25px;
+      padding-bottom: 20px;
+      border-bottom: 1px groove #88888c;
+
+      .body-heading {
+        font-size: 30px;
+        margin: 0;
+      }
+
+      .body-tagline {
+        font-size: 20px;
+        // color: $lightgrey;
+      }
+    }
+
+    .orderno-manage {
+      margin-top: 25px;
+
+      .order-number {
+        // color: $orange;
+        font-size: 20px;
+      }
+
+      .manage-booking {
+        border: none;
+        border-radius: 3px;
+        color: white;
+        // background: $lightblue;
+        padding: 10px 40px;
+      }
+    }
+
+    .details {
+      font-size: 11px;
+      margin-top: 40px;
+
+      // color: $darkgrey;
+      .details-p {
+        margin-bottom: 5px;
+      }
+    }
+
+    .icons-headings {
+      margin: 60px 0;
+
+      .icons {
+        display: block;
+        padding-bottom: 7px;
+        color: black;
+      }
+
+      .pas-sec {
+        display: block;
+        padding-bottom: 7px;
+        color: black;
+        height: 50px;
+        width: 50px;
+        margin-top: -10px;
+      }
+    }
+  }
+}
+
+.text-on-strip {
+  position: absolute;
+  margin-top: -30px;
+  margin-left: 130px;
+}
+
+.strip-text {
+  color: white;
+  margin-left: 10px;
+}
+
+.features {
+  background: #f9f9f9;
+  padding: 40px 0px 10px 0px;
+
+  .c-custom {
+    border-top: 1px groove #88888c;
+    padding-top: 35px;
+    margin-top: -50px;
+  }
+
+  .img {
+    align-content: center;
+  }
+
+  .feature-heading {
+    line-height: 20px;
+    text-align: center;
+
+    p {
+      padding-top: 10px;
+      // color: $orange;
+      font-size: 12px;
+    }
+  }
+
+  .home {
+    cursor: pointer;
+  }
+}
+
+.bookingDetails {
+  padding-left: 36px !important;
+  font-size: 12px;
+}
+
+.fontSize12px {
+  font-size: 12px !important;
+}
+
+.width64px {
+  width: 80px;
+}
+
+.width60px {
+  width: 60px;
+}
+
+.trackOrderBtn {
+  font-size: 20px;
+  border-radius: 14px;
+  box-shadow: 0px 13px 24.6px 2.4px rgba(0, 0, 0, 0.93);
+  background: #b9964f;
+}
+
+.trackOrderBtn a {
+  color: white !important;
+}
+
+.trackOrderBtn a:hover {
+  text-decoration: none
+}
+
+
+// @media (max-width: 790px) {
+//   .header-image {
+//     padding-top: 107px !important;
+//     padding-bottom: 81px !important;
+//     // background-size: contain !important;
+//     margin-top: 83px;
+//     background-image: url('../../../../../../../assets/images/Confiramtion-Banner-image.jpg') !important;
+//   }
+// }
+
+@media (max-width: 580px) {
+
+  // .header-image {
+  //   margin-top: 94px !important;
+  //   padding-bottom: 81px !important;
+  //   height: 100%;
+  //   background-repeat: no-repeat;
+  //   padding-top: 2rem !important;
+  //   background-image: url('../../../../../../../assets/images/Confiramtion-Banner-image.jpg') !important;
+  // }
+
+
+  .custom-row {
+    padding: 0;
+    width: 100%;
+  }
+}
+
+
+// @media (max-width: 370px) and (min-width: 300px) {
+//   .header-image {
+//     padding-bottom: 81px !important;
+//     padding-top: 3px !important;
+//   }
+
+// }
+
+// @media (max-width: 380px) {
+//   .header-image {
+//     padding-bottom: 81px !important;
+//   }
+
+// }
+
+.goldenColor {
+  color: var(--primary);
+}
+
+.cursor-pointer{
+    cursor: pointer;
+}
+
+.trackOrderBtn{
+  background: #354967;
+  color: white;
+  font-size: 35px;
+  border-radius: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  letter-spacing: 1.1px;
+  margin-left: 43rem;
+  margin-top: 122px;
+}
+
+.trackOrderBtnMob{
+  background: #354967;
+  color: white;
+  font-size: 19px;
+  border-radius: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  letter-spacing: 1.1px;
+  margin-left: 64px;
+}

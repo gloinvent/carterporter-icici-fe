@@ -1,0 +1,239 @@
+.olaParentDiv {
+  border-radius: 11.6px;
+}
+
+
+.baggagePriority {
+  font-size: 12px;
+  font-weight: 500;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 2;
+  letter-spacing: normal;
+  text-align: left;
+  border-radius: 8px;
+  border: 1px solid #3182cd;
+  padding-top: 3px;
+  padding-bottom: 3px;
+  padding-left: 12px;
+  padding-right: 15px;
+}
+
+.drop {
+  border-bottom-right-radius: 0;
+  border-top-right-radius: 0;
+}
+
+.sweep {
+  border-bottom-left-radius: 0;
+  border-top-left-radius: 0;
+}
+.activeBaggage {
+  background: #3182cd;
+  color: white;
+  outline: none;
+}
+
+.nonactiveBaggage {
+  background: white;
+  color: black;
+  outline: none;
+}
+.secondRow {
+  border-top: 1px solid #dddddd;
+  border-bottom: 1px solid #dddddd;
+}
+.radioLabel {
+  font-size: 14px;
+  font-weight: 500;
+}
+.pickupcitySection {
+  min-width: 328px;
+  border: solid 0.6px #cccccc;
+  padding-left: 20px;
+  padding-top: 20px;
+  border-radius: 10px;
+  border-top-right-radius: 0px;
+  border-bottom-right-radius: 0px;
+  height: 126px;
+}
+.dropdowncitySection{
+  width: 300px;
+  border: solid 0.6px #cccccc;
+  padding-left: 20px;
+  padding-top: 20px;
+}
+.backgroundColor {
+  background-color: #dae8f6;
+}
+
+.bgwhite {
+  background-color: white;
+}
+
+.dropdownHeader {
+  font-size: 12px;
+  font-weight: 600;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 2;
+  letter-spacing: normal;
+  color: #555555;
+  cursor: pointer;
+}
+
+.dropDownArrow {
+  height: 5px;
+}
+
+.customDropdown {
+  width: 150px;
+  position: absolute;
+  background: white;
+  font-size: 12px;
+  border-radius: 13px;
+  overflow: scroll;
+  z-index: 2;
+}
+.customDropdown::-webkit-scrollbar {
+  display: none;
+}
+
+.customDropdown {
+  -ms-overflow-style: none;
+  /* IE and Edge */
+  scrollbar-width: none;
+  /* Firefox */
+}
+
+.listItem {
+  cursor: pointer;
+}
+
+.listItem:hover {
+  background-color: #f47521;
+  color: white;
+}
+
+.highliteBackground {
+  background-color: #f47521;
+  color: white;
+}
+.bagNumber {
+  font-size: 21.5px;
+  font-weight: 600;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.26;
+  letter-spacing: normal;
+  text-align: left;
+  color: #333333;
+}
+.dateSection {
+  min-width: 275px;
+  border: solid 0.6px #cccccc;
+  padding-left: 20px;
+  padding-top: 20px;
+}
+
+.bags {
+  font-size: 12.5px;
+  font-weight: 500;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 2.16;
+  letter-spacing: normal;
+  text-align: left;
+  color: #555555;
+}
+
+.bagsSection {
+  min-width: 240px;
+  border: solid 0.6px #cccccc;
+  padding-left: 20px;
+  padding-top: 20px;
+  border-radius: 10px;
+  border-top-left-radius: 0px;
+  border-bottom-left-radius: 0px;
+}
+.bagDesc {
+  font-size: 11.5px;
+  font-weight: 300;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.17;
+  letter-spacing: normal;
+  color: #999999;
+}
+.countrycode-list {
+  max-height: 7rem;
+  height: 7rem;
+  overflow-y: auto;
+  width: 16rem;
+  border-radius: 10px;
+  width: 15rem;
+  position: absolute;
+  z-index: 2;
+}
+.notValid {
+  font-size: 11px;
+  color: orange;
+}
+.fontSize11 {
+  font-size: 11px;
+}
+.btn-proceed-to-pay {
+  background-color: #00bff3;
+  font-size: 13px;
+  font-weight: 600;
+  font-stretch: normal;
+  font-style: normal;
+  letter-spacing: normal;
+  text-align: center;
+  color: #ffffff;
+  height: 31px;
+}
+
+.price-terms {
+  font-size: 10px;
+  font-weight: 300;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 2.4;
+  letter-spacing: normal;
+  color: #555555;
+  margin-top: -6px;
+}
+
+
+.priceDiv {
+  font-size: 28px;
+  font-weight: 800;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.46;
+  letter-spacing: normal;
+  color: #fe7801;
+}
+
+.informDiv {
+  width: 17rem;
+  background: #f2f5fd;
+  border-radius: 10px;
+  font-weight: 500;
+  padding-left: 8px;
+  position: absolute;
+  top: -33px;
+  font-size: 11px;
+  margin-left: -21px;
+}
+
+.informImg {
+  width: 16px;
+  margin-top: -15px;
+}
+
+.disabled {
+  background-color: #d7d7d7;
+  cursor: not-allowed;
+}

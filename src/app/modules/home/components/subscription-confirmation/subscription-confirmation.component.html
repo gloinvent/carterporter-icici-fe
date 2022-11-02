@@ -1,0 +1,57 @@
+<app-header></app-header>
+
+<div id="booking-confirmation" class="d-flex align-items-center">
+  <div class="container h-100">
+    <div class="d-flex align-items-center justify-content-center h-100">
+      <div class="order-confirmation text-center">
+        <!--  -->
+        <div class="tick d-flex justify-content-center">
+          <svg class="checkmark" viewBox="0 0 52 52">
+            <circle class="checkmark__circle" cx="26" cy="26" r="25" fill="none" />
+            <path class="checkmark__check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8" />
+          </svg>
+        </div>
+        <!--  -->
+        <div class="thank-you pb-2">
+          <h6 class="m-0">Thank You</h6>
+        </div>
+        <!--  -->
+        <p class="order-txt m-3">Your subscription purchase has been confirmed</p>
+        <!--  -->
+        <!--  -->
+        <div class="order-details m-3" *ngIf="subcription.length !=0 ">
+          <table class="table table-bordered d-none d-md-table">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Subscription Name</th>
+                <th scope="col">Confirmation Number</th>
+                <th scope="col">No Of Usages</th>
+                <th scope="col">Expiry Date</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of subcription; index as i">
+                <th scope="row">{{i+1}}</th>
+                <td>{{item.subscriber_name == 'ICICI Prestige' ? 'Prestige' : item.subscriber_name}}</td>
+                <td>{{item.confirmation_number}}</td>
+                <td>{{item.no_of_usages}}</td>
+                <td>{{item.expire_date | date}}</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div class="mobile-confirmation-item d-md-none d-block" *ngFor="let item of subcription; index as i">
+            <div class="mb-2"><h6>Subscription Name</h6> {{item.subscriber_name}}</div>
+            <div class="mb-2"><h6>Confirmation Number</h6> {{item.confirmation_number}}</div>
+            <div class="mb-2"><h6>No Of Usages</h6> {{item.no_of_usages}}</div>
+            <div class="mb-2"><h6>Expiry Date</h6> {{item.expire_date | date}}</div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<app-footer></app-footer>

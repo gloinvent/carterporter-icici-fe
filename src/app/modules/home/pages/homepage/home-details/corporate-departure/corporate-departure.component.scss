@@ -1,0 +1,125 @@
+@import '../../../../../../../styles.scss';
+
+.container-custom{
+    .headings{
+        margin-bottom: 0;
+    padding: 2px;
+    margin-top: 5px;
+    font-size: 12px;
+    }
+    .info-icon{
+        margin-top: -12px;
+    }
+    .info{
+        font-size: 9px;
+        color: lightcoral;
+        padding-top: 7px;
+        padding-left: 5px;
+    }
+}
+.input-group{
+    border-bottom: 1px groove $border;
+    width: 65%;
+.form-height{
+    height: 20px;
+    border: none;
+    padding-left: 5px;
+}
+}
+.input-group-append{
+    height: 13px;
+    button{
+        border: none;
+        background: url('../../../../../../../assets/icons/user-details-calendar.png') no-repeat;
+        width: 13px !important;
+    }
+}
+.pin{
+    font-size: 12px;
+    box-shadow: -1px 0px 16px -10px #88888C;
+    border-radius: 2px;
+    &:disabled{
+        background: #e9ecef;
+        box-shadow: none;    
+    }
+}
+.d-inline-block{
+.airport-button{
+    width: 210px;
+    text-align: left;
+}
+}
+.luggage-count{
+    display: flex;
+    height: 30px;
+    padding-left: 2px;
+    input{
+        width: 30px;
+        text-align: center;
+    }
+    button{
+        width: 30px;
+    background: white;
+    border: 1px groove $border;
+    }
+}
+.test{
+    border: 1px groove;
+    background: white;
+    border-top: none;
+}
+.bottom{
+    padding: 20px;
+}
+.select-state{
+    cursor: pointer;
+    color: #373738;
+    background-color: #ffffff;
+    border-color: #c7c7c7;
+    font-size: 12px;
+    width: 100%;
+    padding: 7px;
+    border-radius: 3px;
+    box-shadow: -1px 0px 16px -10px #88888C;
+    &:disabled{
+        background: #e9ecef;
+        box-shadow: none;    
+    }
+}
+.date-picker{
+    display: inline-block;
+}
+.approx-rate{
+    color: #fe7801;
+    font-size: 18px;
+    display: inline-block;
+    border: 1px groove #f9f9f98f;
+    border-right: none;
+    padding: 1px 0 4px 5px;
+    width: 70%;
+    margin-bottom: 0;
+    .rate-info{
+        font-size: 8px;
+        display: inline;
+        color: black;
+        margin-left: 30px;
+    }
+}
+.submit-button{
+    margin-top: 25px;
+    border: none;
+    background: white;
+    padding-left: 0;
+}
+.submit-button:disabled{
+    cursor: not-allowed;
+}
+.counter{
+    
+    border: none;
+    border-top: 1px groove $border;
+    border-bottom: 1px groove $border;
+}
+.date-picker{
+    width: 50px;
+}
