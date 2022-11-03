@@ -1445,6 +1445,34 @@ export class BookingComponent implements OnInit {
             theme: {
               color: "#F37254",
             },
+            config: {
+              display: {
+                blocks: {
+                  icic: {
+                    name: "Pay using ICIC Bank",
+                    instruments: [
+                      {
+                        method: "card",
+                        issuers: ["ICIC"]
+                      },
+                      {
+                        method: "netbanking",
+                        banks: ["ICIC"]
+                      },
+                    ]
+                  },
+                },
+                hide: [
+                  {
+                  method: "upi"
+                  }
+                ],
+                sequence: ["block.icic"],
+                preferences: {
+                  show_default_blocks: false // Should Checkout show its default blocks?
+                }
+              }
+            },
           };
           const rzp1 = new Razorpay(options);
           rzp1.open();
