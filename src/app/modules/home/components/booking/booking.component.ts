@@ -2829,6 +2829,3 @@ export class BookingComponent implements OnInit {
   
 
 }
-
-
-// abc
