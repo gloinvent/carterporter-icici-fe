@@ -686,6 +686,11 @@ export class BookingComponent implements OnInit {
         this.bookingForm.controls["cargo_terminal"].setValue(value);
         this.approximateAmount = 0;
         this.bookingForm.controls["weight"].setValue("");
+
+        this.showAddressDropDown = this.showAddressDropDownDelivery =  false;
+        this.fullAddressLine = this.deliveryPincode = this.fullDeliveryAddressLine = "";
+        ["addressLineOne", "fulladdress", "addressCity", "addressLineTwo", "deliveryAddressLineOne","fullDeliveryAddress","deliveryAddressCity","deliveryAddressLineTwo","addressPincodes"].map((res) => {this.bookingForm.controls[res].setValue("");})
+        
         this.setUpDate();
         this.getCargoApproximateAmount();
         break;
@@ -1007,6 +1012,48 @@ export class BookingComponent implements OnInit {
       });
   }
 
+  // cargo Rush surface address handling
+  submitAddressSurface(){
+    var result;
+    this.pickairport.getPincode( this.deliveryPincode ? this.deliveryPincode : "null").subscribe((res) => {
+      result = res;
+      if (this.deliveryPincode == "") {
+        this.printToastMsg("Pincode is Mandatory");
+      } 
+      else if ((result.results && result.results.length == 0) || this.deliveryPincode.toString().length != 6) {
+        this.printToastMsg("Enter Valid Pincode");
+        this.deliveryPincode = "";
+      } 
+      else {
+        let cnt = 0;
+        result.results.map((res: any) => {
+          if (res.place_id && res.place_id == this.place_id) {
+            cnt += 1;
+          }
+          if (res.postcode_localities && res.postcode_localities.length != 0) {
+            res.postcode_localities.map((post: any) => {
+              if (this.secondArea == post) {
+                cnt += 1;
+              }
+            });
+          }
+        });
+        if (cnt != 0) {
+          if (this.bookingForm.controls["deliveryAddressLineTwo"].value != "") {
+            this.fullDeliveryAddressLine = this.bookingForm.controls["deliveryAddressLineTwo"].value + ", " + this.bookingForm.controls["deliveryAddressLineOne"].value;
+          } else if (this.bookingForm.controls["deliveryAddressLineTwo"].value == "") {
+            this.fullDeliveryAddressLine = this.bookingForm.controls["deliveryAddressLineOne"].value;
+          }
+          this.showAddressDropDown = this.showAddressDropDownDelivery = false;
+          this.fullDeliveryAddressLine.includes(this.bookingForm.controls["addressPincodes"].value) ? null : (this.fullDeliveryAddressLine = this.fullDeliveryAddressLine + " " + this.deliveryPincode);
+        } else {
+          this.printToastMsg("Pincode and Selected City Should be Same");
+          this.deliveryPincode = "";
+        }
+      }
+    });
+  }
+
   // handle google address values
   async handleAddressChange(e: any) {
     console.log("----- address", e);
@@ -1090,6 +1137,10 @@ export class BookingComponent implements OnInit {
   autoCloseForDropdown(event) {
     var target = event.target;
     if (!target.closest(".customDropdownAddressLocal") &&!target.closest(".custom-snackbar")) {
+      if((this.deliveryPincode == "" || !this.deliveryPincode) && this.showAddressDropDownDelivery && this.bookingForm.controls['cargo_terminal'].value == 'Rush Surface'){
+        this.deliveryPincode = this.fullDeliveryAddressLine = "";
+        ["deliveryAddressLineOne","fullDeliveryAddress","deliveryAddressCity","deliveryAddressLineTwo"].map((res) => {this.bookingForm.controls[res].setValue("");})
+      }
       this.showAddressDropDown = this.showAddressDropDownDelivery = false;
     }
   }
@@ -1534,7 +1585,7 @@ export class BookingComponent implements OnInit {
       travell_passenger_contact: formValue.mobile_number,
       pick_drop_spots_type: 1,
       building_restriction: {"0": 5,},
-      order_date: formValue.date,
+      order_date: this.datePipe.transform(formValue.date, "dd MMM y"),
       country_code: formValue.country,
       flight_number:formValue.other_airline_no && formValue.other_airline_no != "none"? formValue.other_airline_no.toUpperCase() : "",
       pnr_number: formValue.pnr.toUpperCase(),
@@ -1755,6 +1806,96 @@ export class BookingComponent implements OnInit {
     }
   }
 
+  // handle google address values for cargo surface
+  async handleAddressChangeCargoSurface(e: any, type) { 
+    // type 1 means pickup and 2 means delivery
+    this.place_id =  this.secondArea = this.deliveryPincode = "";
+
+    type == 1 ? (this.fullAddressLine = "") : (this.fullDeliveryAddressLine = "");
+    type == 1 ? (this.addressPincode = undefined) : (this.deliveryPincode = undefined);
+    this.place_id = e.place_id ? e.place_id : "";
+
+    let address = "";
+    let add = e.address_components.length;
+    
+    this.bookingForm.get(type == 1 ? "fulladdress" : "fullDeliveryAddress").setValue(e.name + ", " + e.formatted_address);
+
+    for (let i = 0; i < add; i++) {
+      if (e.address_components[i].types[0] == "postal_code") {
+        e.address_components[i].long_name ? type == 1 ? (this.addressPincode = e.address_components[i].long_name) : (this.deliveryPincode = e.address_components[i].long_name) : "";
+      }
+      if (e.address_components[i].types[0] == "locality") {
+        this.cityName = e.address_components[i].long_name;
+        if (this.cityName == "Bengaluru") {
+          this.cityName = "Bangalore";
+        }
+        if (
+          this.cityName == "Mumbai" ||
+          this.cityName == "Navi Mumbai" ||
+          this.cityName == "Thane"
+        ) {
+          this.cityName = "Mumbai & Navi Mumbai";
+        }
+        if (
+          this.cityName == "Mumbai" ||
+          this.cityName == "Navi Mumbai" ||
+          this.cityName == "Thane"
+        ) {
+          this.cityName = "Mumbai & Navi Mumbai";
+        } else if (
+          this.cityName === "New Delhi" ||
+          this.cityName === "Noida" ||
+          this.cityName === "Gurugram" ||
+          this.cityName === "Faridabad" ||
+          this.cityName === "Greater Noida" ||
+          this.cityName === "Ghaziabad"
+        ) {
+          this.cityName = "New Delhi & NCR";
+        }
+      }
+
+      if (e.address_components[i].types[0] == "locality" && !this.secondArea) {
+        this.secondArea = e.address_components[i].long_name;
+      }
+      if (e.address_components[i].types[0] == "sublocality_level_1") {
+        this.secondArea = e.address_components[i].long_name;
+      }
+      if (e.address_components[i].types[1] == "sublocality") {
+        let add = e.address_components[i].long_name;
+        address = address + " " + add;
+      }
+      if (e.address_components[i].types[0] == "country") {
+        var country = e.address_components[i].long_name;
+      }
+    }
+
+    this.address = e.name + ", " + address;
+
+    if (country === "India" || this.cityName == "Jammu" || this.cityName == "Kashmir") {
+      this.bookingForm.controls[type == 1 ? "addressCity" : "deliveryAddressCity"].setValue(this.cityName);
+      if (this.bookingForm.controls["addressCity"].value != this.bookingForm.controls["deliveryAddressCity"].value) {
+        this.bookingForm.controls[type == 1 ? "addressLineOne" : "deliveryAddressLineOne"].setValue(e.name + ", " + e.formatted_address);
+      } else {
+        this.printToastMsg("Pick up city and delivery city should not be same city");
+        this.showAddressDropDown = this.showAddressDropDownDelivery =  false;
+        type == 1? (this.fullAddressLine = ""): (this.fullDeliveryAddressLine = "");
+        (type == 1 ? ["addressLineOne", "fulladdress", "addressCity", "addressLineTwo"]: ["deliveryAddressLineOne","fullDeliveryAddress","deliveryAddressCity","deliveryAddressLineTwo","addressPincodes",]).map((res) => {
+          this.bookingForm.controls[res].setValue("");
+        });
+        this.deliveryPincode = "";
+      }
+    } else {
+      this.printToastMsg("country is not serviceable");
+      this.showAddressDropDownDelivery = false;
+      type == 1 ? (this.fullAddressLine = ""): (this.fullDeliveryAddressLine = "");
+      (type == 1 ? ["addressLineOne", "fulladdress", "addressCity", "addressLineTwo"] : ["deliveryAddressLineOne", "fullDeliveryAddress", "deliveryAddressCity", "deliveryAddressLineTwo", "addressPincodes",]).map((res) => {
+        this.bookingForm.controls[res].setValue("");
+      });
+      this.deliveryPincode = "";
+    }
+  }
+  // 
+
   setUpDate() {
     var date = new Date(this.selected_date_for_date_picker).getDate();
     var month = new Date(this.selected_date_for_date_picker).getMonth();
@@ -1802,7 +1943,7 @@ export class BookingComponent implements OnInit {
   }
 
   change_Delivery_type() {
-    this.approximateAmount = 0;
+    this.meetMin1 = this.meetMin = this.meetHour = this.meetHour1 = this.approximateAmount = 0;
     this.submitted = false;
     this.fullAddressLine = this.fullDeliveryAddressLine = this.selected_time_slot = "";
     this.bookingForm.controls["term"].setValue(false);
@@ -2739,7 +2880,7 @@ export class BookingComponent implements OnInit {
             travell_passenger_email : formValue.email,
             country_code: formValue.country,
             subscription_transaction_id : this.subscription_details.used_tokens[0].subscription_transaction_id, // subscripion confirmation number -------
-            order_date: formValue.date,
+            order_date: this.datePipe.transform(formValue.date, "dd MMM y"),
             extra_weight_purched : "no",
             // formValue.transfer_type == 'Local' ? Number(formValue.bags) :
             exhaust_usages: Number(this.used_coupons) , // subscripion exhaust_usages -------
