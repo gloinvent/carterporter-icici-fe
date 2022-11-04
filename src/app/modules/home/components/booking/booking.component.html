@@ -1,4 +1,4 @@
-<div class="bookingSection py-5" [formGroup]="bookingForm">
+<div class="bookingSection icic-marigin  pt-5" [formGroup]="bookingForm">
   <div class="container">
 
     <h3 class="pt-3 heading mb-3 d-none d-md-block">Redeem Subscription or Make a Booking</h3>
@@ -993,6 +993,10 @@
                     <div class="addressText">City *</div>
                     <input class="addressInput" disabled formControlName="addressCity" type="text"
                       placeholder="Enter City">
+                    
+                    <!-- <div class="addressText" *ngIf="bookingForm.controls['cargo_terminal'].value == 'Rush Surface'">Pincode *</div>
+                    <input *ngIf="bookingForm.controls['cargo_terminal'].value == 'Rush Surface'" class="addressInput" maxlength="6" formControlName="addressPincodes" type="text"
+                      placeholder="Enter pincode"> -->
 
                   </div>
                 </div>
@@ -1026,7 +1030,7 @@
                     <div class="addressText">Apartment / Road / Area *</div>
                     <input class="addressInput" type="text" id="autocomplete"
                       placeholder="Enter Apartment / Road / Area" ngx-google-places-autocomplete #placesRef="ngx-places"
-                      (onAddressChange)="handleAddressChangeCargo($event, 2)"
+                      (onAddressChange)="bookingForm.controls['cargo_terminal'].value == 'Rush Surface' ? handleAddressChangeCargoSurface($event, 2) : handleAddressChangeCargo($event, 2)"
                       formControlName="deliveryAddressLineOne" />
 
                     <div class="addressText">House / Flat / Door no.</div>
@@ -1036,11 +1040,16 @@
                     <div class="addressText">City *</div>
                     <input class="addressInput" disabled formControlName="deliveryAddressCity" type="text"
                       placeholder="Enter City">
+                    
+                    <!-- Rush Surface -->
+                    <div class="addressText" *ngIf="bookingForm.controls['cargo_terminal'].value == 'Rush Surface'">Pincode *</div>
+                    <input class="addressInput" *ngIf="bookingForm.controls['cargo_terminal'].value == 'Rush Surface'" maxlength="6" [(ngModel)]="deliveryPincode" [ngModelOptions]="{standalone: true}" type="text"
+                      placeholder="Enter City">
 
                   </div>
                 </div>
                 <div>
-                  <button (click)="submitAddress(2)" style="padding: 3px 10px 2px;" class="myBtn">Submit</button>
+                  <button (click)="bookingForm.controls['cargo_terminal'].value == 'Rush Surface' ? submitAddressSurface() : submitAddress(2)" style="padding: 3px 10px 2px;" class="myBtn">Submit</button>
                 </div>
               </div>
             </div>
@@ -1360,7 +1369,7 @@
           <div class="message">
             <span class="mIcon">i</span>
             <p>
-              *Authorization Letter required. CarterX willl call after order is made with details.
+              *Authorization Letter required. CarterX will call after order is made with details.
             </p>
           </div>
         </div>
