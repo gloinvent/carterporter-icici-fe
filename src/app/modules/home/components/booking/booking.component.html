@@ -36,8 +36,8 @@
               [style.border]="bookingForm.controls['name'].hasError('required') && bookingForm.controls['name'].touched || (bookingForm.controls['name'].invalid && bookingForm.controls['name'].untouched && submitted ) ? '1px solid #ed7533' : '1px solid #dee2e6'">
               <legend class="w-auto">Name</legend>
               <div class="subNumber">
-                <input maxlength="30" type="name" formControlName="name" name="name" class="border-0"
-                  (keypress)="validateName($event)" (ngModelChange)="validateNameSpace()">
+                <input maxlength="30" type="name" formControlName="name" class="border-0"
+                  (keypress)="validateName($event)" (ngModelChange)="validateNameSpace()" [readonly]="user_details_disable">
               </div>
             </fieldset>
             <p class="error"
@@ -49,7 +49,7 @@
               [style.border]="bookingForm.controls['email'].hasError('required') && bookingForm.controls['email'].touched || (bookingForm.controls['email'].errors && bookingForm.controls['email'].touched) || (bookingForm.controls['email'].invalid && bookingForm.controls['email'].untouched && submitted ) ? '1px solid #ed7533' : '1px solid #dee2e6'">
               <legend class="w-auto">Email</legend>
               <div class="subNumber">
-                <input class="border-0" formControlName="email" type="email" name="email">
+                <input [readonly]="user_details_disable" class="border-0" formControlName="email" type="email" name="email">
               </div>
             </fieldset>
             <p class="error"
@@ -77,7 +77,7 @@
                       +{{item.country_code}} - {{item.country_name}}</li>
                   </ul>
                 </div>
-                <input type="tel" allowOnly="[^0-9]" minlength="10" maxlength="10" numbersOnly
+                <input type="tel" allowOnly="[^0-9]" minlength="10" maxlength="10" numbersOnly [readonly]="user_details_disable"
                   formControlName="mobile_number" class="border-0" (keypress)="numberOnly($event)">
               </div>
             </fieldset>
@@ -87,8 +87,8 @@
           </div>
 
           <div class="col-md-3 py-2 py-md-0">
-            <button class="myBtn mt-2 mt-md-0 float-right float-md-none" [class.otp-btn-disabled]="btnDisabled || (bookingForm.controls['name'].status == 'INVALID') || (bookingForm.controls['email'].status == 'INVALID') || (bookingForm.controls['mobile_number'].status == 'INVALID')"
-              [disabled]="btnDisabled || (bookingForm.controls['name'].status == 'INVALID') || (bookingForm.controls['email'].status == 'INVALID') ||  (bookingForm.controls['mobile_number'].status == 'INVALID')"
+            <button class="myBtn mt-2 mt-md-0 float-right float-md-none" [class.otp-btn-disabled]="user_details_disable || bookingForm.controls['delivery_type'].value == 'Cargo Transfer' || btnDisabled || (bookingForm.controls['name'].status == 'INVALID') || (bookingForm.controls['email'].status == 'INVALID') || (bookingForm.controls['mobile_number'].status == 'INVALID')"
+              [disabled]="user_details_disable || bookingForm.controls['delivery_type'].value == 'Cargo Transfer' || btnDisabled || (bookingForm.controls['name'].status == 'INVALID') || (bookingForm.controls['email'].status == 'INVALID') ||  (bookingForm.controls['mobile_number'].status == 'INVALID')"
               (click)="validateMobile(1)">OTP
               Validate</button>
           </div>
@@ -100,16 +100,16 @@
               <legend class="w-auto">Enter the OTP you Received</legend>
               <div class="subNumber d-flex align-items-center justify-content-between">
                 <input style="width: inherit;" (keypress)="numberOnly($event)" maxlength="4" type="tel" numberOnly formControlName="otp"
-                  class="border-0">
-                <button class="myBtn mr-0 mr-md-3 d-md-none" (click)="validateOtp()">Validate</button>
+                  class="border-0" [readonly]="user_details_disable || bookingForm.controls['delivery_type'].value == 'Cargo Transfer'">
+                <button [class.otp-btn-disabled]="user_details_disable || bookingForm.controls['delivery_type'].value == 'Cargo Transfer'" [disabled]="user_details_disable || bookingForm.controls['delivery_type'].value == 'Cargo Transfer'" class="myBtn mr-0 mr-md-3 d-md-none" (click)="validateOtp()">Validate</button>
               </div>
             </fieldset>
           </div>
           <div
             class="col-md-7 py-2 py-md-0 d-flex d-md-block justify-content-between justify-content-md-end flex-row-reverse">
-            <button class="myBtn mr-0 mr-md-3 d-none d-md-inline" (click)="validateOtp()">Validate</button>
-            <button class="myBtn mt-2" [class.otp-btn-disabled]="btnDisabled || (bookingForm.controls['name'].status == 'INVALID') || (bookingForm.controls['email'].status == 'INVALID') || (bookingForm.controls['mobile_number'].status == 'INVALID')"
-              [disabled]="btnDisabled || (bookingForm.controls['name'].status == 'INVALID') || (bookingForm.controls['email'].status == 'INVALID') ||  (bookingForm.controls['mobile_number'].status == 'INVALID')"
+            <button class="myBtn mr-0 mr-md-3 d-none d-md-inline" (click)="validateOtp()" [class.otp-btn-disabled]="user_details_disable || bookingForm.controls['delivery_type'].value == 'Cargo Transfer'" [disabled]="user_details_disable || bookingForm.controls['delivery_type'].value == 'Cargo Transfer'">Validate</button>
+            <button class="myBtn mt-2" [class.otp-btn-disabled]="user_details_disable || bookingForm.controls['delivery_type'].value == 'Cargo Transfer' || btnDisabled || (bookingForm.controls['name'].status == 'INVALID') || (bookingForm.controls['email'].status == 'INVALID') || (bookingForm.controls['mobile_number'].status == 'INVALID')"
+              [disabled]="user_details_disable || bookingForm.controls['delivery_type'].value == 'Cargo Transfer' || btnDisabled || (bookingForm.controls['name'].status == 'INVALID') || (bookingForm.controls['email'].status == 'INVALID') ||  (bookingForm.controls['mobile_number'].status == 'INVALID')"
               (click)="validateMobile(2)">Send Code Again</button>
           </div>
         </div>

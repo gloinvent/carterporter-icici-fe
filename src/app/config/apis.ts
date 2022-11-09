@@ -44,4 +44,5 @@ export const subscription = {
   PURCHASE_SUBSCRIPTION_VERIFY_USER: "r=v4/redeembook-api/buy-subcription-by-user",
   VERIFY_USER_NUMBER: "r=v4/redeembook-api/verifyusernumber",
   PICKUP_DROP_ADDRESS: "r=v4/redeembook-api/get-pick-drop-addres",
+  FETCH_SUBSCRIBER_DETAILS: "r=v4/redeembook-api/fetch-subscriber-details"
 };
