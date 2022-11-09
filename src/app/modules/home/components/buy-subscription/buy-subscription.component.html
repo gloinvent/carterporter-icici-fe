@@ -16,7 +16,7 @@
                 <!-- Input Name -->
                 <div class="icon-textbox">
                     <img class="name-email-icon" src="../../../../assets/icons/Name.png">
-                    <input formControlName="name" type="text" placeholder="Name*" class="form-control regular">
+                    <input style="background: transparent !important" [readonly]="user_details_disable" formControlName="name" type="text" placeholder="Name*" class="form-control regular">
                 </div>
 
                 <!-- Input Mobile number -->
@@ -43,7 +43,7 @@
                         </div>
                     </div>
                     <div class="mobile-no">
-                        <input class="form-control mobilenumber" formControlName="mobile" type="text"
+                        <input class="form-control mobilenumber" formControlName="mobile" type="text" style="background: transparent !important" [readonly]="user_details_disable" 
                             placeholder="Mobile No*" numbersOnly minlength='10' maxlength="10">
                     </div>
                 </div>
@@ -52,7 +52,7 @@
                 <!-- Input email -->
                 <div class="icon-textbox mt-2">
                     <img class="name-email-icon" src="../../../../assets/icons/email_Dark.png">
-                    <input type="text" formControlName="email" placeholder="Email*" class="form-control regular">
+                    <input type="text" style="background: transparent !important" [readonly]="user_details_disable" formControlName="email" placeholder="Email*" class="form-control regular">
                 </div>
 
                 <!-- OTP  -->

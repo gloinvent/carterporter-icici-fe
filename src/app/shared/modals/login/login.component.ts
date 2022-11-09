@@ -60,7 +60,7 @@ export class LoginComponent implements OnInit {
     });
     this.loginForm.valueChanges.subscribe(value => {
       this.mobileNo = value;
-      console.log(this.mobileNo);
+      // console.log(this.mobileNo);
       if (this.mobileNo.mobile.length > 6 && this.mobileNo.mobile.length < 14) {
         this.disableButton = false;
       } else {
