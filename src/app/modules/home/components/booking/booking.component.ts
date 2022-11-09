@@ -19,7 +19,7 @@ import { NgxSpinnerService } from "ngx-spinner";
 import { UtilService } from "src/app/core/services/util.service";
 import { throttleTime } from "rxjs/operators";
 import { Router } from "@angular/router";
-// import { PassArrayService } from "src/app/core/services/pass-array.service";
+import { PassArrayService } from "src/app/core/services/pass-array.service";
 import { MatDialog } from "@angular/material/dialog";
 // import { LoginComponent } from "src/app/shared/modals/login/login.component";
 import { PickAirportService } from "src/app/core/services/pick-airport/pick-airport.service";
@@ -399,9 +399,11 @@ export class BookingComponent implements OnInit {
     "Hyderabad",
     "Delhi",
     "New Delhi",
+    "New Delhi & NCR",
     "Noida",
     "Mumbai",
     "Navi Mumbai",
+    "Mumbai & Navi Mumbai",
     "Faridabad",
     "Gurgaon",
     "Ghaziabad",
@@ -578,7 +580,8 @@ export class BookingComponent implements OnInit {
     private ngxSpinner: NgxSpinnerService,
     private router: Router,
     private pickstate: PickStateService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private tokens: PassArrayService
   ) {
     // this.elem.nativeElement.style.setProperty("--value", 0);
     this.elem.nativeElement.style.setProperty("--value", 0);
@@ -586,7 +589,7 @@ export class BookingComponent implements OnInit {
 
   // NgOnInit
   ngOnInit() {
-    this.createBookingForm();
+    this.tokens.getNameOFUser.subscribe((name) => {this.createBookingForm();});
     this.pickCityFunction();
     this.razorPays.lazyLoadLibrary("https://checkout.razorpay.com/v1/checkout.js").subscribe();
   }
@@ -600,7 +603,7 @@ export class BookingComponent implements OnInit {
       bags: ["", Validators.required],
       airport_id: ["", Validators.required],
       time_slot: ["", Validators.required],
-      country: ["", Validators.required],
+      country: ["91", Validators.required],
       state_id: [""],
       name: ["", Validators.required],
       transfer_type: ["", Validators.required],
@@ -634,6 +637,32 @@ export class BookingComponent implements OnInit {
       subscription_id: [""],
       otp: [""],
     });
+    setTimeout(()=>{this.setLoginDetails();},100)
+  }
+
+  setLoginDetails() {
+    if(localStorage.loginUserDetails) {
+      this.approximateAmount = 0;
+      let obj = JSON.parse(localStorage.getItem("loginUserDetails"));
+      this.bookingForm.controls["name"].setValue(obj.customer_detail.name);
+      this.bookingForm.controls["mobile_number"].setValue(obj.customer_detail.mobile)
+      this.bookingForm.controls["email"].setValue(obj.customer_detail.email)
+      this.subscription_details.subscription_tokens.length == 0 ? this.get_subscription_list() : '';
+      this.user_details_disable = true
+    }
+    // ['name','mobile_number','email'].map((res)=>{this.bookingForm.controls[res].disable()});
+    // this.user_details_disable = true;
+  }
+
+  get_subscription_list(){
+    this.ngxSpinner.show();
+    this.subscription.subscription_validation(subscription.FETCH_SUBSCRIBER_DETAILS,{'email':this.bookingForm.controls["email"].value,'mobile':this.bookingForm.controls["mobile_number"].value}).subscribe((res:any)=>{
+      if(res.subscriber_detail.length != 0){
+        this.process_tokens(res.subscriber_detail);
+        this.subscription_details.show_coupons = true;
+      }
+      this.ngxSpinner.hide();
+    },()=>{this.ngxSpinner.hide();})
   }
 
   selectTypeofWay(num) {
@@ -670,8 +699,14 @@ export class BookingComponent implements OnInit {
         // 
         if (value == "Lost Luggage/Item/Not Loaded") {
           this.bookingForm.controls["type"].setValue("Arrival");
+          if(localStorage.loginUserDetails && this.subscription_details.subscription_tokens.length == 0) {
+            this.get_subscription_list();
+          }
         } else if (value == "Airport Transfer") {
           this.bookingForm.controls["type"].setValue("Departure");
+          if(localStorage.loginUserDetails && this.subscription_details.subscription_tokens.length == 0) {
+            this.get_subscription_list();
+          }
         } else {
           this.bookingForm.controls["type"].setValue("none");
         }
@@ -1398,8 +1433,8 @@ export class BookingComponent implements OnInit {
 
               for (var x = 0; x <= this.states.length - 1; x++) {
                 if (this.stateName === this.states[x]) {
-                  this.convenienceCharge =data.conveyance_charge[7].total_price;
-                  this.luggageGst = data.conveyance_charge[7].gst_price;
+                  this.convenienceCharge =data.conveyance_charge[8].total_price;
+                  this.luggageGst = data.conveyance_charge[8].gst_price;
                   break;
                 }
                 if (this.stateName !== this.states[x]) {
@@ -1434,8 +1469,8 @@ export class BookingComponent implements OnInit {
                   }
                   for (var y = 0; y <= this.exsistingCityArray.length - 1; y++) {
                     if (this.cityName === this.exsistingCityArray[y]) {
-                      this.convenienceCharge = data.conveyance_charge[8].total_price;
-                      this.luggageGst = data.conveyance_charge[8].gst_price;
+                      this.convenienceCharge = data.conveyance_charge[7].total_price;
+                      this.luggageGst = data.conveyance_charge[7].gst_price;
                       break;
                     }
                   }
@@ -2460,6 +2495,7 @@ export class BookingComponent implements OnInit {
     }
   }
 
+  user_details_disable:any = false;
   validateOtp() {
     if(this.bookingForm.controls['otp'].value){
       if(this.bookingForm.controls['delivery_type'].value == "Airport Transfer" || this.bookingForm.controls['delivery_type'].value == "Lost Luggage/Item/Not Loaded" ){
@@ -2483,6 +2519,7 @@ export class BookingComponent implements OnInit {
               if(res.subscriber_detail.length != 0){
                 this.process_tokens(res.subscriber_detail);
                 this.subscription_details.show_coupons = true;
+                this.login_usr_details(formValue,res.subscriber_detail);
               } 
             } else {
               this.subscription_details.show_coupons = false;
@@ -2500,6 +2537,51 @@ export class BookingComponent implements OnInit {
     }else{
       this.printToastMsg('Enter Valid OTP');
     }
+  }
+
+  login_usr_details(form:any ,response:any){
+    let loginDetails = {
+      "status": true,
+      "message": "Number Verified Successfully",
+      "customer_detail": {
+        "id_customer": response[0].id_customer,
+        "name": response[0].name,
+        "email": response[0].email,
+        "mobile": response[0].mobile,
+        "fk_tbl_customer_id_country_code": response[0].fk_tbl_customer_id_country_code ,
+        "id_country_code": response[0].fk_tbl_customer_id_country_code,
+        "mobile_number_verification": "1",
+        "client_id": response[0].client_id,
+        "client_secret": response[0].client_secret,
+      },
+      "saved_address": {
+        "registered_address": {},
+        "last_order_address": false
+      }
+    }
+    localStorage.setItem('loginUserDetails', JSON.stringify(loginDetails));
+    this.tokens.newEventFordata('LoggedIn!');
+    this.user_details_disable = true;
+   
+    this.accessTokenApi({
+      client_id: response[0].client_id,
+      client_secret: response[0].client_secret,
+      grant_type: 'client_credentials'
+    });
+    // setTimeout(()=>{this.tokens.newEventFordata('LoggedIn!');},200);
+    //['name','mobile_number','email'].map((res)=>{this.bookingForm.controls[res].disable()});
+  }
+
+
+  accessTokenApi(obj) {
+    this.crud.getToken(apis.GET_LOGIN_TOKEN, obj).subscribe((response:any) => {
+      if (response) {
+        localStorage.setItem('accessToken', response.access_token);
+        this.tokens.passToken(response.access_token);
+        localStorage.setItem('carterXAccessToken',response.access_token);
+      }
+    });
+    this.tokens.newEventFordata('LoggedIn!');
   }
 
   // format_tokens(list: any) {
@@ -2539,7 +2621,7 @@ export class BookingComponent implements OnInit {
       this.buttonCount = this.get_remaining_usage();
       let percent = (Number(this.buttonCount) / Number(this.dcrsCount) * 100 )
       let remain_percent = 100 - Number(percent) 
-      console.log(remain_percent)
+      // console.log(remain_percent)
       this.elem.nativeElement.style.setProperty("--value", remain_percent);
     }else{
       this.subscription_details.show_coupons = false;
@@ -2723,8 +2805,8 @@ export class BookingComponent implements OnInit {
           if (this.bookingForm.controls["transfer_type"].value == "Outstation") {
             for (var x = 0; x <= this.states.length - 1; x++) {
               if (this.stateName === this.states[x]) {
-                this.convenienceCharge = data.conveyance_charge[7].total_price;
-                this.luggageGst = data.conveyance_charge[7].gst_price;
+                this.convenienceCharge = data.conveyance_charge[8].total_price;
+                this.luggageGst = data.conveyance_charge[8].gst_price;
                 break;
               }
               if (this.stateName !== this.states[x]) {
@@ -2760,8 +2842,8 @@ export class BookingComponent implements OnInit {
                 for (var y = 0; y <= this.exsistingCityArray.length - 1; y++) {
                   if (this.cityName === this.exsistingCityArray[y]) {
                     this.convenienceCharge =
-                      data.conveyance_charge[8].total_price;
-                    this.luggageGst = data.conveyance_charge[8].gst_price;
+                      data.conveyance_charge[7].total_price;
+                    this.luggageGst = data.conveyance_charge[7].gst_price;
                     break;
                   }
                 }
@@ -2953,7 +3035,7 @@ export class BookingComponent implements OnInit {
       // console.log(res);
       total = total + Number(res.remaining_usages);
     })
-    console.log(total,'----------')
+    // console.log(total,'----------')
     return total;
   }
   // get all no of usage
@@ -2963,7 +3045,7 @@ export class BookingComponent implements OnInit {
       // console.log(res);
       total = total + Number(res.no_of_usages);
     })
-    console.log(total,'----------')
+    // console.log(total,'----------')
     return total;
   }
 

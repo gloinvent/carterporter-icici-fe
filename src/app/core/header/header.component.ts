@@ -113,6 +113,7 @@ export class HeaderComponent implements OnInit {
     // }
   }
   logout() {
+    this.router.navigate(["/home"]);
     localStorage.removeItem("loginUserDetails");
     localStorage.removeItem("accessToken");
     localStorage.removeItem("carterXAccessToken");
@@ -121,7 +122,7 @@ export class HeaderComponent implements OnInit {
     this.passArray.passUserName(false);
     this.disableMyTrips = true;
     this.disableMyProfile = true;
-    this.router.navigate(["/home"]);
+    setTimeout(()=>{location.reload();},300) 
     // location.reload();
   }
 

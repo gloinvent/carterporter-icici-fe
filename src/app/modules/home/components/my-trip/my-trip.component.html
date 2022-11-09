@@ -40,7 +40,7 @@
                   <div class="container">
                       <div class="row trip-details-data">
                           <div class="col-md-8 small-font">
-                              <div class="row inner-heading">
+                              <div class="row inner-heading" *ngIf="trip.order.order_transfer != '1' && trip.order.order_transfer !=1">
                                   <div class="col-md-6">
                                       <label class="bold">Number of Bags</label>
                                   </div>

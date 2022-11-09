@@ -18,6 +18,10 @@ export class SubscriptionConfirmationComponent implements OnInit {
   ngOnInit() {
     this.subcription = JSON.parse(localStorage.getItem('subscription_details'));
   }
+
+  ngAfterViewInit() {
+    setTimeout(()=>{window.scrollTo(0, 0);},200)
+  }
 }
 
 

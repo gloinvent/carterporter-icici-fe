@@ -35,6 +35,10 @@ export class OrderConfirmComponent implements OnInit {
     // localStorage.getItem("firstAirport");
   }
 
+  ngAfterViewInit() {
+    setTimeout(()=>{window.scrollTo(0, 0);},200)
+  }
+
   // downloadPdf() {
   //   this.crudService
   //     .get("r=order/orderpdf&order_number=" + this.roundTripOneOrderId)
