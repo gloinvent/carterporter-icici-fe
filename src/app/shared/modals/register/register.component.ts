@@ -115,4 +115,17 @@ export class RegisterComponent implements OnInit {
       });
   }
 
+  validateName(event) {
+    if ((event.keyCode < 65 || event.keyCode > 122) && event.key != " " || event.key == "^" || event.key == "_") {
+      event.preventDefault();
+    }
+  }
+
+  // name validation
+  validateNameSpace() {
+    if (this.registerForm.controls["name"].value.startsWith(" ")) {
+      this.registerForm.controls["name"].setValue("");
+    }
+  }
+
 }
