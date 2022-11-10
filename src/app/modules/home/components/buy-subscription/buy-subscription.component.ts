@@ -305,6 +305,19 @@ export class BuySubscriptionComponent implements OnInit {
     this.tokens.newEventFordata('LoggedIn!');
   }
 
+  validateName(event) {
+    if ((event.keyCode < 65 || event.keyCode > 122) && event.key != " " || event.key == "^" || event.key == "_") {
+      event.preventDefault();
+    }
+  }
+
+  // name validation
+  validateNameSpace() {
+    if (this.subscriptionForm.controls["name"].value.startsWith(" ")) {
+      this.subscriptionForm.controls["name"].setValue("");
+    }
+  }
+
 }
 
 // "transaction_id":"pay_KS5hPAJJb3H04z",
