@@ -175,6 +175,9 @@ export class BuySubscriptionComponent implements OnInit {
         localStorage.setItem('subscription_details',JSON.stringify(res.result.subscription_detail));
         this.login_usr_details(res.result.subscription_detail);
         this.router.navigateByUrl('/subscription-confirmation');
+        this.subscriptions.subscription_validation(subscription.SENDEMAIL,res.result.session_array).subscribe((res:any)=>{
+          console.log(res,'------')
+        })
       }
       console.log('respose',res)
       this.ngxSpinner.hide();
