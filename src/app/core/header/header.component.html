@@ -76,7 +76,7 @@
               [routerLinkActive]="'active'">Blog</a>
           </li>
           <li class="nav-item position-relative">
-            <a class="nav-link navList" style="cursor: pointer;" (click)="userName ? logoutDropDown() : signin()"
+            <a class="nav-link navList" style="cursor: pointer;text-transform: capitalize;" (click)="userName ? logoutDropDown() : signin()"
               [routerLinkActive]="'active'">{{userName ? userName : 'Sign In'}}</a>
             <ul *ngIf="userName && dropdownFlag" class='demoCls' [ngClass]="dropdownFlag ? 'showLogout' : ''">
               <li (window:mouseup)="autoCloseForDropdown($event)" routerLink="/home" class="logout" (click)='logout()'>

@@ -12,8 +12,8 @@
           <div class="subNumber">
             <input type="text" [readonly]="user_details_disable || bookingForm.controls['delivery_type'].value == 'Cargo Transfer'"  (keypress)="validatePnr($event)" style="text-transform: uppercase;width: inherit;" maxlength="6" class="border-0" formControlName="subscription_id">
             <button class="myBtn"  (click)="validateSubscription()"
-              [class.otp-btn-disabled]="bookingForm.controls['subscription_id'].value.length != 6"
-              [disabled]="bookingForm.controls['subscription_id'].value.length != 6">Validate</button>
+              [class.otp-btn-disabled]="user_details_disable || bookingForm.controls['delivery_type'].value == 'Cargo Transfer' || bookingForm.controls['subscription_id'].value.length != 6"
+              [disabled]=" user_details_disable || bookingForm.controls['delivery_type'].value == 'Cargo Transfer' || bookingForm.controls['subscription_id'].value.length != 6">Validate</button>
           </div>
         </fieldset>
       </div>
