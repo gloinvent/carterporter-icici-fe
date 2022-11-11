@@ -4,6 +4,7 @@ import { Router, RouterModule } from '@angular/router';
 import { MatDialog } from '@angular/material';
 import { ConfirmModalComponent } from 'src/app/shared/modals/confirm-modal/confirm-modal.component';
 import { PassArrayService } from 'src/app/core/services/pass-array.service';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-my-trip',
@@ -23,7 +24,7 @@ export class MyTripComponent implements OnInit {
   public loading = false;
   custId: any;
 
-  constructor(private cdr:ChangeDetectorRef, private TripsordersService: TripsordersService, private Router:Router, private passArray: PassArrayService) {
+  constructor(private cdr:ChangeDetectorRef,private ngxSpinner: NgxSpinnerService, private TripsordersService: TripsordersService, private Router:Router, private passArray: PassArrayService) {
   }
 
   count : any = 1;
@@ -39,14 +40,14 @@ export class MyTripComponent implements OnInit {
 
   getOrdersAndTripsWithPage(count){
     window.scroll(0, 0);
-    this.loading = true;
+    this.ngxSpinner.show();
     this.cdr.detectChanges()
     let obj = {"id_customer": this.custId.customer_detail.id_customer}
     this.TripsordersService.getOrdersAndTrips(obj, count).subscribe(orders => {
         this.orders = orders['booking_data'];
-        this.loading = false;
+        this.ngxSpinner.hide();
     }, err => {
-      this.loading = false;
+      this.ngxSpinner.hide();
     });
   }
 
@@ -64,7 +65,7 @@ export class MyTripComponent implements OnInit {
   }
 
   public reBook(data){
-       localStorage.orderObj = JSON.stringify(data);
-    this.Router.navigate(['/my-orders'])
+    localStorage.orderObj = JSON.stringify(data);
+    // this.Router.navigate(["/home"]);
   }
 }

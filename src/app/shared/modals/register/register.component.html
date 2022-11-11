@@ -15,7 +15,7 @@
                 <!-- Input Name -->
                 <div class="icon-textbox">
                     <img class="name-email-icon" src="../../../../assets/icons/Name.png">
-                    <input formControlName="name" type="text" placeholder="Name*" class="form-control regular">
+                    <input maxlength="30" formControlName="name" type="text" placeholder="Name*" class="form-control regular"  (keypress)="validateName($event)" (ngModelChange)="validateNameSpace()">
                 </div>
 
                 <!-- Input Mobile number -->
@@ -24,7 +24,7 @@
                         <label class="mobile-no-label regular">
                             <img class="phone-icon" src="../../../../assets/icons/Mobile No.png"> Mobile No*
                         </label>
-                        <select class="form-control countrycodes p-0" formControlName="id_country_code" (change)="selectedCountryCode()">
+                        <select style="margin: 10px 0 0 0;" class="form-control countrycodes p-0" formControlName="id_country_code" (change)="selectedCountryCode()">
                             <option [ngValue]="" selected disabled>+91</option>
                             <option *ngFor="let c of showCountryCode" [ngValue]="c">
                                 +{{c.country_code}}&nbsp;&nbsp;&nbsp;{{c.country_name}}</option>
@@ -34,8 +34,8 @@
 
 
                     <div class="col-md-6 col-5 pl-0">
-                        <input class="form-control mobilenumber" formControlName="mobile" type="text" numbersOnly minlength='7'
-                            maxlength="13">
+                        <input style="margin: 10px 0 0 0;" class="form-control mobilenumber" formControlName="mobile" type="text" numbersOnly minlength='10'
+                            maxlength="10">
                     </div>
                 </div>
                 <!-- <label class="mobile-no-label regular">

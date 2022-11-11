@@ -24,7 +24,7 @@ declare var Razorpay: any;
   ],
 })
 export class BuySubscriptionComponent implements OnInit {
-
+  user_details_disable:any = false;
   subscriptionForm: FormGroup;
   showCountryCode: any;
   otp_details:any = {
@@ -45,6 +45,7 @@ export class BuySubscriptionComponent implements OnInit {
     private ngZone: NgZone,
     private router:Router,
     private toast: MatSnackBar,
+    private tokens: PassArrayService
   ) {}
 
   ngOnInit() {
@@ -62,6 +63,17 @@ export class BuySubscriptionComponent implements OnInit {
       country_code: ["91"],
       otp: ['']
     });
+    setTimeout(()=>{this.setLoginDetails();},10)
+  }
+
+  setLoginDetails() {
+    if(localStorage.loginUserDetails) {
+      let obj = JSON.parse(localStorage.getItem("loginUserDetails"));
+      this.subscriptionForm.controls["name"].setValue(obj.customer_detail.name);
+      this.subscriptionForm.controls["mobile"].setValue(obj.customer_detail.mobile)
+      this.subscriptionForm.controls["email"].setValue(obj.customer_detail.email)
+      this.user_details_disable = true
+    }
   }
 
   // get country code
@@ -161,7 +173,11 @@ export class BuySubscriptionComponent implements OnInit {
       if(res.status && res.status == true && res.result.msg != 'something went wrong'){
         this.dialogRef.close();
         localStorage.setItem('subscription_details',JSON.stringify(res.result.subscription_detail));
+        this.login_usr_details(res.result.subscription_detail);
         this.router.navigateByUrl('/subscription-confirmation');
+        this.subscriptions.subscription_validation(subscription.SENDEMAIL,res.result.session_array).subscribe((res:any)=>{
+          console.log(res,'------')
+        })
       }
       console.log('respose',res)
       this.ngxSpinner.hide();
@@ -247,7 +263,64 @@ export class BuySubscriptionComponent implements OnInit {
     });
   }
 
+  login_usr_details(response:any){
+
+    let loginDetails = {
+      "status": true,
+      "message": "Number Verified Successfully",
+      "customer_detail": {
+        "id_customer": response[0].id_customer,
+        
+        "name": response[0].name,
+        "email": response[0].email,
+        "mobile": response[0].mobile,
+        "fk_tbl_customer_id_country_code": response[0].fk_tbl_customer_id_country_code ,
+        "id_country_code": response[0].fk_tbl_customer_id_country_code,
+        "mobile_number_verification": "1",
+        "client_id": response[0].client_id,
+        "client_secret": response[0].client_secret,
+      },
+      "saved_address": {
+        "registered_address": {},
+        "last_order_address": false
+      }
+    }
+
+    localStorage.setItem('loginUserDetails', JSON.stringify(loginDetails));
+    this.tokens.newEventFordata('LoggedIn!');
+    
+    this.accessTokenApi({
+      client_id: response[0].client_id,
+      client_secret: response[0].client_secret,
+      grant_type: 'client_credentials'
+    });
+  }
+
+
+  accessTokenApi(obj) {
+    this.crudService.getToken(apis.GET_LOGIN_TOKEN, obj).subscribe((response:any) => {
+      if (response) {
+        localStorage.setItem('accessToken', response.access_token);
+        this.tokens.passToken(response.access_token);
+        localStorage.setItem('carterXAccessToken',response.access_token);
+      }
+    });
+    this.tokens.newEventFordata('LoggedIn!');
+  }
+
+  validateName(event) {
+    if ((event.keyCode < 65 || event.keyCode > 122) && event.key != " " || event.key == "^" || event.key == "_") {
+      event.preventDefault();
+    }
+  }
+
+  // name validation
+  validateNameSpace() {
+    if (this.subscriptionForm.controls["name"].value.startsWith(" ")) {
+      this.subscriptionForm.controls["name"].setValue("");
+    }
+  }
+
 }
 
-//abc
 // "transaction_id":"pay_KS5hPAJJb3H04z",
