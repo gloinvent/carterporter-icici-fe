@@ -589,9 +589,13 @@ export class BookingComponent implements OnInit {
 
   // NgOnInit
   ngOnInit() {
-    this.tokens.getNameOFUser.subscribe((name) => {this.createBookingForm();});
-    this.pickCityFunction();
-    this.razorPays.lazyLoadLibrary("https://checkout.razorpay.com/v1/checkout.js").subscribe();
+    this.tokens.getNameOFUser.subscribe((name) => {
+      if(location.pathname == '/home'){
+        this.createBookingForm();
+        this.pickCityFunction();
+        this.razorPays.lazyLoadLibrary("https://checkout.razorpay.com/v1/checkout.js").subscribe();
+      }
+    });
   }
 
   // create ola booking form object
@@ -1815,7 +1819,7 @@ export class BookingComponent implements OnInit {
         if (this.bookingForm.controls["addressCity"].value != this.bookingForm.controls["deliveryAddressCity"].value) {
           this.bookingForm.controls[type == 1 ? "addressLineOne" : "deliveryAddressLineOne"].setValue(e.name + ", " + e.formatted_address);
         } else {
-          this.printToastMsg("Pick up city and delivery city should not be same " + this.bookingForm.controls["type"].value +" city");
+          this.printToastMsg("Pick up city and delivery city should not be same city");
           this.showAddressDropDown = this.showAddressDropDownDelivery =  false;
           type == 1? (this.fullAddressLine = ""): (this.fullDeliveryAddressLine = "");
           (type == 1 ? ["addressLineOne", "fulladdress", "addressCity", "addressLineTwo"]: ["deliveryAddressLineOne","fullDeliveryAddress","deliveryAddressCity","deliveryAddressLineTwo","addressPincodes",]).map((res) => {
@@ -2866,7 +2870,7 @@ export class BookingComponent implements OnInit {
               let gst_with_supscription_cost = Number(this.subscription_details.used_tokens[0].subscription_cost) + (Number(this.subscription_details.used_tokens[0].subscription_cost) /100) * Number(this.subscription_details.used_tokens[0].gst_percent);
               console.log("gst_with_supscription_cost.  .  ",gst_with_supscription_cost);
               
-              let per_usage_cost = Number(gst_with_supscription_cost) / Number(this.subscription_details.used_tokens[0].no_of_usages);
+              let per_usage_cost = Math.round(Number(gst_with_supscription_cost) / Number(this.subscription_details.used_tokens[0].no_of_usages));
               console.log("one_usage.  ", per_usage_cost);
               console.log("this.convenienceCharge.  ", this.convenienceCharge);
               // total outstation usage
@@ -2910,15 +2914,27 @@ export class BookingComponent implements OnInit {
             let gst_with_supscription_cost = Number(this.subscription_details.used_tokens[0].subscription_cost) + (Number(this.subscription_details.used_tokens[0].subscription_cost) /100) * Number(this.subscription_details.used_tokens[0].gst_percent);
             console.log("gst_with_supscription_cost.  .  ",gst_with_supscription_cost);
             
-            let per_usage_cost = Number(gst_with_supscription_cost) / Number(this.subscription_details.used_tokens[0].no_of_usages);
+            let per_usage_cost = Math.round(Number(gst_with_supscription_cost) / Number(this.subscription_details.used_tokens[0].no_of_usages));
             console.log("one_usage.  ", per_usage_cost);
 
-            if(Number(this.subscription_details.used_tokens[0].remaining_usages) <= (Number(formValue.bags) * domestic_Or_International )){
+            // redemption_cost
+            let redemption_cost = Number(this.subscription_details.used_tokens[0].redemption_cost);
+            redemption_cost = Number(redemption_cost) + Math.round(Number(redemption_cost) * Number(this.subscription_details.used_tokens[0].gst_percent) /100 );
+            // redemption_cost = domestic_Or_International * redemption_cost;
+            console.log('redemption_cost',redemption_cost)
+
+            if(Number(this.subscription_details.used_tokens[0].remaining_usages) < (Number(formValue.bags) * domestic_Or_International )){
               console.log('priceing')
+
               let remaining_local_usage = (domestic_Or_International * Number(formValue.bags)) - Number(this.subscription_details.used_tokens[0].remaining_usages)
-              this.approximateAmount = Math.round(Number(per_usage_cost) * Number(remaining_local_usage));
+
+              let price = Math.round(Number(per_usage_cost) * Number(remaining_local_usage));
+              // this.approximateAmount = Math.round(Number(price) + (Number(this.bookingForm.controls["bags"].value) * Number(redemption_cost)))
+              this.approximateAmount = Math.round(Number(price) + ( Number(this.subscription_details.used_tokens[0].remaining_usages) * Number(redemption_cost)))
               this.approximateAmount == 0 ? this.subscription_details.proceed_without_payment = true : null
+
               console.log('priceing',this.approximateAmount)
+
               this.used_coupons = Number(this.subscription_details.used_tokens[0].remaining_usages) ;
               this.subscription_gst_price = (Number(this.approximateAmount) *  Number(this.subscription_details.used_tokens[0].gst_percent)) / 100;
              
@@ -2926,7 +2942,10 @@ export class BookingComponent implements OnInit {
             else{
               this.used_coupons = Number(formValue.bags) * Number(domestic_Or_International);
               this.subscription_gst_price = 0;
-              this.approximateAmount = Number(this.bookingForm.controls["bags"].value) * (this.bookingForm.controls["terminal"].value == "Domestic Travel"? 1 : 2) * Number(this.subscription_details.used_tokens[0].redemption_cost);
+              this.approximateAmount = Math.round(domestic_Or_International * (Number(this.bookingForm.controls["bags"].value) * Number(redemption_cost)))
+              // this.approximateAmount = Math.round(Number(this.bookingForm.controls["bags"].value) * Number(redemption_cost))
+              // this.approximateAmount = Number(this.bookingForm.controls["bags"].value) * (this.bookingForm.controls["terminal"].value == "Domestic Travel"? 1 : 2) * Number(this.subscription_details.used_tokens[0].redemption_cost);
+
               console.log(this.approximateAmount,'-------edwed-wed-');
               this.approximateAmount == 0 ? this.subscription_details.proceed_without_payment = true : null
             }

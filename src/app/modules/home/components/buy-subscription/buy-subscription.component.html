@@ -16,7 +16,7 @@
                 <!-- Input Name -->
                 <div class="icon-textbox">
                     <img class="name-email-icon" src="../../../../assets/icons/Name.png">
-                    <input style="background: transparent !important" [readonly]="user_details_disable" formControlName="name" type="text" placeholder="Name*" class="form-control regular"  (keypress)="validateName($event)" (ngModelChange)="validateNameSpace()">
+                    <input maxlength="30" style="background: transparent !important" [readonly]="user_details_disable" formControlName="name" type="text" placeholder="Name*" class="form-control regular"  (keypress)="validateName($event)" (ngModelChange)="validateNameSpace()">
                 </div>
 
                 <!-- Input Mobile number -->
