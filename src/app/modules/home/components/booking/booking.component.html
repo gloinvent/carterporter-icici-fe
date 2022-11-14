@@ -1,4 +1,4 @@
-<div class="bookingSection icic-marigin  pt-5" [formGroup]="bookingForm">
+<div class="bookingSection py-5" [formGroup]="bookingForm">
   <div class="container">
 
     <h3 class="pt-3 heading mb-3 d-none d-md-block">Redeem Subscription or Make a Booking</h3>
@@ -599,13 +599,12 @@
               <div class="dropdown bagsDropdown" (window:mouseup)="bagsDropdownOnClick($event)">
                 <button class="dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown"
                   aria-haspopup="true" aria-expanded="false">
-                  {{bookingForm.controls['bags'].value ? bookingForm.controls['bags'].value + ' Bags' : 'Select Bag'}}
+                  {{bookingForm.controls['bags'].value ? bookingForm.controls['bags'].value + ( bookingForm.controls['bags'].value == 1 || bookingForm.controls['bags'].value== '1' ? ' Bag' : ' Bags') : 'Select Bag'}}
                 </button>
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                   <a class="dropdown-item"
                     *ngFor="let bag of (subscription_details.show_coupons ? get_bags_subscription() :get_bags())"
-                    (click)="handleDropdownEvent('bags',bag)">{{subscription_details.show_coupons  ? bag :
-                    bag.no_of_bags}} bags</a>
+                    (click)="handleDropdownEvent('bags',bag)">{{subscription_details.show_coupons  ? bag : bag.no_of_bags}} {{subscription_details.show_coupons  ? (bag == 1 ? 'bag' : 'bags') : (bag.no_of_bags == 1 ? 'bag' : 'bags')}}</a>
                 </div>
               </div>
             </div>
@@ -1308,13 +1307,12 @@
               <div class="dropdown bagsDropdown" (window:mouseup)="bagsDropdownOnClick($event)">
                 <button class="dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown"
                   aria-haspopup="true" aria-expanded="false">
-                  {{bookingForm.controls['bags'].value ? bookingForm.controls['bags'].value + ' Bags' : 'Select Bag'}}
+                  {{bookingForm.controls['bags'].value ? bookingForm.controls['bags'].value + ( bookingForm.controls['bags'].value == 1 || bookingForm.controls['bags'].value== '1' ? ' Bag' : ' Bags') : 'Select Bag'}}
                 </button>
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                   <a class="dropdown-item"
                     *ngFor="let bag of (subscription_details.show_coupons? get_bags_subscription() :get_bags())"
-                    (click)="handleDropdownEvent('bags',bag)">{{subscription_details.show_coupons  ? bag :
-                    bag.no_of_bags}} bags</a>
+                    (click)="handleDropdownEvent('bags',bag)">{{subscription_details.show_coupons  ? bag : bag.no_of_bags}} {{subscription_details.show_coupons  ? (bag == 1 ? 'bag' : 'bags') : (bag.no_of_bags == 1 ? 'bag' : 'bags')}}</a>
                 </div>
               </div>
             </div>
