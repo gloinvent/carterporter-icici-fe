@@ -357,22 +357,22 @@ export class BookingComponent implements OnInit {
     {
       city: "Bangalore",
       city_id: 1,
-      pincode: "560001",
+      pincode: "560300",
     },
     {
       city: "Hyderabad",
       city_id: 2,
-      pincode: "500001",
+      pincode: "501218",
     },
     {
       city: "Mumbai & Navi Mumbai",
       city_id: 3,
-      pincode: "400001",
+      pincode: "400099",
     },
     {
       city: "New Delhi & NCR",
       city_id: 5,
-      pincode: "110001",
+      pincode: "110037",
     },
   ];
 
