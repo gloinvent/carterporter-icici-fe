@@ -498,12 +498,14 @@ export class BookingComponent implements OnInit {
   addressPincode: any;
   deliveryPincode: any;
   cityName: any;
+  locality_name: any;
   area: any;
   secondArea: any;
   address: any;
   submitted: any;
   // address_id: any;
   place_id: any;
+  airport_city_name:any = "";
   // --------------------------------------------------------------
   buttonCount = 0;
   dcrsCount = 10;
@@ -563,7 +565,9 @@ export class BookingComponent implements OnInit {
   btnDisabled = false;
   btnDisabled2 = true;
   used_coupons :any;
-  subscription_gst_price:any;
+  subscription_gst_price: any;
+  remaining_usages:any;
+  total_usages:any;
 
   //constructor
   constructor(
@@ -829,6 +833,7 @@ export class BookingComponent implements OnInit {
       // break;
 
       case "airport":
+        this.airport_city_name = "";
         this.bookingForm.controls["airport_id"].setValue(Number(value.airport_name_id));
         this.selected_airport = value.airport_name;
 
@@ -836,6 +841,7 @@ export class BookingComponent implements OnInit {
           if (Number(value.fk_tbl_city_of_operation_region_id) == Number(res.city_id)) {
             this.bookingForm.controls["pincode"].setValue(res.pincode);
             this.bookingForm.controls["city_id"].setValue(res.city_id);
+            this.airport_city_name = res.city
           }
         });
 
@@ -1026,7 +1032,7 @@ export class BookingComponent implements OnInit {
           }
           if (res.postcode_localities && res.postcode_localities.length != 0) {
             res.postcode_localities.map((post: any) => {
-              if (this.area == post) {
+              if (this.area == post || this.locality_name == post) {
                 cnt += 1;
               }
             });
@@ -1071,7 +1077,7 @@ export class BookingComponent implements OnInit {
           }
           if (res.postcode_localities && res.postcode_localities.length != 0) {
             res.postcode_localities.map((post: any) => {
-              if (this.secondArea == post) {
+              if (this.secondArea == post || this.locality_name == post) {
                 cnt += 1;
               }
             });
@@ -1112,7 +1118,7 @@ export class BookingComponent implements OnInit {
       }
       if (e.address_components[i].types[0] == "locality") {
         this.cityName = e.address_components[i].long_name;
-
+        this.locality_name = e.address_components[i].long_name;
         if (this.cityName == "Bengaluru") {
           this.cityName = "Bangalore";
         }
@@ -1436,11 +1442,15 @@ export class BookingComponent implements OnInit {
             if (this.bookingForm.controls["transfer_type"].value == "Outstation") {
 
               for (var x = 0; x <= this.states.length - 1; x++) {
+
+                // jammu and north east state
                 if (this.stateName === this.states[x]) {
-                  this.convenienceCharge =data.conveyance_charge[8].total_price;
+                  this.convenienceCharge = data.conveyance_charge[8].total_price;
                   this.luggageGst = data.conveyance_charge[8].gst_price;
                   break;
                 }
+
+                // distance base calculation
                 if (this.stateName !== this.states[x]) {
                   if (this.distance <= 60) {
                     this.convenienceCharge =
@@ -1471,19 +1481,49 @@ export class BookingComponent implements OnInit {
                       data.conveyance_charge[6].total_price;
                     this.luggageGst = data.conveyance_charge[6].gst_price;
                   }
+                }
+
+                // serviceable city
+                if (this.airport_city_name == this.cityName) {
+                  // same city
+                  if (this.distance <= 60) {
+                    this.convenienceCharge =
+                      data.conveyance_charge[0].total_price;
+                    this.luggageGst = data.conveyance_charge[0].gst_price;
+                  } else if (this.distance <= 130) {
+                    this.convenienceCharge =
+                      data.conveyance_charge[1].total_price;
+                    this.luggageGst = data.conveyance_charge[1].gst_price;
+                  } else if (this.distance <= 200) {
+                    this.convenienceCharge =
+                      data.conveyance_charge[2].total_price;
+                    this.luggageGst = data.conveyance_charge[2].gst_price;
+                  } else if (this.distance <= 300) {
+                    this.convenienceCharge =
+                      data.conveyance_charge[3].total_price;
+                    this.luggageGst = data.conveyance_charge[3].gst_price;
+                  } else if (this.distance <= 400) {
+                    this.convenienceCharge =
+                      data.conveyance_charge[4].total_price;
+                    this.luggageGst = data.conveyance_charge[4].gst_price;
+                  } else if (this.distance <= 500) {
+                    this.convenienceCharge =
+                      data.conveyance_charge[5].total_price;
+                    this.luggageGst = data.conveyance_charge[5].gst_price;
+                  } else if (this.distance > 500) {
+                    this.convenienceCharge =
+                      data.conveyance_charge[6].total_price;
+                    this.luggageGst = data.conveyance_charge[6].gst_price;
+                  }
+                }
+                else {
+                  // other serviceable city
                   for (var y = 0; y <= this.exsistingCityArray.length - 1; y++) {
                     if (this.cityName === this.exsistingCityArray[y]) {
                       this.convenienceCharge = data.conveyance_charge[7].total_price;
                       this.luggageGst = data.conveyance_charge[7].gst_price;
                       break;
                     }
-                  }
-                }
-                for (var y = 0; y <= this.exsistingCityArray.length - 1; y++) {
-                  if (this.cityName === this.exsistingCityArray[y]) {
-                    this.convenienceCharge = data.conveyance_charge[7].total_price;
-                    this.luggageGst = data.conveyance_charge[7].gst_price;
-                    break;
                   }
                 }
               }
@@ -1739,6 +1779,7 @@ export class BookingComponent implements OnInit {
   // handle google address values
   async handleAddressChangeCargo(e: any, type) { 
     // type 1 means pickup and 2 means delivery
+    this.locality_name = ""
     type == 1 ? (this.fullAddressLine = "") : (this.fullDeliveryAddressLine = "");
     type == 1 ? (this.addressPincode = undefined) : (this.deliveryPincode = undefined);
     
@@ -1753,6 +1794,7 @@ export class BookingComponent implements OnInit {
       }
       if (e.address_components[i].types[0] == "locality") {
         this.cityName = e.address_components[i].long_name;
+        this.locality_name = e.address_components[i].long_name;
         if (this.cityName == "Bengaluru") {
           this.cityName = "Bangalore";
         }
@@ -1848,7 +1890,7 @@ export class BookingComponent implements OnInit {
   // handle google address values for cargo surface
   async handleAddressChangeCargoSurface(e: any, type) { 
     // type 1 means pickup and 2 means delivery
-    this.place_id =  this.secondArea = this.deliveryPincode = "";
+    this.place_id =  this.secondArea = this.deliveryPincode = this.locality_name = "";
 
     type == 1 ? (this.fullAddressLine = "") : (this.fullDeliveryAddressLine = "");
     type == 1 ? (this.addressPincode = undefined) : (this.deliveryPincode = undefined);
@@ -2771,6 +2813,7 @@ export class BookingComponent implements OnInit {
   }
 
   subscription_outstation_price() {
+    this.remaining_usages = this.total_usages = '';
     this.subscription_details.proceed_without_payment = false
     this.approximateAmount = 0;
     const formValue = { ...this.bookingForm.value };
@@ -2808,11 +2851,14 @@ export class BookingComponent implements OnInit {
           // outstation convinence charge for subscription
           if (this.bookingForm.controls["transfer_type"].value == "Outstation") {
             for (var x = 0; x <= this.states.length - 1; x++) {
+              // jammu and north east state
               if (this.stateName === this.states[x]) {
                 this.convenienceCharge = data.conveyance_charge[8].total_price;
                 this.luggageGst = data.conveyance_charge[8].gst_price;
                 break;
               }
+
+              // distance base calculation
               if (this.stateName !== this.states[x]) {
                 if (this.distance <= 60) {
                   this.convenienceCharge =
@@ -2843,6 +2889,43 @@ export class BookingComponent implements OnInit {
                     data.conveyance_charge[6].total_price;
                   this.luggageGst = data.conveyance_charge[6].gst_price;
                 }
+              }
+
+              // serviceable city
+              if (this.airport_city_name == this.cityName) {
+                // same city
+                if (this.distance <= 60) {
+                  this.convenienceCharge =
+                    data.conveyance_charge[0].total_price;
+                  this.luggageGst = data.conveyance_charge[0].gst_price;
+                } else if (this.distance <= 130) {
+                  this.convenienceCharge =
+                    data.conveyance_charge[1].total_price;
+                  this.luggageGst = data.conveyance_charge[1].gst_price;
+                } else if (this.distance <= 200) {
+                  this.convenienceCharge =
+                    data.conveyance_charge[2].total_price;
+                  this.luggageGst = data.conveyance_charge[2].gst_price;
+                } else if (this.distance <= 300) {
+                  this.convenienceCharge =
+                    data.conveyance_charge[3].total_price;
+                  this.luggageGst = data.conveyance_charge[3].gst_price;
+                } else if (this.distance <= 400) {
+                  this.convenienceCharge =
+                    data.conveyance_charge[4].total_price;
+                  this.luggageGst = data.conveyance_charge[4].gst_price;
+                } else if (this.distance <= 500) {
+                  this.convenienceCharge =
+                    data.conveyance_charge[5].total_price;
+                  this.luggageGst = data.conveyance_charge[5].gst_price;
+                } else if (this.distance > 500) {
+                  this.convenienceCharge =
+                    data.conveyance_charge[6].total_price;
+                  this.luggageGst = data.conveyance_charge[6].gst_price;
+                }
+              }
+              else {
+                // other serviceable city
                 for (var y = 0; y <= this.exsistingCityArray.length - 1; y++) {
                   if (this.cityName === this.exsistingCityArray[y]) {
                     this.convenienceCharge =
@@ -2852,20 +2935,12 @@ export class BookingComponent implements OnInit {
                   }
                 }
               }
-              for (var y = 0; y <= this.exsistingCityArray.length - 1; y++) {
-                if (this.cityName === this.exsistingCityArray[y]) {
-                  this.convenienceCharge =
-                    data.conveyance_charge[7].total_price;
-                  this.luggageGst = data.conveyance_charge[7].gst_price;
-                  break;
-                }
-              }
             }
 
             if (amount != 0 && this.subscription_details.used_tokens.length != 0) {
               let domestic_Or_International = this.bookingForm.controls["terminal"].value == "Domestic Travel" ? 1 : 2;
               console.log("domestic_Or_International.  ", domestic_Or_International);
-              
+               this.remaining_usages = Number(this.subscription_details.used_tokens[0].remaining_usages);
               //no of usages
               let gst_with_supscription_cost = Number(this.subscription_details.used_tokens[0].subscription_cost) + (Number(this.subscription_details.used_tokens[0].subscription_cost) /100) * Number(this.subscription_details.used_tokens[0].gst_percent);
               console.log("gst_with_supscription_cost.  .  ",gst_with_supscription_cost);
@@ -2888,7 +2963,7 @@ export class BookingComponent implements OnInit {
   
               let no_of_usages = total_outstation_usage * domestic_Or_International;
               console.log("no_of_usages.  ", no_of_usages);
-    
+              this.total_usages = no_of_usages + bag
               if(Number(this.subscription_details.used_tokens[0].remaining_usages) >= (no_of_usages + bag)){
                 this.approximateAmount = 0;
                 this.approximateAmount == 0 ? this.subscription_details.proceed_without_payment = true : null
@@ -2909,7 +2984,7 @@ export class BookingComponent implements OnInit {
           else if (this.bookingForm.controls["transfer_type"].value == "Local"){
             let domestic_Or_International = this.bookingForm.controls["terminal"].value == "Domestic Travel" ? 1 : 2;
             console.log("domestic_Or_International.  ", domestic_Or_International);
-            
+            this.remaining_usages = Number(this.subscription_details.used_tokens[0].remaining_usages);
             //no of usages
             let gst_with_supscription_cost = Number(this.subscription_details.used_tokens[0].subscription_cost) + (Number(this.subscription_details.used_tokens[0].subscription_cost) /100) * Number(this.subscription_details.used_tokens[0].gst_percent);
             console.log("gst_with_supscription_cost.  .  ",gst_with_supscription_cost);
@@ -2922,7 +2997,7 @@ export class BookingComponent implements OnInit {
             redemption_cost = Number(redemption_cost) + Math.round(Number(redemption_cost) * Number(this.subscription_details.used_tokens[0].gst_percent) /100 );
             // redemption_cost = domestic_Or_International * redemption_cost;
             console.log('redemption_cost',redemption_cost)
-
+            this.total_usages = (Number(formValue.bags) * domestic_Or_International)
             if(Number(this.subscription_details.used_tokens[0].remaining_usages) < (Number(formValue.bags) * domestic_Or_International )){
               console.log('priceing')
 
@@ -3005,7 +3080,9 @@ export class BookingComponent implements OnInit {
             area: this.area,
             pincode: formValue.delivery_type == "Airport Transfer" ? (formValue.pickup_type == "Airport: Drop off Point" || formValue.pickup_type == "Airport: Pickup Point" ? formValue.pincode : this.addressPincode) : formValue.addressPincodes,
             building_number : '',
-            building_restriction : null, 
+            building_restriction: null, 
+            remaining_usages: this.remaining_usages,
+            total_usages: this.total_usages,
             delivery_datetime: this.delivery_date
               ? this.delivery_date.toString().split(" ")[2] +
               " " +
