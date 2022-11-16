@@ -1103,7 +1103,7 @@ export class BookingComponent implements OnInit {
   async handleAddressChange(e: any) {
     console.log("----- address", e);
     this.place_id = this.area = this.addressPincode = this.distance = undefined;
-    this.fullAddressLine = "";
+    this.fullAddressLine = this.locality_name = this.cityName = "";
     this.approximateAmount = 0;
     let address = "";
     let add = e.address_components.length;
@@ -1116,14 +1116,32 @@ export class BookingComponent implements OnInit {
         e.address_components[i].long_name ? (this.addressPincode = e.address_components[i].long_name) : "";
         this.bookingForm.controls["addressPincodes"].setValue(e.address_components[i].long_name ? e.address_components[i].long_name : "");
       }
-      if (e.address_components[i].types[0] == "locality") {
-        this.cityName = e.address_components[i].long_name;
-        this.locality_name = e.address_components[i].long_name;
-        if (this.cityName == "Bengaluru") {
+      if (e.address_components[i].types[0] == "locality" || e.address_components[i].types[0] == "administrative_area_level_2") {
+
+        e.address_components[i].types[0] == "locality" ? this.locality_name = e.address_components[i].long_name : null;
+
+        if(!this.cityName && !this.locality_name){
+          console.log('Locality cityname ', e.address_components[i].long_name);
+          this.cityName = e.address_components[i].long_name;
+          // this.locality_name = e.address_components[i].long_name;
+        }
+
+        if(e.address_components[i].types[0] == "administrative_area_level_2"){
+          console.log('dministration city 2', e.address_components[i].long_name);
+          ["Thane","Navi Mumbai","Mumbai",'Bengaluru Urban',"Ghaziabad",'Greater Noida','Faridabad','Gurugram','Noida','New Delhi'].map((res)=>{
+            if(e.address_components[i].long_name == res){
+              console.log('administration city checking', e.address_components[i].long_name , res )
+              this.cityName = e.address_components[i].long_name;
+              // this.locality_name = e.address_components[i].long_name;
+            }
+          })
+        }
+
+        if (this.cityName == "Bengaluru" || this.cityName == 'Bengaluru Urban') {
           this.cityName = "Bangalore";
         }
 
-        if (
+       else if (
           this.cityName == "Mumbai" ||
           this.cityName == "Navi Mumbai" ||
           this.cityName == "Thane"
@@ -1131,7 +1149,7 @@ export class BookingComponent implements OnInit {
           this.cityName = "Mumbai & Navi Mumbai";
         }
 
-        if (
+        else if (
           this.cityName == "Mumbai" ||
           this.cityName == "Navi Mumbai" ||
           this.cityName == "Thane"
@@ -1484,7 +1502,7 @@ export class BookingComponent implements OnInit {
                 }
 
                 // serviceable city
-                if (this.airport_city_name == this.cityName) {
+                if (this.airport_city_name == this.bookingForm.controls['addressCity'].value) {
                   // same city
                   if (this.distance <= 60) {
                     this.convenienceCharge =
@@ -1779,7 +1797,7 @@ export class BookingComponent implements OnInit {
   // handle google address values
   async handleAddressChangeCargo(e: any, type) { 
     // type 1 means pickup and 2 means delivery
-    this.locality_name = ""
+    this.locality_name = this.cityName = "";
     type == 1 ? (this.fullAddressLine = "") : (this.fullDeliveryAddressLine = "");
     type == 1 ? (this.addressPincode = undefined) : (this.deliveryPincode = undefined);
     
@@ -1792,20 +1810,38 @@ export class BookingComponent implements OnInit {
       if (e.address_components[i].types[0] == "postal_code") {
         e.address_components[i].long_name ? type == 1 ? (this.addressPincode = e.address_components[i].long_name) : (this.deliveryPincode = e.address_components[i].long_name) : "";
       }
-      if (e.address_components[i].types[0] == "locality") {
-        this.cityName = e.address_components[i].long_name;
-        this.locality_name = e.address_components[i].long_name;
-        if (this.cityName == "Bengaluru") {
+       if (e.address_components[i].types[0] == "locality" || e.address_components[i].types[0] == "administrative_area_level_2") {
+
+      e.address_components[i].types[0] == "locality" ? this.locality_name = e.address_components[i].long_name : null;
+
+       if(!this.cityName && !this.locality_name){
+          console.log('Locality cityname ', e.address_components[i].long_name);
+          this.cityName = e.address_components[i].long_name;
+          // this.locality_name = e.address_components[i].long_name;
+        }
+
+        if(e.address_components[i].types[0] == "administrative_area_level_2"){
+          console.log('dministration city 2', e.address_components[i].long_name);
+          ["Thane","Navi Mumbai","Mumbai",'Bengaluru Urban',"Ghaziabad",'Greater Noida','Faridabad','Gurugram','Noida','New Delhi'].map((res)=>{
+            if(e.address_components[i].long_name == res){
+              console.log('administration city checking', e.address_components[i].long_name , res )
+              this.cityName = e.address_components[i].long_name;
+              // this.locality_name = e.address_components[i].long_name;
+            }
+          })
+        }
+
+        if (this.cityName == "Bengaluru" || this.cityName == 'Bengaluru Urban') {
           this.cityName = "Bangalore";
         }
-        if (
+        else if (
           this.cityName == "Mumbai" ||
           this.cityName == "Navi Mumbai" ||
           this.cityName == "Thane"
         ) {
           this.cityName = "Mumbai & Navi Mumbai";
         }
-        if (
+        else if (
           this.cityName == "Mumbai" ||
           this.cityName == "Navi Mumbai" ||
           this.cityName == "Thane"
@@ -1890,7 +1926,7 @@ export class BookingComponent implements OnInit {
   // handle google address values for cargo surface
   async handleAddressChangeCargoSurface(e: any, type) { 
     // type 1 means pickup and 2 means delivery
-    this.place_id =  this.secondArea = this.deliveryPincode = this.locality_name = "";
+    this.place_id =  this.secondArea = this.deliveryPincode = this.cityName = this.locality_name = "";
 
     type == 1 ? (this.fullAddressLine = "") : (this.fullDeliveryAddressLine = "");
     type == 1 ? (this.addressPincode = undefined) : (this.deliveryPincode = undefined);
@@ -1905,19 +1941,38 @@ export class BookingComponent implements OnInit {
       if (e.address_components[i].types[0] == "postal_code") {
         e.address_components[i].long_name ? type == 1 ? (this.addressPincode = e.address_components[i].long_name) : (this.deliveryPincode = e.address_components[i].long_name) : "";
       }
-      if (e.address_components[i].types[0] == "locality") {
-        this.cityName = e.address_components[i].long_name;
-        if (this.cityName == "Bengaluru") {
+      if (e.address_components[i].types[0] == "locality" || e.address_components[i].types[0] == "administrative_area_level_2") {
+
+        e.address_components[i].types[0] == "locality" ? this.locality_name = e.address_components[i].long_name : null;
+
+        if(!this.cityName && !this.locality_name){
+          console.log('Locality cityname ', e.address_components[i].long_name);
+          this.cityName = e.address_components[i].long_name;
+          // this.locality_name = e.address_components[i].long_name;
+        }
+
+        if(e.address_components[i].types[0] == "administrative_area_level_2"){
+          console.log('dministration city 2', e.address_components[i].long_name);
+          ["Thane","Navi Mumbai","Mumbai",'Bengaluru Urban',"Ghaziabad",'Greater Noida','Faridabad','Gurugram','Noida','New Delhi'].map((res)=>{
+            if(e.address_components[i].long_name == res){
+              console.log('administration city checking', e.address_components[i].long_name , res )
+              this.cityName = e.address_components[i].long_name;
+              // this.locality_name = e.address_components[i].long_name;
+            }
+          })
+        }
+
+        if (this.cityName == "Bengaluru" || this.cityName == 'Bengaluru Urban') {
           this.cityName = "Bangalore";
         }
-        if (
+        else if (
           this.cityName == "Mumbai" ||
           this.cityName == "Navi Mumbai" ||
           this.cityName == "Thane"
         ) {
           this.cityName = "Mumbai & Navi Mumbai";
         }
-        if (
+        else if (
           this.cityName == "Mumbai" ||
           this.cityName == "Navi Mumbai" ||
           this.cityName == "Thane"
@@ -2892,7 +2947,7 @@ export class BookingComponent implements OnInit {
               }
 
               // serviceable city
-              if (this.airport_city_name == this.cityName) {
+              if (this.airport_city_name == this.bookingForm.controls['addressCity'].value){
                 // same city
                 if (this.distance <= 60) {
                   this.convenienceCharge =
