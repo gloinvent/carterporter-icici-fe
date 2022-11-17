@@ -3137,8 +3137,8 @@ export class BookingComponent implements OnInit {
             pincode: formValue.delivery_type == "Airport Transfer" ? (formValue.pickup_type == "Airport: Drop off Point" || formValue.pickup_type == "Airport: Pickup Point" ? formValue.pincode : this.addressPincode) : formValue.addressPincodes,
             building_number : '',
             building_restriction: null, 
-            remaining_usages: this.remaining_usages,
-            total_usages: this.total_usages,
+            // remaining_usages: this.remaining_usages,
+            // total_usages: this.total_usages,
             delivery_datetime: this.delivery_date
               ? this.delivery_date.toString().split(" ")[2] +
               " " +
