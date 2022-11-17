@@ -1120,7 +1120,7 @@ export class BookingComponent implements OnInit {
 
         e.address_components[i].types[0] == "locality" ? this.locality_name = e.address_components[i].long_name : null;
 
-        if(!this.cityName && !this.locality_name){
+        if(!this.cityName){
           console.log('Locality cityname ', e.address_components[i].long_name);
           this.cityName = e.address_components[i].long_name;
           // this.locality_name = e.address_components[i].long_name;
@@ -1814,7 +1814,7 @@ export class BookingComponent implements OnInit {
 
       e.address_components[i].types[0] == "locality" ? this.locality_name = e.address_components[i].long_name : null;
 
-       if(!this.cityName && !this.locality_name){
+       if(!this.cityName){
           console.log('Locality cityname ', e.address_components[i].long_name);
           this.cityName = e.address_components[i].long_name;
           // this.locality_name = e.address_components[i].long_name;
@@ -1945,7 +1945,7 @@ export class BookingComponent implements OnInit {
 
         e.address_components[i].types[0] == "locality" ? this.locality_name = e.address_components[i].long_name : null;
 
-        if(!this.cityName && !this.locality_name){
+        if(!this.cityName){
           console.log('Locality cityname ', e.address_components[i].long_name);
           this.cityName = e.address_components[i].long_name;
           // this.locality_name = e.address_components[i].long_name;
@@ -3088,6 +3088,7 @@ export class BookingComponent implements OnInit {
 
   // place subscription order
   place_subscription_order(){
+    this.submitted = true;
     if (this.bookingForm.valid) {
       if (this.bookingForm.controls["term"].value != false) {
 
