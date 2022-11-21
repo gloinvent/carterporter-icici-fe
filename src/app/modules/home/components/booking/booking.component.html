@@ -536,7 +536,7 @@
                     <ng-container>
                       <div class="addressText">Pincode *</div>
                       <input class="addressInput" formControlName="addressPincodes" type="text" numbersOnly
-                        maxlength="6" placeholder="Enter Pincode">
+                        maxlength="6" [readonly]="show_pincode" placeholder="Enter Pincode">
                     </ng-container>
 
                   </div>
@@ -1042,7 +1042,7 @@
                     
                     <!-- Rush Surface -->
                     <div class="addressText" *ngIf="bookingForm.controls['cargo_terminal'].value == 'Rush Surface'">Pincode *</div>
-                    <input class="addressInput" *ngIf="bookingForm.controls['cargo_terminal'].value == 'Rush Surface'" maxlength="6" [(ngModel)]="deliveryPincode" [ngModelOptions]="{standalone: true}" type="text"
+                    <input class="addressInput" [readonly]="show_pincode" *ngIf="bookingForm.controls['cargo_terminal'].value == 'Rush Surface'" maxlength="6" [(ngModel)]="deliveryPincode" [ngModelOptions]="{standalone: true}" type="text"
                       placeholder="Enter City">
 
                   </div>
@@ -1277,7 +1277,7 @@
                     <!-- *ngIf="bookingForm.controls['transfer_type'].value == 'Outstation'" -->
                     <ng-container>
                       <div class="addressText">Pincode *</div>
-                      <input class="addressInput" formControlName="addressPincodes" type="text" numbersOnly
+                      <input class="addressInput" [readonly]="show_pincode" formControlName="addressPincodes" type="text" numbersOnly
                         maxlength="6" placeholder="Enter Pincode">
                     </ng-container>
 
