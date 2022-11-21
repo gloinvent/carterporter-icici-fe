@@ -506,6 +506,7 @@ export class BookingComponent implements OnInit {
   // address_id: any;
   place_id: any;
   airport_city_name:any = "";
+  show_pincode:any = false;
   // --------------------------------------------------------------
   buttonCount = 0;
   dcrsCount = 10;
@@ -722,7 +723,7 @@ export class BookingComponent implements OnInit {
         this.showDeliveryDate = "";
         this.change_Delivery_type();
         value == "Cargo Transfer" ? this.getCargoApproximateAmount() : null;
-        
+
         break;
 
       case "cargo_terminal":
@@ -997,7 +998,7 @@ export class BookingComponent implements OnInit {
           this.fullAddressLine = this.bookingForm.controls["addressLineOne"].value;
         }
       }
-      this.bookingForm.controls["delivery_type"].value == "Airport Transfer" || this.bookingForm.controls["delivery_type"].value =="Lost Luggage/Item/Not Loaded" ? this.submitAddress1(): (this.showAddressDropDown = this.showAddressDropDownDelivery = false);
+      this.bookingForm.controls["delivery_type"].value == "Airport Transfer" || this.bookingForm.controls["delivery_type"].value =="Lost Luggage/Item/Not Loaded" ? this.show_pincode == true ? this.getPrice() : this.submitAddress1(): (this.showAddressDropDown = this.showAddressDropDownDelivery = false);
     } else if (type == 2) {
       if (this.bookingForm.controls["deliveryAddressLineTwo"].value != "") {
         this.fullDeliveryAddressLine = this.bookingForm.controls["deliveryAddressLineTwo"].value + ", " + this.bookingForm.controls["deliveryAddressLineOne"].value;
@@ -1006,6 +1007,18 @@ export class BookingComponent implements OnInit {
       }
       this.showAddressDropDown = this.showAddressDropDownDelivery = false;
     }
+  }
+
+  getPrice(){
+    if (this.bookingForm.controls["addressLineTwo"].value != "") {
+      this.fullAddressLine = this.bookingForm.controls["addressLineTwo"].value + ", " + this.bookingForm.controls["addressLineOne"].value;
+    } 
+    else if (this.bookingForm.controls["addressLineTwo"].value == "") {
+      this.fullAddressLine = this.bookingForm.controls["addressLineOne"].value;
+    }
+    this.getdistance();
+    this.showAddressDropDown = this.showAddressDropDownDelivery = false;
+    this.fullAddressLine.includes(this.bookingForm.controls["addressPincodes"].value) ? null : (this.fullAddressLine = this.fullAddressLine + " " + this.bookingForm.controls["addressPincodes"].value);
   }
 
   submitAddress1() {
@@ -1039,16 +1052,17 @@ export class BookingComponent implements OnInit {
           }
         });
         if (cnt != 0) {
-          if (this.bookingForm.controls["addressLineTwo"].value != "") {
-            this.fullAddressLine = this.bookingForm.controls["addressLineTwo"].value + ", " + this.bookingForm.controls["addressLineOne"].value;
-            } 
-            else if (this.bookingForm.controls["addressLineTwo"].value == "") {
-              this.fullAddressLine = this.bookingForm.controls["addressLineOne"].value;
-            }
+          // if (this.bookingForm.controls["addressLineTwo"].value != "") {
+          //   this.fullAddressLine = this.bookingForm.controls["addressLineTwo"].value + ", " + this.bookingForm.controls["addressLineOne"].value;
+          //   } 
+          //   else if (this.bookingForm.controls["addressLineTwo"].value == "") {
+          //     this.fullAddressLine = this.bookingForm.controls["addressLineOne"].value;
+          //   }
             this.addressPincode = this.bookingForm.controls["addressPincodes"].value;
-            this.getdistance();
-            this.showAddressDropDown = this.showAddressDropDownDelivery = false;
-            this.fullAddressLine.includes(this.bookingForm.controls["addressPincodes"].value) ? null : (this.fullAddressLine = this.fullAddressLine + " " + this.bookingForm.controls["addressPincodes"].value);
+            this.getPrice();
+            // this.getdistance();
+            // this.showAddressDropDown = this.showAddressDropDownDelivery = false;
+            // this.fullAddressLine.includes(this.bookingForm.controls["addressPincodes"].value) ? null : (this.fullAddressLine = this.fullAddressLine + " " + this.bookingForm.controls["addressPincodes"].value);
           } else {
             this.printToastMsg("Pincode and Selected City Should be Same");
             this.bookingForm.controls["addressPincodes"].setValue("");
@@ -1057,8 +1071,22 @@ export class BookingComponent implements OnInit {
       });
   }
 
+  // submitAddressSurface(){
+  //   this.show_pincode = true ? this.setSurfaceAddress() : this.cargoPicodeVerification();
+  // }
+
+  setSurfaceAddress(){
+    if (this.bookingForm.controls["deliveryAddressLineTwo"].value != "") {
+      this.fullDeliveryAddressLine = this.bookingForm.controls["deliveryAddressLineTwo"].value + ", " + this.bookingForm.controls["deliveryAddressLineOne"].value;
+    } else if (this.bookingForm.controls["deliveryAddressLineTwo"].value == "") {
+      this.fullDeliveryAddressLine = this.bookingForm.controls["deliveryAddressLineOne"].value;
+    }
+    this.showAddressDropDown = this.showAddressDropDownDelivery = false;
+    this.fullDeliveryAddressLine.includes(this.bookingForm.controls["addressPincodes"].value) ? null : (this.fullDeliveryAddressLine = this.fullDeliveryAddressLine + " " + this.deliveryPincode);
+  }
+
   // cargo Rush surface address handling
-  submitAddressSurface(){
+  cargoPicodeVerification(){
     var result;
     this.pickairport.getPincode( this.deliveryPincode ? this.deliveryPincode : "null").subscribe((res) => {
       result = res;
@@ -1084,13 +1112,7 @@ export class BookingComponent implements OnInit {
           }
         });
         if (cnt != 0) {
-          if (this.bookingForm.controls["deliveryAddressLineTwo"].value != "") {
-            this.fullDeliveryAddressLine = this.bookingForm.controls["deliveryAddressLineTwo"].value + ", " + this.bookingForm.controls["deliveryAddressLineOne"].value;
-          } else if (this.bookingForm.controls["deliveryAddressLineTwo"].value == "") {
-            this.fullDeliveryAddressLine = this.bookingForm.controls["deliveryAddressLineOne"].value;
-          }
-          this.showAddressDropDown = this.showAddressDropDownDelivery = false;
-          this.fullDeliveryAddressLine.includes(this.bookingForm.controls["addressPincodes"].value) ? null : (this.fullDeliveryAddressLine = this.fullDeliveryAddressLine + " " + this.deliveryPincode);
+          this.setSurfaceAddress();
         } else {
           this.printToastMsg("Pincode and Selected City Should be Same");
           this.deliveryPincode = "";
@@ -1102,6 +1124,7 @@ export class BookingComponent implements OnInit {
   // handle google address values
   async handleAddressChange(e: any) {
     console.log("----- address", e);
+    this.show_pincode = false;
     this.place_id = this.area = this.addressPincode = this.distance = undefined;
     this.fullAddressLine = this.locality_name = this.cityName = "";
     this.approximateAmount = 0;
@@ -1113,11 +1136,15 @@ export class BookingComponent implements OnInit {
     this.place_id = e.place_id ? e.place_id : "";
     for (let i = 0; i < add; i++) {
       if (e.address_components[i].types[0] == "postal_code") {
+
         e.address_components[i].long_name ? (this.addressPincode = e.address_components[i].long_name) : "";
+
+        e.address_components[i].long_name ? this.show_pincode = true : this.show_pincode = false;
+
         this.bookingForm.controls["addressPincodes"].setValue(e.address_components[i].long_name ? e.address_components[i].long_name : "");
       }
       if (e.address_components[i].types[0] == "locality" || e.address_components[i].types[0] == "administrative_area_level_2") {
-
+        
         e.address_components[i].types[0] == "locality" ? this.locality_name = e.address_components[i].long_name : null;
 
         if(!this.cityName){
@@ -1125,7 +1152,7 @@ export class BookingComponent implements OnInit {
           this.cityName = e.address_components[i].long_name;
           // this.locality_name = e.address_components[i].long_name;
         }
-
+       
         if(e.address_components[i].types[0] == "administrative_area_level_2"){
           console.log('dministration city 2', e.address_components[i].long_name);
           ["Thane","Navi Mumbai","Mumbai",'Bengaluru Urban',"Ghaziabad",'Greater Noida','Faridabad','Gurugram','Noida','New Delhi'].map((res)=>{
@@ -1140,8 +1167,8 @@ export class BookingComponent implements OnInit {
         if (this.cityName == "Bengaluru" || this.cityName == 'Bengaluru Urban') {
           this.cityName = "Bangalore";
         }
-
-       else if (
+        
+        else if (
           this.cityName == "Mumbai" ||
           this.cityName == "Navi Mumbai" ||
           this.cityName == "Thane"
@@ -1182,6 +1209,7 @@ export class BookingComponent implements OnInit {
       }
     }
     this.address = e.name + ", " + address;
+    console.log('address city name  ',this.cityName);
     if (
       country === "India" ||
       this.cityName == "Jammu" ||
@@ -1537,13 +1565,14 @@ export class BookingComponent implements OnInit {
                 else {
                   // other serviceable city
                   for (var y = 0; y <= this.exsistingCityArray.length - 1; y++) {
-                    if (this.cityName === this.exsistingCityArray[y]) {
+                    if (this.bookingForm.controls['addressCity'].value == this.exsistingCityArray[y]) {
                       this.convenienceCharge = data.conveyance_charge[7].total_price;
                       this.luggageGst = data.conveyance_charge[7].gst_price;
                       break;
                     }
                   }
                 }
+                console.log('airport city and address city',this.airport_city_name +'       ' + this.bookingForm.controls['addressCity'].value)
               }
 
               if (amount != 0) {
@@ -1767,9 +1796,9 @@ export class BookingComponent implements OnInit {
     this.distance =parseFloat(distancemi.split(",")[0] + distancemi.split(",")[1]) * 1.60934;
 
     // Local and outstation conditon based on the Kilo Meter
-    if (this.distance < 60) {
+    if (this.distance <= 75) {
       this.bookingForm.controls["transfer_type"].setValue("Local"); console.log("local", this.distance);
-    } else if (this.distance >= 60) {
+    } else if (this.distance > 75) {
       this.bookingForm.controls["transfer_type"].setValue("Outstation"); console.log("outstation", this.distance);
     }
 
@@ -1810,7 +1839,7 @@ export class BookingComponent implements OnInit {
       if (e.address_components[i].types[0] == "postal_code") {
         e.address_components[i].long_name ? type == 1 ? (this.addressPincode = e.address_components[i].long_name) : (this.deliveryPincode = e.address_components[i].long_name) : "";
       }
-       if (e.address_components[i].types[0] == "locality" || e.address_components[i].types[0] == "administrative_area_level_2") {
+      if (e.address_components[i].types[0] == "locality" || e.address_components[i].types[0] == "administrative_area_level_2") {
 
       e.address_components[i].types[0] == "locality" ? this.locality_name = e.address_components[i].long_name : null;
 
@@ -1819,7 +1848,7 @@ export class BookingComponent implements OnInit {
           this.cityName = e.address_components[i].long_name;
           // this.locality_name = e.address_components[i].long_name;
         }
-
+       
         if(e.address_components[i].types[0] == "administrative_area_level_2"){
           console.log('dministration city 2', e.address_components[i].long_name);
           ["Thane","Navi Mumbai","Mumbai",'Bengaluru Urban',"Ghaziabad",'Greater Noida','Faridabad','Gurugram','Noida','New Delhi'].map((res)=>{
@@ -1926,6 +1955,7 @@ export class BookingComponent implements OnInit {
   // handle google address values for cargo surface
   async handleAddressChangeCargoSurface(e: any, type) { 
     // type 1 means pickup and 2 means delivery
+    this.show_pincode = false;
     this.place_id =  this.secondArea = this.deliveryPincode = this.cityName = this.locality_name = "";
 
     type == 1 ? (this.fullAddressLine = "") : (this.fullDeliveryAddressLine = "");
@@ -1940,17 +1970,18 @@ export class BookingComponent implements OnInit {
     for (let i = 0; i < add; i++) {
       if (e.address_components[i].types[0] == "postal_code") {
         e.address_components[i].long_name ? type == 1 ? (this.addressPincode = e.address_components[i].long_name) : (this.deliveryPincode = e.address_components[i].long_name) : "";
+        e.address_components[i].long_name ? this.show_pincode = true : this.show_pincode = false;
       }
       if (e.address_components[i].types[0] == "locality" || e.address_components[i].types[0] == "administrative_area_level_2") {
-
+        
         e.address_components[i].types[0] == "locality" ? this.locality_name = e.address_components[i].long_name : null;
-
+        
         if(!this.cityName){
           console.log('Locality cityname ', e.address_components[i].long_name);
           this.cityName = e.address_components[i].long_name;
           // this.locality_name = e.address_components[i].long_name;
         }
-
+       
         if(e.address_components[i].types[0] == "administrative_area_level_2"){
           console.log('dministration city 2', e.address_components[i].long_name);
           ["Thane","Navi Mumbai","Mumbai",'Bengaluru Urban',"Ghaziabad",'Greater Noida','Faridabad','Gurugram','Noida','New Delhi'].map((res)=>{
@@ -2982,20 +3013,20 @@ export class BookingComponent implements OnInit {
               else {
                 // other serviceable city
                 for (var y = 0; y <= this.exsistingCityArray.length - 1; y++) {
-                  if (this.cityName === this.exsistingCityArray[y]) {
-                    this.convenienceCharge =
-                      data.conveyance_charge[7].total_price;
+                  if (this.bookingForm.controls['addressCity'].value == this.exsistingCityArray[y]) {
+                    this.convenienceCharge = data.conveyance_charge[7].total_price;
                     this.luggageGst = data.conveyance_charge[7].gst_price;
                     break;
                   }
                 }
               }
+              console.log('airport terminal city and address city name  ',this.airport_city_name +'   '+ this.bookingForm.controls['addressCity'].value)
             }
 
             if (amount != 0 && this.subscription_details.used_tokens.length != 0) {
               let domestic_Or_International = this.bookingForm.controls["terminal"].value == "Domestic Travel" ? 1 : 2;
               console.log("domestic_Or_International.  ", domestic_Or_International);
-               this.remaining_usages = Number(this.subscription_details.used_tokens[0].remaining_usages);
+              this.remaining_usages = Number(this.subscription_details.used_tokens[0].remaining_usages);
               //no of usages
               let gst_with_supscription_cost = Number(this.subscription_details.used_tokens[0].subscription_cost) + (Number(this.subscription_details.used_tokens[0].subscription_cost) /100) * Number(this.subscription_details.used_tokens[0].gst_percent);
               console.log("gst_with_supscription_cost.  .  ",gst_with_supscription_cost);
@@ -3081,6 +3112,9 @@ export class BookingComponent implements OnInit {
             }
           }
           
+          console.log(this.remaining_usages, 'remaining usage ***********************')
+          console.log(this.total_usages, 'total usage *************************')
+          console.log(this.used_coupons, 'exast usage *************************')
           
         });
     }
@@ -3136,9 +3170,9 @@ export class BookingComponent implements OnInit {
             area: this.area,
             pincode: formValue.delivery_type == "Airport Transfer" ? (formValue.pickup_type == "Airport: Drop off Point" || formValue.pickup_type == "Airport: Pickup Point" ? formValue.pincode : this.addressPincode) : formValue.addressPincodes,
             building_number : '',
-            building_restriction: null, 
-            remaining_usages: this.remaining_usages,
-            total_usages: this.total_usages,
+            building_restriction: null,
+            // remaining_usages: this.remaining_usages,
+            // total_usages: this.total_usages,
             delivery_datetime: this.delivery_date
               ? this.delivery_date.toString().split(" ")[2] +
               " " +
