@@ -350,7 +350,7 @@
                   height: 30px;
                   cursor: pointer;
                   position: absolute;
-                " (click)="click()" />
+                " (click)="click($event)" />
 
               <owl-date-time [pickerType]="'calendar'" #dt1 (afterPickerClosed)="datePickerOnChange()">
               </owl-date-time>
@@ -853,7 +853,7 @@
                             height: 30px;
                             cursor: pointer;
                             position: absolute;
-                          " (click)="click()" />
+                          " (click)="click($event)" />
 
               <owl-date-time [pickerType]="'calendar'" #dt1 (afterPickerClosed)="setUpDate()">
               </owl-date-time>
@@ -1183,7 +1183,7 @@
                         height: 30px;
                         cursor: pointer;
                         position: absolute;
-                      " (click)="click()" />
+                      " (click)="click($event)" />
 
               <owl-date-time [pickerType]="'calendar'" #dt1 (afterPickerClosed)="datePickerOnChange()">
               </owl-date-time>
