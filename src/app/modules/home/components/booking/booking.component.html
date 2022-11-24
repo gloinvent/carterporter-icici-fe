@@ -742,9 +742,10 @@
         <div class="col-md-3  mb-3">
           <fieldset class="borders"
             [style.border]="bookingForm.controls['terminal'].hasError('required') && bookingForm.controls['terminal'].touched || (bookingForm.controls['terminal'].invalid && bookingForm.controls['terminal'].untouched && submitted ) ? '1px solid #ed7533' : '1px solid #dee2e6'">
-            <legend class="w-auto">Domestic / International Cargo</legend>
+            <legend class="w-auto">Domestic Cargo</legend>
             <div class="subNumber">
-              <div class="dropdown">
+              <span class="pt-1">{{bookingForm.controls['terminal'].value}}</span>
+              <!-- <div class="dropdown">
                 <button class="dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown"
                   aria-haspopup="true" aria-expanded="false">
                   {{bookingForm.controls['terminal'].value == '' ? 'Select Cargo' :
@@ -754,7 +755,7 @@
                   <a class="dropdown-item" *ngFor="let item of ['Domestic Cargo','International Cargo']"
                     (click)="handleDropdownEvent('terminal',item)">{{item}}</a>
                 </div>
-              </div>
+              </div> -->
             </div>
           </fieldset>
           <p class="error"
@@ -802,7 +803,7 @@
                   bookingForm.controls['parcel_type'].value}}
                 </button>
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                  <a class="dropdown-item" *ngFor="let item of ['Carton Box','Documents']"
+                  <a class="dropdown-item" *ngFor="let item of ['Carton Box','Documents','Sports & Other Equipment','Electronics']"
                     (click)="handleDropdownEvent('parcel_type',item)">{{item}}</a>
                 </div>
               </div>
@@ -893,7 +894,7 @@
 
 
         <!-- select contents start -->
-        <div class="col-md-4  mb-3">
+        <div class="col-md-4  mb-3" *ngIf="bookingForm.controls['parcel_type'].value != 'Sports & Other Equipment' && bookingForm.controls['parcel_type'].value != 'Electronics'">
           <fieldset class="borders"
             [style.border]="bookingForm.controls['cargo_content'].hasError('required') && bookingForm.controls['cargo_content'].touched || (bookingForm.controls['cargo_content'].invalid && bookingForm.controls['cargo_content'].untouched && submitted ) ? '1px solid #ed7533' : '1px solid #dee2e6'">
             <legend class="w-auto">Select Contents</legend>
@@ -906,7 +907,7 @@
                 </button>
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                   <a class="dropdown-item"
-                    *ngFor="let item of ['Documents | Books | Files','Clothes | Accessories','Dry Packed Food (non liquid)','Pickles | Uncooked Packed Food','Sports & Other Equipment','Electronics','Others']"
+                    *ngFor="let item of getCargoContents()"
                     (click)="handleDropdownEvent('cargo_content',item)">{{item}}</a>
                 </div>
               </div>
@@ -947,7 +948,7 @@
                 </button>
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                   <a class="dropdown-item d-flex justify-content-between px-2" *ngFor="let weight of
-                  (bookingForm.controls['cargo_terminal'].value == '' ? [] : weightJson.weights)"
+                  (bookingForm.controls['cargo_terminal'].value == '' ? [] : getWeight())"
                     (click)="handleDropdownEvent('weight',weight)">
                     <div>
                       {{weight.no_of_weight}}
