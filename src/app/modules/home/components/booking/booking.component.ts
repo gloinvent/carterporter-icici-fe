@@ -717,6 +717,7 @@ export class BookingComponent implements OnInit {
             this.get_subscription_list();
           }
         } else {
+          this.bookingForm.controls['terminal'].setValue("Domestic Cargo")
           this.bookingForm.controls["type"].setValue("none");
         }
         // 
@@ -747,9 +748,19 @@ export class BookingComponent implements OnInit {
         break;
 
       case "parcel_type":
+        ["cargo_content","weight"].map((res)=>{this.bookingForm.controls[res].setValue("");})
+        // this.bookingForm.controls["cargo_content"].setValue("");
         this.bookingForm.controls["parcel_type"].setValue(value);
-        this.bookingForm.controls["weight"].setValue("");
+        // this.bookingForm.controls["weight"].setValue("");
         this.approximateAmount = 0;
+        if (value == "Documents") {
+          this.bookingForm.controls["cargo_content"].setValue("Documents | Books | Files");
+          this.bookingForm.controls["other_content"].setValue("none");
+        } else if (value != "Documents" && value != "Carton Box") {
+          ["other_content","cargo_content"].map((res)=>{this.bookingForm.controls[res].setValue("none")});
+          // this.bookingForm.controls["cargo_content"].setValue("none");
+          // this.bookingForm.controls["other_content"].setValue("none");
+        }
         
         break;
 
@@ -803,7 +814,7 @@ export class BookingComponent implements OnInit {
         
         // subscription_details.show_coupons true then are distance based price calculated
         // && this.subscription_details.used_tokens.length != 0
-        this.subscription_details.show_coupons ? this.getSupscriptionPrice() : (this.distance ? this.getApproximateAmount() : null)
+        this.subscription_details.show_coupons ? this.getSupscriptionPrice() : null
         
         break;
 
@@ -820,7 +831,7 @@ export class BookingComponent implements OnInit {
         this.bookingForm.controls["addressLineOne"].setValue(value.pick_drop_address);
         
         // subscription_details.show_coupons true then are distance based price calculated
-        this.subscription_details.show_coupons ? this.getSupscriptionPrice() : (this.distance ? this.getApproximateAmount() : null)
+        this.subscription_details.show_coupons ? this.getSupscriptionPrice() : null
 
         this.bookingForm.controls["addressCity"].setValue("none");
         this.fullAddressLine = value.pick_drop_address;
@@ -851,7 +862,7 @@ export class BookingComponent implements OnInit {
         this.approximateAmount = this.distance = 0;
 
         // subscription_details.show_coupons true then are distance based price calculated
-        this.subscription_details.show_coupons ? this.getSupscriptionPrice() : (this.distance ? this.getApproximateAmount() : null)
+        this.subscription_details.show_coupons ? this.getSupscriptionPrice() : null
 
         // if airport servise selected call pick drop point api
         this.bookingForm.controls["pickup_type"].value == "Airport: Drop off Point" || this.bookingForm.controls["pickup_type"].value == "Airport: Pickup Point" ? this.get_pick_drop_address() : null
@@ -866,7 +877,7 @@ export class BookingComponent implements OnInit {
         this.selectTimeSlot(value);
 
         // subscription_details.show_coupons true then are distance based price calculated
-        this.subscription_details.show_coupons ? this.getSupscriptionPrice() : (this.distance ? this.getApproximateAmount() : null)
+        this.subscription_details.show_coupons ? this.getSupscriptionPrice() : null
 
         break;
 
@@ -876,7 +887,7 @@ export class BookingComponent implements OnInit {
         // this.token = this.bookingForm.controls["type"].value == "Departure" ? value.arrival_token : value.departure_token;
         
         // subscription_details.show_coupons true then are distance based price calculated
-        this.subscription_details.show_coupons ? this.getSupscriptionPrice() : (this.distance ? this.getApproximateAmount() : null)
+        this.subscription_details.show_coupons ? this.getSupscriptionPrice() : null
 
     }
   }
@@ -1597,64 +1608,86 @@ export class BookingComponent implements OnInit {
 
     if (this.bookingForm.valid) {
       if (this.bookingForm.controls["term"].value != false) {
-        if (this.approximateAmount) {
-          const formValue = { ...this.bookingForm.value };
-          let options = {
-            key: environment.razorPayKey,
-            amount: this.bookingForm.controls["delivery_type"].value == "Airport Transfer" ? Number(this.approximateAmount) * 100 : Number(this.getAmount()) * 100,
-            currency: "INR",
-            name: "CarterPorter",
-            description: "Payment towards Carter",
-            image: "https://cdn.razorpay.com/logos/Du4P7LfElD9azm_medium.jpg",
 
-            handler: (response) => {
-              this.ngZone.run(() => 
-              formValue.delivery_type == "Airport Transfer" || formValue.delivery_type == "Lost Luggage/Item/Not Loaded" ? (this.subscription_details.show_coupons ? this.place_subscription_order() : this.placeOrder()) : this.placeCargoOrder());
-            },
-            prefill: {
-              name: formValue.name,
-              email: formValue.email,
-              contact: formValue.mobile_number,
-            },
-            notes: {
-              address: "note value",
-            },
-            theme: {
-              color: "#F37254",
-            },
-            config: {
-              display: {
-                blocks: {
-                  icic: {
-                    name: "Pay using ICIC Bank",
-                    instruments: [
-                      {
-                        method: "card",
-                        issuers: ["ICIC"]
-                      },
-                      {
-                        method: "netbanking",
-                        banks: ["ICIC"]
-                      },
-                    ]
+        if (localStorage.loginUserDetails || this.bookingForm.controls['delivery_type'].value == 'Cargo Transfer') {
+
+          if ((this.subscription_details.subscription_tokens.length !=0) || this.bookingForm.controls['delivery_type'].value == 'Cargo Transfer') {
+
+            if ((this.subscription_details.used_tokens.length !=0) || this.bookingForm.controls['delivery_type'].value == 'Cargo Transfer') {
+
+              if (this.approximateAmount) {
+                const formValue = { ...this.bookingForm.value };
+                let options = {
+                  key: environment.razorPayKey,
+                  amount: this.bookingForm.controls["delivery_type"].value == "Airport Transfer" ? Number(this.approximateAmount) * 100 : Number(this.getAmount()) * 100,
+                  currency: "INR",
+                  name: "CarterPorter",
+                  description: "Payment towards Carter",
+                  image: "https://cdn.razorpay.com/logos/Du4P7LfElD9azm_medium.jpg",
+
+                  handler: (response) => {
+                    this.ngZone.run(() => 
+                    formValue.delivery_type == "Airport Transfer" || formValue.delivery_type == "Lost Luggage/Item/Not Loaded" ?  this.place_subscription_order() : this.placeCargoOrder());
                   },
-                },
-                hide: [
-                  {
-                  method: "upi"
-                  }
-                ],
-                sequence: ["block.icic"],
-                preferences: {
-                  show_default_blocks: false // Should Checkout show its default blocks?
-                }
+                  prefill: {
+                    name: formValue.name,
+                    email: formValue.email,
+                    contact: formValue.mobile_number,
+                  },
+                  notes: {
+                    address: "note value",
+                  },
+                  theme: {
+                    color: "#F37254",
+                  },
+                  config: {
+                    display: {
+                      blocks: {
+                        icic: {
+                          name: "Pay using ICIC Bank",
+                          instruments: [
+                            {
+                              method: "card",
+                              issuers: ["ICIC"]
+                            },
+                            {
+                              method: "netbanking",
+                              banks: ["ICIC"]
+                            },
+                          ]
+                        },
+                      },
+                      hide: [
+                        {
+                        method: "upi"
+                        }
+                      ],
+                      sequence: ["block.icic"],
+                      preferences: {
+                        show_default_blocks: false // Should Checkout show its default blocks?
+                      }
+                    }
+                  },
+                };
+                const rzp1 = new Razorpay(options);
+                rzp1.open();
+              } else {
+                this.printToastMsg("Something went wrong Please try again later");
               }
-            },
-          };
-          const rzp1 = new Razorpay(options);
-          rzp1.open();
-        } else {
-          this.printToastMsg("Something went wrong Please try again later");
+
+            }else{
+              this.printToastMsg("Please Use subscription coupons for booking");
+              console.log("--------", this.bookingForm);
+            }
+
+          }else{
+            this.printToastMsg("Please purchase subscription coupons and use for make booking");
+            console.log("--------", this.bookingForm);
+          }
+
+        }else{
+          this.printToastMsg("Please Login and use subscription coupons");
+          console.log("--------", this.bookingForm);
         }
       } else {
         this.printToastMsg("Please agree the terms and condition");
@@ -1803,7 +1836,7 @@ export class BookingComponent implements OnInit {
     }
 
     // subscription_details.show_coupons true then are distance based price calculated
-    this.subscription_details.show_coupons ? this.getSupscriptionPrice() : (this.distance ? this.getApproximateAmount() : null)
+    this.subscription_details.show_coupons ? this.getSupscriptionPrice() : null
 
     if (this.bookingForm.controls["transfer_type"].value == "Outstation") {
       var data: any = await this.pickairport.getState(destinationpin);
@@ -2170,7 +2203,7 @@ export class BookingComponent implements OnInit {
         .pipe(throttleTime(250))
         .subscribe((data: any) => {
           this.priceDetailsRes = data;
-          this.approxAmount = Math.round(data.price_details.price_with_gst);
+          this.approxAmount = Math.round(data.price_details.price_with_gst ? data.price_details.price_with_gst : 0);
           response.price = this.approxAmount;
         });
     });
@@ -2520,7 +2553,7 @@ export class BookingComponent implements OnInit {
         this.meetHour1  = this.meetHour;
         this.meetMin1 = this.meetMin;
         // subscription_details.show_coupons true then are distance based price calculated
-        this.subscription_details.show_coupons ? this.getSupscriptionPrice() : (this.distance ? this.getApproximateAmount() : null)
+        this.subscription_details.show_coupons ? this.getSupscriptionPrice() : null
       }else{
         this.printToastMsg("Please select valid time");
       } 
@@ -2547,7 +2580,7 @@ export class BookingComponent implements OnInit {
           this.getdistance();
           this.bookingForm.controls["addressLineOne"].setValue(this.pick_drop_details[0].pick_drop_address);
           // subscription_details.show_coupons true then are distance based price calculated
-          this.subscription_details.show_coupons ? this.getSupscriptionPrice() : (this.distance ? this.getApproximateAmount() : null)
+          this.subscription_details.show_coupons ? this.getSupscriptionPrice()  : null
           this.fullAddressLine = this.pick_drop_details[0].pick_drop_address;
           this.bookingForm.controls["addressCity"].setValue("none");
         }
@@ -2653,6 +2686,9 @@ export class BookingComponent implements OnInit {
                 this.subscription_details.show_coupons = true;
                 this.login_usr_details(formValue,res.subscriber_detail);
               } 
+              else{
+                setTimeout(()=>{this.printToastMsg("Subscription coupons not purchased, Please buy subscription and make booking");},500);
+              }
             } else {
               this.subscription_details.show_coupons = false;
             }
@@ -3126,84 +3162,105 @@ export class BookingComponent implements OnInit {
     if (this.bookingForm.valid) {
       if (this.bookingForm.controls["term"].value != false) {
 
-        if(this.subscription_details.used_tokens.length != 0){ 
-          
-          this.ngxSpinner.show();
-          // request body
-          const formValue = { ...this.bookingForm.value };
+        if (localStorage.loginUserDetails) {
 
-          const reqBody = {
-            service_type: formValue.type == "Departure" ? 1 : 2, // 2 for arrival, //1 for departure
-            order_type: 2,
-            transfer_type: formValue.transfer_type == 'Local' ? 1:2,
-            dservice_type: 7, // not confirmed
-            order_type_str: formValue.delivery_type == "Airport Transfer" ? "Airport Transfer" : "Lost Luggage",
-            terminal_type: formValue.terminal == "Domestic Travel" ? 2 : 1,
-            pick_drop_point: formValue.delivery_type == "Airport Transfer" ? (formValue.pickup_type == "Airport: Drop off Point" || formValue.pickup_type == "Airport: Pickup Point" ? 1 : 2 ) : 2,
-            no_of_units: Number(formValue.bags),
-            travell_passenger_name : formValue.name,
-            travell_passenger_contact : formValue.mobile_number,
-            travell_passenger_email : formValue.email,
-            country_code: formValue.country,
-            subscription_transaction_id : this.subscription_details.used_tokens[0].subscription_transaction_id, // subscripion confirmation number -------
-            order_date: this.datePipe.transform(formValue.date, "dd MMM y"),
-            extra_weight_purched : "no",
-            // formValue.transfer_type == 'Local' ? Number(formValue.bags) :
-            exhaust_usages: Number(this.used_coupons) , // subscripion exhaust_usages -------
-            payment_type : this.approximateAmount != 0 ? "razorpay" : "prepaid",
-            corporate_type : 4,
-            service_tax_amount :  Number(this.subscription_gst_price) ,  // subscripion service_tax_amount -------
-            luggage_price : Number(this.approximateAmount) ,  // subscripion luggage_price -------
-            total_luggage_price : this.approximateAmount,   //subscripion total_luggage_price
-            airport_id: formValue.airport_id,
-            city_id: formValue.city_id,
-            flight_number: formValue.other_airline_no && formValue.other_airline_no != "none"? formValue.other_airline_no.toUpperCase() : "",
-            pnr_number: formValue.pnr.toUpperCase(),
-            airport_slot_time :  (this.meetHour < 10  ? '0' : '' ) + this.meetHour + ':' + this.meetMin + (this.meetMin < 10  ? '0' : ''),  // airport_slot_time
-            pick_drop_address: this.pick_drop_details.length != 0 && (formValue.pickup_type == "Airport: Drop off Point" || formValue.pickup_type == "Airport: Pickup Point") ? Number(this.pick_drop_details[0].pick_drop_id) : null,
-            fk_tbl_order_id_slot : formValue.time_slot && formValue.time_slot != "none" ? formValue.time_slot : 1,
-            // formValue.pickup_type == "Airport: Drop off Point" || formValue.pickup_type == "Airport: Pickup Point" ? formValue.pincode : (formValue.delivery_type == "Airport Transfer" ? '' : 
-            pincode_first : (this.addressPincode ? this.addressPincode : formValue.pincode) ,
-            pincode_second : '',
-            address_line_1: this.fullAddressLine,
-            address_line_2: "",
-            area: this.area,
-            pincode: formValue.delivery_type == "Airport Transfer" ? (formValue.pickup_type == "Airport: Drop off Point" || formValue.pickup_type == "Airport: Pickup Point" ? formValue.pincode : this.addressPincode) : formValue.addressPincodes,
-            building_number : '',
-            building_restriction: null,
-            // remaining_usages: this.remaining_usages,
-            // total_usages: this.total_usages,
-            delivery_datetime: this.delivery_date
-              ? this.delivery_date.toString().split(" ")[2] +
-              " " +
-              this.delivery_date.toString().split(" ")[1] +
-              " " +
-              this.delivery_date.toString().split(" ")[3] +
-              " " +
-              this.show_delivery_time.toString().split(" ")[0]
-              : this.selected_date_for_date_picker,
-              
-          };
+          if (this.subscription_details.subscription_tokens.length !=0) {
 
-          console.log(reqBody, 'request body for redeem and booking');
-          // REEDEME AND BOOOKING API
-          this.crud.postWithStaticTokenAirline( CORPORATE_APIS.REDEEMBOOKING, reqBody, this.token, formValue.airline, formValue.transfer_type == "Outstation" ? 2 : 1).pipe(throttleTime(250)).subscribe((data: any) => {
-          if (data.status) {
-            console.log(data, 'api response for redeem and booking')
-            localStorage.setItem("order", JSON.stringify([data.order_number]));
-            localStorage.setItem("order_from", "airport");
-            this.ngxSpinner.hide();
-            this.router.navigate(["/order-confirmation"]);
-            window.scrollTo(0, 0);
+            if (this.subscription_details.used_tokens.length !=0) {
+
+              if(this.subscription_details.used_tokens.length != 0){ 
+                
+                this.ngxSpinner.show();
+                // request body
+                const formValue = { ...this.bookingForm.value };
+
+                const reqBody = {
+                  service_type: formValue.type == "Departure" ? 1 : 2, // 2 for arrival, //1 for departure
+                  order_type: 2,
+                  transfer_type: formValue.transfer_type == 'Local' ? 1:2,
+                  dservice_type: 7, // not confirmed
+                  order_type_str: formValue.delivery_type == "Airport Transfer" ? "Airport Transfer" : "Lost Luggage",
+                  terminal_type: formValue.terminal == "Domestic Travel" ? 2 : 1,
+                  pick_drop_point: formValue.delivery_type == "Airport Transfer" ? (formValue.pickup_type == "Airport: Drop off Point" || formValue.pickup_type == "Airport: Pickup Point" ? 1 : 2 ) : 2,
+                  no_of_units: Number(formValue.bags),
+                  travell_passenger_name : formValue.name,
+                  travell_passenger_contact : formValue.mobile_number,
+                  travell_passenger_email : formValue.email,
+                  country_code: formValue.country,
+                  subscription_transaction_id : this.subscription_details.used_tokens[0].subscription_transaction_id, // subscripion confirmation number -------
+                  order_date: this.datePipe.transform(formValue.date, "dd MMM y"),
+                  extra_weight_purched : "no",
+                  // formValue.transfer_type == 'Local' ? Number(formValue.bags) :
+                  exhaust_usages: Number(this.used_coupons) , // subscripion exhaust_usages -------
+                  payment_type : this.approximateAmount != 0 ? "razorpay" : "prepaid",
+                  corporate_type : 4,
+                  service_tax_amount :  Number(this.subscription_gst_price) ,  // subscripion service_tax_amount -------
+                  luggage_price : Number(this.approximateAmount) ,  // subscripion luggage_price -------
+                  total_luggage_price : this.approximateAmount,   //subscripion total_luggage_price
+                  airport_id: formValue.airport_id,
+                  city_id: formValue.city_id,
+                  flight_number: formValue.other_airline_no && formValue.other_airline_no != "none"? formValue.other_airline_no.toUpperCase() : "",
+                  pnr_number: formValue.pnr.toUpperCase(),
+                  airport_slot_time :  (this.meetHour < 10  ? '0' : '' ) + this.meetHour + ':' + this.meetMin + (this.meetMin < 10  ? '0' : ''),  // airport_slot_time
+                  pick_drop_address: this.pick_drop_details.length != 0 && (formValue.pickup_type == "Airport: Drop off Point" || formValue.pickup_type == "Airport: Pickup Point") ? Number(this.pick_drop_details[0].pick_drop_id) : null,
+                  fk_tbl_order_id_slot : formValue.time_slot && formValue.time_slot != "none" ? formValue.time_slot : 1,
+                  // formValue.pickup_type == "Airport: Drop off Point" || formValue.pickup_type == "Airport: Pickup Point" ? formValue.pincode : (formValue.delivery_type == "Airport Transfer" ? '' : 
+                  pincode_first : (this.addressPincode ? this.addressPincode : formValue.pincode) ,
+                  pincode_second : '',
+                  address_line_1: this.fullAddressLine,
+                  address_line_2: "",
+                  area: this.area,
+                  pincode: formValue.delivery_type == "Airport Transfer" ? (formValue.pickup_type == "Airport: Drop off Point" || formValue.pickup_type == "Airport: Pickup Point" ? formValue.pincode : this.addressPincode) : formValue.addressPincodes,
+                  building_number : '',
+                  building_restriction: null,
+                  // remaining_usages: this.remaining_usages,
+                  // total_usages: this.total_usages,
+                  delivery_datetime: this.delivery_date
+                    ? this.delivery_date.toString().split(" ")[2] +
+                    " " +
+                    this.delivery_date.toString().split(" ")[1] +
+                    " " +
+                    this.delivery_date.toString().split(" ")[3] +
+                    " " +
+                    this.show_delivery_time.toString().split(" ")[0]
+                    : this.selected_date_for_date_picker,
+                    
+                };
+
+                console.log(reqBody, 'request body for redeem and booking');
+                // REEDEME AND BOOOKING API
+                this.crud.postWithStaticTokenAirline( CORPORATE_APIS.REDEEMBOOKING, reqBody, this.token, formValue.airline, formValue.transfer_type == "Outstation" ? 2 : 1).pipe(throttleTime(250)).subscribe((data: any) => {
+                if (data.status) {
+                  console.log(data, 'api response for redeem and booking')
+                  localStorage.setItem("order", JSON.stringify([data.order_number]));
+                  localStorage.setItem("order_from", "airport");
+                  this.ngxSpinner.hide();
+                  this.router.navigate(["/order-confirmation"]);
+                  window.scrollTo(0, 0);
+                }
+              },
+              () => this.ngxSpinner.hide()
+                );
+              } else {
+                this.printToastMsg("Please use Subscription to booking");
+                console.log("--------", this.bookingForm);
+              }
+
+            }
+            else {
+              this.printToastMsg("Please use Subscription coupons for booking");
+              console.log("--------", this.bookingForm);
+            }
+
+          }else{
+            this.printToastMsg("Please purchase subscription coupons and use for make booking");
+            console.log("--------", this.bookingForm);
           }
-        },
-        () => this.ngxSpinner.hide()
-          );
-        } else {
-          this.printToastMsg("Please use Subscription to booking");
-          console.log("--------", this.bookingForm);
+
+        }else{
+          this.printToastMsg("Please Login and use subscription coupons");
+          console.log("--------", this.bookingForm);  
         }
-        
       } else {
         this.printToastMsg("Please agree the terms and condition");
         console.log("--------", this.bookingForm);
@@ -3233,6 +3290,29 @@ export class BookingComponent implements OnInit {
     })
     // console.log(total,'----------')
     return total;
+  }
+
+  getCargoContents() {
+    switch (this.bookingForm.controls["parcel_type"].value) {
+      case "Documents":
+        return ['Documents | Books | Files']
+        break;
+      case "Carton Box":
+        return['Documents | Books | Files','Clothes | Accessories','Dry Packed Food (non liquid)','Pickles | Uncooked Packed Food','Others'];
+        break;
+      default:
+        return [];
+    }
+  }
+
+  getWeight() {
+    switch (this.bookingForm.controls["parcel_type"].value) {
+      case "Documents":
+        return [this.weightJson.weights[0]]
+        break;
+      default:
+        return this.weightJson.weights;
+    }
   }
 
   
