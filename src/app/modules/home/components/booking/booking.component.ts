@@ -717,6 +717,7 @@ export class BookingComponent implements OnInit {
             this.get_subscription_list();
           }
         } else {
+          this.bookingForm.controls['terminal'].setValue("Domestic Cargo")
           this.bookingForm.controls["type"].setValue("none");
         }
         // 
@@ -747,9 +748,19 @@ export class BookingComponent implements OnInit {
         break;
 
       case "parcel_type":
+        ["cargo_content","weight"].map((res)=>{this.bookingForm.controls[res].setValue("");})
+        // this.bookingForm.controls["cargo_content"].setValue("");
         this.bookingForm.controls["parcel_type"].setValue(value);
-        this.bookingForm.controls["weight"].setValue("");
+        // this.bookingForm.controls["weight"].setValue("");
         this.approximateAmount = 0;
+        if (value == "Documents") {
+          this.bookingForm.controls["cargo_content"].setValue("Documents | Books | Files");
+          this.bookingForm.controls["other_content"].setValue("none");
+        } else if (value != "Documents" && value != "Carton Box") {
+          ["other_content","cargo_content"].map((res)=>{this.bookingForm.controls[res].setValue("none")});
+          // this.bookingForm.controls["cargo_content"].setValue("none");
+          // this.bookingForm.controls["other_content"].setValue("none");
+        }
         
         break;
 
@@ -1598,7 +1609,7 @@ export class BookingComponent implements OnInit {
     if (this.bookingForm.valid) {
       if (this.bookingForm.controls["term"].value != false) {
 
-        if (localStorage.loginUserDetails) {
+        if (localStorage.loginUserDetails || this.bookingForm.controls['delivery_type'].value == 'Cargo Transfer') {
 
           if ((this.subscription_details.subscription_tokens.length !=0) || this.bookingForm.controls['delivery_type'].value == 'Cargo Transfer') {
 
@@ -3279,6 +3290,29 @@ export class BookingComponent implements OnInit {
     })
     // console.log(total,'----------')
     return total;
+  }
+
+  getCargoContents() {
+    switch (this.bookingForm.controls["parcel_type"].value) {
+      case "Documents":
+        return ['Documents | Books | Files']
+        break;
+      case "Carton Box":
+        return['Documents | Books | Files','Clothes | Accessories','Dry Packed Food (non liquid)','Pickles | Uncooked Packed Food','Others'];
+        break;
+      default:
+        return [];
+    }
+  }
+
+  getWeight() {
+    switch (this.bookingForm.controls["parcel_type"].value) {
+      case "Documents":
+        return [this.weightJson.weights[0]]
+        break;
+      default:
+        return this.weightJson.weights;
+    }
   }
 
   
