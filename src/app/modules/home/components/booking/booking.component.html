@@ -1049,7 +1049,7 @@
                   </div>
                 </div>
                 <div>
-                  <button (click)="bookingForm.controls['cargo_terminal'].value == 'Rush Surface' ? submitAddressSurface() : submitAddress(2)" style="padding: 3px 10px 2px;" class="myBtn">Submit</button>
+                  <button (click)="bookingForm.controls['cargo_terminal'].value == 'Rush Surface' ? (show_pincode == true ? this.setSurfaceAddress() : this.cargoPicodeVerification()) : submitAddress(2)" style="padding: 3px 10px 2px;" class="myBtn">Submit</button>
                 </div>
               </div>
             </div>
