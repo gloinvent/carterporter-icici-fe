@@ -97,7 +97,7 @@
         <div class="row pt-2 align-items-center">
           <div class="col-md-5 p-md-0 pr-md-2 ">
             <fieldset class="borders">
-              <legend class="w-auto">Enter the OTP you Received</legend>
+              <legend class="w-auto">Enter the OTP you received</legend>
               <div class="subNumber d-flex align-items-center justify-content-between">
                 <input style="width: inherit;" (keypress)="numberOnly($event)" maxlength="4" type="tel" numberOnly formControlName="otp"
                   class="border-0" [readonly]="user_details_disable || bookingForm.controls['delivery_type'].value == 'Cargo Transfer'">
