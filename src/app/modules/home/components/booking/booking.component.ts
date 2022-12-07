@@ -2592,7 +2592,7 @@ export class BookingComponent implements OnInit {
   filterAirports() {
     this.airports = [];
     this.cityData.response.airport.map((item) => {
-      if (Number(item.airport_name_id) == 3 || Number(item.airport_name_id) == 7 || Number(item.airport_name_id) == 8 || Number(item.airport_name_id) == 9 || Number(item.airport_name_id) == 12 || Number(item.airport_name_id) == 13 || Number(item.airport_name_id) == 14) {
+      if (Number(item.airport_name_id) == 3 || Number(item.airport_name_id) == 7 || Number(item.airport_name_id) == 8 || Number(item.airport_name_id) == 9 || Number(item.airport_name_id) == 12 || Number(item.airport_name_id) == 13 || Number(item.airport_name_id) == 14 || Number(item.airport_name_id) == 28) {
         this.airports.push(item);
       }
     });
