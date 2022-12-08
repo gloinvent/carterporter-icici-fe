@@ -1,3 +1,4 @@
+import { NgxSpinnerService } from 'ngx-spinner';
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
@@ -30,7 +31,7 @@ export class VerifyOtpComponent implements OnInit {
 
   constructor(private modalService: NgbModal, public dialogRef: MatDialogRef<VerifyOtpComponent>, public dialog: MatDialog,
     private fb: FormBuilder, public getLoginData: PassFlagService, public crudService: CrudService,
-    private token: PassArrayService, private _snackbar: MatSnackBar) { }
+    private token: PassArrayService, private _snackbar: MatSnackBar,private spinner:NgxSpinnerService) { }
 
   ngOnInit() {
     this.otpForm = this.fb.group({
@@ -39,7 +40,7 @@ export class VerifyOtpComponent implements OnInit {
 
     this.otpForm.valueChanges.subscribe(value => {
       this.otp = value;
-      if (this.otp.otp.length > 0) {
+      if (this.otp.otp.length == 4) {
         this.disableButton = false;
       } else {
         this.disableButton = true;
@@ -59,8 +60,10 @@ export class VerifyOtpComponent implements OnInit {
 
   onSubmit() {
     this.createForm();
+    this.spinner.show();
     this.crudService.post(apis.VERIFY_OTP, this.otpData.value).subscribe(
       response => {
+        this.spinner.hide();
         this.res = response;
         if (this.res.status === true) {
           this.loginFlag = 1;
@@ -80,7 +83,7 @@ export class VerifyOtpComponent implements OnInit {
             duration: 3000, verticalPosition: 'top'
           });
         }
-      });
+      },err=> {this.spinner.hide();});
   }
   createForm() {
     let countryCode = localStorage.getItem('countryCode');
@@ -109,10 +112,12 @@ export class VerifyOtpComponent implements OnInit {
   }
 
   login() {
+    this.spinner.show();
     let obj = JSON.parse(localStorage.getItem('userLoginNumber'));
 
     this.crudService.post(apis.USER_LOGIN, obj).subscribe(
       response => {
+        this.spinner.hide();
         this.loginRes = response;
         if (this.loginRes.status) {
           this._snackbar.open(this.loginRes.otp_response.message.message, 'X', {
@@ -123,7 +128,7 @@ export class VerifyOtpComponent implements OnInit {
             duration: 4000, verticalPosition: 'top'
           });
         }
-      });
+      },err=> {this.spinner.hide();});
   }
 
   getInfoKey(key: string): string {
