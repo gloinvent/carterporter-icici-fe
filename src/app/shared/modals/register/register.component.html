@@ -56,7 +56,7 @@
                 </div>
             </div>
             <div>
-                <button class="submit-button bold" type="submit" [disabled]="disableButton">REGISTER</button>
+                <button class="btn submit-button bold" type="submit" [disabled]="disableButton">REGISTER</button>
                 <p class="star-info regular">* Denotes Mandatory&nbsp;<img class="info-icon"
                         src="../../../../assets/icons/information.png"></p>
             </div>
@@ -68,15 +68,15 @@
     <!-- Login body ends -->
 
     <!-- Login footer starts -->
-    <div class="container">
+    <div class="container mb-3">
         <div class="row footer-style bold">
-            <div class="col-md-6">
-                <p class="policy-terms" routerLink="/information/privacy-policy" (click)="onNoClick('privacyTerms')">
-                    Privacy Policy</p>
+            <div class="col-md-6 text-center">
+                <a class="policy-terms" href="/information/privacy-policy" target="_blank">
+                    Privacy Policy</a>
             </div>
-            <div class="col-md-6">
-                <p class="policy-terms" routerLink="/information/terms-and-conditions"
-                    (click)="onNoClick('privacyTerms')">Terms and Condition</p>
+            <div class="col-md-6 text-center">
+                <a class="policy-terms" href="/information/terms-and-conditions"
+                     target="_blank">Terms and Condition</a>
             </div>
         </div>
     </div>

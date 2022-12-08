@@ -17,7 +17,7 @@
                 <input type="text" formControlName="otp" maxlength="4" placeholder="Enter your OTP" class="form-control regular" numbersOnly>
             </div>
             <div>
-                <button class="submit-button bold" type="submit" [disabled]="disableButton">LOGIN</button>
+                <button class="btn submit-button bold" type="submit" [disabled]="disableButton">LOGIN</button>
             </div>
             <a class="resend-otp regular" (click)="login()">Resend OTP&nbsp;<img class="info-icon" [InfoDialog]="getInfoKey('Otp info')" src="../../../../assets/icons/information.png"></a>
         </form>
@@ -25,13 +25,13 @@
     <!-- Login body ends -->
 
     <!-- Login footer starts -->
-    <div class="container">
+    <div class="container mb-3">
         <div class="row footer-style bold">
-            <div class="col-md-6">
-                <p class="policy-terms" routerLink="/information/privacy-policy" (click)="onNoClick('Login')">Privacy Policy</p>
+            <div class="col-md-6 text-center">
+                <a class="policy-terms" href="/information/privacy-policy" target="_blank">Privacy Policy</a>
             </div>
-            <div class="col-md-6">
-                <p class="policy-terms" routerLink="/information/terms-and-conditions" (click)="onNoClick('Login')">Terms and Condition</p>
+            <div class="col-md-6 text-center">
+                <a class="policy-terms" href="/information/terms-and-conditions" target="_blank">Terms and Condition</a>
             </div>
         </div>
     </div>
