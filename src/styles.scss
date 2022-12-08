@@ -301,6 +301,14 @@ body {
     margin-top: 20px;
     margin-bottom: -24px;
 
+    a{
+      color: $lightblue;
+    }
+
+    a:hover{
+      text-decoration: none;
+    }
+
     .policy-terms {
       cursor: pointer;
     }
@@ -428,6 +436,14 @@ body {
     .policy-terms {
       cursor: pointer;
     }
+
+    a{
+      color: $lightblue;
+    }
+
+    a:hover{
+      text-decoration: none;
+    }
   }
 
   .textbox {
@@ -531,4 +547,8 @@ body {
   owl-date-time-container {
     right: 50px !important;
   }
+}
+
+.btn:focus {
+  box-shadow: none !important;
 }

@@ -1,3 +1,4 @@
+import { NgxSpinnerService } from 'ngx-spinner';
 import { Component, OnInit, ViewEncapsulation, Input } from "@angular/core";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import {
@@ -42,7 +43,8 @@ export class LoginComponent implements OnInit {
     private fb: FormBuilder,
     private crudService: CrudService,
     private passData: PassFlagService,
-    private _snackbar: MatSnackBar
+    private _snackbar: MatSnackBar,
+    private spinner:NgxSpinnerService
   ) {}
 
   ngOnInit() {
@@ -51,8 +53,8 @@ export class LoginComponent implements OnInit {
         "",
         [
           Validators.required,
-          Validators.minLength(7),
-          Validators.maxLength(13),
+          Validators.minLength(10),
+          Validators.maxLength(10),
           Validators.pattern("[0-9]+")
         ]
       ],
@@ -61,7 +63,7 @@ export class LoginComponent implements OnInit {
     this.loginForm.valueChanges.subscribe(value => {
       this.mobileNo = value;
       // console.log(this.mobileNo);
-      if (this.mobileNo.mobile.length > 6 && this.mobileNo.mobile.length < 14) {
+      if (this.mobileNo.mobile.length == 10) {
         this.disableButton = false;
       } else {
         this.disableButton = true;
@@ -144,12 +146,14 @@ export class LoginComponent implements OnInit {
   }
 
   login() {
+    this.spinner.show();
     let obj = {
       mobile: this.loginForm.value.mobile,
       id_country_code: this.selectedCC
     };
     localStorage.setItem("userLoginNumber", JSON.stringify(obj));
     this.crudService.post(apis.USER_LOGIN, obj).subscribe(response => {
+      this.spinner.hide();
       this.passLoginData = this.loginForm.value;
       this.passData.setOption(this.passLoginData);
       this.loginRes = response;
@@ -162,6 +166,6 @@ export class LoginComponent implements OnInit {
           verticalPosition: "top"
         });
       }
-    });
+    },err=> {this.spinner.hide();});
   }
 }
