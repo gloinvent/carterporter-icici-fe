@@ -50,26 +50,26 @@ export class BookingComponent implements OnInit {
         no_of_weight: "5 kgs",
         price: "",
       },
-      {
-        no_of_weight: "7 kgs",
-        price: "",
-      },
+      // {
+      //   no_of_weight: "7 kgs",
+      //   price: "",
+      // },
       {
         no_of_weight: "12 kgs",
         price: "",
       },
-      {
-        no_of_weight: "15 kgs",
-        price: "",
-      },
+      // {
+      //   no_of_weight: "15 kgs",
+      //   price: "",
+      // },
       {
         no_of_weight: "20 kgs",
         price: "",
       },
-      {
-        no_of_weight: "25 kgs",
-        price: "",
-      },
+      // {
+      //   no_of_weight: "25 kgs",
+      //   price: "",
+      // },
       {
         no_of_weight: "30 kgs",
         price: "",
@@ -569,6 +569,7 @@ export class BookingComponent implements OnInit {
   subscription_gst_price: any;
   remaining_usages:any;
   total_usages:any;
+  is_otp_verified: boolean = false;
 
   //constructor
   constructor(
@@ -667,7 +668,7 @@ export class BookingComponent implements OnInit {
     this.ngxSpinner.show();
     this.subscription.subscription_validation(subscription.FETCH_SUBSCRIBER_DETAILS,{'email':this.bookingForm.controls["email"].value,'mobile':this.bookingForm.controls["mobile_number"].value}).subscribe((res:any)=>{
       if(res.subscriber_detail.length != 0){
-        this.process_tokens(res.subscriber_detail);
+        this.process_subscription_details(res.subscriber_detail);
         this.subscription_details.show_coupons = true;
       }
       this.ngxSpinner.hide();
@@ -756,12 +757,12 @@ export class BookingComponent implements OnInit {
         if (value == "Documents") {
           this.bookingForm.controls["cargo_content"].setValue("Documents | Books | Files");
           this.bookingForm.controls["other_content"].setValue("none");
-        } else if (value != "Documents" && value != "Carton Box") {
+        } else if (value != "Documents" && value != "Cartons/Baggage") {
           ["other_content","cargo_content"].map((res)=>{this.bookingForm.controls[res].setValue("none")});
           // this.bookingForm.controls["cargo_content"].setValue("none");
           // this.bookingForm.controls["other_content"].setValue("none");
         }
-        
+        this.getCargoApproximateAmount();
         break;
 
       case "weight":
@@ -2179,7 +2180,7 @@ export class BookingComponent implements OnInit {
   }
 
   async getCargoApproximateAmount() {
-    this.ngxSpinner.show();
+    this.weightJson.weights.map((res)=> { res.price  = ''});
     this.approximateAmount = 0;
     const formValue = { ...this.bookingForm.value };
     // request body
@@ -2197,18 +2198,109 @@ export class BookingComponent implements OnInit {
       service_type: 1,
     };
 
-    this.weightJson.weights.map((response: any) => {
-      this.crud.postWithCorporateTokenCargoAirline(CORPORATE_APIS.GET_APPROX_AMOUNT,reqBody,response.no_of_weight,formValue.cargo_terminal ? formValue.cargo_terminal : "Rush Air"
-        )
-        .pipe(throttleTime(250))
-        .subscribe((data: any) => {
-          this.priceDetailsRes = data;
-          this.approxAmount = Math.round(data.price_details.price_with_gst ? data.price_details.price_with_gst : 0);
-          response.price = this.approxAmount;
-        });
-    });
+    if(this.bookingForm.controls["parcel_type"].value && this.bookingForm.controls['cargo_terminal'].value){
+      switch(this.bookingForm.controls["parcel_type"].value){
+        case "Cartons/Baggage":
+          this.ngxSpinner.show();
+          let cnt=0;
+          ['5 kgs', '12 kgs', '20 kgs', '30 kgs', '40 kgs'].map((response: any) => {
+            this.crud.postWithCorporateTokenCargoAirline(CORPORATE_APIS.GET_APPROX_AMOUNT, reqBody, response, formValue.cargo_terminal, formValue.parcel_type)
+              .pipe(throttleTime(250))
+              .subscribe((data: any) => {
+                cnt+=1;
+                this.priceDetailsRes = data;
+                this.approxAmount = Math.round(data.price_details.price_with_gst);
+                switch(response){
+                  case "5 kgs":
+                    this.weightJson.weights[1].price = this.approxAmount;
+                    break;
+                  case "12 kgs":
+                    this.weightJson.weights[2].price = this.approxAmount;
+                    break;
+                  case "20 kgs":
+                    this.weightJson.weights[3].price = this.approxAmount;
+                    break;
+                  case "30 kgs":
+                    this.weightJson.weights[4].price = this.approxAmount;
+                    break;
+                  case "40 kgs":
+                    this.weightJson.weights[5].price = this.approxAmount;
+                    break;
+                } 
+                if(cnt == 5){
+                  this.ngxSpinner.hide();
+                }
+            },err=>{this.ngxSpinner.hide();});
+          });
+          break;
+        case "Documents":
+          this.ngxSpinner.show();
+          this.crud.postWithCorporateTokenCargoAirline(CORPORATE_APIS.GET_APPROX_AMOUNT, reqBody, '2 kgs', formValue.cargo_terminal, formValue.parcel_type).pipe(throttleTime(250)).subscribe((data: any) => {
+            this.priceDetailsRes = data;
+            this.approxAmount = Math.round(data.price_details.price_with_gst);
+            this.weightJson.weights[0].price = this.approxAmount;
+            this.ngxSpinner.hide();
+          });
+          // });
+          break;
+        case "Sports & Other Equipment":
+          this.ngxSpinner.show();
+          let cnt1 =0;
+          ['20 kgs', '30 kgs', '40 kgs'].map((response: any) => {
+            this.crud.postWithCorporateTokenCargoAirline(CORPORATE_APIS.GET_APPROX_AMOUNT, reqBody, response, formValue.cargo_terminal, formValue.parcel_type)
+              .pipe(throttleTime(250))
+              .subscribe((data: any) => {
+                cnt1 += 1;
+                this.priceDetailsRes = data;
+                this.approxAmount = Math.round(data.price_details.price_with_gst);
+                switch(response){
+                  case "20 kgs":
+                    this.weightJson.weights[3].price = this.approxAmount;
+                    break;
+                  case "30 kgs":
+                    this.weightJson.weights[4].price = this.approxAmount;
+                    break;
+                  case "40 kgs":
+                    this.weightJson.weights[5].price = this.approxAmount;
+                    break;
+                }
+                if(cnt1 == 3){
+                  this.ngxSpinner.hide();
+                }
+            },err=>{this.ngxSpinner.hide();});
+          });
+          break;
+        case "Electronics":
+          this.ngxSpinner.show();
+          let cnt2 =0;
+          ['20 kgs', '30 kgs', '40 kgs'].map((response: any) => {
+            this.crud.postWithCorporateTokenCargoAirline(CORPORATE_APIS.GET_APPROX_AMOUNT, reqBody, response, formValue.cargo_terminal, formValue.parcel_type)
+              .pipe(throttleTime(250))
+              .subscribe((data: any) => {
+                cnt2 += 1;
+                this.priceDetailsRes = data;
+                this.approxAmount = Math.round(data.price_details.price_with_gst);
+                switch(response){
+                  case "20 kgs":
+                    this.weightJson.weights[3].price = this.approxAmount;
+                    break;
+                  case "30 kgs":
+                    this.weightJson.weights[4].price = this.approxAmount;
+                    break;
+                  case "40 kgs":
+                    this.weightJson.weights[5].price = this.approxAmount;
+                    break;
+                }
+                if(cnt2 == 3){
+                  this.ngxSpinner.hide();
+                }
+            },err=>{this.ngxSpinner.hide();});
+          });
+          break;
+      }
+    }
 
-    setTimeout(()=>{this.ngxSpinner.hide()},250);
+    // setTimeout(()=>{this.ngxSpinner.hide()},250);
   }
 
   placeCargoOrder() {
@@ -2237,7 +2329,7 @@ export class BookingComponent implements OnInit {
       state_name: 0,
       excess_weight_purchased: "no",
       excess_weight: 0,
-      bag_weight: formValue.weight,
+      bag_weight: Number(formValue.weight.split("kgs")[0]),
       no_of_units: 1,
       email: formValue.email,
       pincode: this.addressPincode,
@@ -2282,7 +2374,8 @@ export class BookingComponent implements OnInit {
           CORPORATE_APIS.BOOKING,
           reqBody,
           formValue.weight,
-          formValue.cargo_terminal
+          formValue.cargo_terminal,
+          formValue.parcel_type
         )
         .pipe(throttleTime(250))
         .subscribe((data: any) => {
@@ -2618,6 +2711,7 @@ export class BookingComponent implements OnInit {
       // validate subscription mobile number and resond otp code api
       this.subscription.subscription_validation(subscription.VALIDATE_SUBSCRIPTION_NUMBER,reqBody).subscribe((res: any) => {
         this.subscription_details.show_coupons = false;
+        res.msg == "OTP Sent Successfully" ? this.is_otp_verified = true : null
         this.ngxSpinner.hide();
         this.printToastMsg(res.msg);
         setTimeout(() => { 
@@ -2643,6 +2737,7 @@ export class BookingComponent implements OnInit {
         // validate subscription id api
         this.subscription.subscription_validation(subscription.VALIDATE_SUBSCRIPTION_ID, reqBody).subscribe((res: any) => {
           this.ngxSpinner.hide();
+          res.msg == "OTP Sent Successfully" ? this.is_otp_verified = true : null
           this.printToastMsg(res.msg);
           if(res.subscription_detail){
             this.bookingForm.controls["name"].setValue(res.subscription_detail.name);
@@ -2682,7 +2777,7 @@ export class BookingComponent implements OnInit {
               // this.subscription_details.subscription_tokens = res.subscriber_detail ? res.subscriber_detail : [] ;
               // this.format_tokens(res.subscriber_detail);
               if(res.subscriber_detail.length != 0){
-                this.process_tokens(res.subscriber_detail);
+                this.process_subscription_details(res.subscriber_detail);
                 this.subscription_details.show_coupons = true;
                 this.login_usr_details(formValue,res.subscriber_detail);
               } 
@@ -2767,10 +2862,10 @@ export class BookingComponent implements OnInit {
   //       new_array.push(obj);
   //     }
   //   });
-  //   this.process_tokens(new_array);
+  //   this.process_subscription_details(new_array);
   // }
 
-  process_tokens(arr) {
+  process_subscription_details(arr) {
     let new_arr = [];
     let cnt  = 1
     arr.map((res: any, index) => {
@@ -2787,15 +2882,15 @@ export class BookingComponent implements OnInit {
       this.subscription_details.show_coupons = true;
       this.dcrsCount = this.get_no_of_usage();
       this.buttonCount = this.get_remaining_usage();
-      let percent = (Number(this.buttonCount) / Number(this.dcrsCount) * 100 )
-      let remain_percent = 100 - Number(percent) 
-      // console.log(remain_percent)
+      let remain_percent = (Number(this.buttonCount)/Number(this.dcrsCount)) * 100
       this.elem.nativeElement.style.setProperty("--value", remain_percent);
+      if(this.bookingForm.controls['subscription_id'].value){
+        let coupon = this.subscription_details.subscription_tokens.find(res => res.confirmation_number == this.bookingForm.controls['subscription_id'].value)
+        this.select_and_unselect_cupons(coupon);
+      }
     }else{
       this.subscription_details.show_coupons = false;
     }
-    // this.elem.nativeElement.style.setProperty("--value", this.buttonCount);
-    // this.elem.nativeElement.style.setProperty("--totalPercent", this.dcrsCount);
   }
 
   select_and_unselect_cupons(arg) {
@@ -3213,8 +3308,8 @@ export class BookingComponent implements OnInit {
                   pincode: formValue.delivery_type == "Airport Transfer" ? (formValue.pickup_type == "Airport: Drop off Point" || formValue.pickup_type == "Airport: Pickup Point" ? formValue.pincode : this.addressPincode) : formValue.addressPincodes,
                   building_number : '',
                   building_restriction: null,
-                  // remaining_usages: this.remaining_usages,
-                  // total_usages: this.total_usages,
+                  remaining_usages: this.remaining_usages,
+                  total_usages: this.total_usages,
                   delivery_datetime: this.delivery_date
                     ? this.delivery_date.toString().split(" ")[2] +
                     " " +
@@ -3297,7 +3392,7 @@ export class BookingComponent implements OnInit {
       case "Documents":
         return ['Documents | Books | Files']
         break;
-      case "Carton Box":
+      case "Cartons/Baggage":
         return['Documents | Books | Files','Clothes | Accessories','Dry Packed Food (non liquid)','Pickles | Uncooked Packed Food','Others'];
         break;
       default:
@@ -3305,13 +3400,21 @@ export class BookingComponent implements OnInit {
     }
   }
 
+  
   getWeight() {
     switch (this.bookingForm.controls["parcel_type"].value) {
       case "Documents":
         return [this.weightJson.weights[0]]
         break;
-      default:
-        return this.weightJson.weights;
+      case "Electronics":
+        return [this.weightJson.weights[3],this.weightJson.weights[4],this.weightJson.weights[5]]
+        break;
+      case "Sports & Other Equipment":
+        return [this.weightJson.weights[3],this.weightJson.weights[4],this.weightJson.weights[5]]
+        break;
+      case "Cartons/Baggage":
+        return [this.weightJson.weights[1],this.weightJson.weights[2],this.weightJson.weights[3],this.weightJson.weights[4],this.weightJson.weights[5]]
+        break;
     }
   }
 
