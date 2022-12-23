@@ -37,7 +37,7 @@
               <legend class="w-auto">Name</legend>
               <div class="subNumber">
                 <input maxlength="30" type="name" formControlName="name" class="border-0"
-                  (keypress)="validateName($event)" (ngModelChange)="validateNameSpace()" [readonly]="user_details_disable">
+                  (keypress)="validateName($event)" (ngModelChange)="validateNameSpace()" [readonly]="user_details_disable || is_otp_verified">
               </div>
             </fieldset>
             <p class="error"
@@ -49,7 +49,7 @@
               [style.border]="bookingForm.controls['email'].hasError('required') && bookingForm.controls['email'].touched || (bookingForm.controls['email'].errors && bookingForm.controls['email'].touched) || (bookingForm.controls['email'].invalid && bookingForm.controls['email'].untouched && submitted ) ? '1px solid #ed7533' : '1px solid #dee2e6'">
               <legend class="w-auto">Email</legend>
               <div class="subNumber">
-                <input [readonly]="user_details_disable" class="border-0" formControlName="email" type="email" name="email">
+                <input [readonly]="user_details_disable || is_otp_verified" class="border-0" formControlName="email" type="email" name="email">
               </div>
             </fieldset>
             <p class="error"
@@ -77,7 +77,7 @@
                       +{{item.country_code}} - {{item.country_name}}</li>
                   </ul>
                 </div>
-                <input type="tel" allowOnly="[^0-9]" minlength="10" maxlength="10" numbersOnly [readonly]="user_details_disable"
+                <input type="tel" allowOnly="[^0-9]" minlength="10" maxlength="10" numbersOnly [readonly]="user_details_disable || is_otp_verified"
                   formControlName="mobile_number" class="border-0" (keypress)="numberOnly($event)">
               </div>
             </fieldset>
@@ -803,7 +803,7 @@
                   bookingForm.controls['parcel_type'].value}}
                 </button>
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                  <a class="dropdown-item" *ngFor="let item of ['Carton Box','Documents','Sports & Other Equipment','Electronics']"
+                  <a class="dropdown-item" *ngFor="let item of ['Cartons/Baggage','Documents','Sports & Other Equipment','Electronics']"
                     (click)="handleDropdownEvent('parcel_type',item)">{{item}}</a>
                 </div>
               </div>
@@ -1379,6 +1379,44 @@
       <!-- Lost luggage section end -->
 
     </div>
+
+    <div class="row description d-md-block d-lg-block d-none" style="margin: 0 1px;" *ngIf="bookingForm.controls['delivery_type'].value == 'Airport Transfer'">
+      <p class="medium fnt-22 d-flex align-items-center" style="gap:5px" *ngIf="bookingForm.controls['type'].value == 'Departure' && bookingForm.controls['pickup_type'].value ==  'Airport: Drop off Point'"><span class="mIcon">i</span> Carside (lane4) → Airport Assistance → Check-in counter</p> 
+      <p class="medium fnt-22 d-flex align-items-center" style="gap:5px" *ngIf="bookingForm.controls['type'].value == 'Departure' && bookingForm.controls['pickup_type'].value ==  'Doorstep Pickup'"><span  class="mIcon">i</span> Doorstep → Airport Assistance → Check-in counter</p> 
+      <p class="medium fnt-22 d-flex align-items-center" style="gap:5px" *ngIf="bookingForm.controls['type'].value == 'Arrival' && bookingForm.controls['pickup_type'].value ==  'Airport: Pickup Point'"><span  class="mIcon">i</span> Baggage Belts → Airport Assistance → Carside (parking/cabs)</p> 
+      <p class="medium fnt-22 d-flex align-items-center" style="gap:5px" *ngIf="bookingForm.controls['type'].value == 'Arrival' && bookingForm.controls['pickup_type'].value ==  'Doorstep Delivery'"><span class="mIcon">i</span> Baggage Belt → Airport Assistance → Doorstep</p> 
+    </div>
+
+  <div class="row description d-md-none d-lg-none d-block text-center" style="margin: 0 1px;" *ngIf="bookingForm.controls['delivery_type'].value == 'Airport Transfer'">
+    <div class="mb-4 medium fnt-22 d-flex align-items-center justify-content-center flex-column" style="gap:5px" *ngIf="bookingForm.controls['type'].value == 'Departure' && bookingForm.controls['pickup_type'].value ==  'Airport: Drop off Point'">
+      <p class="m-0">Carside (lane4)</p>
+      <p class="m-0">↓</p>
+      <p class="m-0">Airport Assistance</p>
+      <p class="m-0">↓</p>
+      <p class="m-0">Check-in counter</p> 
+    </div>
+    <div class="mb-4 medium fnt-22 d-flex align-items-center justify-content-center flex-column" style="gap:5px" *ngIf="bookingForm.controls['type'].value == 'Departure' && bookingForm.controls['pickup_type'].value ==  'Doorstep Pickup'">
+      <p class="m-0">Doorstep</p>
+      <p class="m-0">↓</p>
+      <p class="m-0">Airport Assistance</p>
+      <p class="m-0">↓</p> 
+      <p class="m-0">Check-in counter</p>
+    </div>
+    <div class="mb-4 medium fnt-22 d-flex align-items-center justify-content-center flex-column" style="gap:5px" *ngIf="bookingForm.controls['type'].value == 'Arrival' && bookingForm.controls['pickup_type'].value ==  'Airport: Pickup Point'">
+      <p class="m-0">Baggage Belts</p>
+      <p class="m-0">↓</p>
+      <p class="m-0">Airport Assistance</p>
+      <p class="m-0">↓</p> 
+      <p class="m-0">Carside (parking/cabs)</p>
+    </div> 
+    <div class="mb-4 medium fnt-22 d-flex align-items-center justify-content-center flex-column" style="gap:5px" *ngIf="bookingForm.controls['type'].value == 'Arrival' && bookingForm.controls['pickup_type'].value ==  'Doorstep Delivery'">
+      <p class="m-0">Baggage Belt</p>
+      <p class="m-0">↓</p> 
+      <p class="m-0">Airport Assistance</p> 
+      <p class="m-0">↓</p>
+      <p class="m-0">Doorstep</p>
+    </div> 
+  </div>
 
     <div class="row description m-pickup-address" *ngIf="(bookingForm.controls['pickup_type'].value == 'Airport: Drop off Point' || bookingForm.controls['pickup_type'].value == 'Airport: Pickup Point') && fullAddressLine && bookingForm.controls['delivery_type'].value != 'Cargo Transfer'">
       <div class="pickup-poit-address d-flex align-items-center"><span style="margin-bottom: 4px;" class="mIcon" >i</span> {{fullAddressLine}} </div>

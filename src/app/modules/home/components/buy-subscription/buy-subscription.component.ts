@@ -321,6 +321,22 @@ export class BuySubscriptionComponent implements OnInit {
     }
   }
 
+  resendOtp(){
+    // const reqBody:any = this.paylode_reqBody();
+    // rename 'mobile' object key into 'number' key for this resend otp
+    // reqBody['number'] = reqBody['mobile']
+    // delete reqBody['mobile'];
+    
+    // this.ngxSpinner.show()
+    // this.subscriptions.subscription_validation(subscription.RESEND_CODE,reqBody).subscribe((res:any)=>{
+    //   this.ngxSpinner.hide();
+    //   console.log(res)
+    // },err=>{this.ngxSpinner.hide()})
+    this.subscriptionForm.controls["otp"].setValue("");
+    this.verify_user();
+  }
+
+
 }
 
 // "transaction_id":"pay_KS5hPAJJb3H04z",

@@ -93,7 +93,7 @@
           <div class="text-right">
             <h2 class="price py-4 min-height-77">{{getPrice() != 0 ? 'INR ' : ''}} {{getPrice() != 0 ? getPrice() : ''}} {{getPrice() != 0 ? '/- ' : ''}}</h2>
             <button [class.disabled]="getPrice() == 0" class="proceedBuy"
-              (click)="getPrice() != 0 ? openDialog() : null">Proceed to Buy</button>
+              (click)="getPrice() != 0 ? (isLogin ? verify_user() : openDialog()) : null">Proceed to Buy</button>
           </div>
           <div class="prestigeLogo d-md-block d-none" style="min-height: 135px;">
             <!-- <img src="../../../../../assets/subscription/Icon Prestige.png"> -->
