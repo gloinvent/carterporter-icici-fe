@@ -10,7 +10,7 @@
 
     <!-- Register body starts -->
     <div mat-dialog-content class="modal-body">
-        <form [formGroup]="subscriptionForm">
+        <form [formGroup]="subscriptionForm" [ngStyle]="{'height': getFormHeight()}">
             <div class="input-form">
 
                 <!-- Input Name -->
