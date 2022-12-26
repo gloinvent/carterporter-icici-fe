@@ -336,6 +336,10 @@ export class BuySubscriptionComponent implements OnInit {
     this.verify_user();
   }
 
+  getFormHeight(){
+    return this.otp_details.show_otp ? '320px' : '230px';
+  }
+
 
 }
 
