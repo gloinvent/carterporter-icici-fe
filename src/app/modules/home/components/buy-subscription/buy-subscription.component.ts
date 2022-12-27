@@ -59,7 +59,7 @@ export class BuySubscriptionComponent implements OnInit {
     this.subscriptionForm = this.fb.group({
       name: ["", Validators.required],
       mobile: ["", [Validators.required, Validators.minLength(10), Validators.maxLength(10), Validators.pattern("[0-9]+"),],],
-      email: ["", Validators.compose([ Validators.required, Validators.email,Validators.pattern("^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$"),]),],
+      email: ["", Validators.compose([ Validators.required, Validators.email,Validators.pattern(/\S+@\S+\.\S+/),]),],
       country_code: ["91"],
       otp: ['']
     });
@@ -105,7 +105,7 @@ export class BuySubscriptionComponent implements OnInit {
       },
       prefill: {
         name: formValue.name,
-        email: formValue.email,
+        email: formValue.email.toLowerCase(),
         contact: formValue.mobile,
       },
       notes: {
@@ -246,7 +246,7 @@ export class BuySubscriptionComponent implements OnInit {
   paylode_reqBody(){
     let formValue = { ...this.subscriptionForm.value }
     const reqBody = {
-      email : formValue.email,
+      email : formValue.email.toLowerCase(),
       mobile : formValue.mobile,
       name : formValue.name,
       country_code : formValue.country_code,
