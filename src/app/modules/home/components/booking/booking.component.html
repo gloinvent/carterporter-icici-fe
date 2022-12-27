@@ -586,6 +586,7 @@
             *ngIf="bookingForm.controls['time_slot'].hasError('required') && bookingForm.controls['time_slot'].touched || (bookingForm.controls['time_slot'].invalid && bookingForm.controls['time_slot'].untouched && submitted )">
             Please Select Slot
           </p>
+          <p class="error" *ngIf="filtered_tilme_slot.length == 0">* No slots available for this date</p>
         </div>
         <!-- Time solot end -->
 

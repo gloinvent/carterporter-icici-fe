@@ -618,7 +618,7 @@ export class BookingComponent implements OnInit {
       name: ["", Validators.required],
       transfer_type: ["", Validators.required],
       mobile_number: ["", [Validators.required, Validators.pattern("^((\\+91-?)|0)?[0-9]{10}$")],],
-      email: ["", Validators.compose([ Validators.required,Validators.email, Validators.pattern("^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$"),]),],
+      email: ["", Validators.compose([ Validators.required,Validators.email, Validators.pattern(/\S+@\S+\.\S+/),]),],
       type: ["Departure", Validators.required],
       terminal: ["", Validators.required],
       airline: ["IndiGo", Validators.required],
@@ -666,7 +666,7 @@ export class BookingComponent implements OnInit {
 
   get_subscription_list(){
     this.ngxSpinner.show();
-    this.subscription.subscription_validation(subscription.FETCH_SUBSCRIBER_DETAILS,{'email':this.bookingForm.controls["email"].value,'mobile':this.bookingForm.controls["mobile_number"].value}).subscribe((res:any)=>{
+    this.subscription.subscription_validation(subscription.FETCH_SUBSCRIBER_DETAILS,{'email':this.bookingForm.controls["email"].value.toLowerCase(),'mobile':this.bookingForm.controls["mobile_number"].value}).subscribe((res:any)=>{
       if(res.subscriber_detail.length != 0){
         this.process_subscription_details(res.subscriber_detail);
         this.subscription_details.show_coupons = true;
@@ -1632,7 +1632,7 @@ export class BookingComponent implements OnInit {
                   },
                   prefill: {
                     name: formValue.name,
-                    email: formValue.email,
+                    email: formValue.email.toLowerCase(),
                     contact: formValue.mobile_number,
                   },
                   notes: {
@@ -1717,6 +1717,23 @@ export class BookingComponent implements OnInit {
 
     this.ngxSpinner.show();
     const formValue = { ...this.bookingForm.value };
+
+    var delivery_date_current;
+    var curDate =  new Date();
+    let date, month ,year
+    if(this.datePipe.transform(curDate, "dd MMM y") == this.datePipe.transform(formValue.date, "dd MMM y")){
+      date = (curDate.getDate() + (formValue.transfer_type == "Outstation" ? 3 : 1) );
+      month = (curDate.getMonth() + 1);
+      year = (curDate.getFullYear());
+      delivery_date_current = year+'-'+ (month < 10 ? '0'+month.toString() : month) + '-'+  (date < 10 ? '0'+date.toString() : date)
+    }else{
+      let dt = new Date(formValue.date)
+      date = (dt.getDate() + (formValue.transfer_type == "Outstation" ? 3 : 0))
+      month =(dt.getMonth() + 1)
+      year = (dt.getFullYear())
+      delivery_date_current = year+'-'+ (month < 10 ? '0'+month.toString() : month) + '-'+  (date < 10 ? '0'+date.toString() : date)
+    }
+
     const reqBody = {
       terminal_type: formValue.terminal == "Domestic Travel" ? 2 : 1,
       pick_drop_point: formValue.delivery_type == "Airport Transfer" ? (formValue.pickup_type == "Airport: Drop off Point" || formValue.pickup_type == "Airport: Pickup Point" ? 1 : 2 ) : 2,
@@ -1731,7 +1748,7 @@ export class BookingComponent implements OnInit {
       excess_weight: 0,
       bag_weight: 0,
       no_of_units: Number(formValue.bags),
-      email: formValue.email,
+      email: formValue.email.toLowerCase(),
       pincode: formValue.delivery_type == "Airport Transfer" ? (formValue.pickup_type == "Airport: Drop off Point" || formValue.pickup_type == "Airport: Pickup Point" ? formValue.pincode : this.addressPincode) : formValue.addressPincodes,
       items_order: itemsOrder,
       gst_amount: priceDetails.price_details.gst_price,
@@ -1740,7 +1757,7 @@ export class BookingComponent implements OnInit {
       outstation_charge: 0,
       excess_bag_amount: 0,
       service_type: formValue.type == "Departure" ? 1 : 2, // 1 for arrival, //2 for departure
-      pickup_slot: formValue.time_slot && formValue.time_slot != "none" ? formValue.time_slot : 1,
+      pickup_slot: formValue.pickup_type == "Airport: Drop off Point" || formValue.pickup_type == "Airport: Pickup Point" ? '' : formValue.time_slot,
       travell_passenger_name: formValue.name,
       travell_passenger_contact: formValue.mobile_number,
       pick_drop_spots_type: 1,
@@ -1752,7 +1769,7 @@ export class BookingComponent implements OnInit {
       address_line_1: this.fullAddressLine,
       address_line_2: "",
       area: this.area,
-      delivery_datetime: this.delivery_date
+      delivery_datetime: (formValue.delivery_type == "Airport Transfer" && (formValue.pickup_type == "Airport: Drop off Point" || formValue.pickup_type == "Airport: Pickup Point") ? delivery_date_current +' '+ (this.meetHour < 10  ? '0' : '' ) + this.meetHour + ':' + this.meetMin + (this.meetMin < 10  ? '0' : '') : (this.delivery_date
         ? this.delivery_date.toString().split(" ")[2] +
         " " +
         this.delivery_date.toString().split(" ")[1] +
@@ -1760,8 +1777,9 @@ export class BookingComponent implements OnInit {
         this.delivery_date.toString().split(" ")[3] +
         " " +
         this.show_delivery_time.toString().split(" ")[0]
-        : this.selected_date_for_date_picker,
+        : this.selected_date_for_date_picker)),
       order_type_str: formValue.delivery_type == "Airport Transfer" ? "Airport Transfer" : "Lost Luggage",
+      airport_slot_time : (formValue.pickup_type == "Airport: Drop off Point" || formValue.pickup_type == "Airport: Pickup Point") ? ((this.meetHour < 10  ? '0' : '' ) + this.meetHour + ':' + this.meetMin + (this.meetMin < 10  ? '0' : '')) : '',
     };
     this.crud
       .postWithStaticTokenAirline( CORPORATE_APIS.BOOKING, reqBody, this.token, formValue.airline, formValue.transfer_type == "Outstation" ? 2 : 1)
@@ -2331,7 +2349,7 @@ export class BookingComponent implements OnInit {
       excess_weight: 0,
       bag_weight: Number(formValue.weight.split("kgs")[0]),
       no_of_units: 1,
-      email: formValue.email,
+      email: formValue.email.toLowerCase(),
       pincode: this.addressPincode,
       items_order: itemsOrder,
       gst_amount: priceDetails.price_details.gst_price,
@@ -2705,7 +2723,7 @@ export class BookingComponent implements OnInit {
       // request body
       const reqBody = {
         name: formValue.name,
-        email: formValue.email,
+        email: formValue.email.toLowerCase(),
         number: formValue.mobile_number,
       };
       // validate subscription mobile number and resond otp code api
@@ -2761,7 +2779,7 @@ export class BookingComponent implements OnInit {
       if(this.bookingForm.controls['delivery_type'].value == "Airport Transfer" || this.bookingForm.controls['delivery_type'].value == "Lost Luggage/Item/Not Loaded" ){
         const formValue = { ...this.bookingForm.value };
         const reqBody = {
-          email: formValue.email,
+          email: formValue.email.toLowerCase(),
           otp: formValue.otp,
           mobile: formValue.mobile_number,
           country_code: formValue.country,
@@ -2809,7 +2827,7 @@ export class BookingComponent implements OnInit {
       "customer_detail": {
         "id_customer": response[0].id_customer,
         "name": response[0].name,
-        "email": response[0].email,
+        "email": response[0].email.toLowerCase(),
         "mobile": response[0].mobile,
         "fk_tbl_customer_id_country_code": response[0].fk_tbl_customer_id_country_code ,
         "id_country_code": response[0].fk_tbl_customer_id_country_code,
@@ -3269,6 +3287,22 @@ export class BookingComponent implements OnInit {
                 // request body
                 const formValue = { ...this.bookingForm.value };
 
+                var delivery_date_current;
+                var curDate =  new Date();
+                let date, month ,year
+                if(this.datePipe.transform(curDate, "dd MMM y") == this.datePipe.transform(formValue.date, "dd MMM y")){
+                  date = (curDate.getDate() + (formValue.transfer_type == "Outstation" ? 3 : 1) );
+                  month = (curDate.getMonth() + 1);
+                  year = (curDate.getFullYear());
+                  delivery_date_current = year+'-'+ (month < 10 ? '0'+month.toString() : month) + '-'+  (date < 10 ? '0'+date.toString() : date)
+                }else{
+                  let dt = new Date(formValue.date)
+                  date = (dt.getDate() + (formValue.transfer_type == "Outstation" ? 3 : 0))
+                  month =(dt.getMonth() + 1)
+                  year = (dt.getFullYear())
+                  delivery_date_current = year+'-'+ (month < 10 ? '0'+month.toString() : month) + '-'+  (date < 10 ? '0'+date.toString() : date)
+                }
+
                 const reqBody = {
                   service_type: formValue.type == "Departure" ? 1 : 2, // 2 for arrival, //1 for departure
                   order_type: 2,
@@ -3280,7 +3314,7 @@ export class BookingComponent implements OnInit {
                   no_of_units: Number(formValue.bags),
                   travell_passenger_name : formValue.name,
                   travell_passenger_contact : formValue.mobile_number,
-                  travell_passenger_email : formValue.email,
+                  travell_passenger_email : formValue.email.toLowerCase(),
                   country_code: formValue.country,
                   subscription_transaction_id : this.subscription_details.used_tokens[0].subscription_transaction_id, // subscripion confirmation number -------
                   order_date: this.datePipe.transform(formValue.date, "dd MMM y"),
@@ -3298,7 +3332,7 @@ export class BookingComponent implements OnInit {
                   pnr_number: formValue.pnr.toUpperCase(),
                   airport_slot_time :  (this.meetHour < 10  ? '0' : '' ) + this.meetHour + ':' + this.meetMin + (this.meetMin < 10  ? '0' : ''),  // airport_slot_time
                   pick_drop_address: this.pick_drop_details.length != 0 && (formValue.pickup_type == "Airport: Drop off Point" || formValue.pickup_type == "Airport: Pickup Point") ? Number(this.pick_drop_details[0].pick_drop_id) : null,
-                  fk_tbl_order_id_slot : formValue.time_slot && formValue.time_slot != "none" ? formValue.time_slot : 1,
+                  fk_tbl_order_id_slot : formValue.pickup_type == "Airport: Drop off Point" || formValue.pickup_type == "Airport: Pickup Point" ? '' : formValue.time_slot,
                   // formValue.pickup_type == "Airport: Drop off Point" || formValue.pickup_type == "Airport: Pickup Point" ? formValue.pincode : (formValue.delivery_type == "Airport Transfer" ? '' : 
                   pincode_first : (this.addressPincode ? this.addressPincode : formValue.pincode) ,
                   pincode_second : '',
@@ -3310,7 +3344,8 @@ export class BookingComponent implements OnInit {
                   building_restriction: null,
                   remaining_usages: this.remaining_usages,
                   total_usages: this.total_usages,
-                  delivery_datetime: this.delivery_date
+                  delivery_datetime:(formValue.delivery_type == "Airport Transfer" && (formValue.pickup_type == "Airport: Drop off Point" || formValue.pickup_type == "Airport: Pickup Point") ? delivery_date_current +' '+ (this.meetHour < 10  ? '0' : '' ) + this.meetHour + ':' + this.meetMin + (this.meetMin < 10  ? '0' : '') : 
+                  (this.delivery_date
                     ? this.delivery_date.toString().split(" ")[2] +
                     " " +
                     this.delivery_date.toString().split(" ")[1] +
@@ -3318,8 +3353,7 @@ export class BookingComponent implements OnInit {
                     this.delivery_date.toString().split(" ")[3] +
                     " " +
                     this.show_delivery_time.toString().split(" ")[0]
-                    : this.selected_date_for_date_picker,
-                    
+                    : this.selected_date_for_date_picker)),
                 };
 
                 console.log(reqBody, 'request body for redeem and booking');

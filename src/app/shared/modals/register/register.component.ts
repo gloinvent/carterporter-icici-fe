@@ -39,7 +39,7 @@ export class RegisterComponent implements OnInit {
         Validators.maxLength(10),
         Validators.pattern('[0-9]+')
       ]],
-      email: ['', Validators.required],
+      email: ['', Validators.compose([ Validators.required,Validators.email, Validators.pattern(/\S+@\S+\.\S+/),]),],
       id_country_code: ['+91']
     });
 
@@ -83,7 +83,7 @@ export class RegisterComponent implements OnInit {
     this.spinner.show();
     let obj = {
     name: this.registerForm.get('name').value,
-    email: this.registerForm.get('email').value,
+    email: this.registerForm.get('email').value.toLowerCase(),
     mobile: this.registerForm.get('mobile').value,
     other_comments:"",
     date_of_birth:"",
