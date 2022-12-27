@@ -2197,6 +2197,7 @@ export class BookingComponent implements OnInit {
     this.selectTypeofWay(1);
   }
 
+  cargo_price_details:any = [];
   async getCargoApproximateAmount() {
     this.weightJson.weights.map((res)=> { res.price  = ''});
     this.approximateAmount = 0;
@@ -2226,6 +2227,8 @@ export class BookingComponent implements OnInit {
               .pipe(throttleTime(250))
               .subscribe((data: any) => {
                 cnt+=1;
+                data.kg = response
+                this.cargo_price_details.push(data)
                 this.priceDetailsRes = data;
                 this.approxAmount = Math.round(data.price_details.price_with_gst);
                 switch(response){
@@ -2254,11 +2257,13 @@ export class BookingComponent implements OnInit {
         case "Documents":
           this.ngxSpinner.show();
           this.crud.postWithCorporateTokenCargoAirline(CORPORATE_APIS.GET_APPROX_AMOUNT, reqBody, '2 kgs', formValue.cargo_terminal, formValue.parcel_type).pipe(throttleTime(250)).subscribe((data: any) => {
+            data.kg = '2 kgs'
+            this.cargo_price_details.push(data)
             this.priceDetailsRes = data;
             this.approxAmount = Math.round(data.price_details.price_with_gst);
             this.weightJson.weights[0].price = this.approxAmount;
             this.ngxSpinner.hide();
-          });
+          },err=>{this.ngxSpinner.hide();});
           // });
           break;
         case "Sports & Other Equipment":
@@ -2269,6 +2274,8 @@ export class BookingComponent implements OnInit {
               .pipe(throttleTime(250))
               .subscribe((data: any) => {
                 cnt1 += 1;
+                data.kg = response
+                this.cargo_price_details.push(data)
                 this.priceDetailsRes = data;
                 this.approxAmount = Math.round(data.price_details.price_with_gst);
                 switch(response){
@@ -2296,6 +2303,8 @@ export class BookingComponent implements OnInit {
               .pipe(throttleTime(250))
               .subscribe((data: any) => {
                 cnt2 += 1;
+                data.kg = response
+                this.cargo_price_details.push(data)
                 this.priceDetailsRes = data;
                 this.approxAmount = Math.round(data.price_details.price_with_gst);
                 switch(response){
@@ -2325,6 +2334,11 @@ export class BookingComponent implements OnInit {
     this.ngxSpinner.show();
     let order_array = [];
     const formValue = { ...this.bookingForm.value };
+
+    if(this.cargo_price_details.length!=0){
+      this.priceDetailsRes = this.cargo_price_details.find(res => res.kg == formValue.weight)
+    }
+
     const priceDetails = this.priceDetailsRes;
     const itemsOrder = [];
     const bagItems = priceDetails.price_details.items;
