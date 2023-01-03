@@ -683,7 +683,8 @@ export class BookingComponent implements OnInit {
     this.selectBox = 1;
     this.filterAirports();
     ["city_id", "airport_id"].map((res: any) => {this.bookingForm.controls[res].setValue("");});
-    this.Currentdate = new Date( new Date().getFullYear(), new Date().getMonth(), new Date().getDate() - 1, 10, 33, 30, 0);
+    this.Currentdate = new Date( new Date().getFullYear(), new Date().getMonth(), new Date().getDate() + (this.bookingForm.controls["type"].value == "Departure" ? 1 : 0), 10, 33, 30, 0);
+    this.Currentdate.setHours(0, 0, 0, 0);
     this.selected_date_for_date_picker = new Date( new Date().getFullYear(), new Date().getMonth(), new Date().getDate() + (this.bookingForm.controls["type"].value == "Departure" ? 1 : 0), 10, 33, 30, 0 );
     this.showDate = this.selected_date_for_date_picker.toString().split(" ");
     this.show_select_date_one = new Date( new Date().getFullYear(), new Date().getMonth(), new Date().getDate(), 10, 33, 30, 0 );
@@ -3345,7 +3346,7 @@ export class BookingComponent implements OnInit {
                   extra_weight_purched : "no",
                   // formValue.transfer_type == 'Local' ? Number(formValue.bags) :
                   exhaust_usages: Number(this.used_coupons) , // subscripion exhaust_usages -------
-                  payment_type : this.approximateAmount != 0 ? "razorpay" : "prepaid",
+                  payment_type : this.approximateAmount != 0 ? "Online Payment" : "prepaid",
                   corporate_type : 4,
                   service_tax_amount :  Number(this.subscription_gst_price) ,  // subscripion service_tax_amount -------
                   luggage_price : Number(this.approximateAmount) ,  // subscripion luggage_price -------
