@@ -821,9 +821,11 @@ export class BookingComponent implements OnInit {
 
       case "pickup_type":
         this.bookingForm.controls["pickup_type"].setValue(value);
+        this.meetMin1 = this.meetMin = this.meetHour = this.meetHour1 = this.approximateAmount = 0;
+
         this.approximateAmount =  this.distance = 0;
-        this.selected_airport = this.fullAddressLine = "";
-        ["addressLineOne", "addressLineTwo", "addressCity", "addressPincodes", "airport_id",].map((res: any) => { this.bookingForm.controls[res].setValue("");});
+        this.selected_airport = this.selected_time_slot = this.fullAddressLine = "";
+        ["addressLineOne", "time_slot", "addressLineTwo", "addressCity", "addressPincodes", "airport_id",].map((res: any) => { this.bookingForm.controls[res].setValue("");});
         
         break;
 
@@ -1022,6 +1024,11 @@ export class BookingComponent implements OnInit {
   }
 
   getPrice(){
+    if(this.bookingForm.controls["delivery_type"].value != "Lost Luggage/Item/Not Loaded"){
+      this.selected_time_slot = this.delivery_date = "";
+      this.bookingForm.get("time_slot").setValue("");
+    }
+
     if (this.bookingForm.controls["addressLineTwo"].value != "") {
       this.fullAddressLine = this.bookingForm.controls["addressLineTwo"].value + ", " + this.bookingForm.controls["addressLineOne"].value;
     } 
@@ -1034,8 +1041,11 @@ export class BookingComponent implements OnInit {
   }
 
   submitAddress1() {
-    this.selected_time_slot = this.delivery_date = "";
-    this.bookingForm.controls["delivery_type"].value == "Lost Luggage/Item/Not Loaded" ? null : this.bookingForm.controls["time_slot"].setValue("");
+    if(this.bookingForm.controls["delivery_type"].value != "Lost Luggage/Item/Not Loaded"){
+      this.selected_time_slot = this.delivery_date = "";
+      this.bookingForm.get("time_slot").setValue("");
+    }
+
     this.approximateAmount = 0;
     var result;
 
@@ -1757,7 +1767,7 @@ export class BookingComponent implements OnInit {
       outstation_charge: 0,
       excess_bag_amount: 0,
       service_type: formValue.type == "Departure" ? 1 : 2, // 1 for arrival, //2 for departure
-      pickup_slot: formValue.pickup_type == "Airport: Drop off Point" || formValue.pickup_type == "Airport: Pickup Point" ? '' : formValue.time_slot,
+      pickup_slot: (formValue.pickup_type == "Airport: Drop off Point" || formValue.pickup_type == "Airport: Pickup Point" || formValue.time_slot == 'none') ? '' : formValue.time_slot,
       travell_passenger_name: formValue.name,
       travell_passenger_contact: formValue.mobile_number,
       pick_drop_spots_type: 1,
@@ -3346,7 +3356,7 @@ export class BookingComponent implements OnInit {
                   pnr_number: formValue.pnr.toUpperCase(),
                   airport_slot_time :  (this.meetHour < 10  ? '0' : '' ) + this.meetHour + ':' + this.meetMin + (this.meetMin < 10  ? '0' : ''),  // airport_slot_time
                   pick_drop_address: this.pick_drop_details.length != 0 && (formValue.pickup_type == "Airport: Drop off Point" || formValue.pickup_type == "Airport: Pickup Point") ? Number(this.pick_drop_details[0].pick_drop_id) : null,
-                  fk_tbl_order_id_slot : formValue.pickup_type == "Airport: Drop off Point" || formValue.pickup_type == "Airport: Pickup Point" ? '' : formValue.time_slot,
+                  fk_tbl_order_id_slot : (formValue.pickup_type == "Airport: Drop off Point" || formValue.pickup_type == "Airport: Pickup Point" || formValue.time_slot == 'none') ? '' : formValue.time_slot,
                   // formValue.pickup_type == "Airport: Drop off Point" || formValue.pickup_type == "Airport: Pickup Point" ? formValue.pincode : (formValue.delivery_type == "Airport Transfer" ? '' : 
                   pincode_first : (this.addressPincode ? this.addressPincode : formValue.pincode) ,
                   pincode_second : '',

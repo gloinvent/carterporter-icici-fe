@@ -1480,7 +1480,7 @@
           </div>
         </div>
         <div class="mb-3" style="float:right;"
-          *ngIf="show_delivery && delivery_date!='' && bookingForm.controls['delivery_type'].value == 'Airport Transfer'">
+          *ngIf="bookingForm.controls['transfer_type'].value && show_delivery && delivery_date!='' && bookingForm.controls['delivery_type'].value == 'Airport Transfer'">
           <p class="mb-0 text-right" style="font-size: 12px; font-weight:600;">{{bookingForm.controls['type'].value}}
             Delivery
             Timeline: </p>
