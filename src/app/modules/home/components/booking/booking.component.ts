@@ -541,7 +541,6 @@ export class BookingComponent implements OnInit {
   showMeetDrop: boolean = false;
   afterBefore: any;
   Currentdate: any;
-  selected_date_for_date_picker_1: any;
   selected_date_for_date_picker: any;
   date = new Date();
   delivery_date: any;
@@ -684,11 +683,10 @@ export class BookingComponent implements OnInit {
     this.selectBox = 1;
     this.filterAirports();
     ["city_id", "airport_id"].map((res: any) => {this.bookingForm.controls[res].setValue("");});
-    this.Currentdate = new Date( new Date().getFullYear(), new Date().getMonth(), new Date().getDate() + (this.bookingForm.controls["type"].value == "Departure" ? 1 : 0), 10, 33, 30, 0);
+    this.Currentdate = new Date( new Date().getFullYear(), new Date().getMonth(), new Date().getDate() + (this.bookingForm.controls["type"].value == "Departure" || this.bookingForm.controls['delivery_type'].value == 'Cargo Transfer' ? 1 : 0), 10, 33, 30, 0);
     this.Currentdate.setHours(0, 0, 0, 0);
-    this.selected_date_for_date_picker_1 = new Date( new Date().getFullYear(), new Date().getMonth(), new Date().getDate() + (this.bookingForm.controls["type"].value == "Departure" ? 1 : 0), 10, 33, 30, 0 );
-    this.selected_date_for_date_picker = new Date( new Date().getFullYear(), new Date().getMonth(), new Date().getDate() + (this.bookingForm.controls["type"].value == "Departure" ? 1 : 0), 10, 33, 30, 0 );
-    this.showDate = this.selected_date_for_date_picker_1.toString().split(" ");
+    this.selected_date_for_date_picker = new Date( new Date().getFullYear(), new Date().getMonth(), new Date().getDate() + (this.bookingForm.controls["type"].value == "Departure" || this.bookingForm.controls['delivery_type'].value == 'Cargo Transfer' ? 1 : 0), 10, 33, 30, 0 );
+    this.showDate = this.selected_date_for_date_picker.toString().split(" ");
     this.show_select_date_one = new Date( new Date().getFullYear(), new Date().getMonth(), new Date().getDate(), 10, 33, 30, 0 );
     this.show_select_date_two = new Date( new Date().getFullYear(), new Date().getMonth(), new Date().getDate() + 1, 10, 33, 30, 0 );
     this.pickTimeSlotFunction();
@@ -902,7 +900,6 @@ export class BookingComponent implements OnInit {
   datePickerOnChange() {
     // Lost Luggage/Item/Not Loaded means not remove the time slot value
     this.bookingForm.controls["delivery_type"].value == "Lost Luggage/Item/Not Loaded" ? "" : this.bookingForm.controls["time_slot"].setValue("");
-    this.selected_date_for_date_picker = this.selected_date_for_date_picker_1
     this.selected_time_slot = this.delivery_date = this.afterBefore = this.show_delivery_time = "";
     this.showDate = this.selected_date_for_date_picker.toString().split(" ");
     this.timeSlotData1 = [];
@@ -1336,7 +1333,6 @@ export class BookingComponent implements OnInit {
 
   //to filter time slot
   selectTimeSlot(value) {
-    this.selected_date_for_date_picker = this.selected_date_for_date_picker_1
     this.delivery_date = " ";
     this.bookingForm.controls["time_slot"].setValue(value.id_slots);
     let times = value.slot_end_time;
@@ -1716,7 +1712,6 @@ export class BookingComponent implements OnInit {
 
   //place order
   placeOrder() {
-    this.selected_date_for_date_picker = this.selected_date_for_date_picker_1
     const priceDetails = this.priceDetailsRes;
     const itemsOrder = [];
     const bagItems = priceDetails.price_details.items;
@@ -1736,13 +1731,13 @@ export class BookingComponent implements OnInit {
     var delivery_date_current;
     var curDate =  new Date();
     let date, month ,year
-    if(this.datePipe.transform(curDate, "dd MMM y") == this.datePipe.transform(formValue.date, "dd MMM y")){
+    if(this.datePipe.transform(curDate, "dd MMM y") == this.datePipe.transform(this.selected_date_for_date_picker, "dd MMM y")){
       date = (curDate.getDate() + (formValue.transfer_type == "Outstation" ? 3 : 1) );
       month = (curDate.getMonth() + 1);
       year = (curDate.getFullYear());
       delivery_date_current = year+'-'+ (month < 10 ? '0'+month.toString() : month) + '-'+  (date < 10 ? '0'+date.toString() : date)
     }else{
-      let dt = new Date(formValue.date)
+      let dt = new Date(this.selected_date_for_date_picker)
       date = (dt.getDate() + (formValue.transfer_type == "Outstation" ? 3 : 0))
       month =(dt.getMonth() + 1)
       year = (dt.getFullYear())
@@ -1777,7 +1772,7 @@ export class BookingComponent implements OnInit {
       travell_passenger_contact: formValue.mobile_number,
       pick_drop_spots_type: 1,
       building_restriction: {"0": 5,},
-      order_date: this.datePipe.transform(formValue.date, "dd MMM y"),
+      order_date: this.datePipe.transform(this.selected_date_for_date_picker, "dd MMM y"),
       country_code: formValue.country,
       flight_number:formValue.other_airline_no && formValue.other_airline_no != "none"? formValue.other_airline_no.toUpperCase() : "",
       pnr_number: formValue.pnr.toUpperCase(),
@@ -2131,7 +2126,6 @@ export class BookingComponent implements OnInit {
   // 
 
   setUpDate() {
-    this.selected_date_for_date_picker = this.selected_date_for_date_picker_1
     var date = new Date(this.selected_date_for_date_picker).getDate();
     var month = new Date(this.selected_date_for_date_picker).getMonth();
     var year = new Date(this.selected_date_for_date_picker).getFullYear();
@@ -2151,7 +2145,6 @@ export class BookingComponent implements OnInit {
   }
 
   filterSlot() {
-    this.selected_date_for_date_picker = this.selected_date_for_date_picker_1
     this.filtered_tilme_slot = [];
     let selectedDate = this.datePipe.transform(this.selected_date_for_date_picker,"dd MMM y");
     let todayDate = this.datePipe.transform(new Date(), "dd MMM y");
@@ -2394,7 +2387,7 @@ export class BookingComponent implements OnInit {
       travell_passenger_contact: formValue.mobile_number,
       pick_drop_spots_type: 1,
       building_restriction: {"0": 5,},
-      order_date: this.datePipe.transform(formValue.date, "dd MMM y"),
+      order_date: this.datePipe.transform(this.selected_date_for_date_picker, "dd MMM y"),
       country_code: formValue.country,
       flight_number: "",
       delivery_datetime:
@@ -2461,7 +2454,6 @@ export class BookingComponent implements OnInit {
   }
 
   increaseMeetHour() {
-    this.selected_date_for_date_picker = this.selected_date_for_date_picker_1
     let a = this;
     this.showMeet = true;
     if (this.meetHour >= 23) {
@@ -2529,7 +2521,6 @@ export class BookingComponent implements OnInit {
   }
 
   decreaseMeetHour() {
-    this.selected_date_for_date_picker = this.selected_date_for_date_picker_1
     this.type_of_services =this.bookingForm.controls["type"].value == "Departure" ? 1 : 2;
     this.travel_type = this.bookingForm.controls["delivery_type"].value == "Local" ? 1 : 2;
     let a = this;
@@ -3304,7 +3295,6 @@ export class BookingComponent implements OnInit {
 
   // place subscription order
   place_subscription_order(){
-    this.selected_date_for_date_picker = this.selected_date_for_date_picker_1
     this.submitted = true;
     if (this.bookingForm.valid) {
       if (this.bookingForm.controls["term"].value != false) {
@@ -3324,13 +3314,13 @@ export class BookingComponent implements OnInit {
                 var delivery_date_current;
                 var curDate =  new Date();
                 let date, month ,year
-                if(this.datePipe.transform(curDate, "dd MMM y") == this.datePipe.transform(formValue.date, "dd MMM y")){
+                if(this.datePipe.transform(curDate, "dd MMM y") == this.datePipe.transform(this.selected_date_for_date_picker, "dd MMM y")){
                   date = (curDate.getDate() + (formValue.transfer_type == "Outstation" ? 3 : 1) );
                   month = (curDate.getMonth() + 1);
                   year = (curDate.getFullYear());
                   delivery_date_current = year+'-'+ (month < 10 ? '0'+month.toString() : month) + '-'+  (date < 10 ? '0'+date.toString() : date)
                 }else{
-                  let dt = new Date(formValue.date)
+                  let dt = new Date(this.selected_date_for_date_picker)
                   date = (dt.getDate() + (formValue.transfer_type == "Outstation" ? 3 : 0))
                   month =(dt.getMonth() + 1)
                   year = (dt.getFullYear())
@@ -3351,7 +3341,7 @@ export class BookingComponent implements OnInit {
                   travell_passenger_email : formValue.email.toLowerCase(),
                   country_code: formValue.country,
                   subscription_transaction_id : this.subscription_details.used_tokens[0].subscription_transaction_id, // subscripion confirmation number -------
-                  order_date: this.datePipe.transform(formValue.date, "dd MMM y"),
+                  order_date: this.datePipe.transform(this.selected_date_for_date_picker, "dd MMM y"),
                   extra_weight_purched : "no",
                   // formValue.transfer_type == 'Local' ? Number(formValue.bags) :
                   exhaust_usages: Number(this.used_coupons) , // subscripion exhaust_usages -------
