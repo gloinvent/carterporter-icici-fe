@@ -921,7 +921,7 @@ export class BookingComponent implements OnInit {
   // Filter time Slots
   filterTimeSlot() {
     this.filtered_tilme_slot = [];
-    let selectedDate = this.datePipe.transform( this.bookingForm.value.date, "dd MMM y");
+    let selectedDate = this.datePipe.transform(this.selected_date_for_date_picker, "dd MMM y");
     let todayDate = this.datePipe.transform(new Date(), "dd MMM y");
 
     if (this.bookingForm.controls["type"].value == "Departure") {
