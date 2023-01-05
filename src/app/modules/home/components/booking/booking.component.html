@@ -343,7 +343,7 @@
 
             <!-- Select Date -->
             <div class="dateSection border-left-0 w-100 position-relative">
-              <input class="" id="datePicker" formControlName="date" [(ngModel)]="selected_date_for_date_picker_1"
+              <input class="" id="datePicker" [ngModelOptions]="{standalone: true}"  [(ngModel)]="selected_date_for_date_picker"
                 [owlDateTimeTrigger]="dt1" [min]="Currentdate" [owlDateTime]="dt1" placeholder="Date Time" style="
                   opacity: 0;
                   width: calc(100% + 20px);
@@ -848,7 +848,7 @@
 
             <!-- Select Date -->
             <div class="dateSection border-left-0 w-100 position-relative">
-              <input id="datePicker" formControlName="date" [(ngModel)]="selected_date_for_date_picker_1"
+              <input id="datePicker" [ngModelOptions]="{standalone: true}"  [(ngModel)]="selected_date_for_date_picker"
                 [owlDateTimeTrigger]="dt1" [min]="Currentdate" [owlDateTime]="dt1" placeholder="Date Time" style="
                             opacity: 0;
                             width: calc(100% + 20px);
@@ -1178,7 +1178,7 @@
 
             <!-- Select Date -->
             <div class="dateSection border-left-0 w-100 position-relative">
-              <input class="" id="datePicker" formControlName="date" [(ngModel)]="selected_date_for_date_picker_1"
+              <input class="" id="datePicker" [ngModelOptions]="{standalone: true}"  [(ngModel)]="selected_date_for_date_picker"
                 [owlDateTimeTrigger]="dt1" [min]="Currentdate" [owlDateTime]="dt1" placeholder="Date Time" style="
                         opacity: 0;
                         width: calc(100% + 20px);
