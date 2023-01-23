@@ -14,7 +14,7 @@ import { Options } from "selenium-webdriver/opera";
 export class CrudService {
   loggedUser = false;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   public post(api, postdata) {
     const httpOptions = {
@@ -213,28 +213,28 @@ export class CrudService {
         case "IndiGo":
           switch (data.no_of_units) {
             case 1:
-              bagToken = "d37a1e3d0fdc52cbfc8f876876925ba3";
+              bagToken = "ff8bec52eed001feb1083aca060b2dd9";
               break;
             case 2:
-              bagToken = "d37a1e3d0fdc52cbfc8f876876925ba3";
+              bagToken = "69650df4209303dcb5b3a6d2d1b35f48";
               break;
             case 3:
-              bagToken = "e1eacd4217cfac41ca45876237b9730b";
+              bagToken = "7072c2ade882951246391a262091c883";
               break;
             case 4:
-              bagToken = "f519a8dcad9d4183345ee1df49d4f2de";
+              bagToken = "297e287f13f2272248a0ad88460af009";
               break;
             case 5:
-              bagToken = "1b135d2e4001b0edfaa0a8f5a9527396";
+              bagToken = "3f967f11d611fec98bdbbb80bd93c2b2";
               break;
             case 6:
-              bagToken = "06e8ff61632efe2b11bca3b5cacd5f82";
+              bagToken = "a152d9e11cae44f1c247f3b117a9e6b3";
               break;
             case 7:
-              bagToken = "1ae2e6ff9b277cdf21a336c54d07389b";
+              bagToken = "f1986bc5161a35cf4f2c8fef01a4847a";
               break;
             case 8:
-              bagToken = "e3ba9c652b275a11920847ca915fdd23";
+              bagToken = "b05c07c91570069a3e67c3a8561cd37d";
               break;
           }
           break;
@@ -946,51 +946,50 @@ export class CrudService {
   //         switch (data.no_of_units) {
   //           case 1:
   //             bagToken =
-  //               data.service_type == 1
-  //                 ? "d432cbf9786ba6e25f72914d7a276af7"
-  //                 : "cf26d7dcf14618ac675085e2740f5487";
+  //               data.service_type == 1 
+  //               ? "1580e768cf6d4eafe2b4aee8688b683c" 
+  //               : "bddc080a924ad7b929a496a7ecb7a02f"
   //             break;
   //           case 2:
-  //             bagToken =
-  //               data.service_type == 1
-  //                 ? "c54514fa6eb28a81c54b201362b1bfa4"
-  //                 : "a27f964ddca4ede0f3ae6aa51d9d5c0a";
+  //             bagToken = data.service_type == 1 
+  //             ? "4c6383ba2d782e163aec3e3ba45e9a3a" 
+  //             : "23f8480884f23eb3f5094b9230245c26"
   //             break;
   //           case 3:
   //             bagToken =
-  //               data.service_type == 1
-  //                 ? "d7da3e66dea351b34fc98221ddb2bfbb"
-  //                 : "9d9086b42fb5f0df427cab4b76da8105";
+  //               data.service_type == 1 
+  //               ? "e39f3f25ef89c459a8952789bc7a4ea7" 
+  //               : "c3108ed69a37eacc1dc46353e1f02645"
   //             break;
   //           case 4:
   //             bagToken =
   //               data.service_type == 1
-  //                 ? "c51ff8cd32b71ee568c6d74d3f68a0a7"
-  //                 : "f3b2622d36f32b8b3cc55d8229bcfcee";
+  //                 ? "f8243830eb5aaf8c65425aa011a57ba1" 
+  //                 : "baceb41a6fe86d9380e62efbde0bd1ac"
   //             break;
   //           case 5:
   //             bagToken =
-  //               data.service_type == 1
-  //                 ? "fc624decfa3837a17dd0bb5d3dfd7756"
-  //                 : "42f91dcb86af694f61407df98ffa811f";
+  //               data.service_type == 1 
+  //               ? "73992b67aefd7048bc528fe947f85d3a" 
+  //               : "eda1de7d0371293f9dfe78de4ab66624"
   //             break;
   //           case 6:
   //             bagToken =
-  //               data.service_type == 1
-  //                 ? "35eb2ac37a892cf28fb80f3ef631f798"
-  //                 : "895006331b0996be63836411db2d0bef";
+  //               data.service_type == 1 
+  //               ? "236be72234b2357cd09eb5a27687fe5d" 
+  //               : "8a015c7484ef16bfccac2aaa90bee4fa"
   //             break;
   //           case 7:
   //             bagToken =
-  //               data.service_type == 1
-  //                 ? "7389189ef63fb9950ab451312a456373"
-  //                 : "4111e4577d97ae35a3df320400ed741b";
+  //               data.service_type == 1 
+  //               ? "991b7d5f8e750db3d6038a38a584eb9b" 
+  //               : "ef718bc80c6e6a1ff62ffab9674e2d98"
   //             break;
   //           case 8:
   //             bagToken =
-  //               data.service_type == 1
-  //                 ? "f2771b675553e32916eecdd069e4032c"
-  //                 : "591d131a2a88c48fc240085840cad05a";
+  //               data.service_type == 1 
+  //               ? "53755c584094db694ec401319a239f53" 
+  //               : "cbe7da4a5c231e99d152f218bbbcf2b8"
   //             break;
   //         }
   //         break;
@@ -1138,25 +1137,25 @@ export class CrudService {
   //           case 6:
   //             if (data.service_type == 1) {
   //               bagToken = "f9e0c96f16ca9c29644249457e2bb08f";
-  //              } else {
+  //             } else {
   //               bagToken = "8501bceea4a2a0a0f1e8c8e28b0fc4b7";
   //             }
   //             break;
   //           case 7:
   //             if (data.service_type == 1) {
-  //                bagToken = "0d240687cdad4671a9ef6c8ef816ecbc";
+  //               bagToken = "0d240687cdad4671a9ef6c8ef816ecbc";
   //             } else {
   //               bagToken = "760cbf334b154fc4db7f16646fbe569b";
   //             }
   //             break;
   //           case 8:
   //             if (data.service_type == 1) {
-  //              bagToken = "935fffeb968df1e2a28877c2a0838cba";
+  //               bagToken = "935fffeb968df1e2a28877c2a0838cba";
   //             } else {
   //               bagToken = "c933e0eea3f48b193b522747e126045a";
   //             }
   //             break;
-  //           }
+  //         }
   //         break;
   //       case "AirAsia (India)":
   //         switch (data.no_of_units) {
@@ -1185,29 +1184,29 @@ export class CrudService {
   //                 : "b2dcbadc78b53167ba7fcd20a6c72bc1";
   //             break;
   //           case 5:
-  //              bagToken =
-  //              data.service_type === 1
+  //             bagToken =
+  //               data.service_type === 1
   //                 ? "442e7a1ed12df02f9554f2682ab3cc67"
   //                 : "1e94681feadf26f1fa1cba2ed355e14d";
-  //                break;
+  //             break;
   //           case 6:
   //             bagToken =
-  //             data.service_type === 1
+  //               data.service_type === 1
   //                 ? "81f6023bf530fcc74c388533c9a87023"
   //                 : "5ab15a3c6809782dbba73fe18e0da082";
   //             break;
   //           case 7:
   //             bagToken =
-  //             data.service_type === 1
-  //               ? "422f5b6ca3f010f1d34ef421d0c18d3c"
-  //               : "83d68eda2aa0e48d79c580f673cc921b";
+  //               data.service_type === 1
+  //                 ? "422f5b6ca3f010f1d34ef421d0c18d3c"
+  //                 : "83d68eda2aa0e48d79c580f673cc921b";
   //             break;
   //           case 8:
-  //            bagToken =
-  //            data.service_type === 1
-  //               ? "3aab4323ba5b0285ded65836e99bfafa"
-  //               : "aa5c56b0f1f7aedd0ad7436d2a9a3a88";
-  //           break;
+  //             bagToken =
+  //               data.service_type === 1
+  //                 ? "3aab4323ba5b0285ded65836e99bfafa"
+  //                 : "aa5c56b0f1f7aedd0ad7436d2a9a3a88";
+  //             break;
   //         }
   //         break;
   //       case "Other Airlines":

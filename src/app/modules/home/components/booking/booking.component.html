@@ -10,7 +10,7 @@
         <fieldset class="borders">
           <legend class="w-auto">Enter Subscription Number</legend>
           <div class="subNumber">
-            <input type="text" [readonly]="user_details_disable || bookingForm.controls['delivery_type'].value == 'Cargo Transfer'"  (keypress)="validatePnr($event)" style="text-transform: uppercase;width: inherit;" maxlength="6" class="border-0" formControlName="subscription_id">
+            <input type="text" [readonly]="user_details_disable || is_otp_verified || bookingForm.controls['delivery_type'].value == 'Cargo Transfer'"  (keypress)="validatePnr($event)" style="text-transform: uppercase;width: inherit;" maxlength="6" class="border-0" formControlName="subscription_id">
             <button class="myBtn"  (click)="validateSubscription()"
               [class.otp-btn-disabled]="user_details_disable || bookingForm.controls['delivery_type'].value == 'Cargo Transfer' || bookingForm.controls['subscription_id'].value.length != 6"
               [disabled]=" user_details_disable || bookingForm.controls['delivery_type'].value == 'Cargo Transfer' || bookingForm.controls['subscription_id'].value.length != 6">Validate</button>
@@ -336,6 +336,46 @@
         <!-- Terminal end -->
 
 
+         <!-- Select Pickup start  -->
+         <div class="col-md-3  mb-3">
+          <fieldset class="borders"
+            [style.border]="bookingForm.controls['pickup_type'].hasError('required') && bookingForm.controls['pickup_type'].touched || (bookingForm.controls['pickup_type'].invalid && bookingForm.controls['pickup_type'].untouched && submitted ) ? '1px solid #ed7533' : '1px solid #dee2e6'">
+            <legend class="w-auto">Select {{bookingForm.controls['type'].value != 'Departure' ? 'Delivery' : 'Pickup'}}
+            </legend>
+            <div class="subNumber">
+              <div class="dropdown">
+                <button class="dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown"
+                  aria-haspopup="true" aria-expanded="false">
+                  {{bookingForm.controls['pickup_type'].value ? bookingForm.controls['pickup_type'].value :
+                  'SelectPickup'}}
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                  <a class="dropdown-item"
+                    *ngFor="let item of [bookingForm.controls['type'].value == 'Departure' ? 'Airport: Drop off Point' : 'Airport: Pickup Point',bookingForm.controls['type'].value != 'Departure'? 'Doorstep Delivery' : 'Doorstep Pickup']"
+                    (click)="handleDropdownEvent('pickup_type',item)">{{item}}</a>
+                </div>
+              </div>
+            </div>
+          </fieldset>
+          <div class="message"
+            *ngIf="bookingForm.controls['pickup_type'].value == 'Airport: Drop off Point' || bookingForm.controls['pickup_type'].value == 'Airport: Pickup Point'">
+            <span class="mIcon">i</span>
+            <p>
+              {{bookingForm.controls['pickup_type'].value == 'Airport: Drop off Point' ?
+              "CarterX personnel allocated will meet you at the drop off point for service to Check-in counter." :
+              'CarterX personnel will meet you at baggage belt.'}}</p>
+          </div>
+          <div class="message"
+            *ngIf="bookingForm.controls['pickup_type'].value == 'Doorstep Pickup' || bookingForm.controls['pickup_type'].value == 'Doorstep Delivery'">
+            <span class="mIcon">i</span>
+            <p>{{bookingForm.controls['pickup_type'].value != 'Doorstep Delivery' ?
+              "CarterX personnel allocated will meet you at the Doorstep for service to Check-in counter." :
+              'CarterX personnel will meet you at baggage belt.'}}</p>
+          </div>
+        </div>
+        <!-- Select Pickup end  -->
+
+
         <!-- Date time picker start -->
         <div class="col-md-3  mb-3">
           <fieldset class="borders d-flex">
@@ -390,44 +430,7 @@
         <!-- Date time picker end -->
 
 
-        <!-- Select Pickup start  -->
-        <div class="col-md-3  mb-3">
-          <fieldset class="borders"
-            [style.border]="bookingForm.controls['pickup_type'].hasError('required') && bookingForm.controls['pickup_type'].touched || (bookingForm.controls['pickup_type'].invalid && bookingForm.controls['pickup_type'].untouched && submitted ) ? '1px solid #ed7533' : '1px solid #dee2e6'">
-            <legend class="w-auto">Select {{bookingForm.controls['type'].value != 'Departure' ? 'Delivery' : 'Pickup'}}
-            </legend>
-            <div class="subNumber">
-              <div class="dropdown">
-                <button class="dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown"
-                  aria-haspopup="true" aria-expanded="false">
-                  {{bookingForm.controls['pickup_type'].value ? bookingForm.controls['pickup_type'].value :
-                  'SelectPickup'}}
-                </button>
-                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                  <a class="dropdown-item"
-                    *ngFor="let item of [bookingForm.controls['type'].value == 'Departure' ? 'Airport: Drop off Point' : 'Airport: Pickup Point',bookingForm.controls['type'].value != 'Departure'? 'Doorstep Delivery' : 'Doorstep Pickup']"
-                    (click)="handleDropdownEvent('pickup_type',item)">{{item}}</a>
-                </div>
-              </div>
-            </div>
-          </fieldset>
-          <div class="message"
-            *ngIf="bookingForm.controls['pickup_type'].value == 'Airport: Drop off Point' || bookingForm.controls['pickup_type'].value == 'Airport: Pickup Point'">
-            <span class="mIcon">i</span>
-            <p>
-              {{bookingForm.controls['pickup_type'].value == 'Airport: Drop off Point' ?
-              "CarterX personnel allocated will meet you at the drop off point for service to Check-in counter." :
-              'CarterX personnel will meet you at baggage belt.'}}</p>
-          </div>
-          <div class="message"
-            *ngIf="bookingForm.controls['pickup_type'].value == 'Doorstep Pickup' || bookingForm.controls['pickup_type'].value == 'Doorstep Delivery'">
-            <span class="mIcon">i</span>
-            <p>{{bookingForm.controls['pickup_type'].value != 'Doorstep Delivery' ?
-              "CarterX personnel allocated will meet you at the Doorstep for service to Check-in counter." :
-              'CarterX personnel will meet you at baggage belt.'}}</p>
-          </div>
-        </div>
-        <!-- Select Pickup end  -->
+       
 
 
         <!-- select city start  -->
