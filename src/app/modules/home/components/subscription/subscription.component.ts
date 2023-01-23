@@ -36,7 +36,11 @@ export class SubscriptionComponent implements OnInit {
     private crudService:CrudService,
     private toast: MatSnackBar,
     private tokens: PassArrayService,
-    ) { }
+    ) { 
+      this.tokens.getNameOFUser.subscribe((name) => {
+        name ? (this.isLogin = true) : null;
+      });
+    }
 
   ngOnInit() {
     this.razorPays.lazyLoadLibrary("https://checkout.razorpay.com/v1/checkout.js").subscribe();
@@ -224,19 +228,18 @@ export class SubscriptionComponent implements OnInit {
 
   // verify user is existing or not
   verify_user(){
-    // this.ngxSpinner.show();
-    //   const reqBody = this.paylode_reqBody();
-    //   this.subscriptions.subscription_validation(subscription.PURCHASE_SUBSCRIPTION_VERIFY_USER,reqBody).subscribe((res:any)=>{
-    //     if(res.result.res_status == 201){
-          // this.otp_details.verify_otp =
-          //  this.otp_details.show_otp  = this.otp_details.validate_otp = true
-        // }else if(res.result.res_status == 200){
+    this.ngxSpinner.show();
+      const reqBody = this.paylode_reqBody();
+      this.subscriptions.subscription_validation(subscription.PURCHASE_SUBSCRIPTION_VERIFY_USER,reqBody).subscribe((res:any)=>{
+        if(res.result.res_status == 201){
+          this.openDialog();
+        }else if(res.result.res_status == 200){
           this.proceedToPay();
-    //     }
-    //     this.ngxSpinner.hide();
-    //     res.result.res_status == 200 ? null : this.printToastMsg(res.result.msg)
-    //     console.log(res);
-    // },err=>{ this.ngxSpinner.hide();});
+        }
+        this.ngxSpinner.hide();
+        res.result.res_status == 200 ? null : this.printToastMsg(res.result.msg)
+        console.log(res);
+    },err=>{ this.ngxSpinner.hide();});
   }
 
 
