@@ -612,7 +612,7 @@ export class BookingComponent implements OnInit {
       city_id: ["", Validators.required],
       bags: ["", Validators.required],
       airport_id: ["", Validators.required],
-      time_slot: ["", Validators.required],
+      time_slot: ["none", Validators.required],
       country: ["91", Validators.required],
       state_id: [""],
       name: ["", Validators.required],
@@ -683,13 +683,31 @@ export class BookingComponent implements OnInit {
     this.selectBox = 1;
     this.filterAirports();
     ["city_id", "airport_id"].map((res: any) => {this.bookingForm.controls[res].setValue("");});
-    this.Currentdate = new Date( new Date().getFullYear(), new Date().getMonth(), new Date().getDate() + (this.bookingForm.controls["type"].value == "Departure" || this.bookingForm.controls['delivery_type'].value == 'Cargo Transfer' ? 1 : 0), 10, 33, 30, 0);
+    this.Currentdate = new Date( new Date().getFullYear(), new Date().getMonth(), new Date().getDate() + ((this.bookingForm.controls["type"].value == "Departure" && this.bookingForm.controls["pickup_type"].value != 'Airport: Drop off Point') || this.bookingForm.controls["delivery_type"].value == "Cargo Transfer" ? 1 : 0), 10, 33, 30, 0);
     this.Currentdate.setHours(0, 0, 0, 0);
-    this.selected_date_for_date_picker = new Date( new Date().getFullYear(), new Date().getMonth(), new Date().getDate() + (this.bookingForm.controls["type"].value == "Departure" || this.bookingForm.controls['delivery_type'].value == 'Cargo Transfer' ? 1 : 0), 10, 33, 30, 0 );
+    this.selected_date_for_date_picker = new Date( new Date().getFullYear(), new Date().getMonth(), new Date().getDate() + ((this.bookingForm.controls["type"].value == "Departure" && this.bookingForm.controls["pickup_type"].value != 'Airport: Drop off Point') || this.bookingForm.controls["delivery_type"].value == "Cargo Transfer" ? 1 : 0), 10, 33, 30, 0 );
     this.showDate = this.selected_date_for_date_picker.toString().split(" ");
     this.show_select_date_one = new Date( new Date().getFullYear(), new Date().getMonth(), new Date().getDate(), 10, 33, 30, 0 );
     this.show_select_date_two = new Date( new Date().getFullYear(), new Date().getMonth(), new Date().getDate() + 1, 10, 33, 30, 0 );
     this.pickTimeSlotFunction();
+    this.verify_date_time();
+  }
+
+  verify_date_time(){
+    let dDate = new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate() + 1, 10, 33, 30, 0);
+    if (this.bookingForm.controls["type"].value == "Departure" && this.bookingForm.controls["pickup_type"].value == 'Airport: Drop off Point') {
+      if (new Date().getHours() + 3 > 23) {
+        this.meetHour = this.meetHour1 = (new Date().getHours() + 3) - 24
+        this.Currentdate = this.selected_date_for_date_picker = dDate;
+        this.Currentdate.setHours(0, 0, 0, 0);
+      } else {
+        this.meetHour = this.meetHour1 = new Date().getHours() + 3
+      }
+      this.meetMin = this.meetMin1 = new Date().getMinutes()
+    }else if(this.bookingForm.controls["type"].value != "Departure"){
+      this.meetHour = this.meetHour1 = (new Date().getHours())
+      this.meetMin = this.meetMin1 = new Date().getMinutes()
+    }
   }
 
   // date click event
@@ -826,8 +844,14 @@ export class BookingComponent implements OnInit {
 
         this.approximateAmount =  this.distance = 0;
         this.selected_airport = this.selected_time_slot = this.fullAddressLine = "";
-        ["addressLineOne", "time_slot", "addressLineTwo", "addressCity", "addressPincodes", "airport_id",].map((res: any) => { this.bookingForm.controls[res].setValue("");});
-        
+        ["addressLineOne", 
+        // "time_slot",
+         "addressLineTwo", "addressCity", "addressPincodes", "airport_id",].map((res: any) => { this.bookingForm.controls[res].setValue("");});
+         value == "Airport: Pickup Point" || value == "Airport: Drop off Point"
+          ? this.bookingForm.controls["time_slot"].setValue("none")
+          : this.bookingForm.controls["time_slot"].setValue("");
+        this.selectTypeofWay(1);
+
         break;
 
       case "address":
@@ -899,6 +923,11 @@ export class BookingComponent implements OnInit {
   // DateTime Picker value change
   datePickerOnChange() {
     // Lost Luggage/Item/Not Loaded means not remove the time slot value
+    this.bookingForm.controls["pickup_type"].value == "Airport: Pickup Point" ||
+    this.bookingForm.controls["pickup_type"].value == "Airport: Drop off Point"
+      ? this.bookingForm.controls["time_slot"].setValue("none")
+      : this.bookingForm.controls["time_slot"].setValue("");
+    this.meetMin1 = this.meetMin = this.meetHour = this.meetHour1 = this.approximateAmount = 0;
     this.bookingForm.controls["delivery_type"].value == "Lost Luggage/Item/Not Loaded" ? "" : this.bookingForm.controls["time_slot"].setValue("");
     this.selected_time_slot = this.delivery_date = this.afterBefore = this.show_delivery_time = "";
     this.showDate = this.selected_date_for_date_picker.toString().split(" ");
@@ -911,6 +940,9 @@ export class BookingComponent implements OnInit {
     this.show_select_date_two = this.show_select_date_two.setDate(this.selected_date_for_date_picker.getDate() + 1);
     this.show_select_date_two = new Date(this.show_select_date_two);
     this.showMeetDrop = false;
+    if(this.datePipe.transform(this.Currentdate) == this.datePipe.transform(this.selected_date_for_date_picker) && this.bookingForm.controls["delivery_type"].value == "Airport Transfer") {
+      this.verify_date_time();
+    }
   }
 
   // get Time Solots from Api
@@ -1300,6 +1332,8 @@ export class BookingComponent implements OnInit {
     });
 
     this.bookingForm.controls["delivery_type"].value == "Lost Luggage/Item/Not Loaded" ? "" : this.bookingForm.controls["time_slot"].setValue("");
+    this.bookingForm.controls["time_slot"].setValue("none");
+
     this.bookingForm.controls["pnr"].reset();
     this.bookingForm.controls["term"].setValue(false);
     this.approximateAmount = 0;
@@ -1729,19 +1763,21 @@ export class BookingComponent implements OnInit {
     const formValue = { ...this.bookingForm.value };
 
     var delivery_date_current;
-    var curDate =  new Date();
-    let date, month ,year
-    if(this.datePipe.transform(curDate, "dd MMM y") == this.datePipe.transform(this.selected_date_for_date_picker, "dd MMM y")){
-      date = (curDate.getDate() + (formValue.transfer_type == "Outstation" ? 3 : 1) );
-      month = (curDate.getMonth() + 1);
-      year = (curDate.getFullYear());
-      delivery_date_current = year+'-'+ (month < 10 ? '0'+month.toString() : month) + '-'+  (date < 10 ? '0'+date.toString() : date)
-    }else{
-      let dt = new Date(this.selected_date_for_date_picker)
-      date = (dt.getDate() + (formValue.transfer_type == "Outstation" ? 3 : 0))
-      month =(dt.getMonth() + 1)
-      year = (dt.getFullYear())
-      delivery_date_current = year+'-'+ (month < 10 ? '0'+month.toString() : month) + '-'+  (date < 10 ? '0'+date.toString() : date)
+    var curDate = new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate() + (formValue.transfer_type == "Outstation" ? 3 : 1), 10,33,30,0);
+    let date, month, year;
+    if (this.datePipe.transform(new Date(), "dd MMM y") == this.datePipe.transform(this.selected_date_for_date_picker, "dd MMM y")) {
+      date = curDate.getDate();
+      month = curDate.getMonth() + 1;
+      year = curDate.getFullYear();
+      delivery_date_current = year + "-" + (month < 10 ? "0" + month.toString() : month) + "-" + (date < 10 ? "0" + date.toString() : date);
+    } else {
+      let dt = new Date(this.selected_date_for_date_picker);
+      dt = new Date(dt.getFullYear(), dt.getMonth(), dt.getDate() + (formValue.transfer_type == "Outstation" ? 3 : 1), 10,33,30,0);
+      date = dt.getDate() + (formValue.transfer_type == "Outstation" ? 3 : 0);
+      month = dt.getMonth() + 1;
+      year = dt.getFullYear();
+      delivery_date_current =
+        year + "-" + (month < 10 ? "0" + month.toString() : month) + "-" + (date < 10 ? "0" + date.toString() : date);
     }
 
     const reqBody = {
@@ -2454,218 +2490,140 @@ export class BookingComponent implements OnInit {
   }
 
   increaseMeetHour() {
-    let a = this;
-    this.showMeet = true;
+    let dDate = new Date();
+    let hour;
+
+    if (this.bookingForm.controls["type"].value == "Departure" && this.bookingForm.controls["pickup_type"].value == "Airport: Drop off Point") {
+      if (this.datePipe.transform(new Date()) == this.datePipe.transform(this.selected_date_for_date_picker)) {
+        hour = dDate.getHours() + 3;
+      }
+    } else if (this.bookingForm.controls["type"].value != "Departure") {
+      if (this.datePipe.transform(new Date()) == this.datePipe.transform(this.selected_date_for_date_picker)
+      ) {
+        hour = dDate.getHours();
+      } else {
+        hour = 0;
+      }
+    } else {
+      hour = 0;
+    }
+    
+    if (hour > 23) {
+      hour = Number(hour) - 24;
+    }
+
+    
     if (this.meetHour >= 23) {
-      this.meetHour = this.timeOnwards ? this.timeOnwards : 0;
+      this.meetHour = hour ? hour : 0;
     } else {
       this.meetHour += 1;
     }
-    if (this.travel_type === 1 && this.type_of_services === 2) {
-      if (this.meetHour > 15) {
-        this.delivery_date = new Date(this.delivery_date);
-        this.delivery_date = this.delivery_date.setDate(this.selected_date_for_date_picker.getDate() + 1);
-        this.delivery_date = new Date(this.delivery_date);
-        this.show_delivery_time = "14:00";
-      }
+    {
+      this.meetHour = Number(this.meetHour);
     }
-
-    if (this.travel_type === 2 && this.type_of_services === 2) {
-      if (this.meetHour > 15 && this.meetHour === 16) {
-        this.delivery_date = new Date(this.delivery_date);
-        this.delivery_date = this.delivery_date.setDate(this.selected_date_for_date_picker.getDate() + 4);
-        this.delivery_date = new Date(this.delivery_date);
-        this.show_delivery_time = this.bookingForm.value.time_slot === 4 ? "14:00" : "14:00";
-      }
-    }
-
-    if (this.type_of_services === 1) {
-      if (this.selectBox === 2) {
-        if (this.meetHour > 13 && this.bookingForm.value.time_slot === 1) {
-          this.meetHour = this.timeOnwards;
-          this.meet_hour_error_box = true;
-          this.meet_time_error_msg = "Time cannot be greater than 13:00";
-          setTimeout(function () { a.meet_hour_error_box = false;}, 5000);
-        } 
-        else if (this.meetHour > 17 &&this.bookingForm.value.time_slot === 2) {
-          this.meetHour = this.timeOnwards;
-          this.meet_hour_error_box = true;
-          this.meet_time_error_msg = "Time cannot be greater than 17:00";
-          setTimeout(function () { a.meet_hour_error_box = false;}, 5000);
-        }
-        else if (this.meetHour > 21 &&this.bookingForm.value.time_slot === 3) {
-          this.meetHour = this.timeOnwards;
-          this.meet_hour_error_box = true;
-          this.meet_time_error_msg = "Time cannot be greater than 21:00";
-          setTimeout(function () {a.meet_hour_error_box = false;}, 5000);
-        } 
-        else if (this.meetHour > 2 &&this.bookingForm.value.time_slot === 7 ) {
-          this.meetHour = this.timeOnwards;
-          this.meet_hour_error_box = true;
-          this.meet_time_error_msg = "Time cannot be greater than 2:00";
-          setTimeout(function () {a.meet_hour_error_box = false;}, 5000);
-        }
-      }
-    }
-
-    if (this.type_of_services === 2) {
-      if (this.selectBox === 1) {
-        if (this.bookingForm.value.time_slot === 1 && this.meetHour > 15) {
-          this.meetHour = this.timeOnwards;
-          this.meet_hour_error_box = true;
-          this.meet_time_error_msg = "Time cannot be greater than 13:00";
-          setTimeout(function () {a.meet_hour_error_box = false; }, 5000);
-        }
-      }
-    }
+    hour == this.meetHour ? this.meetMin = new Date().getMinutes() : this.meetMin = 0; 
   }
 
   decreaseMeetHour() {
-    this.type_of_services =this.bookingForm.controls["type"].value == "Departure" ? 1 : 2;
-    this.travel_type = this.bookingForm.controls["delivery_type"].value == "Local" ? 1 : 2;
-    let a = this;
+    let dDate = new Date();
+    let hour;
 
-    if (this.selectBox === 1) {
-      if (this.meetHour <= this.timeOnwards && this.type_of_services !== 2) {
-        this.meetHour = this.timeOnwards;
-      } else if (this.type_of_services !== 2) {
-        this.meetHour == 1 || this.meetHour == 0? (this.meetHour = 24): (this.meetHour -= 1);
-      }
-      if (this.type_of_services === 2 && this.meetHour > 0) {
-        this.meetHour == 1 || this.meetHour == 0? (this.meetHour = 24): (this.meetHour -= 1);
-      }
-    } else if (this.selectBox === 2) {
-      if (this.meetHour <= this.timeOnwards && this.type_of_services !== 2 &&this.meetHour > 0) {
-        this.meetHour == 1 || this.meetHour == 0 ? (this.meetHour = 24): (this.meetHour -= 1);
-      } else if (this.type_of_services !== 2 && this.meetHour == 0) {
-        this.meetHour = this.timeOnwards;
-      } else if (this.type_of_services === 2) {
-        if (this.meetHour === 0) {
-          this.meetHour = 23;
-        } else {
-          this.meetHour == 1 || this.meetHour == 0 ? (this.meetHour = 24) : (this.meetHour -= 1);
-        }
-      }
-    }
-
-    if (this.travel_type === 1 && this.type_of_services === 2) {
-      if (this.meetHour <= 15) {
-        this.delivery_date = new Date(this.delivery_date);
-        this.delivery_date = this.delivery_date.setDate(this.selected_date_for_date_picker.getDate());
-        this.delivery_date = new Date(this.delivery_date);
-        this.show_delivery_time = this.bookingForm.value.time_slot === 4 ? "23:55" : "14:00";
-      }
-    }
-
-    if (this.travel_type === 2 && this.type_of_services === 2) {
-      if (this.meetHour === 15) {
-        this.delivery_date = new Date(this.delivery_date);
-        this.delivery_date = this.delivery_date.setDate(this.selected_date_for_date_picker.getDate() + 3);
-        this.delivery_date = new Date(this.delivery_date);
-        this.show_delivery_time = "23:55";
-      }
-    } else if (this.type_of_services === 1) {
+    if (this.bookingForm.controls["type"].value == "Departure" && this.bookingForm.controls["pickup_type"].value == "Airport: Drop off Point") {
+      // hour = dDate.getHours() + 3
       if (
-        this.bookingForm.value.time_slot === 1 &&
-        this.selectBox === 1 &&
-        this.meetHour <= this.timeOnwards
+        this.datePipe.transform(new Date()) ==
+        this.datePipe.transform(this.selected_date_for_date_picker)
       ) {
-        this.meetHour = this.timeOnwards;
-        this.meet_hour_error_box = true;
-        this.meet_time_error_msg = "Time cannot be less than 13:00";
-      } else if (
-        this.bookingForm.value.time_slot === 1 &&
-        this.selectBox === 2 &&
-        this.meetHour > this.timeOnwards
-      ) {
-        this.meetHour = this.timeOnwards;
-        this.meet_hour_error_box = true;
-        this.meet_time_error_msg = "Time cannot be greater than 13:00";
-      } else if (
-        this.bookingForm.value.time_slot === 2 &&
-        this.selectBox === 1 &&
-        this.meetHour <= this.timeOnwards
-      ) {
-        this.meetHour = this.timeOnwards;
-        this.meet_hour_error_box = true;
-        this.meet_time_error_msg = "Time cannot be less than 17:00";
-      } else if (
-        this.bookingForm.value.time_slot === 2 &&
-        this.selectBox === 2 &&
-        this.meetHour >= this.timeOnwards
-      ) {
-        this.meetHour = this.timeOnwards;
-        this.meet_hour_error_box = true;
-        this.meet_time_error_msg = "Time cannot be greater than 17:00";
-      } else if (
-        this.bookingForm.value.time_slot === 3 &&
-        this.selectBox === 1 &&
-        this.meetHour <= this.timeOnwards
-      ) {
-        this.meetHour = this.timeOnwards;
-        this.meet_hour_error_box = true;
-        this.meet_time_error_msg = "Time cannot be less than 21:00";
-      } else if (
-        this.bookingForm.value.time_slot === 3 &&
-        this.selectBox === 2 &&
-        this.meetHour >= this.timeOnwards
-      ) {
-        this.meetHour = this.timeOnwards;
-        this.meet_hour_error_box = true;
-        this.meet_time_error_msg = "Time cannot be greater than 21:00";
-      } else if (
-        this.bookingForm.value.time_slot === 7 &&
-        this.selectBox === 1 &&
-        this.meetHour <= this.timeOnwards
-      ) {
-        this.meetHour = this.timeOnwards;
-        this.meet_hour_error_box = true;
-        this.meet_time_error_msg = "Time cannot be less than 2:00";
-      } else if (
-        this.bookingForm.value.time_slot === 7 &&
-        this.selectBox === 2 &&
-        this.meetHour >= this.timeOnwards
-      ) {
-        this.meetHour = this.timeOnwards;
-        this.meet_hour_error_box = true;
-        this.meet_time_error_msg = "Time cannot be greater than 2:00";
-      } else if (
-        this.bookingForm.value.time_slot === 9 &&
-        this.selectBox === 1 &&
-        this.meetHour <= this.timeOnwards
-      ) {
-        this.meetHour = this.timeOnwards;
-        this.meet_hour_error_box = true;
-        this.meet_time_error_msg = "Time cannot be less than 10:00";
-      } else if (
-        this.bookingForm.value.time_slot === 9 &&
-        this.selectBox === 2 &&
-        this.meetHour >= this.timeOnwards
-      ) {
-        this.meetHour = this.timeOnwards;
-        this.meet_hour_error_box = true;
-        this.meet_time_error_msg = "Time cannot be greater than 10:00";
+        hour = dDate.getHours() + 3;
       }
-      setTimeout(function () {
-        a.meet_hour_error_box = false;
-      }, 5000);
+    } else if (this.bookingForm.controls["type"].value != "Departure") {
+      if (
+        this.datePipe.transform(new Date()) ==
+        this.datePipe.transform(this.selected_date_for_date_picker)
+      ) {
+        hour = dDate.getHours();
+      } else {
+        hour = 0;
+      }
+    } else {
+      hour = 0;
     }
+
+    if (hour > 23) {
+      hour = Number(hour) - 24;
+    }
+
+    if (this.meetHour == hour || this.meetHour == 0) {
+      this.meetHour = 23;
+    } else {
+      this.meetHour -= 1;
+    }
+    {
+      this.meetHour = Number(this.meetHour);
+    }
+
+    hour == this.meetHour ? this.meetMin = new Date().getMinutes() : this.meetMin = 0; 
   }
 
-  //
   increaseMeetMin() {
-    if (this.meetMin < 59) {
-      this.meetMin += 1;
+    let dDate = new Date();
+    let min;
+    let hour = new Date().getHours() + (this.bookingForm.controls["type"].value == "Departure" && this.bookingForm.controls["pickup_type"].value == "Airport: Drop off Point" ?  3 : 0)
+    hour > 23 ? hour = Number(hour) - 24 : null
+
+    if (this.bookingForm.controls["type"].value == "Departure" && this.bookingForm.controls["pickup_type"].value == "Airport: Drop off Point" && hour == this.meetHour ) {
+      if (this.datePipe.transform(new Date()) == this.datePipe.transform(this.selected_date_for_date_picker)) {
+        min = dDate.getMinutes();
+      }
+    } else if (this.bookingForm.controls["type"].value != "Departure") {
+      if (this.datePipe.transform(new Date()) == this.datePipe.transform(this.selected_date_for_date_picker) && hour == this.meetHour) {
+        min = dDate.getMinutes();
+      } else {
+        min = 0;
+      }
     } else {
-      this.meetMin = 0;
+      min = 0;
+    }
+
+    if (this.meetMin >= 59) {
+      this.meetMin = min ? min : 0;
+    } else {
+      this.meetMin += 1;
+    }
+    {
+      this.meetMin = Number(this.meetMin);
     }
   }
 
   decreaseMeetMin() {
-    if (this.meetMin <= 59) {
-      this.meetMin = 0;
+    let dDate = new Date();
+    let min;
+    let hour = new Date().getHours() + (this.bookingForm.controls["type"].value == "Departure" && this.bookingForm.controls["pickup_type"].value == "Airport: Drop off Point" ?  3 : 0)
+
+    hour > 23 ? hour = Number(hour) - 24 : null
+
+    if (this.bookingForm.controls["type"].value == "Departure" && this.bookingForm.controls["pickup_type"].value == "Airport: Drop off Point") {
+      // hour = dDate.getHours() + 3
+      if (this.datePipe.transform(new Date()) == this.datePipe.transform(this.selected_date_for_date_picker ) && hour == this.meetHour) {
+        min = dDate.getMinutes();
+      }
+    } else if (this.bookingForm.controls["type"].value != "Departure") {
+      if (this.datePipe.transform(new Date()) == this.datePipe.transform(this.selected_date_for_date_picker) && hour == this.meetHour) {
+        min = dDate.getMinutes();
+      } else {
+        min = 0;
+      }
+    } else {
+      min = 0;
+    }
+
+    if (this.meetMin == min || this.meetMin == 0) {
+      this.meetMin = 59;
     } else {
       this.meetMin -= 1;
+    }
+    {
+      this.meetMin = Number(this.meetMin);
     }
   }
 
@@ -3312,19 +3270,21 @@ export class BookingComponent implements OnInit {
                 const formValue = { ...this.bookingForm.value };
 
                 var delivery_date_current;
-                var curDate =  new Date();
-                let date, month ,year
-                if(this.datePipe.transform(curDate, "dd MMM y") == this.datePipe.transform(this.selected_date_for_date_picker, "dd MMM y")){
-                  date = (curDate.getDate() + (formValue.transfer_type == "Outstation" ? 3 : 1) );
-                  month = (curDate.getMonth() + 1);
-                  year = (curDate.getFullYear());
-                  delivery_date_current = year+'-'+ (month < 10 ? '0'+month.toString() : month) + '-'+  (date < 10 ? '0'+date.toString() : date)
-                }else{
-                  let dt = new Date(this.selected_date_for_date_picker)
-                  date = (dt.getDate() + (formValue.transfer_type == "Outstation" ? 3 : 0))
-                  month =(dt.getMonth() + 1)
-                  year = (dt.getFullYear())
-                  delivery_date_current = year+'-'+ (month < 10 ? '0'+month.toString() : month) + '-'+  (date < 10 ? '0'+date.toString() : date)
+                var curDate = new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate() + (formValue.transfer_type == "Outstation" ? 3 : 1), 10,33,30,0);
+                let date, month, year;
+                if (this.datePipe.transform(new Date(), "dd MMM y") == this.datePipe.transform(this.selected_date_for_date_picker, "dd MMM y")) {
+                  date = curDate.getDate();
+                  month = curDate.getMonth() + 1;
+                  year = curDate.getFullYear();
+                  delivery_date_current = year + "-" + (month < 10 ? "0" + month.toString() : month) + "-" + (date < 10 ? "0" + date.toString() : date);
+                } else {
+                  let dt = new Date(this.selected_date_for_date_picker);
+                  dt = new Date(dt.getFullYear(), dt.getMonth(), dt.getDate() + (formValue.transfer_type == "Outstation" ? 3 : 1), 10,33,30,0);
+                  date = dt.getDate() + (formValue.transfer_type == "Outstation" ? 3 : 0);
+                  month = dt.getMonth() + 1;
+                  year = dt.getFullYear();
+                  delivery_date_current =
+                    year + "-" + (month < 10 ? "0" + month.toString() : month) + "-" + (date < 10 ? "0" + date.toString() : date);
                 }
 
                 const reqBody = {
