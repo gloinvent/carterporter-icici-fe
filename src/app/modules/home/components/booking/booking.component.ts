@@ -699,6 +699,7 @@ export class BookingComponent implements OnInit {
       if (new Date().getHours() + 3 > 23) {
         this.meetHour = this.meetHour1 = (new Date().getHours() + 3) - 24
         this.Currentdate = this.selected_date_for_date_picker = dDate;
+        this.showDate = this.selected_date_for_date_picker.toString().split(" ");
         this.Currentdate.setHours(0, 0, 0, 0);
       } else {
         this.meetHour = this.meetHour1 = new Date().getHours() + 3
