@@ -1,7 +1,7 @@
 <!-- margin: 95px 0 0 !important;    only for ICIC prestege -->
 
 <!-- mt-5 -->
-<div class="subSection icic-marigin  pt-5" >
+<div class="subSection icic-marigin  pt-5">
   <div class="container">
     <h3 class="pt-3 heading">Buy Subscription</h3>
 
@@ -22,7 +22,8 @@
             <div class="flex-fill">
               <div class="d-flex justify-content-between">
                 <div>
-                  <h1 class="subscription-title">{{item.subscriber_name == 'ICICI Prestige' ? 'Prestige' : item.subscriber_name}}</h1>
+                  <h1 class="subscription-title">{{item.subscriber_name == 'ICICI Prestige' ? 'Prestige' :
+                    item.subscriber_name}}</h1>
                   <h6>{{item.no_of_usages}} usages</h6>
                   <ul class="pl-3">
                     <li>Departure Services</li>
@@ -33,9 +34,11 @@
                   <h2 class="price" style="min-width: 90px;">INR {{item.subscription_cost}}/-</h2>
                   <p style="color: #337bb7;">Annual Fee</p>
                   <div class="d-flex justify-content-end align-items-center">
-                    <span style="padding: 2px 0 0px 0;" class="d-flex justify-content-center align-items-center" (click)="purchaseSubscription('remove',item.subscriber_name)">-</span>
+                    <span style="padding: 2px 0 0px 0;" class="d-flex justify-content-center align-items-center"
+                      (click)="purchaseSubscription('remove',item.subscriber_name)">-</span>
                     <p class="m-0" style="padding: 2px 0.5rem 0;">{{item.count}}</p>
-                    <span style="padding: 2px 0 0px 0;" class="d-flex justify-content-center align-items-center" (click)="purchaseSubscription('add',item.subscriber_name)">+</span>
+                    <span style="padding: 2px 0 0px 0;" class="d-flex justify-content-center align-items-center"
+                      (click)="purchaseSubscription('add',item.subscriber_name)">+</span>
                   </div>
                 </div>
               </div>
@@ -91,7 +94,8 @@
 
         <div>
           <div class="text-right">
-            <h2 class="price py-4 min-height-77">{{getPrice() != 0 ? 'INR ' : ''}} {{getPrice() != 0 ? getPrice() : ''}} {{getPrice() != 0 ? '/- ' : ''}}</h2>
+            <h2 class="price py-4 min-height-77">{{getPrice() != 0 ? 'INR ' : ''}} {{getPrice() != 0 ? getPrice() : ''}}
+              {{getPrice() != 0 ? '/- ' : ''}}</h2>
             <button [class.disabled]="getPrice() == 0" class="proceedBuy"
               (click)="getPrice() != 0 ? (isLogin ? verify_user() : openDialog()) : null">Proceed to Buy</button>
           </div>
@@ -166,7 +170,7 @@
               <div class="logoDetails">
                 <img src="../../../../../assets/subscription/Icon@3x copy.png">
               </div>
-              <p class="logoText">SMS at every point your luggage</p>
+              <p class="logoText">SMS at every point of luggage journey</p>
             </div>
             <div class="col-3 p-0">
               <div class="logoDetails">

@@ -2,7 +2,8 @@
   <div class="container">
 
     <h3 class="pt-3 heading mb-3 d-none d-md-block">Redeem Subscription or Make a Booking</h3>
-    <h3 class="pt-3 heading mb-3 d-md-none d-block text-center">Redeem Subscription <br><span>or</span><br>Make a Booking</h3>
+    <h3 class="pt-3 heading mb-3 d-md-none d-block text-center">Redeem Subscription <br><span>or</span><br>Make a
+      Booking</h3>
 
     <!--  -->
     <div class="row align-items-center">
@@ -10,8 +11,11 @@
         <fieldset class="borders">
           <legend class="w-auto">Enter Subscription Number</legend>
           <div class="subNumber">
-            <input type="text" [readonly]="user_details_disable || is_otp_verified || bookingForm.controls['delivery_type'].value == 'Cargo Transfer'"  (keypress)="validatePnr($event)" style="text-transform: uppercase;width: inherit;" maxlength="6" class="border-0" formControlName="subscription_id">
-            <button class="myBtn"  (click)="validateSubscription()"
+            <input type="text"
+              [readonly]="user_details_disable || is_otp_verified || bookingForm.controls['delivery_type'].value == 'Cargo Transfer'"
+              (keypress)="validatePnr($event)" style="text-transform: uppercase;width: inherit;" maxlength="6"
+              class="border-0" formControlName="subscription_id">
+            <button class="myBtn" (click)="validateSubscription()"
               [class.otp-btn-disabled]="user_details_disable || bookingForm.controls['delivery_type'].value == 'Cargo Transfer' || bookingForm.controls['subscription_id'].value.length != 6"
               [disabled]=" user_details_disable || bookingForm.controls['delivery_type'].value == 'Cargo Transfer' || bookingForm.controls['subscription_id'].value.length != 6">Validate</button>
           </div>
@@ -37,7 +41,8 @@
               <legend class="w-auto">Name</legend>
               <div class="subNumber">
                 <input maxlength="30" type="name" formControlName="name" class="border-0"
-                  (keypress)="validateName($event)" (ngModelChange)="validateNameSpace()" [readonly]="user_details_disable || is_otp_verified">
+                  (keypress)="validateName($event)" (ngModelChange)="validateNameSpace()"
+                  [readonly]="user_details_disable || is_otp_verified">
               </div>
             </fieldset>
             <p class="error"
@@ -49,7 +54,8 @@
               [style.border]="bookingForm.controls['email'].hasError('required') && bookingForm.controls['email'].touched || (bookingForm.controls['email'].errors && bookingForm.controls['email'].touched) || (bookingForm.controls['email'].invalid && bookingForm.controls['email'].untouched && submitted ) ? '1px solid #ed7533' : '1px solid #dee2e6'">
               <legend class="w-auto">Email</legend>
               <div class="subNumber">
-                <input [readonly]="user_details_disable || is_otp_verified" class="border-0" formControlName="email" type="email" name="email">
+                <input [readonly]="user_details_disable || is_otp_verified" class="border-0" formControlName="email"
+                  type="email" name="email">
               </div>
             </fieldset>
             <p class="error"
@@ -77,8 +83,9 @@
                       +{{item.country_code}} - {{item.country_name}}</li>
                   </ul>
                 </div>
-                <input type="tel" allowOnly="[^0-9]" minlength="10" maxlength="10" numbersOnly [readonly]="user_details_disable || is_otp_verified"
-                  formControlName="mobile_number" class="border-0" (keypress)="numberOnly($event)">
+                <input type="tel" allowOnly="[^0-9]" minlength="10" maxlength="10" numbersOnly
+                  [readonly]="user_details_disable || is_otp_verified" formControlName="mobile_number" class="border-0"
+                  (keypress)="numberOnly($event)">
               </div>
             </fieldset>
             <p class="error"
@@ -87,7 +94,8 @@
           </div>
 
           <div class="col-md-3 py-2 py-md-0">
-            <button class="myBtn mt-2 mt-md-0 float-right float-md-none" [class.otp-btn-disabled]="user_details_disable || bookingForm.controls['delivery_type'].value == 'Cargo Transfer' || btnDisabled || (bookingForm.controls['name'].status == 'INVALID') || (bookingForm.controls['email'].status == 'INVALID') || (bookingForm.controls['mobile_number'].status == 'INVALID')"
+            <button class="myBtn mt-2 mt-md-0 float-right float-md-none"
+              [class.otp-btn-disabled]="user_details_disable || bookingForm.controls['delivery_type'].value == 'Cargo Transfer' || btnDisabled || (bookingForm.controls['name'].status == 'INVALID') || (bookingForm.controls['email'].status == 'INVALID') || (bookingForm.controls['mobile_number'].status == 'INVALID')"
               [disabled]="user_details_disable || bookingForm.controls['delivery_type'].value == 'Cargo Transfer' || btnDisabled || (bookingForm.controls['name'].status == 'INVALID') || (bookingForm.controls['email'].status == 'INVALID') ||  (bookingForm.controls['mobile_number'].status == 'INVALID')"
               (click)="validateMobile(1)">OTP
               Validate</button>
@@ -99,16 +107,23 @@
             <fieldset class="borders">
               <legend class="w-auto">Enter the OTP you received</legend>
               <div class="subNumber d-flex align-items-center justify-content-between">
-                <input style="width: inherit;" (keypress)="numberOnly($event)" maxlength="4" type="tel" numberOnly formControlName="otp"
-                  class="border-0" [readonly]="user_details_disable || bookingForm.controls['delivery_type'].value == 'Cargo Transfer'">
-                <button [class.otp-btn-disabled]="user_details_disable || bookingForm.controls['delivery_type'].value == 'Cargo Transfer'" [disabled]="user_details_disable || bookingForm.controls['delivery_type'].value == 'Cargo Transfer'" class="myBtn mr-0 mr-md-3 d-md-none" (click)="validateOtp()">Validate</button>
+                <input style="width: inherit;" (keypress)="numberOnly($event)" maxlength="4" type="tel" numberOnly
+                  formControlName="otp" class="border-0"
+                  [readonly]="user_details_disable || bookingForm.controls['delivery_type'].value == 'Cargo Transfer'">
+                <button
+                  [class.otp-btn-disabled]="user_details_disable || bookingForm.controls['delivery_type'].value == 'Cargo Transfer'"
+                  [disabled]="user_details_disable || bookingForm.controls['delivery_type'].value == 'Cargo Transfer'"
+                  class="myBtn mr-0 mr-md-3 d-md-none" (click)="validateOtp()">Validate</button>
               </div>
             </fieldset>
           </div>
           <div
             class="col-md-7 py-2 py-md-0 d-flex d-md-block justify-content-between justify-content-md-end flex-row-reverse">
-            <button class="myBtn mr-0 mr-md-3 d-none d-md-inline" (click)="validateOtp()" [class.otp-btn-disabled]="user_details_disable || bookingForm.controls['delivery_type'].value == 'Cargo Transfer'" [disabled]="user_details_disable || bookingForm.controls['delivery_type'].value == 'Cargo Transfer'">Validate</button>
-            <button class="myBtn mt-2" [class.otp-btn-disabled]="user_details_disable || bookingForm.controls['delivery_type'].value == 'Cargo Transfer' || btnDisabled || (bookingForm.controls['name'].status == 'INVALID') || (bookingForm.controls['email'].status == 'INVALID') || (bookingForm.controls['mobile_number'].status == 'INVALID')"
+            <button class="myBtn mr-0 mr-md-3 d-none d-md-inline" (click)="validateOtp()"
+              [class.otp-btn-disabled]="user_details_disable || bookingForm.controls['delivery_type'].value == 'Cargo Transfer'"
+              [disabled]="user_details_disable || bookingForm.controls['delivery_type'].value == 'Cargo Transfer'">Validate</button>
+            <button class="myBtn mt-2"
+              [class.otp-btn-disabled]="user_details_disable || bookingForm.controls['delivery_type'].value == 'Cargo Transfer' || btnDisabled || (bookingForm.controls['name'].status == 'INVALID') || (bookingForm.controls['email'].status == 'INVALID') || (bookingForm.controls['mobile_number'].status == 'INVALID')"
               [disabled]="user_details_disable || bookingForm.controls['delivery_type'].value == 'Cargo Transfer' || btnDisabled || (bookingForm.controls['name'].status == 'INVALID') || (bookingForm.controls['email'].status == 'INVALID') ||  (bookingForm.controls['mobile_number'].status == 'INVALID')"
               (click)="validateMobile(2)">Send Code Again</button>
           </div>
@@ -175,7 +190,8 @@
     <!-- contacts details end-->
 
     <!--  -->
-    <div class="row pt-3" *ngIf="subscription_details.show_coupons == true && subscription_details.subscription_tokens.length!=0">
+    <div class="row pt-3"
+      *ngIf="subscription_details.show_coupons == true && subscription_details.subscription_tokens.length!=0">
       <div class="col-md-12 redeem d-flex">
         <div>
           <div role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="50">
@@ -336,8 +352,8 @@
         <!-- Terminal end -->
 
 
-         <!-- Select Pickup start  -->
-         <div class="col-md-3  mb-3">
+        <!-- Select Pickup start  -->
+        <div class="col-md-3  mb-3">
           <fieldset class="borders"
             [style.border]="bookingForm.controls['pickup_type'].hasError('required') && bookingForm.controls['pickup_type'].touched || (bookingForm.controls['pickup_type'].invalid && bookingForm.controls['pickup_type'].untouched && submitted ) ? '1px solid #ed7533' : '1px solid #dee2e6'">
             <legend class="w-auto">Select {{bookingForm.controls['type'].value != 'Departure' ? 'Delivery' : 'Pickup'}}
@@ -383,8 +399,9 @@
 
             <!-- Select Date -->
             <div class="dateSection border-left-0 w-100 position-relative">
-              <input class="" id="datePicker" [ngModelOptions]="{standalone: true}"  [(ngModel)]="selected_date_for_date_picker"
-                [owlDateTimeTrigger]="dt1" [min]="Currentdate" [owlDateTime]="dt1" placeholder="Date Time" style="
+              <input class="" id="datePicker" [ngModelOptions]="{standalone: true}"
+                [(ngModel)]="selected_date_for_date_picker" [owlDateTimeTrigger]="dt1" [min]="Currentdate"
+                [owlDateTime]="dt1" placeholder="Date Time" style="
                   opacity: 0;
                   width: calc(100% + 20px);
                   height: 30px;
@@ -430,7 +447,7 @@
         <!-- Date time picker end -->
 
 
-       
+
 
 
         <!-- select city start  -->
@@ -489,7 +506,8 @@
         <!-- select airport end-->
 
         <!--  -->
-        <div class="col-md-4 mb-3" *ngIf="bookingForm.controls['pickup_type'].value != 'Airport: Drop off Point' && bookingForm.controls['pickup_type'].value != 'Airport: Pickup Point'">
+        <div class="col-md-4 mb-3"
+          *ngIf="bookingForm.controls['pickup_type'].value != 'Airport: Drop off Point' && bookingForm.controls['pickup_type'].value != 'Airport: Pickup Point'">
           <fieldset class="borders"
             [style.border]="(bookingForm.controls['addressLineOne'].hasError('required') && bookingForm.controls['addressLineOne'].touched || bookingForm.controls['addressLineOne'].invalid && bookingForm.controls['addressLineOne'].untouched) && submitted  ? '1px solid #ed7533' : '1px solid #dee2e6'">
             <legend class="w-auto">{{bookingForm.controls['type'].value != 'Departure' ? 'Delivery' : 'Pickup'}}
@@ -498,8 +516,7 @@
 
             <!-- arraival -->
             <!-- bookingForm.controls['pickup_type'].value == 'Airport: Drop off Point' || bookingForm.controls['pickup_type'].value == 'Airport: Pickup Point' -->
-            <div class="subNumber"
-              *ngIf="false">
+            <div class="subNumber" *ngIf="false">
               <div class="dropdown">
                 <button class="dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown"
                   aria-haspopup="true" aria-expanded="false">
@@ -603,12 +620,16 @@
               <div class="dropdown bagsDropdown" (window:mouseup)="bagsDropdownOnClick($event)">
                 <button class="dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown"
                   aria-haspopup="true" aria-expanded="false">
-                  {{bookingForm.controls['bags'].value ? bookingForm.controls['bags'].value + ( bookingForm.controls['bags'].value == 1 || bookingForm.controls['bags'].value== '1' ? ' Bag' : ' Bags') : 'Select Bag'}}
+                  {{bookingForm.controls['bags'].value ? bookingForm.controls['bags'].value + (
+                  bookingForm.controls['bags'].value == 1 || bookingForm.controls['bags'].value== '1' ? ' Bag' : '
+                  Bags') : 'Select Bag'}}
                 </button>
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                   <a class="dropdown-item"
                     *ngFor="let bag of (subscription_details.show_coupons ? get_bags_subscription() :get_bags())"
-                    (click)="handleDropdownEvent('bags',bag)">{{subscription_details.show_coupons  ? bag : bag.no_of_bags}} {{subscription_details.show_coupons  ? (bag == 1 ? 'bag' : 'bags') : (bag.no_of_bags == 1 ? 'bag' : 'bags')}}</a>
+                    (click)="handleDropdownEvent('bags',bag)">{{subscription_details.show_coupons ? bag :
+                    bag.no_of_bags}} {{subscription_details.show_coupons ? (bag == 1 ? 'bag' : 'bags') : (bag.no_of_bags
+                    == 1 ? 'bag' : 'bags')}}</a>
                 </div>
               </div>
             </div>
@@ -639,8 +660,9 @@
           <fieldset class="borders"
             [style.border]="(bookingForm.controls['other_airline_no'].hasError('required') && bookingForm.controls['other_airline_no'].touched || bookingForm.controls['other_airline_no'].invalid && bookingForm.controls['other_airline_no'].untouched) && submitted  ? '1px solid #ed7533' : '1px solid #dee2e6'">
             <legend class="w-auto">Enter Flight Number</legend>
-            <input maxlength="10" style="text-transform: uppercase;" type="text" class="border-0" (keypress)="validateFlightNo($event)"
-              placeholder="Enter Flight Number" formControlName="other_airline_no">
+            <input maxlength="10" style="text-transform: uppercase;" type="text" class="border-0"
+              (keypress)="validateFlightNo($event)" placeholder="Enter Flight Number"
+              formControlName="other_airline_no">
           </fieldset>
           <p class="error"
             *ngIf="(bookingForm.controls['other_airline_no'].hasError('required') && bookingForm.controls['other_airline_no'].touched || bookingForm.controls['other_airline_no'].invalid && bookingForm.controls['other_airline_no'].untouched) && submitted ">
@@ -689,8 +711,10 @@
                     <img class="rotate text-center" src="../../../../../../../assets/images/Drop-Arrow_Orange.png" />
                   </p>
                   <p class="text-center">
-                    <input (keypress)="numberOnly($event)" type="text" maxlength="2" class="text-center" style="border: none; cursor: pointer;" [(ngModel)]="meetHour" [ngModelOptions]="{standalone: true}">
-               
+                    <input (keypress)="numberOnly($event)" type="text" maxlength="2" class="text-center"
+                      style="border: none; cursor: pointer;" [(ngModel)]="meetHour"
+                      [ngModelOptions]="{standalone: true}">
+
                     <!-- <span *ngIf="meetHour < 10">0</span>{{ meetHour }} -->
                   </p>
                   <p class="text-center" (click)="decreaseMeetHour()">
@@ -705,7 +729,9 @@
                   </p>
                   <p class="text-center">
                     <!-- <span *ngIf="meetMin < 10">0</span>{{ meetMin }} -->
-                    <input type="text" (keypress)="numberOnly($event)" class="text-center"  style="border: none; cursor: pointer;" maxlength="2" [(ngModel)]="meetMin" [ngModelOptions]="{standalone: true}">
+                    <input type="text" (keypress)="numberOnly($event)" class="text-center"
+                      style="border: none; cursor: pointer;" maxlength="2" [(ngModel)]="meetMin"
+                      [ngModelOptions]="{standalone: true}">
                   </p>
                   <p class="text-center" (click)="decreaseMeetMin()">
                     <img class="text-center" src="../../../../../../../assets/images/Drop-Arrow_Orange.png" />
@@ -807,7 +833,8 @@
                   bookingForm.controls['parcel_type'].value}}
                 </button>
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                  <a class="dropdown-item" *ngFor="let item of ['Cartons/Baggage','Documents','Sports & Other Equipment','Electronics']"
+                  <a class="dropdown-item"
+                    *ngFor="let item of ['Cartons/Baggage','Documents','Sports & Other Equipment','Electronics']"
                     (click)="handleDropdownEvent('parcel_type',item)">{{item}}</a>
                 </div>
               </div>
@@ -851,7 +878,7 @@
 
             <!-- Select Date -->
             <div class="dateSection border-left-0 w-100 position-relative">
-              <input id="datePicker" [ngModelOptions]="{standalone: true}"  [(ngModel)]="selected_date_for_date_picker"
+              <input id="datePicker" [ngModelOptions]="{standalone: true}" [(ngModel)]="selected_date_for_date_picker"
                 [owlDateTimeTrigger]="dt1" [min]="Currentdate" [owlDateTime]="dt1" placeholder="Date Time" style="
                             opacity: 0;
                             width: calc(100% + 20px);
@@ -898,7 +925,8 @@
 
 
         <!-- select contents start -->
-        <div class="col-md-4  mb-3" *ngIf="bookingForm.controls['parcel_type'].value != 'Sports & Other Equipment' && bookingForm.controls['parcel_type'].value != 'Electronics'">
+        <div class="col-md-4  mb-3"
+          *ngIf="bookingForm.controls['parcel_type'].value != 'Sports & Other Equipment' && bookingForm.controls['parcel_type'].value != 'Electronics'">
           <fieldset class="borders"
             [style.border]="bookingForm.controls['cargo_content'].hasError('required') && bookingForm.controls['cargo_content'].touched || (bookingForm.controls['cargo_content'].invalid && bookingForm.controls['cargo_content'].untouched && submitted ) ? '1px solid #ed7533' : '1px solid #dee2e6'">
             <legend class="w-auto">Select Contents</legend>
@@ -910,8 +938,7 @@
                   bookingForm.controls['cargo_content'].value}}
                 </button>
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                  <a class="dropdown-item"
-                    *ngFor="let item of getCargoContents()"
+                  <a class="dropdown-item" *ngFor="let item of getCargoContents()"
                     (click)="handleDropdownEvent('cargo_content',item)">{{item}}</a>
                 </div>
               </div>
@@ -997,7 +1024,7 @@
                     <div class="addressText">City *</div>
                     <input class="addressInput" disabled formControlName="addressCity" type="text"
                       placeholder="Enter City">
-                    
+
                     <!-- <div class="addressText" *ngIf="bookingForm.controls['cargo_terminal'].value == 'Rush Surface'">Pincode *</div>
                     <input *ngIf="bookingForm.controls['cargo_terminal'].value == 'Rush Surface'" class="addressInput" maxlength="6" formControlName="addressPincodes" type="text"
                       placeholder="Enter pincode"> -->
@@ -1044,16 +1071,21 @@
                     <div class="addressText">City *</div>
                     <input class="addressInput" disabled formControlName="deliveryAddressCity" type="text"
                       placeholder="Enter City">
-                    
+
                     <!-- Rush Surface -->
-                    <div class="addressText" *ngIf="bookingForm.controls['cargo_terminal'].value == 'Rush Surface'">Pincode *</div>
-                    <input class="addressInput" [readonly]="show_pincode" *ngIf="bookingForm.controls['cargo_terminal'].value == 'Rush Surface'" maxlength="6" [(ngModel)]="deliveryPincode" [ngModelOptions]="{standalone: true}" type="text"
+                    <div class="addressText" *ngIf="bookingForm.controls['cargo_terminal'].value == 'Rush Surface'">
+                      Pincode *</div>
+                    <input class="addressInput" [readonly]="show_pincode"
+                      *ngIf="bookingForm.controls['cargo_terminal'].value == 'Rush Surface'" maxlength="6"
+                      [(ngModel)]="deliveryPincode" [ngModelOptions]="{standalone: true}" type="text"
                       placeholder="Enter City">
 
                   </div>
                 </div>
                 <div>
-                  <button (click)="bookingForm.controls['cargo_terminal'].value == 'Rush Surface' ? (show_pincode == true ? this.setSurfaceAddress() : this.cargoPicodeVerification()) : submitAddress(2)" style="padding: 3px 10px 2px;" class="myBtn">Submit</button>
+                  <button
+                    (click)="bookingForm.controls['cargo_terminal'].value == 'Rush Surface' ? (show_pincode == true ? this.setSurfaceAddress() : this.cargoPicodeVerification()) : submitAddress(2)"
+                    style="padding: 3px 10px 2px;" class="myBtn">Submit</button>
                 </div>
               </div>
             </div>
@@ -1181,8 +1213,9 @@
 
             <!-- Select Date -->
             <div class="dateSection border-left-0 w-100 position-relative">
-              <input class="" id="datePicker" [ngModelOptions]="{standalone: true}"  [(ngModel)]="selected_date_for_date_picker"
-                [owlDateTimeTrigger]="dt1" [min]="Currentdate" [owlDateTime]="dt1" placeholder="Date Time" style="
+              <input class="" id="datePicker" [ngModelOptions]="{standalone: true}"
+                [(ngModel)]="selected_date_for_date_picker" [owlDateTimeTrigger]="dt1" [min]="Currentdate"
+                [owlDateTime]="dt1" placeholder="Date Time" style="
                         opacity: 0;
                         width: calc(100% + 20px);
                         height: 30px;
@@ -1253,8 +1286,8 @@
         <!-- select airport end-->
 
 
-         <!-- Select Delivery Address start -->
-         <div class="col-md-4 mb-3">
+        <!-- Select Delivery Address start -->
+        <div class="col-md-4 mb-3">
           <fieldset class="borders"
             [style.border]="(bookingForm.controls['addressLineOne'].hasError('required') && bookingForm.controls['addressLineOne'].touched || bookingForm.controls['addressLineOne'].invalid && bookingForm.controls['addressLineOne'].untouched) && submitted  ? '1px solid #ed7533' : '1px solid #dee2e6'">
             <legend class="w-auto">Delivery Address</legend>
@@ -1282,8 +1315,8 @@
                     <!-- *ngIf="bookingForm.controls['transfer_type'].value == 'Outstation'" -->
                     <ng-container>
                       <div class="addressText">Pincode *</div>
-                      <input class="addressInput" [readonly]="show_pincode" formControlName="addressPincodes" type="text" numbersOnly
-                        maxlength="6" placeholder="Enter Pincode">
+                      <input class="addressInput" [readonly]="show_pincode" formControlName="addressPincodes"
+                        type="text" numbersOnly maxlength="6" placeholder="Enter Pincode">
                     </ng-container>
 
                   </div>
@@ -1312,12 +1345,16 @@
               <div class="dropdown bagsDropdown" (window:mouseup)="bagsDropdownOnClick($event)">
                 <button class="dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown"
                   aria-haspopup="true" aria-expanded="false">
-                  {{bookingForm.controls['bags'].value ? bookingForm.controls['bags'].value + ( bookingForm.controls['bags'].value == 1 || bookingForm.controls['bags'].value== '1' ? ' Bag' : ' Bags') : 'Select Bag'}}
+                  {{bookingForm.controls['bags'].value ? bookingForm.controls['bags'].value + (
+                  bookingForm.controls['bags'].value == 1 || bookingForm.controls['bags'].value== '1' ? ' Bag' : '
+                  Bags') : 'Select Bag'}}
                 </button>
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                   <a class="dropdown-item"
                     *ngFor="let bag of (subscription_details.show_coupons? get_bags_subscription() :get_bags())"
-                    (click)="handleDropdownEvent('bags',bag)">{{subscription_details.show_coupons  ? bag : bag.no_of_bags}} {{subscription_details.show_coupons  ? (bag == 1 ? 'bag' : 'bags') : (bag.no_of_bags == 1 ? 'bag' : 'bags')}}</a>
+                    (click)="handleDropdownEvent('bags',bag)">{{subscription_details.show_coupons ? bag :
+                    bag.no_of_bags}} {{subscription_details.show_coupons ? (bag == 1 ? 'bag' : 'bags') : (bag.no_of_bags
+                    == 1 ? 'bag' : 'bags')}}</a>
                 </div>
               </div>
             </div>
@@ -1363,8 +1400,9 @@
           <fieldset class="borders"
             [style.border]="(bookingForm.controls['other_airline_no'].hasError('required') && bookingForm.controls['other_airline_no'].touched || bookingForm.controls['other_airline_no'].invalid && bookingForm.controls['other_airline_no'].untouched) && submitted  ? '1px solid #ed7533' : '1px solid #dee2e6'">
             <legend class="w-auto">Enter Flight Number</legend>
-            <input maxlength="10" style="text-transform: uppercase;" type="text" class="border-0" (keypress)="validateFlightNo($event)"
-              placeholder="Enter Flight Number" formControlName="other_airline_no">
+            <input maxlength="10" style="text-transform: uppercase;" type="text" class="border-0"
+              (keypress)="validateFlightNo($event)" placeholder="Enter Flight Number"
+              formControlName="other_airline_no">
           </fieldset>
           <p class="error"
             *ngIf="(bookingForm.controls['other_airline_no'].hasError('required') && bookingForm.controls['other_airline_no'].touched || bookingForm.controls['other_airline_no'].invalid && bookingForm.controls['other_airline_no'].untouched) && submitted ">
@@ -1384,46 +1422,62 @@
 
     </div>
 
-    <div class="row description d-md-block d-lg-block d-none" style="margin: 0 1px;" *ngIf="bookingForm.controls['delivery_type'].value == 'Airport Transfer'">
-      <p class="medium fnt-22 d-flex align-items-center" style="gap:5px" *ngIf="bookingForm.controls['type'].value == 'Departure' && bookingForm.controls['pickup_type'].value ==  'Airport: Drop off Point'"><span class="mIcon">i</span> Carside (lane4) → Airport Assistance → Check-in counter</p> 
-      <p class="medium fnt-22 d-flex align-items-center" style="gap:5px" *ngIf="bookingForm.controls['type'].value == 'Departure' && bookingForm.controls['pickup_type'].value ==  'Doorstep Pickup'"><span  class="mIcon">i</span> Doorstep → Airport Assistance → Check-in counter</p> 
-      <p class="medium fnt-22 d-flex align-items-center" style="gap:5px" *ngIf="bookingForm.controls['type'].value == 'Arrival' && bookingForm.controls['pickup_type'].value ==  'Airport: Pickup Point'"><span  class="mIcon">i</span> Baggage Belts → Airport Assistance → Carside (parking/cabs)</p> 
-      <p class="medium fnt-22 d-flex align-items-center" style="gap:5px" *ngIf="bookingForm.controls['type'].value == 'Arrival' && bookingForm.controls['pickup_type'].value ==  'Doorstep Delivery'"><span class="mIcon">i</span> Baggage Belt → Airport Assistance → Doorstep</p> 
+    <div class="row description d-md-block d-lg-block d-none" style="margin: 0 1px;"
+      *ngIf="bookingForm.controls['delivery_type'].value == 'Airport Transfer'">
+      <p class="medium fnt-22 d-flex align-items-center" style="gap:5px"
+        *ngIf="bookingForm.controls['type'].value == 'Departure' && bookingForm.controls['pickup_type'].value ==  'Airport: Drop off Point'">
+        <span class="mIcon">i</span> Carside (lane4) → Airport Assistance → Check-in counter</p>
+      <p class="medium fnt-22 d-flex align-items-center" style="gap:5px"
+        *ngIf="bookingForm.controls['type'].value == 'Departure' && bookingForm.controls['pickup_type'].value ==  'Doorstep Pickup'">
+        <span class="mIcon">i</span> Doorstep → Airport Assistance → Check-in counter</p>
+      <p class="medium fnt-22 d-flex align-items-center" style="gap:5px"
+        *ngIf="bookingForm.controls['type'].value == 'Arrival' && bookingForm.controls['pickup_type'].value ==  'Airport: Pickup Point'">
+        <span class="mIcon">i</span> Baggage Belts → Airport Assistance → Carside (parking/cabs)</p>
+      <p class="medium fnt-22 d-flex align-items-center" style="gap:5px"
+        *ngIf="bookingForm.controls['type'].value == 'Arrival' && bookingForm.controls['pickup_type'].value ==  'Doorstep Delivery'">
+        <span class="mIcon">i</span> Baggage Belt → Airport Assistance → Doorstep</p>
     </div>
 
-  <div class="row description d-md-none d-lg-none d-block text-center" style="margin: 0 1px;" *ngIf="bookingForm.controls['delivery_type'].value == 'Airport Transfer'">
-    <div class="mb-4 medium fnt-22 d-flex align-items-center justify-content-center flex-column" style="gap:5px" *ngIf="bookingForm.controls['type'].value == 'Departure' && bookingForm.controls['pickup_type'].value ==  'Airport: Drop off Point'">
-      <p class="m-0">Carside (lane4)</p>
-      <p class="m-0">↓</p>
-      <p class="m-0">Airport Assistance</p>
-      <p class="m-0">↓</p>
-      <p class="m-0">Check-in counter</p> 
+    <div class="row description d-md-none d-lg-none d-block text-center" style="margin: 0 1px;"
+      *ngIf="bookingForm.controls['delivery_type'].value == 'Airport Transfer'">
+      <div class="mb-4 medium fnt-22 d-flex align-items-center justify-content-center flex-column" style="gap:5px"
+        *ngIf="bookingForm.controls['type'].value == 'Departure' && bookingForm.controls['pickup_type'].value ==  'Airport: Drop off Point'">
+        <p class="m-0">Carside (lane4)</p>
+        <p class="m-0">↓</p>
+        <p class="m-0">Airport Assistance</p>
+        <p class="m-0">↓</p>
+        <p class="m-0">Check-in counter</p>
+      </div>
+      <div class="mb-4 medium fnt-22 d-flex align-items-center justify-content-center flex-column" style="gap:5px"
+        *ngIf="bookingForm.controls['type'].value == 'Departure' && bookingForm.controls['pickup_type'].value ==  'Doorstep Pickup'">
+        <p class="m-0">Doorstep</p>
+        <p class="m-0">↓</p>
+        <p class="m-0">Airport Assistance</p>
+        <p class="m-0">↓</p>
+        <p class="m-0">Check-in counter</p>
+      </div>
+      <div class="mb-4 medium fnt-22 d-flex align-items-center justify-content-center flex-column" style="gap:5px"
+        *ngIf="bookingForm.controls['type'].value == 'Arrival' && bookingForm.controls['pickup_type'].value ==  'Airport: Pickup Point'">
+        <p class="m-0">Baggage Belts</p>
+        <p class="m-0">↓</p>
+        <p class="m-0">Airport Assistance</p>
+        <p class="m-0">↓</p>
+        <p class="m-0">Carside (parking/cabs)</p>
+      </div>
+      <div class="mb-4 medium fnt-22 d-flex align-items-center justify-content-center flex-column" style="gap:5px"
+        *ngIf="bookingForm.controls['type'].value == 'Arrival' && bookingForm.controls['pickup_type'].value ==  'Doorstep Delivery'">
+        <p class="m-0">Baggage Belt</p>
+        <p class="m-0">↓</p>
+        <p class="m-0">Airport Assistance</p>
+        <p class="m-0">↓</p>
+        <p class="m-0">Doorstep</p>
+      </div>
     </div>
-    <div class="mb-4 medium fnt-22 d-flex align-items-center justify-content-center flex-column" style="gap:5px" *ngIf="bookingForm.controls['type'].value == 'Departure' && bookingForm.controls['pickup_type'].value ==  'Doorstep Pickup'">
-      <p class="m-0">Doorstep</p>
-      <p class="m-0">↓</p>
-      <p class="m-0">Airport Assistance</p>
-      <p class="m-0">↓</p> 
-      <p class="m-0">Check-in counter</p>
-    </div>
-    <div class="mb-4 medium fnt-22 d-flex align-items-center justify-content-center flex-column" style="gap:5px" *ngIf="bookingForm.controls['type'].value == 'Arrival' && bookingForm.controls['pickup_type'].value ==  'Airport: Pickup Point'">
-      <p class="m-0">Baggage Belts</p>
-      <p class="m-0">↓</p>
-      <p class="m-0">Airport Assistance</p>
-      <p class="m-0">↓</p> 
-      <p class="m-0">Carside (parking/cabs)</p>
-    </div> 
-    <div class="mb-4 medium fnt-22 d-flex align-items-center justify-content-center flex-column" style="gap:5px" *ngIf="bookingForm.controls['type'].value == 'Arrival' && bookingForm.controls['pickup_type'].value ==  'Doorstep Delivery'">
-      <p class="m-0">Baggage Belt</p>
-      <p class="m-0">↓</p> 
-      <p class="m-0">Airport Assistance</p> 
-      <p class="m-0">↓</p>
-      <p class="m-0">Doorstep</p>
-    </div> 
-  </div>
 
-    <div class="row description m-pickup-address" *ngIf="(bookingForm.controls['pickup_type'].value == 'Airport: Drop off Point' || bookingForm.controls['pickup_type'].value == 'Airport: Pickup Point') && fullAddressLine && bookingForm.controls['delivery_type'].value != 'Cargo Transfer'">
-      <div class="pickup-poit-address d-flex align-items-center"><span style="margin-bottom: 4px;" class="mIcon" >i</span> {{fullAddressLine}} </div>
+    <div class="row description m-pickup-address"
+      *ngIf="(bookingForm.controls['pickup_type'].value == 'Airport: Drop off Point' || bookingForm.controls['pickup_type'].value == 'Airport: Pickup Point') && fullAddressLine && bookingForm.controls['delivery_type'].value != 'Cargo Transfer' && false">
+      <div class="pickup-poit-address d-flex align-items-center"><span style="margin-bottom: 4px;"
+          class="mIcon">i</span> {{fullAddressLine}} </div>
     </div>
 
     <div class="row description ">
@@ -1507,7 +1561,8 @@
     <div class="row description pb-4">
       <div class="col-md-12 text-right">
         <!-- <h1 class="no-need-pay" *ngIf="subscription_details.proceed_without_payment && subscription_details.used_tokens.length !=0">No need to pay</h1> -->
-        <button class="bookBtn" (click)="subscription_details.proceed_without_payment && subscription_details.used_tokens.length !=0 ? place_subscription_order() : proceedToPay()">PROCEED</button>
+        <button class="bookBtn"
+          (click)="subscription_details.proceed_without_payment && subscription_details.used_tokens.length !=0 ? place_subscription_order() : proceedToPay()">PROCEED</button>
         <!-- <button class="bookBtn" (click)="placeCargoOrder()">cargo order</button> -->
       </div>
     </div>
