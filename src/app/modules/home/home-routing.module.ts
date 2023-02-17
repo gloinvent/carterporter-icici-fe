@@ -59,7 +59,7 @@ const routes: Routes = [
 
   { path: "information/arrival-details", component: ArrivalDetailsComponent },
   {
-    path: "information/departure-details",
+    path: "information/booking-information",
     component: DepartureDetailsComponent,
   },
   { path: "how-its-work", component: NewHowitsworkMobileComponent },

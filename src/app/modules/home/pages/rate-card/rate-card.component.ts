@@ -22,15 +22,15 @@ export class RateCardComponent implements OnInit {
     {
       type: "Prestige",
       airline: "Other & Partner Airlines",
-      price: "INR 1950",
+      price: "INR 1799",
       no_of_usage: "4 Usage",
     },
-    {
-      type: "Prestige+",
-      airline: "Other & Partner Airlines",
-      price: "INR 3799",
-      no_of_usage: "8 Usage",
-    },
+    // {
+    //   type: "Prestige+",
+    //   airline: "Other & Partner Airlines",
+    //   price: "INR 3799",
+    //   no_of_usage: "8 Usage",
+    // },
   ];
 
   // local
