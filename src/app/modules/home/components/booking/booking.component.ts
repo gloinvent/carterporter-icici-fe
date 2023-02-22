@@ -2327,6 +2327,7 @@ export class BookingComponent implements OnInit {
             this.meetMin +
             (this.meetMin < 10 ? "0" : "")
           : "",
+      system_info:2
     };
     this.crud
       .postWithStaticTokenAirline(
@@ -3321,6 +3322,7 @@ export class BookingComponent implements OnInit {
       order_type_str: formValue.delivery_type,
       pick_drop_point: 2,
       terminal_type: formValue.terminal == "Domestic Cargo" ? 2 : 1,
+      system_info:2
     };
     let count = 0;
     for (let i = 1; i <= Number(formValue.no_of_booking); i++) {
@@ -4587,6 +4589,7 @@ export class BookingComponent implements OnInit {
                         " " +
                         this.show_delivery_time.toString().split(" ")[0]
                       : this.selected_date_for_date_picker,
+                  system_info:2
                 };
 
                 console.log(reqBody, "request body for redeem and booking");
