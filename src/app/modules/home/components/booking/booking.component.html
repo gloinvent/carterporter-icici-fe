@@ -7,6 +7,20 @@
       Redeem Subscription <br /><span>or</span><br />Make a Booking
     </h3>
 
+    <div class="custom-control custom-switch pt-4 d-flex" *ngIf="is_login">
+      <input
+        type="checkbox"
+        class="custom-control-input"
+        id="customSwitch1"
+        [(ngModel)]="selected"
+        [ngModelOptions]="{ standalone: true }"
+        (click)="selectedCheckbox()"
+      />
+      <label class="custom-control-label" for="customSwitch1"></label>
+      <p>I am not a traveler</p>
+    </div>
+
+
     <!--  -->
     <div class="row align-items-center">
       <div class="col-md-4">
@@ -16,6 +30,7 @@
             <input
               type="text"
               [readonly]="
+              is_login ||
                 user_details_disable ||
                 is_otp_verified ||
                 bookingForm.controls['delivery_type'].value == 'Cargo Transfer'
@@ -30,12 +45,14 @@
               class="myBtn"
               (click)="validateSubscription()"
               [class.otp-btn-disabled]="
+              is_login ||
                 user_details_disable ||
                 bookingForm.controls['delivery_type'].value ==
                   'Cargo Transfer' ||
                 bookingForm.controls['subscription_id'].value.length != 6
               "
               [disabled]="
+              is_login ||
                 user_details_disable ||
                 bookingForm.controls['delivery_type'].value ==
                   'Cargo Transfer' ||
@@ -221,6 +238,7 @@
             <button
               class="myBtn mt-2 mt-md-0 float-right float-md-none"
               [class.otp-btn-disabled]="
+              is_login ||
                 user_details_disable ||
                 bookingForm.controls['delivery_type'].value ==
                   'Cargo Transfer' ||
@@ -230,6 +248,7 @@
                 bookingForm.controls['mobile_number'].status == 'INVALID'
               "
               [disabled]="
+              is_login ||
                 user_details_disable ||
                 bookingForm.controls['delivery_type'].value ==
                   'Cargo Transfer' ||
@@ -261,6 +280,7 @@
                   formControlName="otp"
                   class="border-0"
                   [readonly]="
+                  is_login ||
                     user_details_disable ||
                     bookingForm.controls['delivery_type'].value ==
                       'Cargo Transfer'
@@ -268,11 +288,13 @@
                 />
                 <button
                   [class.otp-btn-disabled]="
+                  is_login ||
                     user_details_disable ||
                     bookingForm.controls['delivery_type'].value ==
                       'Cargo Transfer'
                   "
                   [disabled]="
+                  is_login ||
                     user_details_disable ||
                     bookingForm.controls['delivery_type'].value ==
                       'Cargo Transfer'
@@ -292,10 +314,12 @@
               class="myBtn mr-0 mr-md-3 d-none d-md-inline"
               (click)="validateOtp()"
               [class.otp-btn-disabled]="
+              is_login ||
                 user_details_disable ||
                 bookingForm.controls['delivery_type'].value == 'Cargo Transfer'
               "
               [disabled]="
+              is_login ||
                 user_details_disable ||
                 bookingForm.controls['delivery_type'].value == 'Cargo Transfer'
               "
@@ -305,6 +329,7 @@
             <button
               class="myBtn mt-2"
               [class.otp-btn-disabled]="
+              is_login ||
                 user_details_disable ||
                 bookingForm.controls['delivery_type'].value ==
                   'Cargo Transfer' ||
@@ -314,6 +339,7 @@
                 bookingForm.controls['mobile_number'].status == 'INVALID'
               "
               [disabled]="
+              is_login ||
                 user_details_disable ||
                 bookingForm.controls['delivery_type'].value ==
                   'Cargo Transfer' ||

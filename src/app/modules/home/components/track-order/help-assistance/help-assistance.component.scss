@@ -1,0 +1,46 @@
+
+@import "../../../../../../styles.scss";
+
+::-webkit-file-upload-button {
+    border: none;
+    border-right:1px solid #999 ;
+    background-color: #00bff3;
+    color: #fff;
+ }
+
+ .dropdown button, textarea, .file__uplode{
+    border: 1px solid #999;
+    border-radius: 4px;
+ }
+
+.close-image{
+    position: absolute;
+    height: 40px;
+    object-fit: contain;
+    right: -10px;
+    top: -20px;
+    image-rendering: -webkit-optimize-contrast;
+}
+
+ textarea{
+    height: 130px;
+ }
+
+
+ .submit-button {
+    border: none;
+    inline-size: -webkit-fill-available;
+    background: #00bff3;
+    font-size: 12px;
+    padding: 8px;
+    border-radius: 3px;
+    color: white;
+    margin: 10px 15px;
+}
+
+.not-allowed {
+    cursor: not-allowed !important;
+}
+
+
+

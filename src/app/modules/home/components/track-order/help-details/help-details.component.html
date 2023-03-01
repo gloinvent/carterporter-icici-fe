@@ -1,0 +1,206 @@
+<section class="faq">
+    <!-- FAQ's header component  -->
+    <app-header></app-header>
+
+    <!-- FAQ's body  -->
+    <div class="content container mt-5 pt-5">
+        <div class="body-header mt-3">
+            <h4 class="body-heading bold" appInfoDialog="PICK_CITY">
+                Ticket Details
+            </h4>
+            <!-- <p class="">
+          Kindly check the FAQ below if you are not very familiar with the
+          functioning of this website or the application
+        </p> -->
+        </div>
+    </div>
+
+    <div class="container web-view-faq" *ngIf="navbarItem.length !=0">
+        <div class="row">
+            <div class="nav-container col-3">
+                <ul class="nav">
+                    <li class="nav-item row" *ngFor="let item of navbarItem" (click)="setActive(item)"
+                        [class.active]="selected_Nav_Item == item.ticket_number">
+                        <!-- <div class="icon col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                <img [src]="item.icon" />
+              </div> -->
+                        <div class="name col-lg-8 col-md-8 col-sm-12 col-xs-12">
+                            <span> {{ item.ticket_number }} </span>
+                        </div>
+                        <i class="material-icons col-lg-2 col-md-2">
+                            keyboard_arrow_right
+                        </i>
+                    </li>
+                    <!-- <li class="need-help">
+              <div class="icon">
+                <img height="50" src="../../../../../../../assets/icons/24by7-support.png" />
+              </div>
+              <div class="label">
+                <span class="need">Need </span><span class="help"> Help?</span>
+              </div>
+              <p class="phoneNumber">
+                <a href="mailto:customercare@carterporter.in"
+                  style="cursor: pointer;text-decoration: none">customercare@carterporter.in</a>
+              </p>
+            </li> -->
+                </ul>
+            </div>
+
+            <div class="main-content col-9">
+                <!-- <app-faq-content [content]="selected_Nav_Item"></app-faq-content> -->
+                <app-help-details-content [content]="content"></app-help-details-content>
+            </div>
+        </div>
+    </div>
+
+    <div class="container mobile-view-faq"  *ngIf="navbarItem.length !=0">
+        <div class="row register" *ngFor="let item of navbarItem">
+            <div class="col">
+                <div class="tabs">
+                    <div class="tab">
+                        <input type="radio" id="{{ item.ticket_number }}" name="mobileTabs" />
+                        <label class="tab-label-data" for="{{ item.ticket_number }}">
+                            <span class="dropdown-label col-10">{{ item.ticket_number }}</span>
+                        </label>
+
+                        <div class="tab-content-data">
+
+                            <div class="row information">
+                                <div class="col-12 mb-2 d-flex align-items-center">
+                                    <p class="fnt-14 medium m-0 w-120">Help Topics</p>
+                                    <p class="m-0 fnt-14" style="text-transform:capitalize">{{ item.topic_name }}</p>
+                                </div>
+
+                                <div class="col-12 mb-2 d-flex align-items-center">
+                                    <p class="fnt-14 medium m-0 w-120">Comments</p>
+                                    <p class="m-0 fnt-14" style="text-transform:capitalize;word-break: break-word;">{{
+                                        item.customer_comment }}
+                                    </p>
+                                </div>
+
+                                <div class="col-12 mb-2 d-flex align-items-center">
+                                    <p class="fnt-14 medium m-0 w-120">Date</p>
+                                    <p class="m-0 fnt-14">{{ item.created_date | date }}</p>
+                                </div>
+
+                                <div class="col-12 mb-2 d-flex align-items-center">
+                                    <p class="fnt-14 medium m-0 w-120">Status</p>
+                                    <p class="m-0 fnt-14" style="text-transform:capitalize">{{ item.status }}</p>
+                                </div>
+
+                                <div class="col-12 mb-2" *ngIf="item.images_files !=''">
+                                    <p class="fnt-14 medium m-0 pb-2">Attachment</p>
+                                    <div class="d-flex align-items-center overflow-auto scroll-hide gap-15">
+                                        <!-- {{process_image(item.images_files)}} rgrtgrtgrtgtrg -->
+                                        <div class="complaint_image"
+                                            *ngFor="let img of process_image(item.images_files)">
+                                            <!-- {{img}} -->
+                                            <img *ngIf='img.split(".").pop() == "png" || img.split(".").pop() == "jpeg" || img.split(".").pop() == "jpg" '
+                                                class="pointor" src="{{img}}" alt="" (click)="imgSrc = img"
+                                                data-toggle="modal" data-target="#myModalMobile">
+                                            <a *ngIf='img.split(".").pop() == "pdf"' href="{{img}}" target="_blank">
+                                                <img class="pdf" src="../../../../../../assets/icons/icons-pdf-.png">
+                                            </a>
+                                            <img *ngIf='img.split(".").pop() == "mp4" || img.split(".").pop() == "m4v" || img.split(".").pop() == "mov" '
+                                                class="pointor pdf" src="../../../../../../assets/icons/video.png"
+                                                alt="" (click)="imgSrc = img" data-toggle="modal"
+                                                data-target="#myModalVideoMobile">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row register"
+                                *ngFor="let response of (item.response ? item.response : []);let i = index">
+                                <div class="col custom-col">
+                                    <div class="tabs">
+                                        <div class="tab">
+                                            <input type="radio" id="{{'id'+ i}}" name="registration" />
+                                            <label class="tab-label" for="{{'id'+ i}}">Customer Care Reply</label>
+                                            <div class="tab-content">
+                                                <div class="mb-2 d-flex align-items-center">
+                                                    <p class="fnt-14 medium m-0 w-120">Comment</p>
+                                                    <p class="m-0 fnt-14"
+                                                        style="text-transform:capitalize;word-break: break-word;">
+                                                        {{response.assistant_comment}}</p>
+                                                </div>
+
+                                                <div class="mb-2 d-flex align-items-center">
+                                                    <p class="fnt-14 medium m-0 w-120">Date</p>
+                                                    <p class="m-0 fnt-14">{{ response.created_date | date }}</p>
+                                                </div>
+
+                                                <div class="mb-2 d-flex align-items-center">
+                                                    <p class="fnt-14 medium m-0 w-120">Status</p>
+                                                    <p class="m-0 fnt-14" style="text-transform:capitalize">{{
+                                                        response.status }}</p>
+                                                </div>
+
+                                                <div class="col-12 mb-2" *ngIf="response.images_files !=''">
+                                                    <p class="fnt-14 medium m-0 pb-2">Attachment</p>
+                                                    <div class="d-flex align-items-center overflow-auto scroll-hide gap-15">
+                                                        <!-- {{process_image(item.images_files)}} rgrtgrtgrtgtrg -->
+                                                        <div class="complaint_image"
+                                                            *ngFor="let img of process_image(response.images_files)">
+                                                            <!-- {{img}} -->
+                                                            <img *ngIf='img.split(".").pop() == "png" || img.split(".").pop() == "jpeg" || img.split(".").pop() == "jpg" '
+                                                                class="pointor" src="{{img}}" alt="" (click)="imgSrc = img"
+                                                                data-toggle="modal" data-target="#myModalMobile">
+                                                            <a *ngIf='img.split(".").pop() == "pdf"' href="{{img}}" target="_blank">
+                                                                <img class="pdf" src="../../../../../../assets/icons/icons-pdf-.png">
+                                                            </a>
+                                                            <img *ngIf='img.split(".").pop() == "mp4" || img.split(".").pop() == "m4v" || img.split(".").pop() == "mov" '
+                                                                class="pointor pdf" src="../../../../../../assets/icons/video.png"
+                                                                alt="" (click)="imgSrc = img" data-toggle="modal"
+                                                                data-target="#myModalVideoMobile">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="ticket-not-available d-flex align-items-center justify-content-center" *ngIf="navbarItem.length == 0" style="height: 80vh;">
+        <p *ngIf="data_not_available">Ticket Not Found!</p>
+    </div>
+
+    <!-- Faq Footer -->
+    <app-footer></app-footer>
+
+    <!-- Modal -->
+    <div class="modal fade m-auto" id="myModalMobile" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" #closebutton class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <img [src]="imgSrc" class="modal-hover-opacity" />
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade m-auto" id="myModalVideoMobile" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" #closebutton class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <video width="100%" controls autoplay>
+                        <source src="{{imgSrc}}" type="video/mp4">
+                    </video>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

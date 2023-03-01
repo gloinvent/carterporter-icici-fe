@@ -1,0 +1,62 @@
+<div class="container">
+    <div class="row" [formGroup]="helpForm">
+
+        <div class="col-12 mb-4 mt-1">
+            <div class="position-relative w-100" aria-label="Close">
+                <img (click)="dialogRef.close()" class="close-image"
+                    src="../../../../../../assets/icons/Close Button.png">
+            </div>
+        </div>
+
+        <div class="col-12 mb-3">
+
+            <p class="fnt-14 m-0 mb-1 regular">Help Topics</p>
+
+            <div class="subNumber w-100">
+                <div class="dropdown w-100">
+                    <button
+                        class="dropdown-toggle text-left w-100 d-flex align-items-center justify-content-between p-1 fnt-14"
+                        type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
+                        aria-expanded="false">
+                        {{helpForm.controls['help_type'].value == '' && helpForm.controls['help_type'].value !='none' ?
+                        'Select Help Type' : helpForm.controls['help_type'].value?.topic_name}}
+                    </button>
+                    <div class="dropdown-menu w-100" aria-labelledby="dropdownMenuButton">
+                        <a class="dropdown-item" *ngFor="let item of help_topics"
+                            (click)="handleDropdownEvent('help_type',item)"
+                            [ngClass]="item.status == 1 ? 'd-block': 'd-none'">{{item.topic_name}}</a>
+                    </div>
+                </div>
+            </div>
+
+            <p class="error"
+                *ngIf="helpForm.controls['help_type'].hasError('required') && helpForm.controls['help_type'].touched || (helpForm.controls['help_type'].invalid && helpForm.controls['help_type'].untouched && submitted )">
+                Please Select Service Type</p>
+        </div>
+
+        <div class="col-12 mb-2">
+            <p class="fnt-14 m-0 mb-1 regular">Comments</p>
+            <textarea class="w-100 fnt-14" value="" placeholder="" formControlName="help_comments"
+                maxlength="500"></textarea>
+            <p class="text-right small-font m-0">Max char: 500</p>
+            <p class="error"
+                *ngIf="(helpForm.controls['help_comments'].hasError('required') && helpForm.controls['help_comments'].touched || (helpForm.controls['help_comments'].invalid && helpForm.controls['help_comments'].untouched)) && submitted ">
+                Please Enter Comments</p>
+        </div>
+
+        <div class="col-12 mb-3">
+            <div class="form-group">
+                <p class="fileUplodeTxt fnt-14 m-0 mb-1 regular">Upload File</p>
+                <!-- multiple -->
+                <input type="file" multiple class="file__uplode form-control-file w-100 fnt-14" id="uplodeFile"
+                    formControlName="help_files" (change)="verify_uploded_file($event.target.files)">
+                <p class="small-font my-1">Accepted Format : png, jpeg, jpg, pdf, mov, mp4, m4v</p>
+            </div>
+        </div>
+
+        <div class="col-12 mb-3 d-flex align-items-center justify-content-center">
+            <button class="btn submit-button" [disabled]="helpForm.status != 'VALID'"
+                [class.not-allowed]="helpForm.status != 'VALID'" (click)="create_ticket()"> Submit </button>
+        </div>
+    </div>
+</div>
