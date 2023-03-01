@@ -1,0 +1,88 @@
+.trip-details {
+  .trip-details-header {
+    font-size: 13px;
+    color: #484d53;
+  }
+
+  .passengerInfo {
+    padding: 20px;
+    // border: 1px groove #f9f9f98f;
+    box-shadow: 1px 1px 5px 5px #efecec59;
+    border-radius: 3px;
+
+
+    img {
+      object-fit: contain;
+      height: 100%;
+      width: 100%;
+      image-rendering: -webkit-optimize-contrast;
+    }
+  }
+
+  .orderInfo {
+    padding: 20px;
+    // border: 1px solid #f9f9f98f;
+    box-shadow: 1px 1px 5px 5px #efecec59;
+    border-radius: 3px;
+  }
+
+  .tableHeader {
+    // width: 350px;
+    font-size: 12px;
+    font-weight: 600;
+    color: #484d53;
+    padding-bottom: 5px;
+  }
+
+  td {
+    font-size: 12px;
+    // font-weight: 600;
+    color: #484d53;
+  }
+
+  tr {
+    vertical-align: inherit;
+  }
+}
+
+.modal-hover-opacity {
+  width: -webkit-fill-available;
+  cursor: pointer;
+  height: 600px;
+  object-fit: contain;
+}
+
+@media (min-width: 576px) {
+  .modal-dialog {
+    max-width: 50% !important;
+    margin: 1.75rem auto;
+  }
+
+
+}
+
+@media (max-width: 768px) {
+
+  .image-container {
+    width: calc(50% - 8px) !important;
+  }
+
+}
+
+
+.order-not-found {
+  height: 75vh;
+  font-size: 25px;
+  color: red;
+  text-align: center;
+}
+
+
+.image-container {
+  height: 80px;
+  width: 130px;
+  border: 1px solid #ddd;
+  border-radius: 3px;
+  text-align: center;
+  padding: 5px;
+}

@@ -1,122 +1,264 @@
 <!-- My trips -->
 <section id="mytrips">
-  <!-- My trips Header -->
-  <app-header></app-header>
-
-  <!-- My trips body starts -->
-  <div class="my-trips-body">
+    <!-- My trips Header -->
+    <app-header></app-header>
+  
+    <!-- My trips body starts -->
+    <div class="my-trips-body">
       <!-- Body heading -->
       <div class="container">
-          <div class="body-header">
-              <label class="body-heading bold">My Trips&nbsp;<img class="info-icon" src="../../../../../assets/icons/Information-Icon_Big.png"></label>
-              <label class="body-tagline regular">Order history list.</label>
-          </div>
+        <div class="body-header">
+          <label class="body-heading bold"
+            >My Trips&nbsp;<img
+              class="info-icon"
+              src="../../../../../assets/icons/Information-Icon_Big.png"
+          /></label>
+          <label class="body-tagline regular">Order history list.</label>
+        </div>
       </div>
-      <div  class="container text-right">
-      <a class=" medium declaration" href="../../../../../../../assets/pdf/passenger_security.pdf" target="_blank">Click here to download Security Declaration</a>
-     </div>
+      <div class="container text-right">
+        <a
+          class="medium declaration"
+          href="../../../../../../../assets/pdf/passenger_security.pdf"
+          target="_blank"
+          >Click here to download Security Declaration</a
+        >
+      </div>
       <!-- Body heading ends -->
-
+  
       <div *ngFor="let trip of orders">
-          <div class="container">
-              <div class="trip-details">
-                  <!-- Data header -->
-                  <div class="container">
-                      <div class="row trip-details-header bold">
-                          <div class="col-md-8">
-                              <label>Order No&nbsp;:&nbsp;{{trip.order.order_number}}</label>
-                          </div>
-                          <div class="col-md-2">
-                              <label>Status: {{trip.order.order_status}} &nbsp;<img class="info-icon" src="../../../../../assets/icons/information.png"></label>
-                          </div>
-                          <div class="col-md-2">
-                              <label class="order-details" (click)="reBook(trip)">Order Details</label>
-                          </div>
-                      </div>
-                  </div>
-                  <!-- Data header ends -->
-
-                  <!-- Inner Data -->
-                  <div class="container">
-                      <div class="row trip-details-data">
-                          <div class="col-md-8 small-font">
-                              <div class="row inner-heading" *ngIf="trip.order.order_transfer != '1' && trip.order.order_transfer !=1">
-                                  <div class="col-md-6">
-                                      <label class="bold">Number of Bags</label>
-                                  </div>
-                                  <div class="col-md-6">
-                                      <label class="medium">{{trip.order.no_of_units}}</label>
-                                  </div>
-                              </div>
-                              <div class="row inner-heading">
-                                  <div class="col-md-6">
-                                      <label class="bold">Date of Service</label>
-                                  </div>
-                                  <div class="col-md-6">
-                                      <label class="medium">{{trip.order.order_date | date: 'dd MMM yyyy'}}</label>
-                                  </div>
-                              </div>
-                              <div class="row inner-heading">
-                                  <div class="col-md-6">
-                                      <label class="bold">From</label>
-                                  </div>
-                                  <div class="col-md-6" *ngIf="trip.order.order_transfer === '2'">
-                                      <label class="medium" *ngIf="trip.order.service_type != 2">{{trip.order.location_pincode}}</label>
-                                      <label class="medium" *ngIf="trip.order.service_type == 2">{{trip.order.airport_name}}</label>
-                                  </div>
-                                  <div class="col-md-6" *ngIf="trip.order.order_transfer === '1'">
-                                      <label class="medium">{{trip.order.pickupPincode}}</label>
-                                  </div>
-                              </div>
-                              <div class="row inner-heading">
-                                  <div class="col-md-6">
-                                      <label class="bold">To</label>
-                                  </div>
-                                  <div class="col-md-6" *ngIf="trip.order.order_transfer === '2'">
-                                      <label class="medium" *ngIf="trip.order.service_type != 2">{{trip.order.airport_name}}</label>
-                                      <label class="medium" *ngIf="trip.order.service_type == 2">{{trip.order.location_pincode}}</label>
-                                  </div>
-                                  <div class="col-md-6" *ngIf="trip.order.order_transfer === '1'">
-                                      <label class="medium">{{trip.order.dropPincode}}</label>
-                                  </div>
-                              </div>
-                          </div>
-                          <div class="col-md-1">
-
-                          </div>
-                          <!-- Price and Rebook button -->
-                          <div class="col-md-3">
-                              <div class="price-rebook">
-                                  <label class="price medium">PRICE: &#8377; {{trip.order.luggage_price}}</label>
-                                  <button routerLink="/home" class="rebook medium">REBOOK</button>
-                              </div>
-                          </div>
-                      </div>
-                  </div>
-                  <!-- Inner data ends -->
+        <div class="container">
+          <div class="trip-details">
+            <!-- Data header -->
+            <div class="container">
+              <div class="row trip-details-header bold">
+                <div class="col-md-8">
+                  <label
+                    >Order No&nbsp;:&nbsp;{{ trip.order.order_number }}</label
+                  >
+                </div>
+                <div class="col-md-2 d-block d-md-none">
+                  <label
+                    >Status: {{ trip.order.order_status }} &nbsp;<img
+                      class="info-icon"
+                      src="../../../../../assets/icons/information.png"
+                  /></label>
+                </div>
+                <div class="col-md-4 text-right">
+                  <a
+                    class="order-details"
+                    (click)="navigate_orderDetail(trip)"
+                    [routerLink]="['/order-details', trip.order.id_order]"
+                    target="_blank"
+                    >Order Details</a
+                  >
+                </div>
               </div>
+            </div>
+            <!-- Data header ends -->
+  
+            <!-- Inner Data -->
+            <div class="container">
+              <div class="row trip-details-data">
+                <div class="col-md-8 small-font">
+                  <div class="row inner-heading">
+                    <div class="col-md-6">
+                      <label class="bold">Corporate Type</label>
+                    </div>
+                    <div class="col-md-6" *ngIf="trip.order.corporate_type_str">
+                      <label class="medium"
+                        >{{ trip.order.corporate_type_str }}
+                        {{
+                          trip.subscription_info.subscriber_name
+                            ? " (" + trip.subscription_info.subscriber_name + ")"
+                            : ""
+                        }}</label
+                      >
+                    </div>
+                  </div>
+                  <div class="row inner-heading">
+                    <div class="col-md-6">
+                      <label class="bold">Transfer Type</label>
+                    </div>
+                    <div class="col-md-6" *ngIf="trip.order.order_transfer_str">
+                      <label class="medium">{{
+                        trip.order.order_transfer_str
+                      }}</label>
+                    </div>
+                  </div>
+                  <!-- <div class="row inner-heading"
+                                      *ngIf="trip.order.order_transfer != '1' && trip.order.order_transfer !=1">
+                                      <div class="col-md-6">
+                                          <label class="bold">Number of Bags</label>
+                                      </div>
+                                      <div class="col-md-6">
+                                          <label class="medium">{{trip.order.no_of_units}}</label>
+                                      </div>
+                                  </div> -->
+                  <!-- <div class="row inner-heading">
+                                      <div class="col-md-6">
+                                          <label class="bold">Usages</label>
+                                      </div>
+                                      <div class="col-md-6" *ngIf="trip.order.usages_used">
+                                          <label class="medium">{{trip.order.usages_used}}</label>
+                                      </div>
+                                  </div> -->
+                  <div class="row inner-heading">
+                    <div class="col-md-6">
+                      <label class="bold">Departure/Arrival</label>
+                    </div>
+                    <div class="col-md-6" *ngIf="trip.order.service_type_str">
+                      <label class="medium">{{
+                        trip.order.service_type_str
+                      }}</label>
+                    </div>
+                  </div>
+                  <div class="row inner-heading">
+                    <div class="col-md-6">
+                      <label class="bold">Date of Service</label>
+                    </div>
+                    <div class="col-md-6" *ngIf="trip.order.order_date">
+                      <label class="medium">{{
+                        trip.order.order_date | date
+                      }}</label>
+                    </div>
+                  </div>
+                  <!-- <div class="row inner-heading">
+                                      <div class="col-md-6">
+                                          <label class="bold">From</label>
+                                      </div>
+                                      <div class="col-md-6" *ngIf="trip.order.order_transfer === '2'">
+                                          <label class="medium"
+                                              *ngIf="trip.order.service_type != 2">{{trip.order.location_pincode}}</label>
+                                          <label class="medium"
+                                              *ngIf="trip.order.service_type == 2">{{trip.order.airport_name}}</label>
+                                      </div>
+                                      <div class="col-md-6" *ngIf="trip.order.order_transfer === '1'">
+                                          <label class="medium">{{trip.order.pickupPincode}}</label>
+                                      </div>
+                                  </div> -->
+                  <!-- <div class="row inner-heading">
+                                      <div class="col-md-6">
+                                          <label class="bold">To</label>
+                                      </div>
+                                      <div class="col-md-6" *ngIf="trip.order.order_transfer === '2'">
+                                          <label class="medium"
+                                              *ngIf="trip.order.service_type != 2">{{trip.order.airport_name}}</label>
+                                          <label class="medium"
+                                              *ngIf="trip.order.service_type == 2">{{trip.order.location_pincode}}</label>
+                                      </div>
+                                      <div class="col-md-6" *ngIf="trip.order.order_transfer === '1'">
+                                          <label class="medium">{{trip.order.dropPincode}}</label>
+                                      </div>
+                                  </div> -->
+                </div>
+                <div class="col-md-1"></div>
+                <!-- Price and Rebook button -->
+                <div class="col-md-3">
+                  <div class="price-rebook">
+                    <label
+                      *ngIf="
+                        trip.order.corporate_type_str != 'MHL Corporate Order' &&
+                        getPrice(trip) != 0
+                      "
+                      class="price medium mb-4"
+                      >PRICE: &#8377; {{ getPrice(trip) }}</label
+                    >
+                    <p class="m-0 fnt-14 medium pb-4" style="color: #4cc0f4">
+                      <a class="pointor" (click)="openHelpModal(trip)">Help</a>
+                    </p>
+                    <p class="m-0 fnt-14 medium" style="color: #4cc0f4">
+                      <a
+                        [class.ticket_hyper_link]="
+                          trip.ticket_detail.complaint_list.length != 0
+                        "
+                        [class.pointor]="
+                          trip.ticket_detail.complaint_list.length != 0
+                        "
+                        *ngIf="
+                          trip.ticket_detail && trip.ticket_detail.complaint_list
+                        "
+                        routerLinkActive="router-link-active"
+                        (click)="
+                          trip.ticket_detail.complaint_list.length != 0
+                            ? showTicket(trip.ticket_detail.complaint_list)
+                            : null
+                        "
+                        >View tickets ({{
+                          trip.ticket_detail.complaint_list.length
+                        }})
+                      </a>
+                    </p>
+                    <!-- <button routerLink="/home" class="rebook medium">REBOOK</button> -->
+                    <!-- <button class="rebook medium mt-3" (click)="openHelpModal(trip)">HELP
+                                          CENTER</button> -->
+                    <!-- <button class="rebook medium mt-3" (click)="openOrderDetailModal(trip)">Order
+                                          Detail</button> -->
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- Inner data ends -->
+            <div class="orderStatus d-md-block d-none">
+              <mat-horizontal-stepper
+                [linear]="isLinear"
+                #stepper
+                labelPosition="bottom"
+                [selectedIndex]="getSelectedIndex(trip.order_status)"
+              >
+                <!-- currentStep  -->
+                <mat-step
+                  [editable]="false"
+                  [completed]="item.status == 1 ? true : false"
+                  *ngFor="let item of trip.order_status"
+                  label="{{ item.label }}"
+                >
+                  <!-- <p>{{item.description}}</p> -->
+                </mat-step>
+              </mat-horizontal-stepper>
+            </div>
           </div>
+        </div>
       </div>
-      <div class="d-flex justify-content-center pb-5">
-          <div class="text-center btn-group ">
-          <button class="btn btn-info btn-xs" [disabled]="count == 1" (click)="previous(count)">
-              Previous
+      <div class="d-flex justify-content-center pb-5" *ngIf="orders.length != 0">
+        <div class="d-flex align-items-center gap-15 text-center btn-group">
+          <button
+            class="btn btn-info btn-xs"
+            [class.not-allowed]="count == 1"
+            [disabled]="count == 1"
+            (click)="count == 1 ? '' : previous(count)"
+          >
+            Previous
           </button>
-          <button class="btn btn-info btn-xs" (click)="getOrdersAndTripsWithPage(1)">
-              1
+          <p class="mb-0 fnt-14 regular">Page {{ count }}</p>
+          <!-- <button class="btn btn-info btn-xs" (click)="getOrdersAndTripsWithPage(1)">
+                      1
+                  </button>
+                  <button class="btn btn-info btn-xs" (click)="getOrdersAndTripsWithPage(2)">
+                      2
+                  </button> -->
+          <button
+            class="btn btn-info btn-xs"
+            [class.not-allowed]="count == total_page_count"
+            [disabled]="count == total_page_count"
+            (click)="count == total_page_count ? '' : next(count)"
+          >
+            Next
           </button>
-          <button class="btn btn-info btn-xs" (click)="getOrdersAndTripsWithPage(2)">
-              2
-          </button>
-          <button class="btn btn-info btn-xs" (click)="next(count)">
-              Next
-          </button>
-          </div>
+        </div>
       </div>
-  </div>
-
-  <!-- My trip footer -->
-  <app-footer></app-footer>
-
-  <!-- <ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }" [template]="mytrips"></ngx-loading> -->
-</section>
+  
+      <div
+        class="d-flex align-items-center justify-content-center orderNotFound"
+        *ngIf="orders.length == 0 && no_data_found"
+      >
+        Orders Not Found
+      </div>
+    </div>
+  
+    <!-- My trip footer -->
+    <app-footer></app-footer>
+  
+    <!-- <ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }" [template]="mytrips"></ngx-loading> -->
+  </section>
+  

@@ -46,8 +46,14 @@ export class TripsordersService {
 
     getOrdersAndTrips(data, page){
 	   	this.setHeadersForForm();
-	  	return this.http.post(this.BASE_URL +'r=customer-api/customerorders&access_token='+ localStorage.getItem("accessToken") +'&page='+page, data, this.httpOptions)
+	  	return this.http.post(this.BASE_URL +'r=customer-api/order-list-info&access_token='+ localStorage.getItem("accessToken") +'&page='+page, data, this.httpOptions)
 	}
+
+	getOrderDetails(data){
+		this.setHeadersForForm();
+		return this.http.post(this.BASE_URL +'r=customer-api/order-all-details&access_token='+ localStorage.getItem("accessToken"), data, this.httpOptions)
+	}
+	
 
 	getOrdersInvoicePdf(orderNumber){
 	   	this.setHeadersForForm();

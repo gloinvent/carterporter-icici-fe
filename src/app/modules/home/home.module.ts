@@ -19,7 +19,7 @@ import {
   MAT_DIALOG_DATA,
   MAT_DIALOG_DEFAULT_OPTIONS,
 } from "@angular/material/dialog";
-import { MatDialogModule } from "@angular/material";
+import { MatAutocompleteModule, MatButtonModule, MatDialogModule, MatStepperModule } from "@angular/material";
 import { MatInputModule } from "@angular/material/input";
 import { MatIconModule } from "@angular/material/icon";
 import { RegisterComponent } from "src/app/shared/modals/register/register.component";
@@ -79,6 +79,11 @@ import { HomeStaticBlockComponent } from "./components/home-static-block/home-st
 import { SubscriptionComponent } from "./components/subscription/subscription.component";
 import { BuySubscriptionComponent } from "./components/buy-subscription/buy-subscription.component";
 import { SubscriptionConfirmationComponent } from "./components/subscription-confirmation/subscription-confirmation.component";
+import { HelpAssistanceComponent } from "./components/track-order/help-assistance/help-assistance.component";
+import { OrderDetailsComponent } from "./components/track-order/order-details/order-details.component";
+import { HelpDetailsComponent } from "./components/track-order/help-details/help-details.component";
+import { HelpDetailsContentComponent } from "./components/track-order/help-details-content/help-details-content.component";
+import { OrderStatusComponent } from "./components/track-order/order-status/order-status.component";
 @NgModule({
   // tslint:disable-next-line: max-line-length
   declarations: [
@@ -141,6 +146,11 @@ import { SubscriptionConfirmationComponent } from "./components/subscription-con
     SubscriptionComponent,
     BuySubscriptionComponent,
     SubscriptionConfirmationComponent,
+    HelpAssistanceComponent,
+    OrderDetailsComponent,
+    HelpDetailsComponent,
+    HelpDetailsContentComponent,
+    OrderStatusComponent,
   ],
   imports: [
     CommonModule,
@@ -168,6 +178,9 @@ import { SubscriptionConfirmationComponent } from "./components/subscription-con
     OwlNativeDateTimeModule,
     OwlDateTimeModule,
     GooglePlaceModule,
+    MatStepperModule,
+    MatButtonModule,
+    MatAutocompleteModule,
   ],
   providers: [
     { provide: MatDialogRef, useValue: {} },
@@ -179,6 +192,9 @@ import { SubscriptionConfirmationComponent } from "./components/subscription-con
     LuggageGuideComponent,
     ConfirmModalComponent,
     BuySubscriptionComponent,
+    HelpAssistanceComponent,
+    OrderDetailsComponent,
+    OrderStatusComponent,
   ],
 })
 export class HomeModule {}

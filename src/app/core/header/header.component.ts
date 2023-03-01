@@ -70,6 +70,7 @@ export class HeaderComponent implements OnInit {
     });
   }
   signin() {
+    document.querySelector('.navbar-collapse').classList.remove('show');
     this.openDialog();
     // this.flag = 1;
     // this.login.openVerticallyCentered(LoginComponent);

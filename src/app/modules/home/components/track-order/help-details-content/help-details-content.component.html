@@ -1,0 +1,117 @@
+<div>
+
+  <div class="row information">
+    <div class="col-12 mb-2 d-flex align-items-center">
+      <p class="fnt-14 medium m-0 w-120">Help Topics</p>
+      <p class="m-0 fnt-14" style="text-transform:capitalize">{{ content.topic_name }}</p>
+    </div>
+
+    <div class="col-12 mb-2 d-flex align-items-center">
+      <p class="fnt-14 medium m-0 w-120">Comments</p>
+      <p class="m-0 fnt-14" style="text-transform:capitalize;word-break: break-word;">{{ content.customer_comment }}</p>
+    </div>
+
+    <div class="col-12 mb-2 d-flex align-items-center">
+      <p class="fnt-14 medium m-0 w-120">Date</p>
+      <p class="m-0 fnt-14">{{ content.created_date | date }}</p>
+    </div>
+
+    <div class="col-12 mb-2 d-flex align-items-center">
+      <p class="fnt-14 medium m-0 w-120">Status</p>
+      <p class="m-0 fnt-14" style="text-transform:capitalize">{{ content.status }}</p>
+    </div>
+
+    <div class="col-12 mb-2" *ngIf="content.images_files !=''">
+      <p class="fnt-14 medium m-0 pb-2">Attachment</p>
+      <div class="d-flex align-items-center overflow-auto scroll-hide gap-15">
+        <div class="complaint_image" *ngFor="let img of process_image(content.images_files)">
+          <img *ngIf='img.split(".").pop() == "png" || img.split(".").pop() == "jpeg" || img.split(".").pop() == "jpg" '
+            class="pointor" src="{{img}}" alt="" (click)="imgSrc = img" data-toggle="modal" data-target="#myModal">
+          <a *ngIf='img.split(".").pop() == "pdf"' href="{{img}}" target="_blank">
+            <img class="pdf" src="../../../../../../assets/icons/icons-pdf-.png">
+          </a>
+          <img *ngIf='img.split(".").pop() == "mp4" || img.split(".").pop() == "m4v" || img.split(".").pop() == "mov" '
+            class="pointor pdf" src="../../../../../../assets/icons/video.png" alt="" (click)="imgSrc = img"
+            data-toggle="modal" data-target="#myModalVideo">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row register" *ngFor="let item of (content.response ? content.response : []);let i = index">
+    <div class="col custom-col">
+      <div class="tabs">
+        <div class="tab">
+          <input type="radio" id="{{i}}" name="registration" />
+          <label class="tab-label" for="{{i}}">Customer Care Reply</label>
+          <div class="tab-content">
+            <div class="col-12 mb-2 d-flex align-items-center">
+              <p class="fnt-14 medium m-0 w-120">Comment</p>
+              <p class="m-0 fnt-14" style="text-transform:capitalize;word-break: break-word;">{{item.assistant_comment}}
+              </p>
+            </div>
+
+            <div class="col-12 mb-2 d-flex align-items-center">
+              <p class="fnt-14 medium m-0 w-120">Date</p>
+              <p class="m-0 fnt-14">{{ item.created_date | date }}</p>
+            </div>
+
+            <div class="col-12 mb-2 d-flex align-items-center">
+              <p class="fnt-14 medium m-0 w-120">Status</p>
+              <p class="m-0 fnt-14" style="text-transform:capitalize">{{ item.status }}</p>
+            </div>
+            
+            <div class="col-12 mb-2" *ngIf="item.images_files !=''">
+              <p class="fnt-14 medium m-0 pb-2">Attachment</p>
+              <div class="d-flex align-items-center overflow-auto scroll-hide gap-15">
+                <div class="complaint_image" *ngFor="let img of process_image(item.images_files)">
+                  <img *ngIf='img.split(".").pop() == "png" || img.split(".").pop() == "jpeg" || img.split(".").pop() == "jpg" '
+                    class="pointor" src="{{img}}" alt="" (click)="imgSrc = img" data-toggle="modal" data-target="#myModal">
+                  <a *ngIf='img.split(".").pop() == "pdf"' href="{{img}}" target="_blank">
+                    <img class="pdf" src="../../../../../../assets/icons/icons-pdf-.png">
+                  </a>
+                  <img *ngIf='img.split(".").pop() == "mp4" || img.split(".").pop() == "m4v" || img.split(".").pop() == "mov" '
+                    class="pointor pdf" src="../../../../../../assets/icons/video.png" alt="" (click)="imgSrc = img"
+                    data-toggle="modal" data-target="#myModalVideo">
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+</div>
+
+<!-- Modal -->
+<div class="modal fade m-auto" id="myModal" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" #closebutton class="close" data-dismiss="modal">&times;</button>
+      </div>
+      <div class="modal-body">
+        <img [src]="imgSrc" class="modal-hover-opacity" />
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade m-auto" id="myModalVideo" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" #closebutton class="close" data-dismiss="modal">&times;</button>
+      </div>
+      <div class="modal-body">
+        <video width="100%" src="{{imgSrc}}"  controls autoplay>
+          <!-- <source src="{{imgSrc}}" type="video/quicktime"> -->
+          <!-- type="video/mp4" -->
+        </video>
+      </div>
+    </div>
+  </div>
+</div>
