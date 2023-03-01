@@ -1,0 +1,30 @@
+<div class="orderStatus">
+  <!-- login header starts -->
+  <div class="closeBtn">
+    <div class="mb-3">
+      <h5 class="m-0">Order Status</h5>
+    </div>
+    <!-- <div aria-label="Close" class="btnWrapper">
+      <img (click)="onNoClick()" class="close-image" src="../../../../assets/icons/Close Button.png">
+    </div> -->
+  </div>
+  <!-- login header ends -->
+
+  <mat-vertical-stepper
+    [linear]="isLinear"
+    #stepper
+    labelPosition="bottom"
+    [selectedIndex]="getSelectedIndex(order.order_status)"
+  >
+    <mat-step
+      [editable]="false"
+      [completed]="item.status == 1 ? true : false"
+      *ngFor="let item of order.order_status; let i = index"
+      label="{{ item.label }}"
+    >
+      <p *ngIf="item.status == 1 && i == order.order_status.length - 1">
+        {{ item.description }}
+      </p>
+    </mat-step>
+  </mat-vertical-stepper>
+</div>

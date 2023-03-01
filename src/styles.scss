@@ -56,6 +56,10 @@ $danger: #C93C2D;
   font-size: 12px;
 }
 
+.fnt-14 {
+  font-size: 14px;
+}
+
 .fnt-22 {
   font-size: 22px;
 }
@@ -66,6 +70,10 @@ $danger: #C93C2D;
 
 .pointor {
   cursor: pointer;
+}
+
+.gap-15 {
+  gap: 15px;
 }
 
 // Airport Transfer
@@ -118,6 +126,18 @@ $danger: #C93C2D;
       margin-right: 2px;
     }
   }
+
+  .cdk-global-overlay-wrapper{
+    align-items: baseline !important;
+  }
+
+  .cdk-global-overlay-wrapper, .cdk-overlay-container {
+      top: 50px !important;
+    }
+  
+  .cdk-overlay-backdrop {
+      top: -50px !important;
+    }
 }
 
 .select-dropdown {
@@ -299,19 +319,10 @@ body {
     }
   }
 
-  .footer-style {
-    font-size: 8px;
-    color: $lightblue;
-    margin-top: 20px;
-    margin-bottom: -24px;
-
-    a{
-      color: $lightblue;
-    }
-
-    a:hover{
-      text-decoration: none;
-    }
+  .footer-style a {
+    font-size: 8px !important;
+    color: $lightblue !important;
+    text-decoration: none;
 
     .policy-terms {
       cursor: pointer;
@@ -432,21 +443,13 @@ body {
     }
   }
 
-  .footer-style {
-    font-size: 8px;
-    color: $lightblue;
-    display: flex;
+  .footer-style a {
+    font-size: 8px !important;
+    color: $lightblue !important;
+    text-decoration: none;
 
     .policy-terms {
       cursor: pointer;
-    }
-
-    a{
-      color: $lightblue;
-    }
-
-    a:hover{
-      text-decoration: none;
     }
   }
 
@@ -535,24 +538,72 @@ body {
 
 .cdk-overlay-container {
   // 999999
-  z-index: 999!important;
+  z-index: 9999 !important;
 }
 
-.cdk-global-overlay-wrapper,
-.cdk-overlay-container {
-  top: 40px !important;
-}
 
-.cdk-overlay-backdrop {
-  top: -25px !important;
-}
+
 
 @media screen and (min-width: 768px) {
   owl-date-time-container {
     right: 50px !important;
   }
+  .cdk-global-overlay-wrapper,
+  .cdk-overlay-container {
+    top: 25px !important;
+  }
+  .cdk-overlay-backdrop {
+    top: -25px !important;
+  }
 }
 
-.btn:focus {
-  box-shadow: none !important;
+.dropdown-menu {
+  z-index: 996 !important;
+}
+
+button:focus-visible {
+  outline: none !important;
+}
+
+.mat-step-header .mat-step-icon-state-done,
+.mat-step-header .mat-step-icon-selected {
+  background-color: green !important;
+}
+
+mat-vertical-stepper .mat-step-header.cdk-keyboard-focused,
+.mat-step-header.cdk-program-focused,
+.mat-step-header:hover {
+  background-color: transparent !important;
+}
+
+.mat-step-header {
+  pointer-events: none !important;
+}
+
+.mat-vertical-stepper-content {
+  height: auto !important;
+  visibility: visible !important;
+}
+
+.mat-step-icon-content {
+  color: transparent !important;
+}
+
+.mat-vertical-content {
+  padding: 0px 24px 0px 24px !important;
+}
+
+
+.mat-stepper-label-position-bottom .mat-stepper-horizontal-line {
+  max-width: 0px !important;
+}
+
+.mat-stepper-label-position-bottom .mat-horizontal-stepper-header-container {
+  display: flex;
+  justify-content: center;
+}
+
+
+.modal{
+  z-index: 99999 !important;
 }

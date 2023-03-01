@@ -560,6 +560,8 @@ export class BookingComponent implements OnInit {
   remaining_usages: any;
   total_usages: any;
   is_otp_verified: boolean = false;
+  selected: boolean = false;
+  is_login: boolean = false;
 
   //constructor
   constructor(
@@ -665,11 +667,11 @@ export class BookingComponent implements OnInit {
       otp: [""],
     });
     setTimeout(() => {
-      this.setLoginDetails();
+      this.setLoginDetails(1);
     }, 100);
   }
 
-  setLoginDetails() {
+  setLoginDetails(type) {
     if (localStorage.loginUserDetails) {
       this.approximateAmount = 0;
       let obj = JSON.parse(localStorage.getItem("loginUserDetails"));
@@ -678,21 +680,22 @@ export class BookingComponent implements OnInit {
         obj.customer_detail.mobile
       );
       this.bookingForm.controls["email"].setValue(obj.customer_detail.email);
-      this.subscription_details.subscription_tokens.length == 0
+      this.subscription_details.subscription_tokens.length == 0 && this.bookingForm.controls["delivery_type"].value != "Cargo Transfer" && type == 1
         ? this.get_subscription_list()
         : "";
-      this.user_details_disable = true;
+      this.user_details_disable = this.is_login =  true;
     }
     // ['name','mobile_number','email'].map((res)=>{this.bookingForm.controls[res].disable()});
     // this.user_details_disable = true;
   }
 
   get_subscription_list() {
+    let obj = JSON.parse(localStorage.getItem("loginUserDetails"));
     this.ngxSpinner.show();
     this.subscription
       .subscription_validation(subscription.FETCH_SUBSCRIBER_DETAILS, {
-        email: this.bookingForm.controls["email"].value.toLowerCase(),
-        mobile: this.bookingForm.controls["mobile_number"].value,
+        email : this.selected ? obj.customer_detail.email : this.bookingForm.controls["email"].value.toLowerCase(),
+        mobile : this.selected ? obj.customer_detail.mobile: this.bookingForm.controls["mobile_number"].value,
       })
       .subscribe(
         (res: any) => {
@@ -2056,9 +2059,11 @@ export class BookingComponent implements OnInit {
     }
   }
 
+  razorpay_payment_id :any
   //Proccessed to pay
   proceedToPay() {
     this.submitted = true;
+    let obj = JSON.parse(localStorage.getItem("loginUserDetails"));
 
     if (this.bookingForm.valid) {
       if (this.bookingForm.controls["term"].value != false) {
@@ -2091,6 +2096,7 @@ export class BookingComponent implements OnInit {
                     "https://cdn.razorpay.com/logos/Du4P7LfElD9azm_medium.jpg",
 
                   handler: (response) => {
+                    this.razorpay_payment_id = response.razorpay_payment_id;
                     this.ngZone.run(() =>
                       formValue.delivery_type == "Airport Transfer" ||
                       formValue.delivery_type == "Lost Luggage/Item/Not Loaded"
@@ -2099,9 +2105,9 @@ export class BookingComponent implements OnInit {
                     );
                   },
                   prefill: {
-                    name: formValue.name,
-                    email: formValue.email.toLowerCase(),
-                    contact: formValue.mobile_number,
+                    name: this.selected ? obj.customer_detail.name : formValue.name,
+                    email: this.selected ? obj.customer_detail.email : formValue.email.toLowerCase(),
+                    contact: this.selected ? obj.customer_detail.mobile: formValue.mobile_number,
                   },
                   notes: {
                     address: "note value",
@@ -2173,6 +2179,16 @@ export class BookingComponent implements OnInit {
   placeOrder() {
     const priceDetails = this.priceDetailsRes;
     const itemsOrder = [];
+
+    var customer_id;
+    var login_details = localStorage.loginUserDetails
+      ? JSON.parse(localStorage.loginUserDetails)
+      : null;
+
+    if (login_details) {
+      customer_id = login_details.customer_detail.id_customer;
+    }
+
     const bagItems = priceDetails.price_details.items;
     for (const key in bagItems) {
       if (bagItems.hasOwnProperty(key)) {
@@ -2327,7 +2343,10 @@ export class BookingComponent implements OnInit {
             this.meetMin +
             (this.meetMin < 10 ? "0" : "")
           : "",
-      system_info:2
+      system_info:2,
+      customer_id: customer_id,
+      razorpay_status: this.approximateAmount ? "success" : "",
+      razorpay_pay_id: this.approximateAmount ? this.razorpay_payment_id : "",
     };
     this.crud
       .postWithStaticTokenAirline(
@@ -3822,7 +3841,7 @@ export class BookingComponent implements OnInit {
     };
     localStorage.setItem("loginUserDetails", JSON.stringify(loginDetails));
     this.tokens.newEventFordata("LoggedIn!");
-    this.user_details_disable = true;
+    this.user_details_disable =  this.is_login = true;
 
     this.accessTokenApi({
       client_id: response[0].client_id,
@@ -4432,6 +4451,13 @@ export class BookingComponent implements OnInit {
                 // request body
                 const formValue = { ...this.bookingForm.value };
 
+                var customer_id;
+                var login_details = localStorage.loginUserDetails ? JSON.parse(localStorage.loginUserDetails): null;
+
+                if (login_details) {
+                  customer_id = login_details.customer_detail.id_customer;
+                }
+
                 var delivery_date_current;
                 var curDate = new Date(
                   new Date().getFullYear(),
@@ -4589,7 +4615,10 @@ export class BookingComponent implements OnInit {
                         " " +
                         this.show_delivery_time.toString().split(" ")[0]
                       : this.selected_date_for_date_picker,
-                  system_info:2
+                  system_info:2,
+                  customer_id: customer_id,
+                  razorpay_status: this.approximateAmount ? "success" : "",
+                  razorpay_pay_id: this.approximateAmount ? this.razorpay_payment_id : "",
                 };
 
                 console.log(reqBody, "request body for redeem and booking");
@@ -4720,6 +4749,19 @@ export class BookingComponent implements OnInit {
         break;
     }
   }
+
+  selectedCheckbox() {
+    if (this.selected == false) {
+      ["name", "mobile_number", "email"].map((res) => {
+        this.bookingForm.controls[res].setValue("");
+      });
+      this.user_details_disable = false;
+      // this.is_otp_verified = false;
+    } else {
+      this.setLoginDetails(0);
+    }
+  }
+  
 }
 
 // abc

@@ -1696,6 +1696,15 @@ export class CrudService {
     return this.http.post(environment.baseUrl + api, data);
   }
 
+  public postFormdataUploadImage2(api, data) {
+    // const httpOptions = {
+    //   headers: new HttpHeaders({
+    //     'Content-Type': 'multipart/form-data',
+    //   })
+    // };
+    return this.http.post("https://carter-cors.herokuapp.com/" + environment.baseUrl + api, data);
+  }
+
   public postOla(api, data, token) {
     const httpOptions = {
       headers: new HttpHeaders({

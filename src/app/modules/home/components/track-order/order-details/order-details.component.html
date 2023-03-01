@@ -1,0 +1,448 @@
+<!-- My trips -->
+<section>
+  <app-header></app-header>
+
+  <div class="my-trips-body pt-5 mt-5" *ngIf="order && order.order">
+    <div class="container mt-4">
+      <div class="trip-details">
+        <div class="row trip-details-header bold mb-4 px-2">
+          <div class="col-md-8">
+            <label>Order No&nbsp;:&nbsp;{{ order.order.order_number }}</label>
+          </div>
+          <!-- <div class="col-md-2">
+            <label>Status: {{order.order.order_status}} &nbsp;<img class="info-icon"
+                src="../../../../../assets/icons/information.png"></label>
+          </div> -->
+          <!-- <div class="col-md-4 text-right">
+            <a class="order-details pointor" (click)="orderStatus()" style="color: #4cc0f4;">Order Status</a>
+          </div> -->
+        </div>
+
+        <div class="row">
+          <!--  -->
+          <div class="col-md-5 order-md-2">
+            <div class="passengerInfo mb-4">
+              <app-order-status [order]="order"></app-order-status>
+            </div>
+            <!--  -->
+            <div
+              class="orderInfo mb-4 d-none d-md-block"
+              *ngIf="
+                order.order.order_type_str != 'Cargo Transfer' &&
+                order.order.corporate_type_str != 'MHL Corporate Order' &&
+                order.subscription_info.subscriber_name
+              "
+            >
+              <h5 class="mb-4">Subscription Information</h5>
+              <table class="w-100">
+                <tr>
+                  <td class="tableHeader">Subscription Name</td>
+                  <td>
+                    {{
+                      order.subscription_info.subscriber_name
+                        ? order.subscription_info.subscriber_name
+                        : "-"
+                    }}
+                  </td>
+                </tr>
+                <tr>
+                  <td class="tableHeader">Subscription No.</td>
+                  <td>
+                    {{
+                      order.subscription_info.confirmation_number
+                        ? (order.subscription_info.confirmation_number
+                          | uppercase)
+                        : "-"
+                    }}
+                  </td>
+                </tr>
+                <tr>
+                  <td class="tableHeader">Remaining Usages</td>
+                  <td>
+                    {{
+                      order.subscription_info.remaining_usages
+                        ? order.subscription_info.remaining_usages
+                        : "-"
+                    }}
+                  </td>
+                </tr>
+              </table>
+            </div>
+          </div>
+
+          <!--  -->
+          <div class="col-md-7">
+            <div class="orderInfo mb-4">
+              <!-- Passenger info -->
+              <div class="mb-4">
+                <h5 class="mb-4">Passenger Information</h5>
+                <table class="w-100">
+                  <tr>
+                    <td class="tableHeader">Name</td>
+                    <td style="text-transform: capitalize">
+                      {{
+                        order.order.travell_passenger_name
+                          ? order.order.travell_passenger_name
+                          : order.order.customer_name
+                      }}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="tableHeader">Phone</td>
+                    <td>
+                      {{
+                        order.order.travell_passenger_contact
+                          ? order.order.travell_passenger_contact
+                          : order.order.customer_mobile
+                      }}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="tableHeader">Email</td>
+                    <td>
+                      {{
+                        order.order.travell_passenger_email
+                          ? order.order.travell_passenger_email
+                          : order.order.customer_email
+                          ? order.order.customer_email
+                          : "-"
+                      }}
+                    </td>
+                  </tr>
+                </table>
+              </div>
+              <!--  -->
+              <h5 class="mb-4">Order Information</h5>
+              <table class="w-100">
+                <tr>
+                  <td class="tableHeader">Order Number</td>
+                  <td>{{ order.order.order_number }}</td>
+                </tr>
+                <tr>
+                  <td class="tableHeader">Pickup Address</td>
+                  <td style="text-transform: capitalize">
+                    {{ getPickupAddress(order) }}
+                    <!-- {{
+                    order.order.service_type_str == 'Departure' ? (order.order.location_address_line_1 ? 
+                    order.order.location_address_line_1 : order.order.airport_name) :
+                    (order.order.customer_address_line_1 ? order.order.customer_address_line_1 : order.order.airport_name)}} -->
+                  </td>
+                </tr>
+                <tr>
+                  <td class="tableHeader">Delivery Address</td>
+                  <td style="text-transform: capitalize">
+                    {{ getDeliveryAddress(order) }}
+                    <!-- {{order.order.service_type_str == 'Departure' ? order.order.customer_address_line_1 :
+                    order.order.location_address_line_1}} -->
+                  </td>
+                </tr>
+                <tr>
+                  <td class="tableHeader">Time Slot</td>
+                  <td>
+                    {{ getTimeSlots(order) }}
+                  </td>
+                </tr>
+                <tr
+                  *ngIf="
+                    order.order.corporate_type_str != 'MHL Corporate Order' &&
+                    getPrice(order) != 0
+                  "
+                >
+                  <td class="tableHeader">Price</td>
+                  <td>{{ getPrice(order) }}</td>
+                </tr>
+                <tr>
+                  <td class="tableHeader">Date of Booking</td>
+                  <td>
+                    {{
+                      order.order.date_created
+                        ? (order.order.date_created | date)
+                        : "-"
+                    }}
+                  </td>
+                </tr>
+                <tr>
+                  <td class="tableHeader">Date of Service</td>
+                  <td>
+                    {{
+                      order.order.order_date
+                        ? (order.order.order_date | date)
+                        : "-"
+                    }}
+                  </td>
+                </tr>
+                <tr>
+                  <td class="tableHeader">Date of Delivery(Actual)</td>
+                  <td
+                    *ngIf="
+                      order.order.delivery_actual_date &&
+                      order.order.delivery_actual_date != '-'
+                    "
+                  >
+                    {{
+                      order.order.delivery_actual_date
+                        ? (order.order.delivery_actual_date | date)
+                        : "-"
+                    }}
+                  </td>
+                  <td
+                    *ngIf="
+                      !order.order.delivery_actual_date ||
+                      order.order.delivery_actual_date == '-'
+                    "
+                  >
+                    {{ "-" }}
+                  </td>
+                </tr>
+                <tr>
+                  <td class="tableHeader">Date of Delivery(Expected)</td>
+                  <td>
+                    {{
+                      order.order.delivery_datetime
+                        ? (order.order.delivery_datetime | date)
+                        : "-"
+                    }}
+                  </td>
+                </tr>
+                <tr>
+                  <td class="tableHeader">Service Type</td>
+                  <td>
+                    {{
+                      order.order.service_type_str
+                        ? order.order.service_type_str
+                        : "-"
+                    }}
+                  </td>
+                </tr>
+                <tr>
+                  <td class="tableHeader">No of Bags</td>
+                  <td>
+                    {{
+                      order.order.no_of_units ? order.order.no_of_units : "-"
+                    }}
+                  </td>
+                </tr>
+                <tr>
+                  <td class="tableHeader">Delivery Type</td>
+                  <td>
+                    {{
+                      order.order.order_type_str == null ||
+                      order.order.order_type_str == ""
+                        ? order.order.order_transfer_str
+                          ? order.order.order_transfer_str
+                          : "-"
+                        : order.order.order_type_str
+                        ? order.order.order_type_str
+                        : "-"
+                    }}
+                  </td>
+                </tr>
+                <tr>
+                  <td class="tableHeader">Flight Number</td>
+                  <td>
+                    {{
+                      order.order.flight_number == ""
+                        ? "-"
+                        : order.order.flight_number
+                    }}
+                  </td>
+                </tr>
+                <tr>
+                  <td class="tableHeader">PNR Number</td>
+                  <td>
+                    {{
+                      order.order.pnr_number == ""
+                        ? "-"
+                        : order.order.pnr_number
+                    }}
+                  </td>
+                </tr>
+                <!-- <tr>
+                  <td class="tableHeader">Subscription No.</td>
+                  <td>{{order.subscription_info.confirmation_number | uppercase}}</td>
+                </tr> -->
+                <tr>
+                  <td class="tableHeader">Used Usages</td>
+                  <td>
+                    {{
+                      order.order.usages_used ? order.order.usages_used : "-"
+                    }}
+                  </td>
+                </tr>
+                <tr>
+                  <td class="tableHeader">Payment Mode</td>
+                  <td>
+                    {{
+                      order.order.payment_method != null ||
+                      order.order.order_type_str == ""
+                        ? order.order.payment_method
+                        : "-"
+                    }}
+                  </td>
+                </tr>
+                <tr>
+                  <td class="tableHeader">Travel Type</td>
+                  <td>
+                    {{
+                      order.order.terminal_type
+                        ? order.order.terminal_type
+                        : "-"
+                    }}
+                  </td>
+                </tr>
+                <tr>
+                  <td class="tableHeader">GST Invoice</td>
+                  <td></td>
+                </tr>
+              </table>
+            </div>
+            <!--  -->
+            <div
+              class="orderInfo mb-4 d-block d-md-none"
+              *ngIf="
+                order.order.order_type_str != 'Cargo Transfer' &&
+                order.order.corporate_type_str != 'MHL Corporate Order' &&
+                order.subscription_info.subscriber_name
+              "
+            >
+              <h5 class="mb-4">Subscription Information</h5>
+              <table class="w-100">
+                <tr>
+                  <td class="tableHeader">Subscription Name</td>
+                  <td>
+                    {{
+                      order.subscription_info.subscriber_name
+                        ? order.subscription_info.subscriber_name
+                        : "-"
+                    }}
+                  </td>
+                </tr>
+                <tr>
+                  <td class="tableHeader">Subscription No.</td>
+                  <td>
+                    {{
+                      order.subscription_info.confirmation_number
+                        ? (order.subscription_info.confirmation_number
+                          | uppercase)
+                        : "-"
+                    }}
+                  </td>
+                </tr>
+                <tr>
+                  <td class="tableHeader">Remaining Usages</td>
+                  <td>
+                    {{
+                      order.subscription_info.remaining_usages
+                        ? order.subscription_info.remaining_usages
+                        : "-"
+                    }}
+                  </td>
+                </tr>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <div class="passengerInfo mb-4" *ngIf="order.order_images.length != 0">
+          <div
+            *ngIf="
+              !check_image_availability(order.order_images, 'normal image')
+            "
+          >
+            <h5 class="mb-4">Order Images</h5>
+            <div class="d-flex overflow-auto gap-15 flex-wrap">
+              <div
+                *ngFor="let item of order.order_images"
+                [ngClass]="
+                  item.before_after_damaged != '2'
+                    ? 'd-block image-container'
+                    : 'd-none'
+                "
+              >
+                <img
+                  *ngIf="item.image_name"
+                  [src]="item.image_name"
+                  style="cursor: pointer"
+                  (click)="onClick($event)"
+                  class="modal-hover-opacity"
+                  data-toggle="modal"
+                  data-target="#myModal"
+                />
+              </div>
+            </div>
+            <p
+              class="text-danger text-center"
+              *ngIf="
+                order.order_images.length == 0 ||
+                check_image_availability(order.order_images, 'normal image')
+              "
+            >
+              Image Not Available
+            </p>
+          </div>
+
+          <div
+            class=""
+            *ngIf="!check_image_availability(order.order_images, 'Damaged')"
+          >
+            <h5 class="my-4">Damaged Images</h5>
+            <div class="d-flex overflow-auto gap-15 flex-wrap">
+              <div
+                *ngFor="let item of order.order_images"
+                [ngClass]="
+                  item.before_after_damaged == '2'
+                    ? 'd-block image-container'
+                    : 'd-none'
+                "
+              >
+                <img
+                  *ngIf="item.image_name"
+                  [src]="item.image_name"
+                  style="cursor: pointer"
+                  (click)="onClick($event)"
+                  class="modal-hover-opacity"
+                  data-toggle="modal"
+                  data-target="#myModal"
+                />
+              </div>
+            </div>
+            <p
+              class="text-danger text-center"
+              *ngIf="
+                order.order_images.length == 0 ||
+                check_image_availability(order.order_images, 'Damaged')
+              "
+            >
+              Image Not Available
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div
+    class="order-not-found d-flex align-items-center justify-content-center"
+    *ngIf="!order"
+  >
+    <p class="order-not-found-txt" *ngIf="order_not_found">Order Not Found</p>
+  </div>
+
+  <app-footer></app-footer>
+</section>
+
+<!-- Modal -->
+<div class="modal fade m-auto" id="myModal" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" #closebutton class="close" data-dismiss="modal">
+          &times;
+        </button>
+      </div>
+      <div class="modal-body">
+        <img [src]="imgSrc" class="modal-hover-opacity" />
+      </div>
+    </div>
+  </div>
+</div>
