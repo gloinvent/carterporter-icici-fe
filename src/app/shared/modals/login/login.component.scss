@@ -142,6 +142,15 @@
       color: $lightblue;
       margin-top: 20px;
       margin-bottom: -24px;
+
+      a{
+        color: $lightblue;
+      }
+  
+      a:hover{
+        text-decoration: none;
+      }
+      
       .policy-terms {
         cursor: pointer;
       }

@@ -23,6 +23,9 @@ export var apis = {
   USER_PROFILE_EDIT: "r=customer-api/profile",
   USER_PROFILE_IMAGE: "r=order-api/fileupload",
   CONTACTUS_QUERY: "r=v3/order-api/contact-us",
+  CREATE_TICKET: "r=v4/helpassistance-api/createticket",
+  GET_TICKET_TOPICS: "r=v4/helpassistance-api/get-ticket-topic",
+  FETCH_TICKET_DETAIL: "r=v4/helpassistance-api/fetch-ticket-detail",
 };
 
 export const CORPORATE_APIS = {

@@ -1,14 +1,5 @@
-import {
-  Component,
-  ElementRef,
-  OnInit,
-  NgZone,
-} from "@angular/core";
-import {
-  FormGroup,
-  Validators,
-  FormBuilder,
-} from "@angular/forms";
+import { Component, ElementRef, OnInit, NgZone } from "@angular/core";
+import { FormGroup, Validators, FormBuilder } from "@angular/forms";
 import { DatePipe } from "@angular/common";
 import { CrudService } from "src/app/core/services/crud.service";
 
@@ -36,9 +27,8 @@ declare var Razorpay: any;
   styleUrls: ["./booking.component.scss"],
 })
 export class BookingComponent implements OnInit {
-
-  
-  airport_cargo_txt: any = "I certify that there are no passport(s), personal documents of importance, cash, illegal items/substances, immediate medicine, alcohol or jewellery and the carriers(s) i.e CarterX and its associate are further released from any liability arising from the contents of my property.";
+  airport_cargo_txt: any =
+    "I certify that there are no passport(s), personal documents of importance, cash, illegal items/substances, immediate medicine, alcohol or jewellery and the carriers(s) i.e CarterX and its associate are further released from any liability arising from the contents of my property.";
 
   weightJson: any = {
     weights: [
@@ -50,26 +40,26 @@ export class BookingComponent implements OnInit {
         no_of_weight: "5 kgs",
         price: "",
       },
-      {
-        no_of_weight: "7 kgs",
-        price: "",
-      },
+      // {
+      //   no_of_weight: "7 kgs",
+      //   price: "",
+      // },
       {
         no_of_weight: "12 kgs",
         price: "",
       },
-      {
-        no_of_weight: "15 kgs",
-        price: "",
-      },
+      // {
+      //   no_of_weight: "15 kgs",
+      //   price: "",
+      // },
       {
         no_of_weight: "20 kgs",
         price: "",
       },
-      {
-        no_of_weight: "25 kgs",
-        price: "",
-      },
+      // {
+      //   no_of_weight: "25 kgs",
+      //   price: "",
+      // },
       {
         no_of_weight: "30 kgs",
         price: "",
@@ -505,8 +495,8 @@ export class BookingComponent implements OnInit {
   submitted: any;
   // address_id: any;
   place_id: any;
-  airport_city_name:any = "";
-  show_pincode:any = false;
+  airport_city_name: any = "";
+  show_pincode: any = false;
   // --------------------------------------------------------------
   buttonCount = 0;
   dcrsCount = 10;
@@ -565,10 +555,13 @@ export class BookingComponent implements OnInit {
   meet_time_error_msg: any = "";
   btnDisabled = false;
   btnDisabled2 = true;
-  used_coupons :any;
+  used_coupons: any;
   subscription_gst_price: any;
-  remaining_usages:any;
-  total_usages:any;
+  remaining_usages: any;
+  total_usages: any;
+  is_otp_verified: boolean = false;
+  selected: boolean = false;
+  is_login: boolean = false;
 
   //constructor
   constructor(
@@ -595,10 +588,12 @@ export class BookingComponent implements OnInit {
   // NgOnInit
   ngOnInit() {
     this.tokens.getNameOFUser.subscribe((name) => {
-      if(location.pathname == '/home'){
+      if (location.pathname == "/home") {
         this.createBookingForm();
         this.pickCityFunction();
-        this.razorPays.lazyLoadLibrary("https://checkout.razorpay.com/v1/checkout.js").subscribe();
+        this.razorPays
+          .lazyLoadLibrary("https://checkout.razorpay.com/v1/checkout.js")
+          .subscribe();
       }
     });
   }
@@ -607,22 +602,47 @@ export class BookingComponent implements OnInit {
   createBookingForm() {
     this.bookingForm = this.fb.group({
       date: [""],
-      pincode: ["", [Validators.required, Validators.minLength(6), Validators.maxLength(6), Validators.pattern("[0-9]+"),],],
+      pincode: [
+        "",
+        [
+          Validators.required,
+          Validators.minLength(6),
+          Validators.maxLength(6),
+          Validators.pattern("[0-9]+"),
+        ],
+      ],
       city_id: ["", Validators.required],
       bags: ["", Validators.required],
       airport_id: ["", Validators.required],
-      time_slot: ["", Validators.required],
+      time_slot: ["none", Validators.required],
       country: ["91", Validators.required],
       state_id: [""],
       name: ["", Validators.required],
       transfer_type: ["", Validators.required],
-      mobile_number: ["", [Validators.required, Validators.pattern("^((\\+91-?)|0)?[0-9]{10}$")],],
-      email: ["", Validators.compose([ Validators.required,Validators.email, Validators.pattern("^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$"),]),],
+      mobile_number: [
+        "",
+        [Validators.required, Validators.pattern("^((\\+91-?)|0)?[0-9]{10}$")],
+      ],
+      email: [
+        "",
+        Validators.compose([
+          Validators.required,
+          Validators.email,
+          Validators.pattern(/\S+@\S+\.\S+/),
+        ]),
+      ],
       type: ["Departure", Validators.required],
       terminal: ["", Validators.required],
       airline: ["IndiGo", Validators.required],
       pickup_type: ["Airport: Drop off Point", Validators.required],
-      pnr: ["", Validators.compose([ Validators.required, Validators.minLength(6), Validators.maxLength(6),]),],
+      pnr: [
+        "",
+        Validators.compose([
+          Validators.required,
+          Validators.minLength(6),
+          Validators.maxLength(6),
+        ]),
+      ],
       other_airline_no: ["none", Validators.required],
       other_airline: ["none", Validators.required],
       fulladdress: [""],
@@ -646,48 +666,150 @@ export class BookingComponent implements OnInit {
       subscription_id: [""],
       otp: [""],
     });
-    setTimeout(()=>{this.setLoginDetails();},100)
+    setTimeout(() => {
+      this.setLoginDetails(1);
+    }, 100);
   }
 
-  setLoginDetails() {
-    if(localStorage.loginUserDetails) {
+  setLoginDetails(type) {
+    if (localStorage.loginUserDetails) {
       this.approximateAmount = 0;
       let obj = JSON.parse(localStorage.getItem("loginUserDetails"));
       this.bookingForm.controls["name"].setValue(obj.customer_detail.name);
-      this.bookingForm.controls["mobile_number"].setValue(obj.customer_detail.mobile)
-      this.bookingForm.controls["email"].setValue(obj.customer_detail.email)
-      this.subscription_details.subscription_tokens.length == 0 ? this.get_subscription_list() : '';
-      this.user_details_disable = true
+      this.bookingForm.controls["mobile_number"].setValue(
+        obj.customer_detail.mobile
+      );
+      this.bookingForm.controls["email"].setValue(obj.customer_detail.email);
+      this.subscription_details.subscription_tokens.length == 0 && this.bookingForm.controls["delivery_type"].value != "Cargo Transfer" && type == 1
+        ? this.get_subscription_list()
+        : "";
+      this.user_details_disable = this.is_login =  true;
     }
     // ['name','mobile_number','email'].map((res)=>{this.bookingForm.controls[res].disable()});
     // this.user_details_disable = true;
   }
 
-  get_subscription_list(){
+  get_subscription_list() {
+    let obj = JSON.parse(localStorage.getItem("loginUserDetails"));
     this.ngxSpinner.show();
-    this.subscription.subscription_validation(subscription.FETCH_SUBSCRIBER_DETAILS,{'email':this.bookingForm.controls["email"].value,'mobile':this.bookingForm.controls["mobile_number"].value}).subscribe((res:any)=>{
-      if(res.subscriber_detail.length != 0){
-        this.process_tokens(res.subscriber_detail);
-        this.subscription_details.show_coupons = true;
-      }
-      this.ngxSpinner.hide();
-    },()=>{this.ngxSpinner.hide();})
+    this.subscription
+      .subscription_validation(subscription.FETCH_SUBSCRIBER_DETAILS, {
+        email : this.selected ? obj.customer_detail.email : this.bookingForm.controls["email"].value.toLowerCase(),
+        mobile : this.selected ? obj.customer_detail.mobile: this.bookingForm.controls["mobile_number"].value,
+      })
+      .subscribe(
+        (res: any) => {
+          if (res.subscriber_detail.length != 0) {
+            this.process_subscription_details(res.subscriber_detail);
+            this.subscription_details.show_coupons = true;
+          }
+          this.ngxSpinner.hide();
+        },
+        () => {
+          this.ngxSpinner.hide();
+        }
+      );
   }
 
   selectTypeofWay(num) {
-    this.delivery_date = this.afterBefore = this.show_delivery_time = this.show_state = this.showAirport = "";
+    this.delivery_date =
+      this.afterBefore =
+      this.show_delivery_time =
+      this.show_state =
+      this.showAirport =
+        "";
     this.airports = [];
     this.showMeetDrop = false;
     this.type_of_services = num;
     this.selectBox = 1;
     this.filterAirports();
-    ["city_id", "airport_id"].map((res: any) => {this.bookingForm.controls[res].setValue("");});
-    this.Currentdate = new Date( new Date().getFullYear(), new Date().getMonth(), new Date().getDate() - 1, 10, 33, 30, 0);
-    this.selected_date_for_date_picker = new Date( new Date().getFullYear(), new Date().getMonth(), new Date().getDate() + (this.bookingForm.controls["type"].value == "Departure" ? 1 : 0), 10, 33, 30, 0 );
+    ["city_id", "airport_id"].map((res: any) => {
+      this.bookingForm.controls[res].setValue("");
+    });
+    this.Currentdate = new Date(
+      new Date().getFullYear(),
+      new Date().getMonth(),
+      new Date().getDate() +
+        ((this.bookingForm.controls["type"].value == "Departure" &&
+          this.bookingForm.controls["pickup_type"].value !=
+            "Airport: Drop off Point") ||
+        this.bookingForm.controls["delivery_type"].value == "Cargo Transfer"
+          ? 1
+          : 0),
+      10,
+      33,
+      30,
+      0
+    );
+    this.Currentdate.setHours(0, 0, 0, 0);
+    this.selected_date_for_date_picker = new Date(
+      new Date().getFullYear(),
+      new Date().getMonth(),
+      new Date().getDate() +
+        ((this.bookingForm.controls["type"].value == "Departure" &&
+          this.bookingForm.controls["pickup_type"].value !=
+            "Airport: Drop off Point") ||
+        this.bookingForm.controls["delivery_type"].value == "Cargo Transfer"
+          ? 1
+          : 0),
+      10,
+      33,
+      30,
+      0
+    );
     this.showDate = this.selected_date_for_date_picker.toString().split(" ");
-    this.show_select_date_one = new Date( new Date().getFullYear(), new Date().getMonth(), new Date().getDate(), 10, 33, 30, 0 );
-    this.show_select_date_two = new Date( new Date().getFullYear(), new Date().getMonth(), new Date().getDate() + 1, 10, 33, 30, 0 );
+    this.show_select_date_one = new Date(
+      new Date().getFullYear(),
+      new Date().getMonth(),
+      new Date().getDate(),
+      10,
+      33,
+      30,
+      0
+    );
+    this.show_select_date_two = new Date(
+      new Date().getFullYear(),
+      new Date().getMonth(),
+      new Date().getDate() + 1,
+      10,
+      33,
+      30,
+      0
+    );
     this.pickTimeSlotFunction();
+    this.verify_date_time();
+  }
+
+  verify_date_time() {
+    let dDate = new Date(
+      new Date().getFullYear(),
+      new Date().getMonth(),
+      new Date().getDate() + 1,
+      10,
+      33,
+      30,
+      0
+    );
+    if (
+      this.bookingForm.controls["type"].value == "Departure" &&
+      this.bookingForm.controls["pickup_type"].value ==
+        "Airport: Drop off Point"
+    ) {
+      if (new Date().getHours() + 3 > 23) {
+        this.meetHour = this.meetHour1 = new Date().getHours() + 3 - 24;
+        this.Currentdate = this.selected_date_for_date_picker = dDate;
+        this.showDate = this.selected_date_for_date_picker
+          .toString()
+          .split(" ");
+        this.Currentdate.setHours(0, 0, 0, 0);
+      } else {
+        this.meetHour = this.meetHour1 = new Date().getHours() + 3;
+      }
+      this.meetMin = this.meetMin1 = new Date().getMinutes();
+    } else if (this.bookingForm.controls["type"].value != "Departure") {
+      this.meetHour = this.meetHour1 = new Date().getHours();
+      this.meetMin = this.meetMin1 = new Date().getMinutes();
+    }
   }
 
   // date click event
@@ -700,27 +822,37 @@ export class BookingComponent implements OnInit {
   handleDropdownEvent(formControllName, value) {
     switch (formControllName) {
       case "delivery_type":
-        ["airline", "terminal"].map((res) => { this.bookingForm.controls[res].setValue("");});
-        
+        ["airline", "terminal"].map((res) => {
+          this.bookingForm.controls[res].setValue("");
+        });
+
         this.bookingForm.controls["airline"].setValue("IndiGo");
-        ["other_airline_no", "other_airline"].map((res)=> { this.bookingForm.controls[res].setValue("none");});
+        ["other_airline_no", "other_airline"].map((res) => {
+          this.bookingForm.controls[res].setValue("none");
+        });
         this.bookingForm.controls["delivery_type"].setValue(value);
-        // 
+        //
         if (value == "Lost Luggage/Item/Not Loaded") {
           this.bookingForm.controls["type"].setValue("Arrival");
-          if(localStorage.loginUserDetails && this.subscription_details.subscription_tokens.length == 0) {
+          if (
+            localStorage.loginUserDetails &&
+            this.subscription_details.subscription_tokens.length == 0
+          ) {
             this.get_subscription_list();
           }
         } else if (value == "Airport Transfer") {
           this.bookingForm.controls["type"].setValue("Departure");
-          if(localStorage.loginUserDetails && this.subscription_details.subscription_tokens.length == 0) {
+          if (
+            localStorage.loginUserDetails &&
+            this.subscription_details.subscription_tokens.length == 0
+          ) {
             this.get_subscription_list();
           }
         } else {
-          this.bookingForm.controls['terminal'].setValue("Domestic Cargo")
+          this.bookingForm.controls["terminal"].setValue("Domestic Cargo");
           this.bookingForm.controls["type"].setValue("none");
         }
-        // 
+        //
         this.showDeliveryDate = "";
         this.change_Delivery_type();
         value == "Cargo Transfer" ? this.getCargoApproximateAmount() : null;
@@ -732,10 +864,25 @@ export class BookingComponent implements OnInit {
         this.approximateAmount = 0;
         this.bookingForm.controls["weight"].setValue("");
 
-        this.showAddressDropDown = this.showAddressDropDownDelivery =  false;
-        this.fullAddressLine = this.deliveryPincode = this.fullDeliveryAddressLine = "";
-        ["addressLineOne", "fulladdress", "addressCity", "addressLineTwo", "deliveryAddressLineOne","fullDeliveryAddress","deliveryAddressCity","deliveryAddressLineTwo","addressPincodes"].map((res) => {this.bookingForm.controls[res].setValue("");})
-        
+        this.showAddressDropDown = this.showAddressDropDownDelivery = false;
+        this.fullAddressLine =
+          this.deliveryPincode =
+          this.fullDeliveryAddressLine =
+            "";
+        [
+          "addressLineOne",
+          "fulladdress",
+          "addressCity",
+          "addressLineTwo",
+          "deliveryAddressLineOne",
+          "fullDeliveryAddress",
+          "deliveryAddressCity",
+          "deliveryAddressLineTwo",
+          "addressPincodes",
+        ].map((res) => {
+          this.bookingForm.controls[res].setValue("");
+        });
+
         this.setUpDate();
         this.getCargoApproximateAmount();
         break;
@@ -743,51 +890,63 @@ export class BookingComponent implements OnInit {
       case "cargo_content":
         this.bookingForm.controls["cargo_content"].setValue(value);
         // value == "Others"
-        value == "Others" ? this.bookingForm.controls["other_content"].setValue("") : this.bookingForm.controls["other_content"].setValue("none");
-        
+        value == "Others"
+          ? this.bookingForm.controls["other_content"].setValue("")
+          : this.bookingForm.controls["other_content"].setValue("none");
+
         break;
 
       case "parcel_type":
-        ["cargo_content","weight"].map((res)=>{this.bookingForm.controls[res].setValue("");})
+        ["cargo_content", "weight"].map((res) => {
+          this.bookingForm.controls[res].setValue("");
+        });
         // this.bookingForm.controls["cargo_content"].setValue("");
         this.bookingForm.controls["parcel_type"].setValue(value);
         // this.bookingForm.controls["weight"].setValue("");
         this.approximateAmount = 0;
         if (value == "Documents") {
-          this.bookingForm.controls["cargo_content"].setValue("Documents | Books | Files");
+          this.bookingForm.controls["cargo_content"].setValue(
+            "Documents | Books | Files"
+          );
           this.bookingForm.controls["other_content"].setValue("none");
-        } else if (value != "Documents" && value != "Carton Box") {
-          ["other_content","cargo_content"].map((res)=>{this.bookingForm.controls[res].setValue("none")});
+        } else if (value != "Documents" && value != "Cartons/Baggage") {
+          ["other_content", "cargo_content"].map((res) => {
+            this.bookingForm.controls[res].setValue("none");
+          });
           // this.bookingForm.controls["cargo_content"].setValue("none");
           // this.bookingForm.controls["other_content"].setValue("none");
         }
-        
+        this.getCargoApproximateAmount();
         break;
 
       case "weight":
         this.bookingForm.controls["weight"].setValue(value.no_of_weight);
         this.approximateAmount = Number(value.price);
-        
+
         break;
 
       case "no_of_booking":
         this.bookingForm.controls["no_of_booking"].setValue(value);
-        
+
         break;
 
       case "time_slots":
         this.bookingForm.controls["time_slot"].setValue(value.id_slots);
         this.selected_time_slot = value.time_description;
-        
+
         break;
 
       case "type":
         this.bookingForm.controls["type"].setValue(value);
         this.changeTravelType(value == "Departure" ? 1 : 2);
-        this.bookingForm.controls["pickup_type"].setValue(value != "Departure" ? "Airport: Pickup Point": "Airport: Drop off Point");
+        this.bookingForm.controls["pickup_type"].setValue(
+          value != "Departure"
+            ? "Airport: Pickup Point"
+            : "Airport: Drop off Point"
+        );
         this.pickCityFunction();
         this.filterTimeSlot();
-        
+
         break;
 
       case "terminal":
@@ -796,7 +955,7 @@ export class BookingComponent implements OnInit {
           this.approximateAmount = 0;
           this.bookingForm.controls["bags"].setValue("");
         }
-        
+
         break;
 
       case "country":
@@ -810,28 +969,59 @@ export class BookingComponent implements OnInit {
         this.bookingForm.controls["bags"].setValue(1);
 
         // value == "Other Airlines"
-        value == "Other Airlines" ? this.bookingForm.controls["other_airline"].setValue("") : this.bookingForm.controls["other_airline"].setValue("none")
-        
+        value == "Other Airlines"
+          ? this.bookingForm.controls["other_airline"].setValue("")
+          : this.bookingForm.controls["other_airline"].setValue("none");
+
         // subscription_details.show_coupons true then are distance based price calculated
         // && this.subscription_details.used_tokens.length != 0
-        this.subscription_details.show_coupons ? this.getSupscriptionPrice() : null
-        
+        this.subscription_details.show_coupons
+          ? this.getSupscriptionPrice()
+          : null;
+
         break;
 
       case "pickup_type":
         this.bookingForm.controls["pickup_type"].setValue(value);
-        this.approximateAmount =  this.distance = 0;
-        this.selected_airport = this.fullAddressLine = "";
-        ["addressLineOne", "addressLineTwo", "addressCity", "addressPincodes", "airport_id",].map((res: any) => { this.bookingForm.controls[res].setValue("");});
-        
+        this.meetMin1 =
+          this.meetMin =
+          this.meetHour =
+          this.meetHour1 =
+          this.approximateAmount =
+            0;
+
+        this.approximateAmount = this.distance = 0;
+        this.selected_airport =
+          this.selected_time_slot =
+          this.fullAddressLine =
+            "";
+        [
+          "addressLineOne",
+          // "time_slot",
+          "addressLineTwo",
+          "addressCity",
+          "addressPincodes",
+          "airport_id",
+        ].map((res: any) => {
+          this.bookingForm.controls[res].setValue("");
+        });
+        value == "Airport: Pickup Point" || value == "Airport: Drop off Point"
+          ? this.bookingForm.controls["time_slot"].setValue("none")
+          : this.bookingForm.controls["time_slot"].setValue("");
+        this.selectTypeofWay(1);
+
         break;
 
       case "address":
         this.getdistance();
-        this.bookingForm.controls["addressLineOne"].setValue(value.pick_drop_address);
-        
+        this.bookingForm.controls["addressLineOne"].setValue(
+          value.pick_drop_address
+        );
+
         // subscription_details.show_coupons true then are distance based price calculated
-        this.subscription_details.show_coupons ? this.getSupscriptionPrice() : null
+        this.subscription_details.show_coupons
+          ? this.getSupscriptionPrice()
+          : null;
 
         this.bookingForm.controls["addressCity"].setValue("none");
         this.fullAddressLine = value.pick_drop_address;
@@ -846,79 +1036,138 @@ export class BookingComponent implements OnInit {
 
       case "airport":
         this.airport_city_name = "";
-        this.bookingForm.controls["airport_id"].setValue(Number(value.airport_name_id));
+        this.bookingForm.controls["airport_id"].setValue(
+          Number(value.airport_name_id)
+        );
         this.selected_airport = value.airport_name;
 
         this.selected_pincode_array.map((res) => {
-          if (Number(value.fk_tbl_city_of_operation_region_id) == Number(res.city_id)) {
+          if (
+            Number(value.fk_tbl_city_of_operation_region_id) ==
+            Number(res.city_id)
+          ) {
             this.bookingForm.controls["pincode"].setValue(res.pincode);
             this.bookingForm.controls["city_id"].setValue(res.city_id);
-            this.airport_city_name = res.city
+            this.airport_city_name = res.city;
           }
         });
 
-        ["addressLineOne","addressLineTwo","addressCity","addressPincodes",].map((res: any) => { this.bookingForm.controls[res].setValue("");});
+        [
+          "addressLineOne",
+          "addressLineTwo",
+          "addressCity",
+          "addressPincodes",
+        ].map((res: any) => {
+          this.bookingForm.controls[res].setValue("");
+        });
         this.fullAddressLine = this.addressPincode = "";
         this.approximateAmount = this.distance = 0;
 
         // subscription_details.show_coupons true then are distance based price calculated
-        this.subscription_details.show_coupons ? this.getSupscriptionPrice() : null
+        this.subscription_details.show_coupons
+          ? this.getSupscriptionPrice()
+          : null;
 
         // if airport servise selected call pick drop point api
-        this.bookingForm.controls["pickup_type"].value == "Airport: Drop off Point" || this.bookingForm.controls["pickup_type"].value == "Airport: Pickup Point" ? this.get_pick_drop_address() : null
-        
+        this.bookingForm.controls["pickup_type"].value ==
+          "Airport: Drop off Point" ||
+        this.bookingForm.controls["pickup_type"].value ==
+          "Airport: Pickup Point"
+          ? this.get_pick_drop_address()
+          : null;
+
         break;
 
       case "time_slot":
         this.bookingForm.controls["time_slot"].setValue(value.id_slots);
 
         // selected_time_slot base on depature and arraival
-        this.selected_time_slot = this.bookingForm.controls["type"].value == "Departure" ? value.time_description : value.slot_name;
+        this.selected_time_slot =
+          this.bookingForm.controls["type"].value == "Departure"
+            ? value.time_description
+            : value.slot_name;
         this.selectTimeSlot(value);
 
         // subscription_details.show_coupons true then are distance based price calculated
-        this.subscription_details.show_coupons ? this.getSupscriptionPrice() : null
+        this.subscription_details.show_coupons
+          ? this.getSupscriptionPrice()
+          : null;
 
         break;
 
       case "bags":
-        this.bookingForm.controls["bags"].setValue( Number(this.subscription_details.show_coupons ? value : value.no_of_bags));
+        this.bookingForm.controls["bags"].setValue(
+          Number(
+            this.subscription_details.show_coupons ? value : value.no_of_bags
+          )
+        );
 
         // this.token = this.bookingForm.controls["type"].value == "Departure" ? value.arrival_token : value.departure_token;
-        
-        // subscription_details.show_coupons true then are distance based price calculated
-        this.subscription_details.show_coupons ? this.getSupscriptionPrice() : null
 
+        // subscription_details.show_coupons true then are distance based price calculated
+        this.subscription_details.show_coupons
+          ? this.getSupscriptionPrice()
+          : null;
     }
   }
 
   // DateTime Picker value change
   datePickerOnChange() {
     // Lost Luggage/Item/Not Loaded means not remove the time slot value
-    this.bookingForm.controls["delivery_type"].value == "Lost Luggage/Item/Not Loaded" ? "" : this.bookingForm.controls["time_slot"].setValue("");
-    
-    this.selected_time_slot = this.delivery_date = this.afterBefore = this.show_delivery_time = "";
+    this.bookingForm.controls["pickup_type"].value == "Airport: Pickup Point" ||
+    this.bookingForm.controls["pickup_type"].value == "Airport: Drop off Point"
+      ? this.bookingForm.controls["time_slot"].setValue("none")
+      : this.bookingForm.controls["time_slot"].setValue("");
+    this.meetMin1 =
+      this.meetMin =
+      this.meetHour =
+      this.meetHour1 =
+      this.approximateAmount =
+        0;
+    // this.bookingForm.controls["delivery_type"].value == "Lost Luggage/Item/Not Loaded" ? "" : this.bookingForm.controls["time_slot"].setValue("");
+    this.selected_time_slot =
+      this.delivery_date =
+      this.afterBefore =
+      this.show_delivery_time =
+        "";
     this.showDate = this.selected_date_for_date_picker.toString().split(" ");
     this.timeSlotData1 = [];
     this.filterTimeSlot();
     this.show_select_date_one = new Date(this.selected_date_for_date_picker);
-    this.show_select_date_one = this.show_select_date_one.setDate(this.selected_date_for_date_picker.getDate());
+    this.show_select_date_one = this.show_select_date_one.setDate(
+      this.selected_date_for_date_picker.getDate()
+    );
     this.show_select_date_one = new Date(this.show_select_date_one);
     this.show_select_date_two = new Date(this.selected_date_for_date_picker);
-    this.show_select_date_two = this.show_select_date_two.setDate(this.selected_date_for_date_picker.getDate() + 1);
+    this.show_select_date_two = this.show_select_date_two.setDate(
+      this.selected_date_for_date_picker.getDate() + 1
+    );
     this.show_select_date_two = new Date(this.show_select_date_two);
     this.showMeetDrop = false;
+    if (
+      this.datePipe.transform(this.Currentdate) ==
+        this.datePipe.transform(this.selected_date_for_date_picker) &&
+      this.bookingForm.controls["delivery_type"].value == "Airport Transfer"
+    ) {
+      this.verify_date_time();
+    }
   }
 
   // get Time Solots from Api
   pickTimeSlotFunction() {
-    this.picktimeslot.getTimeslot(apis.TIME_SLOTS).subscribe((data: any) => { this.timeSlotData = data.slots; this.filterTimeSlot();});
+    this.picktimeslot.getTimeslot(apis.TIME_SLOTS).subscribe((data: any) => {
+      this.timeSlotData = data.slots;
+      this.filterTimeSlot();
+    });
   }
 
   // Filter time Slots
   filterTimeSlot() {
     this.filtered_tilme_slot = [];
-    let selectedDate = this.datePipe.transform( this.bookingForm.value.date, "dd MMM y");
+    let selectedDate = this.datePipe.transform(
+      this.selected_date_for_date_picker,
+      "dd MMM y"
+    );
     let todayDate = this.datePipe.transform(new Date(), "dd MMM y");
 
     if (this.bookingForm.controls["type"].value == "Departure") {
@@ -932,7 +1181,9 @@ export class BookingComponent implements OnInit {
           endMin = Number(strMin) + 30;
           if (i.slot_type === 0) {
             if (this.CurrentTime < endHour) {
-              this.CurrentTime === endH && this.CurrentMin > endMin ? null : this.filtered_tilme_slot.push(i)
+              this.CurrentTime === endH && this.CurrentMin > endMin
+                ? null
+                : this.filtered_tilme_slot.push(i);
             }
           }
         }
@@ -975,7 +1226,17 @@ export class BookingComponent implements OnInit {
       if (data.response) {
         let city_array = [];
         data.response.region.map((item: any) => {
-          if (item.region_id != 6 && item.region_id != 7 && item.region_id != 11 && item.region_id != 4 && item.region_id != 8 && item.region_id != 9 && item.region_id != 10 && item.region_id != 12 && item.region_id != 13) {
+          if (
+            item.region_id != 6 &&
+            item.region_id != 7 &&
+            item.region_id != 11 &&
+            item.region_id != 4 &&
+            item.region_id != 8 &&
+            item.region_id != 9 &&
+            item.region_id != 10 &&
+            item.region_id != 12 &&
+            item.region_id != 13
+          ) {
             if (item.region_name === "Mumbai") {
               item.region_name = "Mumbai & Navi Mumbai";
             }
@@ -995,81 +1256,136 @@ export class BookingComponent implements OnInit {
     this.crud.get(apis.COUNTRY_CODES).subscribe((data: any) => {
       this.countryCodeList = data.codes;
       this.bookingForm.controls["country"].setValue("91");
-      this.selectedCountry = this.countryCodeList.find((c) => c.country_code === "91");
+      this.selectedCountry = this.countryCodeList.find(
+        (c) => c.country_code === "91"
+      );
     });
   }
 
   // address submit values
   submitAddress(type) {
     if (type == 1) {
-      if (this.bookingForm.controls["delivery_type"].value != "Airport Transfer") {
+      if (
+        this.bookingForm.controls["delivery_type"].value != "Airport Transfer"
+      ) {
         if (this.bookingForm.controls["addressLineTwo"].value != "") {
-          this.fullAddressLine = this.bookingForm.controls["addressLineTwo"].value + ", " + this.bookingForm.controls["addressLineOne"].value;
+          this.fullAddressLine =
+            this.bookingForm.controls["addressLineTwo"].value +
+            ", " +
+            this.bookingForm.controls["addressLineOne"].value;
         } else if (this.bookingForm.controls["addressLineTwo"].value == "") {
-          this.fullAddressLine = this.bookingForm.controls["addressLineOne"].value;
+          this.fullAddressLine =
+            this.bookingForm.controls["addressLineOne"].value;
         }
       }
-      this.bookingForm.controls["delivery_type"].value == "Airport Transfer" || this.bookingForm.controls["delivery_type"].value =="Lost Luggage/Item/Not Loaded" ? this.show_pincode == true ? this.getPrice() : this.submitAddress1(): (this.showAddressDropDown = this.showAddressDropDownDelivery = false);
+      this.bookingForm.controls["delivery_type"].value == "Airport Transfer" ||
+      this.bookingForm.controls["delivery_type"].value ==
+        "Lost Luggage/Item/Not Loaded"
+        ? this.show_pincode == true
+          ? this.getPrice()
+          : this.submitAddress1()
+        : (this.showAddressDropDown = this.showAddressDropDownDelivery = false);
     } else if (type == 2) {
       if (this.bookingForm.controls["deliveryAddressLineTwo"].value != "") {
-        this.fullDeliveryAddressLine = this.bookingForm.controls["deliveryAddressLineTwo"].value + ", " + this.bookingForm.controls["deliveryAddressLineOne"].value;
-      } else if (this.bookingForm.controls["deliveryAddressLineTwo"].value == "") {
-        this.fullDeliveryAddressLine = this.bookingForm.controls["deliveryAddressLineOne"].value;
+        this.fullDeliveryAddressLine =
+          this.bookingForm.controls["deliveryAddressLineTwo"].value +
+          ", " +
+          this.bookingForm.controls["deliveryAddressLineOne"].value;
+      } else if (
+        this.bookingForm.controls["deliveryAddressLineTwo"].value == ""
+      ) {
+        this.fullDeliveryAddressLine =
+          this.bookingForm.controls["deliveryAddressLineOne"].value;
       }
       this.showAddressDropDown = this.showAddressDropDownDelivery = false;
     }
   }
 
-  getPrice(){
+  getPrice() {
+    if (
+      this.bookingForm.controls["delivery_type"].value !=
+      "Lost Luggage/Item/Not Loaded"
+    ) {
+      this.selected_time_slot = this.delivery_date = "";
+      this.bookingForm.get("time_slot").setValue("");
+    }
+
     if (this.bookingForm.controls["addressLineTwo"].value != "") {
-      this.fullAddressLine = this.bookingForm.controls["addressLineTwo"].value + ", " + this.bookingForm.controls["addressLineOne"].value;
-    } 
-    else if (this.bookingForm.controls["addressLineTwo"].value == "") {
+      this.fullAddressLine =
+        this.bookingForm.controls["addressLineTwo"].value +
+        ", " +
+        this.bookingForm.controls["addressLineOne"].value;
+    } else if (this.bookingForm.controls["addressLineTwo"].value == "") {
       this.fullAddressLine = this.bookingForm.controls["addressLineOne"].value;
     }
     this.getdistance();
     this.showAddressDropDown = this.showAddressDropDownDelivery = false;
-    this.fullAddressLine.includes(this.bookingForm.controls["addressPincodes"].value) ? null : (this.fullAddressLine = this.fullAddressLine + " " + this.bookingForm.controls["addressPincodes"].value);
+    this.fullAddressLine.includes(
+      this.bookingForm.controls["addressPincodes"].value
+    )
+      ? null
+      : (this.fullAddressLine =
+          this.fullAddressLine +
+          " " +
+          this.bookingForm.controls["addressPincodes"].value);
   }
 
   submitAddress1() {
-    this.selected_time_slot = this.delivery_date = "";
-    this.bookingForm.controls["delivery_type"].value == "Lost Luggage/Item/Not Loaded" ? null : this.bookingForm.controls["time_slot"].setValue("");
+    if (
+      this.bookingForm.controls["delivery_type"].value !=
+      "Lost Luggage/Item/Not Loaded"
+    ) {
+      this.selected_time_slot = this.delivery_date = "";
+      this.bookingForm.get("time_slot").setValue("");
+    }
+
     this.approximateAmount = 0;
     var result;
 
     // get picode details api
-    this.pickairport.getPincode(this.bookingForm.controls["addressPincodes"].value ? this.bookingForm.controls["addressPincodes"].value : "null").subscribe((res) => {
-      result = res;
-      if (this.bookingForm.controls["addressPincodes"].value == "") {
-        this.printToastMsg("Pincode is Mandatory");
-      } 
-      else if ((result.results && result.results.length == 0) || this.bookingForm.controls["addressPincodes"].value.toString().length != 6) {
-        this.printToastMsg("Enter Valid Pincode");
-        this.bookingForm.controls["addressPincodes"].setValue("");
-      } 
-      else {
-        let cnt = 0;
-        result.results.map((res: any) => {
-          if (res.place_id && res.place_id == this.place_id) {
-            cnt += 1;
-          }
-          if (res.postcode_localities && res.postcode_localities.length != 0) {
-            res.postcode_localities.map((post: any) => {
-              if (this.area == post || this.locality_name == post) {
-                cnt += 1;
-              }
-            });
-          }
-        });
-        if (cnt != 0) {
-          // if (this.bookingForm.controls["addressLineTwo"].value != "") {
-          //   this.fullAddressLine = this.bookingForm.controls["addressLineTwo"].value + ", " + this.bookingForm.controls["addressLineOne"].value;
-          //   } 
-          //   else if (this.bookingForm.controls["addressLineTwo"].value == "") {
-          //     this.fullAddressLine = this.bookingForm.controls["addressLineOne"].value;
-          //   }
-            this.addressPincode = this.bookingForm.controls["addressPincodes"].value;
+    this.pickairport
+      .getPincode(
+        this.bookingForm.controls["addressPincodes"].value
+          ? this.bookingForm.controls["addressPincodes"].value
+          : "null"
+      )
+      .subscribe((res) => {
+        result = res;
+        if (this.bookingForm.controls["addressPincodes"].value == "") {
+          this.printToastMsg("Pincode is Mandatory");
+        } else if (
+          (result.results && result.results.length == 0) ||
+          this.bookingForm.controls["addressPincodes"].value.toString()
+            .length != 6
+        ) {
+          this.printToastMsg("Enter Valid Pincode");
+          this.bookingForm.controls["addressPincodes"].setValue("");
+        } else {
+          let cnt = 0;
+          result.results.map((res: any) => {
+            if (res.place_id && res.place_id == this.place_id) {
+              cnt += 1;
+            }
+            if (
+              res.postcode_localities &&
+              res.postcode_localities.length != 0
+            ) {
+              res.postcode_localities.map((post: any) => {
+                if (this.area == post || this.locality_name == post) {
+                  cnt += 1;
+                }
+              });
+            }
+          });
+          if (cnt != 0) {
+            // if (this.bookingForm.controls["addressLineTwo"].value != "") {
+            //   this.fullAddressLine = this.bookingForm.controls["addressLineTwo"].value + ", " + this.bookingForm.controls["addressLineOne"].value;
+            //   }
+            //   else if (this.bookingForm.controls["addressLineTwo"].value == "") {
+            //     this.fullAddressLine = this.bookingForm.controls["addressLineOne"].value;
+            //   }
+            this.addressPincode =
+              this.bookingForm.controls["addressPincodes"].value;
             this.getPrice();
             // this.getdistance();
             // this.showAddressDropDown = this.showAddressDropDownDelivery = false;
@@ -1086,50 +1402,67 @@ export class BookingComponent implements OnInit {
   //   this.show_pincode = true ? this.setSurfaceAddress() : this.cargoPicodeVerification();
   // }
 
-  setSurfaceAddress(){
+  setSurfaceAddress() {
     if (this.bookingForm.controls["deliveryAddressLineTwo"].value != "") {
-      this.fullDeliveryAddressLine = this.bookingForm.controls["deliveryAddressLineTwo"].value + ", " + this.bookingForm.controls["deliveryAddressLineOne"].value;
-    } else if (this.bookingForm.controls["deliveryAddressLineTwo"].value == "") {
-      this.fullDeliveryAddressLine = this.bookingForm.controls["deliveryAddressLineOne"].value;
+      this.fullDeliveryAddressLine =
+        this.bookingForm.controls["deliveryAddressLineTwo"].value +
+        ", " +
+        this.bookingForm.controls["deliveryAddressLineOne"].value;
+    } else if (
+      this.bookingForm.controls["deliveryAddressLineTwo"].value == ""
+    ) {
+      this.fullDeliveryAddressLine =
+        this.bookingForm.controls["deliveryAddressLineOne"].value;
     }
     this.showAddressDropDown = this.showAddressDropDownDelivery = false;
-    this.fullDeliveryAddressLine.includes(this.bookingForm.controls["addressPincodes"].value) ? null : (this.fullDeliveryAddressLine = this.fullDeliveryAddressLine + " " + this.deliveryPincode);
+    this.fullDeliveryAddressLine.includes(
+      this.bookingForm.controls["addressPincodes"].value
+    )
+      ? null
+      : (this.fullDeliveryAddressLine =
+          this.fullDeliveryAddressLine + " " + this.deliveryPincode);
   }
 
   // cargo Rush surface address handling
-  cargoPicodeVerification(){
+  cargoPicodeVerification() {
     var result;
-    this.pickairport.getPincode( this.deliveryPincode ? this.deliveryPincode : "null").subscribe((res) => {
-      result = res;
-      if (this.deliveryPincode == "") {
-        this.printToastMsg("Pincode is Mandatory");
-      } 
-      else if ((result.results && result.results.length == 0) || this.deliveryPincode.toString().length != 6) {
-        this.printToastMsg("Enter Valid Pincode");
-        this.deliveryPincode = "";
-      } 
-      else {
-        let cnt = 0;
-        result.results.map((res: any) => {
-          if (res.place_id && res.place_id == this.place_id) {
-            cnt += 1;
-          }
-          if (res.postcode_localities && res.postcode_localities.length != 0) {
-            res.postcode_localities.map((post: any) => {
-              if (this.secondArea == post || this.locality_name == post) {
-                cnt += 1;
-              }
-            });
-          }
-        });
-        if (cnt != 0) {
-          this.setSurfaceAddress();
-        } else {
-          this.printToastMsg("Pincode and Selected City Should be Same");
+    this.pickairport
+      .getPincode(this.deliveryPincode ? this.deliveryPincode : "null")
+      .subscribe((res) => {
+        result = res;
+        if (this.deliveryPincode == "") {
+          this.printToastMsg("Pincode is Mandatory");
+        } else if (
+          (result.results && result.results.length == 0) ||
+          this.deliveryPincode.toString().length != 6
+        ) {
+          this.printToastMsg("Enter Valid Pincode");
           this.deliveryPincode = "";
+        } else {
+          let cnt = 0;
+          result.results.map((res: any) => {
+            if (res.place_id && res.place_id == this.place_id) {
+              cnt += 1;
+            }
+            if (
+              res.postcode_localities &&
+              res.postcode_localities.length != 0
+            ) {
+              res.postcode_localities.map((post: any) => {
+                if (this.secondArea == post || this.locality_name == post) {
+                  cnt += 1;
+                }
+              });
+            }
+          });
+          if (cnt != 0) {
+            this.setSurfaceAddress();
+          } else {
+            this.printToastMsg("Pincode and Selected City Should be Same");
+            this.deliveryPincode = "";
+          }
         }
-      }
-    });
+      });
   }
 
   // handle google address values
@@ -1141,60 +1474,89 @@ export class BookingComponent implements OnInit {
     this.approximateAmount = 0;
     let address = "";
     let add = e.address_components.length;
-    this.bookingForm.controls["fulladdress"].setValue(e.name + ", " + e.formatted_address);
+    this.bookingForm.controls["fulladdress"].setValue(
+      e.name + ", " + e.formatted_address
+    );
     this.bookingForm.controls["addressPincodes"].setValue("");
 
     this.place_id = e.place_id ? e.place_id : "";
     for (let i = 0; i < add; i++) {
       if (e.address_components[i].types[0] == "postal_code") {
+        e.address_components[i].long_name
+          ? (this.addressPincode = e.address_components[i].long_name)
+          : "";
 
-        e.address_components[i].long_name ? (this.addressPincode = e.address_components[i].long_name) : "";
+        e.address_components[i].long_name
+          ? (this.show_pincode = true)
+          : (this.show_pincode = false);
 
-        e.address_components[i].long_name ? this.show_pincode = true : this.show_pincode = false;
-
-        this.bookingForm.controls["addressPincodes"].setValue(e.address_components[i].long_name ? e.address_components[i].long_name : "");
+        this.bookingForm.controls["addressPincodes"].setValue(
+          e.address_components[i].long_name
+            ? e.address_components[i].long_name
+            : ""
+        );
       }
-      if (e.address_components[i].types[0] == "locality" || e.address_components[i].types[0] == "administrative_area_level_2") {
-        
-        e.address_components[i].types[0] == "locality" ? this.locality_name = e.address_components[i].long_name : null;
+      if (
+        e.address_components[i].types[0] == "locality" ||
+        e.address_components[i].types[0] == "administrative_area_level_2"
+      ) {
+        e.address_components[i].types[0] == "locality"
+          ? (this.locality_name = e.address_components[i].long_name)
+          : null;
 
-        if(!this.cityName){
-          console.log('Locality cityname ', e.address_components[i].long_name);
+        if (!this.cityName) {
+          console.log("Locality cityname ", e.address_components[i].long_name);
           this.cityName = e.address_components[i].long_name;
           // this.locality_name = e.address_components[i].long_name;
         }
-       
-        if(e.address_components[i].types[0] == "administrative_area_level_2"){
-          console.log('dministration city 2', e.address_components[i].long_name);
-          ["Thane","Navi Mumbai","Mumbai",'Bengaluru Urban',"Ghaziabad",'Greater Noida','Faridabad','Gurugram','Noida','New Delhi'].map((res)=>{
-            if(e.address_components[i].long_name == res){
-              console.log('administration city checking', e.address_components[i].long_name , res )
+
+        if (e.address_components[i].types[0] == "administrative_area_level_2") {
+          console.log(
+            "dministration city 2",
+            e.address_components[i].long_name
+          );
+          [
+            "Thane",
+            "Navi Mumbai",
+            "Mumbai",
+            "Bengaluru Urban",
+            "Ghaziabad",
+            "Greater Noida",
+            "Faridabad",
+            "Gurugram",
+            "Noida",
+            "New Delhi",
+          ].map((res) => {
+            if (e.address_components[i].long_name == res) {
+              console.log(
+                "administration city checking",
+                e.address_components[i].long_name,
+                res
+              );
               this.cityName = e.address_components[i].long_name;
               // this.locality_name = e.address_components[i].long_name;
             }
-          })
+          });
         }
 
-        if (this.cityName == "Bengaluru" || this.cityName == 'Bengaluru Urban') {
+        if (
+          this.cityName == "Bengaluru" ||
+          this.cityName == "Bengaluru Urban"
+        ) {
           this.cityName = "Bangalore";
-        }
-        
-        else if (
+        } else if (
           this.cityName == "Mumbai" ||
           this.cityName == "Navi Mumbai" ||
           this.cityName == "Thane"
         ) {
           this.cityName = "Mumbai & Navi Mumbai";
-        }
-
-        else if (
+        } else if (
           this.cityName == "Mumbai" ||
           this.cityName == "Navi Mumbai" ||
           this.cityName == "Thane"
         ) {
           this.cityName = "Mumbai & Navi Mumbai";
-        } 
-        else if (
+        } else if (
           this.cityName === "New Delhi" ||
           this.cityName === "Noida" ||
           this.cityName === "Gurugram" ||
@@ -1220,28 +1582,52 @@ export class BookingComponent implements OnInit {
       }
     }
     this.address = e.name + ", " + address;
-    console.log('address city name  ',this.cityName);
+    console.log("address city name  ", this.cityName);
     if (
       country === "India" ||
       this.cityName == "Jammu" ||
       this.cityName == "Kashmir"
     ) {
       this.bookingForm.controls["addressCity"].setValue(this.cityName);
-      this.bookingForm.controls["addressLineOne"].setValue(e.name + ", " + e.formatted_address);
+      this.bookingForm.controls["addressLineOne"].setValue(
+        e.name + ", " + e.formatted_address
+      );
     } else {
       this.printToastMsg("country is not serviceable");
       this.showAddressDropDown = false;
-      ["addressLineOne","addressPincodes", "fulladdress","addressCity", "addressLineTwo",].map((res) => {this.bookingForm.controls[res].setValue("");});
+      [
+        "addressLineOne",
+        "addressPincodes",
+        "fulladdress",
+        "addressCity",
+        "addressLineTwo",
+      ].map((res) => {
+        this.bookingForm.controls[res].setValue("");
+      });
     }
   }
 
   // close dropdown
   autoCloseForDropdown(event) {
     var target = event.target;
-    if (!target.closest(".customDropdownAddressLocal") &&!target.closest(".custom-snackbar")) {
-      if((this.deliveryPincode == "" || !this.deliveryPincode) && this.showAddressDropDownDelivery && this.bookingForm.controls['cargo_terminal'].value == 'Rush Surface'){
+    if (
+      !target.closest(".customDropdownAddressLocal") &&
+      !target.closest(".custom-snackbar")
+    ) {
+      if (
+        (this.deliveryPincode == "" || !this.deliveryPincode) &&
+        this.showAddressDropDownDelivery &&
+        this.bookingForm.controls["cargo_terminal"].value == "Rush Surface"
+      ) {
         this.deliveryPincode = this.fullDeliveryAddressLine = "";
-        ["deliveryAddressLineOne","fullDeliveryAddress","deliveryAddressCity","deliveryAddressLineTwo"].map((res) => {this.bookingForm.controls[res].setValue("");})
+        [
+          "deliveryAddressLineOne",
+          "fullDeliveryAddress",
+          "deliveryAddressCity",
+          "deliveryAddressLineTwo",
+        ].map((res) => {
+          this.bookingForm.controls[res].setValue("");
+        });
       }
       this.showAddressDropDown = this.showAddressDropDownDelivery = false;
     }
@@ -1250,12 +1636,14 @@ export class BookingComponent implements OnInit {
   bagsDropdownOnClick(event) {
     var target = event.target;
     if (target.closest(".bagsDropdown")) {
-      console.log('enter success')
-      if(this.subscription_details.show_coupons && this.subscription_details.used_tokens.length == 0) {
+      console.log("enter success");
+      if (
+        this.subscription_details.show_coupons &&
+        this.subscription_details.used_tokens.length == 0
+      ) {
         this.printToastMsg("Please select the subscription coupon");
       }
     }
-     
   }
 
   // get state list
@@ -1274,7 +1662,18 @@ export class BookingComponent implements OnInit {
 
   // Change travel type
   changeTravelType(num) {
-    this.selected_time_slot = this.selected_city = this.selected_airport = this.fullAddressLine = this.show_state = this.showAirport = this.delivery_date = this.delivery_date = this.afterBefore = this.show_delivery_time = this.addressPincode = "";
+    this.selected_time_slot =
+      this.selected_city =
+      this.selected_airport =
+      this.fullAddressLine =
+      this.show_state =
+      this.showAirport =
+      this.delivery_date =
+      this.delivery_date =
+      this.afterBefore =
+      this.show_delivery_time =
+      this.addressPincode =
+        "";
     this.selectBox = this.travel_type = 1;
     this.type_of_services = num;
     this.airports = [];
@@ -1282,18 +1681,39 @@ export class BookingComponent implements OnInit {
 
     this.filterAirports();
 
-    this.bookingForm.controls["delivery_type"].value == "Lost Luggage/Item/Not Loaded" ? this.bookingForm.controls["pickup_type"].setValue('Doorstep Delivery') : this.bookingForm.controls["pickup_type"].setValue(this.bookingForm.controls["type"].value != "Departure" ? "Airport: Pickup Point" : "Airport: Drop off Point" );
+    this.bookingForm.controls["delivery_type"].value ==
+    "Lost Luggage/Item/Not Loaded"
+      ? this.bookingForm.controls["pickup_type"].setValue("Doorstep Delivery")
+      : this.bookingForm.controls["pickup_type"].setValue(
+          this.bookingForm.controls["type"].value != "Departure"
+            ? "Airport: Pickup Point"
+            : "Airport: Drop off Point"
+        );
 
-    ["term", "addressPincodes", "addressLineOne", "addressLineTwo", "addressCity", "city_id", "airport_id", "pincode", "other_airline_no",].map((res: any) => {
+    [
+      "term",
+      "addressPincodes",
+      "addressLineOne",
+      "addressLineTwo",
+      "addressCity",
+      "city_id",
+      "airport_id",
+      "pincode",
+      "other_airline_no",
+    ].map((res: any) => {
       this.bookingForm.controls[res].setValue(res == "term" ? false : "");
     });
 
-    this.bookingForm.controls["delivery_type"].value == "Lost Luggage/Item/Not Loaded" ? "" : this.bookingForm.controls["time_slot"].setValue("");
+    this.bookingForm.controls["delivery_type"].value ==
+    "Lost Luggage/Item/Not Loaded"
+      ? ""
+      : this.bookingForm.controls["time_slot"].setValue("");
+    this.bookingForm.controls["time_slot"].setValue("none");
+
     this.bookingForm.controls["pnr"].reset();
     this.bookingForm.controls["term"].setValue(false);
     this.approximateAmount = 0;
   }
-
 
   get_bags() {
     switch (this.bookingForm.controls["airline"].value) {
@@ -1326,7 +1746,10 @@ export class BookingComponent implements OnInit {
     this.bookingForm.controls["time_slot"].setValue(value.id_slots);
     let times = value.slot_end_time;
     let timenumber = times.slice(0, 2);
-    if (this.bookingForm.controls["type"].value == "Departure" && this.bookingForm.controls["transfer_type"].value == "Local") {
+    if (
+      this.bookingForm.controls["type"].value == "Departure" &&
+      this.bookingForm.controls["transfer_type"].value == "Local"
+    ) {
       this.nextDate = null;
       if (value.id_slots === 5) {
         this.timeOnwards = 14;
@@ -1376,7 +1799,10 @@ export class BookingComponent implements OnInit {
         this.show_delivery_time = this.timeOnwards + ":00";
       }
     }
-    if (this.bookingForm.controls["type"].value == "Arrival" && this.bookingForm.controls["transfer_type"].value == "Local") {
+    if (
+      this.bookingForm.controls["type"].value == "Arrival" &&
+      this.bookingForm.controls["transfer_type"].value == "Local"
+    ) {
       this.nextDate = null;
       if (value.id_slots === 5) {
         this.timeOnwards = 15;
@@ -1396,7 +1822,10 @@ export class BookingComponent implements OnInit {
         this.afterBefore = "Before";
       }
     }
-    if (this.bookingForm.controls["type"].value == "Arrival" &&this.bookingForm.controls["transfer_type"].value == "Outstation") {
+    if (
+      this.bookingForm.controls["type"].value == "Arrival" &&
+      this.bookingForm.controls["transfer_type"].value == "Outstation"
+    ) {
       this.nextDate = null;
       if (value.id_slots === 5) {
         this.timeOnwards = 15;
@@ -1421,7 +1850,10 @@ export class BookingComponent implements OnInit {
         this.afterBefore = "Before";
       }
     }
-    if (this.bookingForm.controls["type"].value == "Departure" &&this.bookingForm.controls["transfer_type"].value == "Outstation") {
+    if (
+      this.bookingForm.controls["type"].value == "Departure" &&
+      this.bookingForm.controls["transfer_type"].value == "Outstation"
+    ) {
       this.nextDate = null;
       if (value.id_slots === 5) {
         this.timeOnwards = 14;
@@ -1490,19 +1922,27 @@ export class BookingComponent implements OnInit {
     };
 
     if (this.bookingForm.controls["airline"].value) {
-      this.crud.postWithCorporateTokenAirline(CORPORATE_APIS.GET_APPROX_AMOUNT_CALCULATION, reqBody, this.token, formValue.airline, formValue.transfer_type == "Outstation" ? 2 : 1)
+      this.crud
+        .postWithCorporateTokenAirline(
+          CORPORATE_APIS.GET_APPROX_AMOUNT_CALCULATION,
+          reqBody,
+          this.token,
+          formValue.airline,
+          formValue.transfer_type == "Outstation" ? 2 : 1
+        )
         .pipe(throttleTime(250))
         .subscribe(
           (data: any) => {
             this.priceDetailsRes = data;
             amount = Math.round(data.price_details.price_with_gst);
-            if (this.bookingForm.controls["transfer_type"].value == "Outstation") {
-
+            if (
+              this.bookingForm.controls["transfer_type"].value == "Outstation"
+            ) {
               for (var x = 0; x <= this.states.length - 1; x++) {
-
                 // jammu and north east state
                 if (this.stateName === this.states[x]) {
-                  this.convenienceCharge = data.conveyance_charge[8].total_price;
+                  this.convenienceCharge =
+                    data.conveyance_charge[8].total_price;
                   this.luggageGst = data.conveyance_charge[8].gst_price;
                   break;
                 }
@@ -1541,7 +1981,10 @@ export class BookingComponent implements OnInit {
                 }
 
                 // serviceable city
-                if (this.airport_city_name == this.bookingForm.controls['addressCity'].value) {
+                if (
+                  this.airport_city_name ==
+                  this.bookingForm.controls["addressCity"].value
+                ) {
                   // same city
                   if (this.distance <= 60) {
                     this.convenienceCharge =
@@ -1572,22 +2015,36 @@ export class BookingComponent implements OnInit {
                       data.conveyance_charge[6].total_price;
                     this.luggageGst = data.conveyance_charge[6].gst_price;
                   }
-                }
-                else {
+                } else {
                   // other serviceable city
-                  for (var y = 0; y <= this.exsistingCityArray.length - 1; y++) {
-                    if (this.bookingForm.controls['addressCity'].value == this.exsistingCityArray[y]) {
-                      this.convenienceCharge = data.conveyance_charge[7].total_price;
+                  for (
+                    var y = 0;
+                    y <= this.exsistingCityArray.length - 1;
+                    y++
+                  ) {
+                    if (
+                      this.bookingForm.controls["addressCity"].value ==
+                      this.exsistingCityArray[y]
+                    ) {
+                      this.convenienceCharge =
+                        data.conveyance_charge[7].total_price;
                       this.luggageGst = data.conveyance_charge[7].gst_price;
                       break;
                     }
                   }
                 }
-                console.log('airport city and address city',this.airport_city_name +'       ' + this.bookingForm.controls['addressCity'].value)
+                console.log(
+                  "airport city and address city",
+                  this.airport_city_name +
+                    "       " +
+                    this.bookingForm.controls["addressCity"].value
+                );
               }
 
               if (amount != 0) {
-                this.approximateAmount = Math.round( Number(this.convenienceCharge) + Number(amount));
+                this.approximateAmount = Math.round(
+                  Number(this.convenienceCharge) + Number(amount)
+                );
                 this.loading = false;
               }
             } else if (
@@ -1602,37 +2059,55 @@ export class BookingComponent implements OnInit {
     }
   }
 
+  razorpay_payment_id :any
   //Proccessed to pay
   proceedToPay() {
     this.submitted = true;
+    let obj = JSON.parse(localStorage.getItem("loginUserDetails"));
 
     if (this.bookingForm.valid) {
       if (this.bookingForm.controls["term"].value != false) {
-
-        if (localStorage.loginUserDetails || this.bookingForm.controls['delivery_type'].value == 'Cargo Transfer') {
-
-          if ((this.subscription_details.subscription_tokens.length !=0) || this.bookingForm.controls['delivery_type'].value == 'Cargo Transfer') {
-
-            if ((this.subscription_details.used_tokens.length !=0) || this.bookingForm.controls['delivery_type'].value == 'Cargo Transfer') {
-
+        if (
+          localStorage.loginUserDetails ||
+          this.bookingForm.controls["delivery_type"].value == "Cargo Transfer"
+        ) {
+          if (
+            this.subscription_details.subscription_tokens.length != 0 ||
+            this.bookingForm.controls["delivery_type"].value == "Cargo Transfer"
+          ) {
+            if (
+              this.subscription_details.used_tokens.length != 0 ||
+              this.bookingForm.controls["delivery_type"].value ==
+                "Cargo Transfer"
+            ) {
               if (this.approximateAmount) {
                 const formValue = { ...this.bookingForm.value };
                 let options = {
                   key: environment.razorPayKey,
-                  amount: this.bookingForm.controls["delivery_type"].value == "Airport Transfer" ? Number(this.approximateAmount) * 100 : Number(this.getAmount()) * 100,
+                  amount:
+                    this.bookingForm.controls["delivery_type"].value ==
+                    "Airport Transfer"
+                      ? Number(this.approximateAmount) * 100
+                      : Number(this.getAmount()) * 100,
                   currency: "INR",
                   name: "CarterPorter",
                   description: "Payment towards Carter",
-                  image: "https://cdn.razorpay.com/logos/Du4P7LfElD9azm_medium.jpg",
+                  image:
+                    "https://cdn.razorpay.com/logos/Du4P7LfElD9azm_medium.jpg",
 
                   handler: (response) => {
-                    this.ngZone.run(() => 
-                    formValue.delivery_type == "Airport Transfer" || formValue.delivery_type == "Lost Luggage/Item/Not Loaded" ?  this.place_subscription_order() : this.placeCargoOrder());
+                    this.razorpay_payment_id = response.razorpay_payment_id;
+                    this.ngZone.run(() =>
+                      formValue.delivery_type == "Airport Transfer" ||
+                      formValue.delivery_type == "Lost Luggage/Item/Not Loaded"
+                        ? this.place_subscription_order()
+                        : this.placeCargoOrder()
+                    );
                   },
                   prefill: {
-                    name: formValue.name,
-                    email: formValue.email,
-                    contact: formValue.mobile_number,
+                    name: this.selected ? obj.customer_detail.name : formValue.name,
+                    email: this.selected ? obj.customer_detail.email : formValue.email.toLowerCase(),
+                    contact: this.selected ? obj.customer_detail.mobile: formValue.mobile_number,
                   },
                   notes: {
                     address: "note value",
@@ -1648,44 +2123,45 @@ export class BookingComponent implements OnInit {
                           instruments: [
                             {
                               method: "card",
-                              issuers: ["ICIC"]
+                              issuers: ["ICIC"],
                             },
                             {
                               method: "netbanking",
-                              banks: ["ICIC"]
+                              banks: ["ICIC"],
                             },
-                          ]
+                          ],
                         },
                       },
                       hide: [
                         {
-                        method: "upi"
-                        }
+                          method: "upi",
+                        },
                       ],
                       sequence: ["block.icic"],
                       preferences: {
-                        show_default_blocks: false // Should Checkout show its default blocks?
-                      }
-                    }
+                        show_default_blocks: false, // Should Checkout show its default blocks?
+                      },
+                    },
                   },
                 };
                 const rzp1 = new Razorpay(options);
                 rzp1.open();
               } else {
-                this.printToastMsg("Something went wrong Please try again later");
+                this.printToastMsg(
+                  "Something went wrong Please try again later"
+                );
               }
-
-            }else{
+            } else {
               this.printToastMsg("Please Use subscription coupons for booking");
               console.log("--------", this.bookingForm);
             }
-
-          }else{
-            this.printToastMsg("Please purchase subscription coupons and use for make booking");
+          } else {
+            this.printToastMsg(
+              "Please purchase subscription coupons and use for make booking"
+            );
             console.log("--------", this.bookingForm);
           }
-
-        }else{
+        } else {
           this.printToastMsg("Please Login and use subscription coupons");
           console.log("--------", this.bookingForm);
         }
@@ -1703,6 +2179,16 @@ export class BookingComponent implements OnInit {
   placeOrder() {
     const priceDetails = this.priceDetailsRes;
     const itemsOrder = [];
+
+    var customer_id;
+    var login_details = localStorage.loginUserDetails
+      ? JSON.parse(localStorage.loginUserDetails)
+      : null;
+
+    if (login_details) {
+      customer_id = login_details.customer_detail.id_customer;
+    }
+
     const bagItems = priceDetails.price_details.items;
     for (const key in bagItems) {
       if (bagItems.hasOwnProperty(key)) {
@@ -1716,10 +2202,66 @@ export class BookingComponent implements OnInit {
 
     this.ngxSpinner.show();
     const formValue = { ...this.bookingForm.value };
+
+    var delivery_date_current;
+    var curDate = new Date(
+      new Date().getFullYear(),
+      new Date().getMonth(),
+      new Date().getDate() + (formValue.transfer_type == "Outstation" ? 3 : 1),
+      10,
+      33,
+      30,
+      0
+    );
+    let date, month, year;
+    if (
+      this.datePipe.transform(new Date(), "dd MMM y") ==
+      this.datePipe.transform(this.selected_date_for_date_picker, "dd MMM y")
+    ) {
+      date = curDate.getDate();
+      month = curDate.getMonth() + 1;
+      year = curDate.getFullYear();
+      delivery_date_current =
+        year +
+        "-" +
+        (month < 10 ? "0" + month.toString() : month) +
+        "-" +
+        (date < 10 ? "0" + date.toString() : date);
+    } else {
+      let dt = new Date(this.selected_date_for_date_picker);
+      dt = new Date(
+        dt.getFullYear(),
+        dt.getMonth(),
+        dt.getDate() + (formValue.transfer_type == "Outstation" ? 3 : 1),
+        10,
+        33,
+        30,
+        0
+      );
+      date = dt.getDate() + (formValue.transfer_type == "Outstation" ? 3 : 0);
+      month = dt.getMonth() + 1;
+      year = dt.getFullYear();
+      delivery_date_current =
+        year +
+        "-" +
+        (month < 10 ? "0" + month.toString() : month) +
+        "-" +
+        (date < 10 ? "0" + date.toString() : date);
+    }
+
     const reqBody = {
       terminal_type: formValue.terminal == "Domestic Travel" ? 2 : 1,
-      pick_drop_point: formValue.delivery_type == "Airport Transfer" ? (formValue.pickup_type == "Airport: Drop off Point" || formValue.pickup_type == "Airport: Pickup Point" ? 1 : 2 ) : 2,
-      pick_drop_address: this.pick_drop_details.length !=0 ? Number(this.pick_drop_details[0].pick_drop_id): "",
+      pick_drop_point:
+        formValue.delivery_type == "Airport Transfer"
+          ? formValue.pickup_type == "Airport: Drop off Point" ||
+            formValue.pickup_type == "Airport: Pickup Point"
+            ? 1
+            : 2
+          : 2,
+      pick_drop_address:
+        this.pick_drop_details.length != 0
+          ? Number(this.pick_drop_details[0].pick_drop_id)
+          : "",
       order_type: 3,
       transfer_type: 2,
       airport_name: formValue.airport_id,
@@ -1730,8 +2272,14 @@ export class BookingComponent implements OnInit {
       excess_weight: 0,
       bag_weight: 0,
       no_of_units: Number(formValue.bags),
-      email: formValue.email,
-      pincode: formValue.delivery_type == "Airport Transfer" ? (formValue.pickup_type == "Airport: Drop off Point" || formValue.pickup_type == "Airport: Pickup Point" ? formValue.pincode : this.addressPincode) : formValue.addressPincodes,
+      email: formValue.email.toLowerCase(),
+      pincode:
+        formValue.delivery_type == "Airport Transfer"
+          ? formValue.pickup_type == "Airport: Drop off Point" ||
+            formValue.pickup_type == "Airport: Pickup Point"
+            ? formValue.pincode
+            : this.addressPincode
+          : formValue.addressPincodes,
       items_order: itemsOrder,
       gst_amount: priceDetails.price_details.gst_price,
       luggage_price: priceDetails.price_details.total_luggage_price,
@@ -1739,31 +2287,75 @@ export class BookingComponent implements OnInit {
       outstation_charge: 0,
       excess_bag_amount: 0,
       service_type: formValue.type == "Departure" ? 1 : 2, // 1 for arrival, //2 for departure
-      pickup_slot: formValue.time_slot && formValue.time_slot != "none" ? formValue.time_slot : 1,
+      pickup_slot:
+        formValue.pickup_type == "Airport: Drop off Point" ||
+        formValue.pickup_type == "Airport: Pickup Point" ||
+        formValue.time_slot == "none"
+          ? ""
+          : formValue.time_slot,
       travell_passenger_name: formValue.name,
       travell_passenger_contact: formValue.mobile_number,
       pick_drop_spots_type: 1,
-      building_restriction: {"0": 5,},
-      order_date: this.datePipe.transform(formValue.date, "dd MMM y"),
+      building_restriction: { "0": 5 },
+      order_date: this.datePipe.transform(
+        this.selected_date_for_date_picker,
+        "dd MMM y"
+      ),
       country_code: formValue.country,
-      flight_number:formValue.other_airline_no && formValue.other_airline_no != "none"? formValue.other_airline_no.toUpperCase() : "",
+      flight_number:
+        formValue.other_airline_no && formValue.other_airline_no != "none"
+          ? formValue.other_airline_no.toUpperCase()
+          : "",
       pnr_number: formValue.pnr.toUpperCase(),
       address_line_1: this.fullAddressLine,
       address_line_2: "",
       area: this.area,
-      delivery_datetime: this.delivery_date
-        ? this.delivery_date.toString().split(" ")[2] +
-        " " +
-        this.delivery_date.toString().split(" ")[1] +
-        " " +
-        this.delivery_date.toString().split(" ")[3] +
-        " " +
-        this.show_delivery_time.toString().split(" ")[0]
-        : this.selected_date_for_date_picker,
-      order_type_str: formValue.delivery_type == "Airport Transfer" ? "Airport Transfer" : "Lost Luggage",
+      delivery_datetime:
+        formValue.delivery_type == "Airport Transfer" &&
+        (formValue.pickup_type == "Airport: Drop off Point" ||
+          formValue.pickup_type == "Airport: Pickup Point")
+          ? delivery_date_current +
+            " " +
+            (this.meetHour < 10 ? "0" : "") +
+            this.meetHour +
+            ":" +
+            this.meetMin +
+            (this.meetMin < 10 ? "0" : "")
+          : this.delivery_date
+          ? this.delivery_date.toString().split(" ")[2] +
+            " " +
+            this.delivery_date.toString().split(" ")[1] +
+            " " +
+            this.delivery_date.toString().split(" ")[3] +
+            " " +
+            this.show_delivery_time.toString().split(" ")[0]
+          : this.selected_date_for_date_picker,
+      order_type_str:
+        formValue.delivery_type == "Airport Transfer"
+          ? "Airport Transfer"
+          : "Lost Luggage",
+      airport_slot_time:
+        formValue.pickup_type == "Airport: Drop off Point" ||
+        formValue.pickup_type == "Airport: Pickup Point"
+          ? (this.meetHour < 10 ? "0" : "") +
+            this.meetHour +
+            ":" +
+            this.meetMin +
+            (this.meetMin < 10 ? "0" : "")
+          : "",
+      system_info:2,
+      customer_id: customer_id,
+      razorpay_status: this.approximateAmount ? "success" : "",
+      razorpay_pay_id: this.approximateAmount ? this.razorpay_payment_id : "",
     };
     this.crud
-      .postWithStaticTokenAirline( CORPORATE_APIS.BOOKING, reqBody, this.token, formValue.airline, formValue.transfer_type == "Outstation" ? 2 : 1)
+      .postWithStaticTokenAirline(
+        CORPORATE_APIS.BOOKING,
+        reqBody,
+        this.token,
+        formValue.airline,
+        formValue.transfer_type == "Outstation" ? 2 : 1
+      )
       .pipe(throttleTime(250))
       .subscribe(
         (data: any) => {
@@ -1803,46 +2395,79 @@ export class BookingComponent implements OnInit {
   }
 
   validatePnr(e) {
-    if (((e.which < 65 || e.which > 122) && (e.which < 48 || e.which > 57)) || e.key == "^" || e.key == "_") {
+    if (
+      ((e.which < 65 || e.which > 122) && (e.which < 48 || e.which > 57)) ||
+      e.key == "^" ||
+      e.key == "_"
+    ) {
       e.preventDefault();
     }
   }
 
-  validateFlightNo(e){
-    if (((e.which < 65 || e.which > 122) && e.key!=' ' !&& (e.which < 48 || e.which > 57)) || e.key == "^" || e.key == "_") {
+  validateFlightNo(e) {
+    if (
+      ((e.which < 65 || e.which > 122) &&
+        e.key != " "! &&
+        (e.which < 48 || e.which > 57)) ||
+      e.key == "^" ||
+      e.key == "_"
+    ) {
       e.preventDefault();
     }
   }
 
   async getdistance() {
     var originpin = this.bookingForm.controls["pincode"].value;
-    var destinationpin = this.addressPincode ? Number(this.addressPincode ? this.addressPincode : this.bookingForm.controls["pincode"].value) : Number( this.bookingForm.controls["addressPincodes"].value ? this.bookingForm.controls["addressPincodes"].value : this.bookingForm.controls["pincode"].value);
-    
-    //distance calculation api 
-    var data: any = await this.pickairport.getdistance(originpin,destinationpin);
+    var destinationpin = this.addressPincode
+      ? Number(
+          this.addressPincode
+            ? this.addressPincode
+            : this.bookingForm.controls["pincode"].value
+        )
+      : Number(
+          this.bookingForm.controls["addressPincodes"].value
+            ? this.bookingForm.controls["addressPincodes"].value
+            : this.bookingForm.controls["pincode"].value
+        );
+
+    //distance calculation api
+    var data: any = await this.pickairport.getdistance(
+      originpin,
+      destinationpin
+    );
 
     if (!this.addressPincode) {
-      this.addressPincode = Number(this.bookingForm.controls["addressPincodes"].value? this.bookingForm.controls["addressPincodes"].value: this.bookingForm.controls["pincode"].value);
+      this.addressPincode = Number(
+        this.bookingForm.controls["addressPincodes"].value
+          ? this.bookingForm.controls["addressPincodes"].value
+          : this.bookingForm.controls["pincode"].value
+      );
     }
 
     var distancemi = data.rows[0].elements[0].distance.text.split(" ")[0];
-    this.distance =parseFloat(distancemi.split(",")[0] + distancemi.split(",")[1]) * 1.60934;
+    this.distance =
+      parseFloat(distancemi.split(",")[0] + distancemi.split(",")[1]) * 1.60934;
 
     // Local and outstation conditon based on the Kilo Meter
     if (this.distance <= 75) {
-      this.bookingForm.controls["transfer_type"].setValue("Local"); console.log("local", this.distance);
+      this.bookingForm.controls["transfer_type"].setValue("Local");
+      console.log("local", this.distance);
     } else if (this.distance > 75) {
-      this.bookingForm.controls["transfer_type"].setValue("Outstation"); console.log("outstation", this.distance);
+      this.bookingForm.controls["transfer_type"].setValue("Outstation");
+      console.log("outstation", this.distance);
     }
 
     // subscription_details.show_coupons true then are distance based price calculated
-    this.subscription_details.show_coupons ? this.getSupscriptionPrice() : null
+    this.subscription_details.show_coupons ? this.getSupscriptionPrice() : null;
 
     if (this.bookingForm.controls["transfer_type"].value == "Outstation") {
       var data: any = await this.pickairport.getState(destinationpin);
       this.stateName = data.result[0].state;
       this.cityName = data.result[0].district;
-      if (data.result[0].district === "New Mumbai" || data.result[0].district.split(" ")[1] === "New Mumbai") {
+      if (
+        data.result[0].district === "New Mumbai" ||
+        data.result[0].district.split(" ")[1] === "New Mumbai"
+      ) {
         this.cityName = "Mumbai";
       }
       if (data.result[0].district.split(" ")[1] === "Delhi") {
@@ -1857,53 +2482,86 @@ export class BookingComponent implements OnInit {
   // cargo functionality start _________________________________________________________________________________
 
   // handle google address values
-  async handleAddressChangeCargo(e: any, type) { 
+  async handleAddressChangeCargo(e: any, type) {
     // type 1 means pickup and 2 means delivery
     this.locality_name = this.cityName = "";
-    type == 1 ? (this.fullAddressLine = "") : (this.fullDeliveryAddressLine = "");
-    type == 1 ? (this.addressPincode = undefined) : (this.deliveryPincode = undefined);
-    
+    type == 1
+      ? (this.fullAddressLine = "")
+      : (this.fullDeliveryAddressLine = "");
+    type == 1
+      ? (this.addressPincode = undefined)
+      : (this.deliveryPincode = undefined);
+
     let address = "";
     let add = e.address_components.length;
-    
-    this.bookingForm.get(type == 1 ? "fulladdress" : "fullDeliveryAddress").setValue(e.name + ", " + e.formatted_address);
+
+    this.bookingForm
+      .get(type == 1 ? "fulladdress" : "fullDeliveryAddress")
+      .setValue(e.name + ", " + e.formatted_address);
 
     for (let i = 0; i < add; i++) {
       if (e.address_components[i].types[0] == "postal_code") {
-        e.address_components[i].long_name ? type == 1 ? (this.addressPincode = e.address_components[i].long_name) : (this.deliveryPincode = e.address_components[i].long_name) : "";
+        e.address_components[i].long_name
+          ? type == 1
+            ? (this.addressPincode = e.address_components[i].long_name)
+            : (this.deliveryPincode = e.address_components[i].long_name)
+          : "";
       }
-      if (e.address_components[i].types[0] == "locality" || e.address_components[i].types[0] == "administrative_area_level_2") {
+      if (
+        e.address_components[i].types[0] == "locality" ||
+        e.address_components[i].types[0] == "administrative_area_level_2"
+      ) {
+        e.address_components[i].types[0] == "locality"
+          ? (this.locality_name = e.address_components[i].long_name)
+          : null;
 
-      e.address_components[i].types[0] == "locality" ? this.locality_name = e.address_components[i].long_name : null;
-
-       if(!this.cityName){
-          console.log('Locality cityname ', e.address_components[i].long_name);
+        if (!this.cityName) {
+          console.log("Locality cityname ", e.address_components[i].long_name);
           this.cityName = e.address_components[i].long_name;
           // this.locality_name = e.address_components[i].long_name;
         }
-       
-        if(e.address_components[i].types[0] == "administrative_area_level_2"){
-          console.log('dministration city 2', e.address_components[i].long_name);
-          ["Thane","Navi Mumbai","Mumbai",'Bengaluru Urban',"Ghaziabad",'Greater Noida','Faridabad','Gurugram','Noida','New Delhi'].map((res)=>{
-            if(e.address_components[i].long_name == res){
-              console.log('administration city checking', e.address_components[i].long_name , res )
+
+        if (e.address_components[i].types[0] == "administrative_area_level_2") {
+          console.log(
+            "dministration city 2",
+            e.address_components[i].long_name
+          );
+          [
+            "Thane",
+            "Navi Mumbai",
+            "Mumbai",
+            "Bengaluru Urban",
+            "Ghaziabad",
+            "Greater Noida",
+            "Faridabad",
+            "Gurugram",
+            "Noida",
+            "New Delhi",
+          ].map((res) => {
+            if (e.address_components[i].long_name == res) {
+              console.log(
+                "administration city checking",
+                e.address_components[i].long_name,
+                res
+              );
               this.cityName = e.address_components[i].long_name;
               // this.locality_name = e.address_components[i].long_name;
             }
-          })
+          });
         }
 
-        if (this.cityName == "Bengaluru" || this.cityName == 'Bengaluru Urban') {
+        if (
+          this.cityName == "Bengaluru" ||
+          this.cityName == "Bengaluru Urban"
+        ) {
           this.cityName = "Bangalore";
-        }
-        else if (
+        } else if (
           this.cityName == "Mumbai" ||
           this.cityName == "Navi Mumbai" ||
           this.cityName == "Thane"
         ) {
           this.cityName = "Mumbai & Navi Mumbai";
-        }
-        else if (
+        } else if (
           this.cityName == "Mumbai" ||
           this.cityName == "Navi Mumbai" ||
           this.cityName == "Thane"
@@ -1925,7 +2583,9 @@ export class BookingComponent implements OnInit {
         address = address + " " + add;
       }
       if (e.address_components[i].types[0] == "sublocality_level_1") {
-        type == 1 ? (this.area = e.address_components[i].long_name) : (this.secondArea = e.address_components[i].long_name);
+        type == 1
+          ? (this.area = e.address_components[i].long_name)
+          : (this.secondArea = e.address_components[i].long_name);
       }
       if (e.address_components[i].types[0] == "country") {
         var country = e.address_components[i].long_name;
@@ -1941,28 +2601,65 @@ export class BookingComponent implements OnInit {
             return res.fk_tbl_city_of_operation_region_id == each.city_id;
           });
           if (airports2.length != 0) {
-            this.bookingForm.controls["airport_id"].setValue(airports2[0].airport_name_id);
+            this.bookingForm.controls["airport_id"].setValue(
+              airports2[0].airport_name_id
+            );
           }
         }
-        if ((this.addressPincode == undefined || this.addressPincode === "") &&type == 1) {
+        if (
+          (this.addressPincode == undefined || this.addressPincode === "") &&
+          type == 1
+        ) {
           this.addressPincode = each.pincode;
-        } else if ((this.deliveryPincode == undefined || this.deliveryPincode === "") && type == 2) {
+        } else if (
+          (this.deliveryPincode == undefined || this.deliveryPincode === "") &&
+          type == 2
+        ) {
           this.deliveryPincode = each.pincode;
         }
       }
     });
     this.address = e.name + ", " + address;
 
-    if (country === "India" || this.cityName == "Jammu" || this.cityName == "Kashmir") {
-      if (this.cityName === "Bangalore" || this.cityName === "Hyderabad" || this.cityName === "Mumbai & Navi Mumbai" || this.cityName === "New Delhi & NCR") {
-        this.bookingForm.controls[type == 1 ? "addressCity" : "deliveryAddressCity"].setValue(this.cityName);
-        if (this.bookingForm.controls["addressCity"].value != this.bookingForm.controls["deliveryAddressCity"].value) {
-          this.bookingForm.controls[type == 1 ? "addressLineOne" : "deliveryAddressLineOne"].setValue(e.name + ", " + e.formatted_address);
+    if (
+      country === "India" ||
+      this.cityName == "Jammu" ||
+      this.cityName == "Kashmir"
+    ) {
+      if (
+        this.cityName === "Bangalore" ||
+        this.cityName === "Hyderabad" ||
+        this.cityName === "Mumbai & Navi Mumbai" ||
+        this.cityName === "New Delhi & NCR"
+      ) {
+        this.bookingForm.controls[
+          type == 1 ? "addressCity" : "deliveryAddressCity"
+        ].setValue(this.cityName);
+        if (
+          this.bookingForm.controls["addressCity"].value !=
+          this.bookingForm.controls["deliveryAddressCity"].value
+        ) {
+          this.bookingForm.controls[
+            type == 1 ? "addressLineOne" : "deliveryAddressLineOne"
+          ].setValue(e.name + ", " + e.formatted_address);
         } else {
-          this.printToastMsg("Pick up city and delivery city should not be same city");
-          this.showAddressDropDown = this.showAddressDropDownDelivery =  false;
-          type == 1? (this.fullAddressLine = ""): (this.fullDeliveryAddressLine = "");
-          (type == 1 ? ["addressLineOne", "fulladdress", "addressCity", "addressLineTwo"]: ["deliveryAddressLineOne","fullDeliveryAddress","deliveryAddressCity","deliveryAddressLineTwo","addressPincodes",]).map((res) => {
+          this.printToastMsg(
+            "Pick up city and delivery city should not be same city"
+          );
+          this.showAddressDropDown = this.showAddressDropDownDelivery = false;
+          type == 1
+            ? (this.fullAddressLine = "")
+            : (this.fullDeliveryAddressLine = "");
+          (type == 1
+            ? ["addressLineOne", "fulladdress", "addressCity", "addressLineTwo"]
+            : [
+                "deliveryAddressLineOne",
+                "fullDeliveryAddress",
+                "deliveryAddressCity",
+                "deliveryAddressLineTwo",
+                "addressPincodes",
+              ]
+          ).map((res) => {
             this.bookingForm.controls[res].setValue("");
           });
         }
@@ -1970,73 +2667,135 @@ export class BookingComponent implements OnInit {
         this.printToastMsg("city is not serviceable");
         this.showAddressDropDown = false;
         this.showAddressDropDownDelivery = false;
-        type == 1 ? (this.fullAddressLine = "") : (this.fullDeliveryAddressLine = "");
-        (type == 1 ? ["addressLineOne", "fulladdress", "addressCity", "addressLineTwo"] : ["deliveryAddressLineOne", "fullDeliveryAddress", "deliveryAddressCity", "deliveryAddressLineTwo", "addressPincodes",]).map((res) => {
+        type == 1
+          ? (this.fullAddressLine = "")
+          : (this.fullDeliveryAddressLine = "");
+        (type == 1
+          ? ["addressLineOne", "fulladdress", "addressCity", "addressLineTwo"]
+          : [
+              "deliveryAddressLineOne",
+              "fullDeliveryAddress",
+              "deliveryAddressCity",
+              "deliveryAddressLineTwo",
+              "addressPincodes",
+            ]
+        ).map((res) => {
           this.bookingForm.controls[res].setValue("");
         });
       }
     } else {
       this.printToastMsg("country is not serviceable");
       this.showAddressDropDownDelivery = false;
-      type == 1 ? (this.fullAddressLine = ""): (this.fullDeliveryAddressLine = "");
-      (type == 1 ? ["addressLineOne", "fulladdress", "addressCity", "addressLineTwo"] : ["deliveryAddressLineOne", "fullDeliveryAddress", "deliveryAddressCity", "deliveryAddressLineTwo", "addressPincodes",]).map((res) => {
+      type == 1
+        ? (this.fullAddressLine = "")
+        : (this.fullDeliveryAddressLine = "");
+      (type == 1
+        ? ["addressLineOne", "fulladdress", "addressCity", "addressLineTwo"]
+        : [
+            "deliveryAddressLineOne",
+            "fullDeliveryAddress",
+            "deliveryAddressCity",
+            "deliveryAddressLineTwo",
+            "addressPincodes",
+          ]
+      ).map((res) => {
         this.bookingForm.controls[res].setValue("");
       });
     }
   }
 
   // handle google address values for cargo surface
-  async handleAddressChangeCargoSurface(e: any, type) { 
+  async handleAddressChangeCargoSurface(e: any, type) {
     // type 1 means pickup and 2 means delivery
     this.show_pincode = false;
-    this.place_id =  this.secondArea = this.deliveryPincode = this.cityName = this.locality_name = "";
+    this.place_id =
+      this.secondArea =
+      this.deliveryPincode =
+      this.cityName =
+      this.locality_name =
+        "";
 
-    type == 1 ? (this.fullAddressLine = "") : (this.fullDeliveryAddressLine = "");
-    type == 1 ? (this.addressPincode = undefined) : (this.deliveryPincode = undefined);
+    type == 1
+      ? (this.fullAddressLine = "")
+      : (this.fullDeliveryAddressLine = "");
+    type == 1
+      ? (this.addressPincode = undefined)
+      : (this.deliveryPincode = undefined);
     this.place_id = e.place_id ? e.place_id : "";
 
     let address = "";
     let add = e.address_components.length;
-    
-    this.bookingForm.get(type == 1 ? "fulladdress" : "fullDeliveryAddress").setValue(e.name + ", " + e.formatted_address);
+
+    this.bookingForm
+      .get(type == 1 ? "fulladdress" : "fullDeliveryAddress")
+      .setValue(e.name + ", " + e.formatted_address);
 
     for (let i = 0; i < add; i++) {
       if (e.address_components[i].types[0] == "postal_code") {
-        e.address_components[i].long_name ? type == 1 ? (this.addressPincode = e.address_components[i].long_name) : (this.deliveryPincode = e.address_components[i].long_name) : "";
-        e.address_components[i].long_name ? this.show_pincode = true : this.show_pincode = false;
+        e.address_components[i].long_name
+          ? type == 1
+            ? (this.addressPincode = e.address_components[i].long_name)
+            : (this.deliveryPincode = e.address_components[i].long_name)
+          : "";
+        e.address_components[i].long_name
+          ? (this.show_pincode = true)
+          : (this.show_pincode = false);
       }
-      if (e.address_components[i].types[0] == "locality" || e.address_components[i].types[0] == "administrative_area_level_2") {
-        
-        e.address_components[i].types[0] == "locality" ? this.locality_name = e.address_components[i].long_name : null;
-        
-        if(!this.cityName){
-          console.log('Locality cityname ', e.address_components[i].long_name);
+      if (
+        e.address_components[i].types[0] == "locality" ||
+        e.address_components[i].types[0] == "administrative_area_level_2"
+      ) {
+        e.address_components[i].types[0] == "locality"
+          ? (this.locality_name = e.address_components[i].long_name)
+          : null;
+
+        if (!this.cityName) {
+          console.log("Locality cityname ", e.address_components[i].long_name);
           this.cityName = e.address_components[i].long_name;
           // this.locality_name = e.address_components[i].long_name;
         }
-       
-        if(e.address_components[i].types[0] == "administrative_area_level_2"){
-          console.log('dministration city 2', e.address_components[i].long_name);
-          ["Thane","Navi Mumbai","Mumbai",'Bengaluru Urban',"Ghaziabad",'Greater Noida','Faridabad','Gurugram','Noida','New Delhi'].map((res)=>{
-            if(e.address_components[i].long_name == res){
-              console.log('administration city checking', e.address_components[i].long_name , res )
+
+        if (e.address_components[i].types[0] == "administrative_area_level_2") {
+          console.log(
+            "dministration city 2",
+            e.address_components[i].long_name
+          );
+          [
+            "Thane",
+            "Navi Mumbai",
+            "Mumbai",
+            "Bengaluru Urban",
+            "Ghaziabad",
+            "Greater Noida",
+            "Faridabad",
+            "Gurugram",
+            "Noida",
+            "New Delhi",
+          ].map((res) => {
+            if (e.address_components[i].long_name == res) {
+              console.log(
+                "administration city checking",
+                e.address_components[i].long_name,
+                res
+              );
               this.cityName = e.address_components[i].long_name;
               // this.locality_name = e.address_components[i].long_name;
             }
-          })
+          });
         }
 
-        if (this.cityName == "Bengaluru" || this.cityName == 'Bengaluru Urban') {
+        if (
+          this.cityName == "Bengaluru" ||
+          this.cityName == "Bengaluru Urban"
+        ) {
           this.cityName = "Bangalore";
-        }
-        else if (
+        } else if (
           this.cityName == "Mumbai" ||
           this.cityName == "Navi Mumbai" ||
           this.cityName == "Thane"
         ) {
           this.cityName = "Mumbai & Navi Mumbai";
-        }
-        else if (
+        } else if (
           this.cityName == "Mumbai" ||
           this.cityName == "Navi Mumbai" ||
           this.cityName == "Thane"
@@ -2071,15 +2830,39 @@ export class BookingComponent implements OnInit {
 
     this.address = e.name + ", " + address;
 
-    if (country === "India" || this.cityName == "Jammu" || this.cityName == "Kashmir") {
-      this.bookingForm.controls[type == 1 ? "addressCity" : "deliveryAddressCity"].setValue(this.cityName);
-      if (this.bookingForm.controls["addressCity"].value != this.bookingForm.controls["deliveryAddressCity"].value) {
-        this.bookingForm.controls[type == 1 ? "addressLineOne" : "deliveryAddressLineOne"].setValue(e.name + ", " + e.formatted_address);
+    if (
+      country === "India" ||
+      this.cityName == "Jammu" ||
+      this.cityName == "Kashmir"
+    ) {
+      this.bookingForm.controls[
+        type == 1 ? "addressCity" : "deliveryAddressCity"
+      ].setValue(this.cityName);
+      if (
+        this.bookingForm.controls["addressCity"].value !=
+        this.bookingForm.controls["deliveryAddressCity"].value
+      ) {
+        this.bookingForm.controls[
+          type == 1 ? "addressLineOne" : "deliveryAddressLineOne"
+        ].setValue(e.name + ", " + e.formatted_address);
       } else {
-        this.printToastMsg("Pick up city and delivery city should not be same city");
-        this.showAddressDropDown = this.showAddressDropDownDelivery =  false;
-        type == 1? (this.fullAddressLine = ""): (this.fullDeliveryAddressLine = "");
-        (type == 1 ? ["addressLineOne", "fulladdress", "addressCity", "addressLineTwo"]: ["deliveryAddressLineOne","fullDeliveryAddress","deliveryAddressCity","deliveryAddressLineTwo","addressPincodes",]).map((res) => {
+        this.printToastMsg(
+          "Pick up city and delivery city should not be same city"
+        );
+        this.showAddressDropDown = this.showAddressDropDownDelivery = false;
+        type == 1
+          ? (this.fullAddressLine = "")
+          : (this.fullDeliveryAddressLine = "");
+        (type == 1
+          ? ["addressLineOne", "fulladdress", "addressCity", "addressLineTwo"]
+          : [
+              "deliveryAddressLineOne",
+              "fullDeliveryAddress",
+              "deliveryAddressCity",
+              "deliveryAddressLineTwo",
+              "addressPincodes",
+            ]
+        ).map((res) => {
           this.bookingForm.controls[res].setValue("");
         });
         this.deliveryPincode = "";
@@ -2087,37 +2870,63 @@ export class BookingComponent implements OnInit {
     } else {
       this.printToastMsg("country is not serviceable");
       this.showAddressDropDownDelivery = false;
-      type == 1 ? (this.fullAddressLine = ""): (this.fullDeliveryAddressLine = "");
-      (type == 1 ? ["addressLineOne", "fulladdress", "addressCity", "addressLineTwo"] : ["deliveryAddressLineOne", "fullDeliveryAddress", "deliveryAddressCity", "deliveryAddressLineTwo", "addressPincodes",]).map((res) => {
+      type == 1
+        ? (this.fullAddressLine = "")
+        : (this.fullDeliveryAddressLine = "");
+      (type == 1
+        ? ["addressLineOne", "fulladdress", "addressCity", "addressLineTwo"]
+        : [
+            "deliveryAddressLineOne",
+            "fullDeliveryAddress",
+            "deliveryAddressCity",
+            "deliveryAddressLineTwo",
+            "addressPincodes",
+          ]
+      ).map((res) => {
         this.bookingForm.controls[res].setValue("");
       });
       this.deliveryPincode = "";
     }
   }
-  // 
+  //
 
   setUpDate() {
     var date = new Date(this.selected_date_for_date_picker).getDate();
     var month = new Date(this.selected_date_for_date_picker).getMonth();
     var year = new Date(this.selected_date_for_date_picker).getFullYear();
     if (this.bookingForm.controls["cargo_terminal"].value == "Rush Air") {
-      this.delivery_date = new Date(year, month, date + 4, 10, 33, 30, 0).toISOString().split("T")[0];
+      this.delivery_date = new Date(year, month, date + 4, 10, 33, 30, 0)
+        .toISOString()
+        .split("T")[0];
       this.bookingForm.controls["delivery_date"].setValue(this.delivery_date);
-    } else if (this.bookingForm.controls["cargo_terminal"].value == "Rush Surface") {
-      this.delivery_date = new Date(year, month, date + 7, 10, 33, 30, 0).toISOString().split("T")[0];
+    } else if (
+      this.bookingForm.controls["cargo_terminal"].value == "Rush Surface"
+    ) {
+      this.delivery_date = new Date(year, month, date + 7, 10, 33, 30, 0)
+        .toISOString()
+        .split("T")[0];
       this.bookingForm.controls["delivery_date"].setValue(this.delivery_date);
-    } else if (this.bookingForm.controls["cargo_terminal"].value == "Rush AirExpress") {
-      this.delivery_date = new Date(year, month, date + 2, 10, 33, 30, 0).toISOString().split("T")[0];
+    } else if (
+      this.bookingForm.controls["cargo_terminal"].value == "Rush AirExpress"
+    ) {
+      this.delivery_date = new Date(year, month, date + 2, 10, 33, 30, 0)
+        .toISOString()
+        .split("T")[0];
       this.bookingForm.controls["delivery_date"].setValue(this.delivery_date);
     }
-    this.showDate = new Date(this.selected_date_for_date_picker).toString().split(" ");
+    this.showDate = new Date(this.selected_date_for_date_picker)
+      .toString()
+      .split(" ");
     this.showDeliveryDate = new Date(this.delivery_date);
     this.filterSlot();
   }
 
   filterSlot() {
     this.filtered_tilme_slot = [];
-    let selectedDate = this.datePipe.transform(this.selected_date_for_date_picker,"dd MMM y");
+    let selectedDate = this.datePipe.transform(
+      this.selected_date_for_date_picker,
+      "dd MMM y"
+    );
     let todayDate = this.datePipe.transform(new Date(), "dd MMM y");
     if (todayDate === selectedDate) {
       for (const i of this.time_slots) {
@@ -2129,7 +2938,9 @@ export class BookingComponent implements OnInit {
         endMin = Number(strMin) + 30;
         if (i.slot_type === 0) {
           if (this.CurrentTime < endHour) {
-            this.CurrentTime === endH && this.CurrentMin > endMin ? null : this.filtered_tilme_slot.push(i);
+            this.CurrentTime === endH && this.CurrentMin > endMin
+              ? null
+              : this.filtered_tilme_slot.push(i);
           }
         }
       }
@@ -2143,33 +2954,106 @@ export class BookingComponent implements OnInit {
   }
 
   change_Delivery_type() {
-    this.meetMin1 = this.meetMin = this.meetHour = this.meetHour1 = this.approximateAmount = 0;
+    this.meetMin1 =
+      this.meetMin =
+      this.meetHour =
+      this.meetHour1 =
+      this.approximateAmount =
+        0;
     this.submitted = false;
-    this.fullAddressLine = this.fullDeliveryAddressLine = this.selected_time_slot = "";
+    this.fullAddressLine =
+      this.fullDeliveryAddressLine =
+      this.selected_time_slot =
+        "";
     this.bookingForm.controls["term"].setValue(false);
-    
-    // manipulate the form values based on the delivery type 
+
+    // manipulate the form values based on the delivery type
     switch (this.bookingForm.controls["delivery_type"].value) {
       // Airport transfer selected
       case "Airport Transfer":
-        ["cargo_content", "delivery_date", "weight", "cargo_terminal", "other_content", "parcel_type","deliveryAddressCity", "deliveryAddressLineOne", "deliveryAddressLineTwo", "fullDeliveryAddress",].map((res) => {this.bookingForm.controls[res].setValue("none");});
-        this.bookingForm.controls["airline"].value ? this.bookingForm.controls["bags"].setValue(1) : this.bookingForm.controls["bags"].setValue("");
+        [
+          "cargo_content",
+          "delivery_date",
+          "weight",
+          "cargo_terminal",
+          "other_content",
+          "parcel_type",
+          "deliveryAddressCity",
+          "deliveryAddressLineOne",
+          "deliveryAddressLineTwo",
+          "fullDeliveryAddress",
+        ].map((res) => {
+          this.bookingForm.controls[res].setValue("none");
+        });
+        this.bookingForm.controls["airline"].value
+          ? this.bookingForm.controls["bags"].setValue(1)
+          : this.bookingForm.controls["bags"].setValue("");
         this.changeTravelType(1);
         this.bookingForm.controls["pnr"].reset();
         break;
 
-      //cargo transfer selected 
+      //cargo transfer selected
       case "Cargo Transfer":
-        ["transfer_type", "airline", "airport_id", "bags", "city_id", "other_airline", "other_airline_no", ].map((res) => { this.bookingForm.controls[res].setValue("none"); });
-        [ "time_slot", "cargo_content", "delivery_date", "weight", "cargo_terminal", "other_content", "parcel_type", "deliveryAddressCity", "deliveryAddressLineOne", "deliveryAddressLineTwo", "fullDeliveryAddress", "addressCity", "fulladdress", "addressLineOne", "addressLineTwo",].map((res) => { this.bookingForm.controls[res].setValue("");});
+        [
+          "transfer_type",
+          "airline",
+          "airport_id",
+          "bags",
+          "city_id",
+          "other_airline",
+          "other_airline_no",
+        ].map((res) => {
+          this.bookingForm.controls[res].setValue("none");
+        });
+        [
+          "time_slot",
+          "cargo_content",
+          "delivery_date",
+          "weight",
+          "cargo_terminal",
+          "other_content",
+          "parcel_type",
+          "deliveryAddressCity",
+          "deliveryAddressLineOne",
+          "deliveryAddressLineTwo",
+          "fullDeliveryAddress",
+          "addressCity",
+          "fulladdress",
+          "addressLineOne",
+          "addressLineTwo",
+        ].map((res) => {
+          this.bookingForm.controls[res].setValue("");
+        });
         this.bookingForm.controls["pnr"].setValue("123456");
-        this.subscription_details = {show_coupons: false, remin_useage: 0, no_of_usage: 0, subscription_tokens: [], used_tokens: [], };
+        this.subscription_details = {
+          show_coupons: false,
+          remin_useage: 0,
+          no_of_usage: 0,
+          subscription_tokens: [],
+          used_tokens: [],
+        };
         break;
 
-      //last lugage 
+      //last lugage
       case "Lost Luggage/Item/Not Loaded":
-        ["cargo_content", "delivery_date", "weight", "cargo_terminal", "other_content", "parcel_type", "deliveryAddressCity", "deliveryAddressLineOne",  "deliveryAddressLineTwo", "fullDeliveryAddress", "time_slot",].map((res) => {this.bookingForm.controls[res].setValue("none");});
-        this.bookingForm.controls["airline"].value ? this.bookingForm.controls["bags"].setValue(1) : this.bookingForm.controls["bags"].setValue("");
+        [
+          "cargo_content",
+          "delivery_date",
+          "weight",
+          "cargo_terminal",
+          "other_content",
+          "parcel_type",
+          "deliveryAddressCity",
+          "deliveryAddressLineOne",
+          "deliveryAddressLineTwo",
+          "fullDeliveryAddress",
+          "time_slot",
+        ].map((res) => {
+          this.bookingForm.controls[res].setValue("none");
+        });
+        this.bookingForm.controls["airline"].value
+          ? this.bookingForm.controls["bags"].setValue(1)
+          : this.bookingForm.controls["bags"].setValue("");
         this.changeTravelType(1);
         this.bookingForm.controls["pnr"].reset();
         // this.subscription_details = { show_coupons: false, remin_useage: 0, no_of_usage: 0, subscription_tokens: [], used_tokens: [],};
@@ -2178,43 +3062,222 @@ export class BookingComponent implements OnInit {
     this.selectTypeofWay(1);
   }
 
+  cargo_price_details: any = [];
   async getCargoApproximateAmount() {
-    this.ngxSpinner.show();
+    this.weightJson.weights.map((res) => {
+      res.price = "";
+    });
     this.approximateAmount = 0;
     const formValue = { ...this.bookingForm.value };
     // request body
     const reqBody = {
       order_type: 1,
       transfer_type: formValue.cargo_terminal == "Rush Surface" ? 1 : 2,
-      airport_name: formValue.airportId && formValue.airportId != "none" ? formValue.airportId : 3,
-      city_name: formValue.cityId && formValue.cityId != "none" ? formValue.cityId : 1,
+      airport_name:
+        formValue.airportId && formValue.airportId != "none"
+          ? formValue.airportId
+          : 3,
+      city_name:
+        formValue.cityId && formValue.cityId != "none" ? formValue.cityId : 1,
       state_name: 0,
       excess_weight_purchased: "no",
       excess_weight: 0,
       bag_weight: 0,
       no_of_units: "1",
-      pincode: formValue.pincode && formValue.pincode != "none" ? formValue.pincode : 560001,
+      pincode:
+        formValue.pincode && formValue.pincode != "none"
+          ? formValue.pincode
+          : 560001,
       service_type: 1,
     };
 
-    this.weightJson.weights.map((response: any) => {
-      this.crud.postWithCorporateTokenCargoAirline(CORPORATE_APIS.GET_APPROX_AMOUNT,reqBody,response.no_of_weight,formValue.cargo_terminal ? formValue.cargo_terminal : "Rush Air"
-        )
-        .pipe(throttleTime(250))
-        .subscribe((data: any) => {
-          this.priceDetailsRes = data;
-          this.approxAmount = Math.round(data.price_details.price_with_gst ? data.price_details.price_with_gst : 0);
-          response.price = this.approxAmount;
-        });
-    });
+    if (
+      this.bookingForm.controls["parcel_type"].value &&
+      this.bookingForm.controls["cargo_terminal"].value
+    ) {
+      switch (this.bookingForm.controls["parcel_type"].value) {
+        case "Cartons/Baggage":
+          this.ngxSpinner.show();
+          let cnt = 0;
+          ["5 kgs", "12 kgs", "20 kgs", "30 kgs", "40 kgs"].map(
+            (response: any) => {
+              this.crud
+                .postWithCorporateTokenCargoAirline(
+                  CORPORATE_APIS.GET_APPROX_AMOUNT,
+                  reqBody,
+                  response,
+                  formValue.cargo_terminal,
+                  formValue.parcel_type
+                )
+                .pipe(throttleTime(250))
+                .subscribe(
+                  (data: any) => {
+                    cnt += 1;
+                    data.kg = response;
+                    this.cargo_price_details.push(data);
+                    this.priceDetailsRes = data;
+                    this.approxAmount = Math.round(
+                      data.price_details.price_with_gst
+                    );
+                    switch (response) {
+                      case "5 kgs":
+                        this.weightJson.weights[1].price = this.approxAmount;
+                        break;
+                      case "12 kgs":
+                        this.weightJson.weights[2].price = this.approxAmount;
+                        break;
+                      case "20 kgs":
+                        this.weightJson.weights[3].price = this.approxAmount;
+                        break;
+                      case "30 kgs":
+                        this.weightJson.weights[4].price = this.approxAmount;
+                        break;
+                      case "40 kgs":
+                        this.weightJson.weights[5].price = this.approxAmount;
+                        break;
+                    }
+                    if (cnt == 5) {
+                      this.ngxSpinner.hide();
+                    }
+                  },
+                  (err) => {
+                    this.ngxSpinner.hide();
+                  }
+                );
+            }
+          );
+          break;
+        case "Documents":
+          this.ngxSpinner.show();
+          this.crud
+            .postWithCorporateTokenCargoAirline(
+              CORPORATE_APIS.GET_APPROX_AMOUNT,
+              reqBody,
+              "2 kgs",
+              formValue.cargo_terminal,
+              formValue.parcel_type
+            )
+            .pipe(throttleTime(250))
+            .subscribe(
+              (data: any) => {
+                data.kg = "2 kgs";
+                this.cargo_price_details.push(data);
+                this.priceDetailsRes = data;
+                this.approxAmount = Math.round(
+                  data.price_details.price_with_gst
+                );
+                this.weightJson.weights[0].price = this.approxAmount;
+                this.ngxSpinner.hide();
+              },
+              (err) => {
+                this.ngxSpinner.hide();
+              }
+            );
+          // });
+          break;
+        case "Sports & Other Equipment":
+          this.ngxSpinner.show();
+          let cnt1 = 0;
+          ["20 kgs", "30 kgs", "40 kgs"].map((response: any) => {
+            this.crud
+              .postWithCorporateTokenCargoAirline(
+                CORPORATE_APIS.GET_APPROX_AMOUNT,
+                reqBody,
+                response,
+                formValue.cargo_terminal,
+                formValue.parcel_type
+              )
+              .pipe(throttleTime(250))
+              .subscribe(
+                (data: any) => {
+                  cnt1 += 1;
+                  data.kg = response;
+                  this.cargo_price_details.push(data);
+                  this.priceDetailsRes = data;
+                  this.approxAmount = Math.round(
+                    data.price_details.price_with_gst
+                  );
+                  switch (response) {
+                    case "20 kgs":
+                      this.weightJson.weights[3].price = this.approxAmount;
+                      break;
+                    case "30 kgs":
+                      this.weightJson.weights[4].price = this.approxAmount;
+                      break;
+                    case "40 kgs":
+                      this.weightJson.weights[5].price = this.approxAmount;
+                      break;
+                  }
+                  if (cnt1 == 3) {
+                    this.ngxSpinner.hide();
+                  }
+                },
+                (err) => {
+                  this.ngxSpinner.hide();
+                }
+              );
+          });
+          break;
+        case "Electronics":
+          this.ngxSpinner.show();
+          let cnt2 = 0;
+          ["20 kgs", "30 kgs", "40 kgs"].map((response: any) => {
+            this.crud
+              .postWithCorporateTokenCargoAirline(
+                CORPORATE_APIS.GET_APPROX_AMOUNT,
+                reqBody,
+                response,
+                formValue.cargo_terminal,
+                formValue.parcel_type
+              )
+              .pipe(throttleTime(250))
+              .subscribe(
+                (data: any) => {
+                  cnt2 += 1;
+                  data.kg = response;
+                  this.cargo_price_details.push(data);
+                  this.priceDetailsRes = data;
+                  this.approxAmount = Math.round(
+                    data.price_details.price_with_gst
+                  );
+                  switch (response) {
+                    case "20 kgs":
+                      this.weightJson.weights[3].price = this.approxAmount;
+                      break;
+                    case "30 kgs":
+                      this.weightJson.weights[4].price = this.approxAmount;
+                      break;
+                    case "40 kgs":
+                      this.weightJson.weights[5].price = this.approxAmount;
+                      break;
+                  }
+                  if (cnt2 == 3) {
+                    this.ngxSpinner.hide();
+                  }
+                },
+                (err) => {
+                  this.ngxSpinner.hide();
+                }
+              );
+          });
+          break;
+      }
+    }
 
-    setTimeout(()=>{this.ngxSpinner.hide()},250);
+    // setTimeout(()=>{this.ngxSpinner.hide()},250);
   }
 
   placeCargoOrder() {
     this.ngxSpinner.show();
     let order_array = [];
     const formValue = { ...this.bookingForm.value };
+
+    if (this.cargo_price_details.length != 0) {
+      this.priceDetailsRes = this.cargo_price_details.find(
+        (res) => res.kg == formValue.weight
+      );
+    }
+
     const priceDetails = this.priceDetailsRes;
     const itemsOrder = [];
     const bagItems = priceDetails.price_details.items;
@@ -2237,9 +3300,9 @@ export class BookingComponent implements OnInit {
       state_name: 0,
       excess_weight_purchased: "no",
       excess_weight: 0,
-      bag_weight: formValue.weight,
+      bag_weight: Number(formValue.weight.split("kgs")[0]),
       no_of_units: 1,
-      email: formValue.email,
+      email: formValue.email.toLowerCase(),
       pincode: this.addressPincode,
       items_order: itemsOrder,
       gst_amount: priceDetails.price_details.gst_price,
@@ -2252,8 +3315,11 @@ export class BookingComponent implements OnInit {
       travell_passenger_name: formValue.name,
       travell_passenger_contact: formValue.mobile_number,
       pick_drop_spots_type: 1,
-      building_restriction: {"0": 5,},
-      order_date: this.datePipe.transform(formValue.date, "dd MMM y"),
+      building_restriction: { "0": 5 },
+      order_date: this.datePipe.transform(
+        this.selected_date_for_date_picker,
+        "dd MMM y"
+      ),
       country_code: formValue.country,
       flight_number: "",
       delivery_datetime:
@@ -2275,14 +3341,17 @@ export class BookingComponent implements OnInit {
       order_type_str: formValue.delivery_type,
       pick_drop_point: 2,
       terminal_type: formValue.terminal == "Domestic Cargo" ? 2 : 1,
+      system_info:2
     };
     let count = 0;
     for (let i = 1; i <= Number(formValue.no_of_booking); i++) {
-      this.crud.postWithDytnamicTokenAirline(
+      this.crud
+        .postWithDytnamicTokenAirline(
           CORPORATE_APIS.BOOKING,
           reqBody,
           formValue.weight,
-          formValue.cargo_terminal
+          formValue.cargo_terminal,
+          formValue.parcel_type
         )
         .pipe(throttleTime(250))
         .subscribe((data: any) => {
@@ -2303,12 +3372,19 @@ export class BookingComponent implements OnInit {
   }
 
   getAmount() {
-    return (Number(this.approximateAmount) * Number(this.bookingForm.controls["no_of_booking"].value));
+    return (
+      Number(this.approximateAmount) *
+      Number(this.bookingForm.controls["no_of_booking"].value)
+    );
   }
-  
-  //print toast message 
+
+  //print toast message
   printToastMsg(msg) {
-    this._snackbar.open(msg, "X", {duration: 5000, verticalPosition: "top", panelClass: "custom-snackbar",});
+    this._snackbar.open(msg, "X", {
+      duration: 5000,
+      verticalPosition: "top",
+      panelClass: "custom-snackbar",
+    });
   }
   // cargo functionality ends
 
@@ -2319,246 +3395,226 @@ export class BookingComponent implements OnInit {
   }
 
   increaseMeetHour() {
-    let a = this;
-    this.showMeet = true;
+    let dDate = new Date();
+    let hour;
+
+    if (
+      this.bookingForm.controls["type"].value == "Departure" &&
+      this.bookingForm.controls["pickup_type"].value ==
+        "Airport: Drop off Point"
+    ) {
+      if (
+        this.datePipe.transform(new Date()) ==
+        this.datePipe.transform(this.selected_date_for_date_picker)
+      ) {
+        hour = dDate.getHours() + 3;
+      }
+    } else if (this.bookingForm.controls["type"].value != "Departure") {
+      if (
+        this.datePipe.transform(new Date()) ==
+        this.datePipe.transform(this.selected_date_for_date_picker)
+      ) {
+        hour = dDate.getHours();
+      } else {
+        hour = 0;
+      }
+    } else {
+      hour = 0;
+    }
+
+    if (hour > 23) {
+      hour = Number(hour) - 24;
+    }
+
     if (this.meetHour >= 23) {
-      this.meetHour = this.timeOnwards ? this.timeOnwards : 0;
+      this.meetHour = hour ? hour : 0;
     } else {
       this.meetHour += 1;
     }
-    if (this.travel_type === 1 && this.type_of_services === 2) {
-      if (this.meetHour > 15) {
-        this.delivery_date = new Date(this.delivery_date);
-        this.delivery_date = this.delivery_date.setDate(this.selected_date_for_date_picker.getDate() + 1);
-        this.delivery_date = new Date(this.delivery_date);
-        this.show_delivery_time = "14:00";
-      }
+    {
+      this.meetHour = Number(this.meetHour);
     }
-
-    if (this.travel_type === 2 && this.type_of_services === 2) {
-      if (this.meetHour > 15 && this.meetHour === 16) {
-        this.delivery_date = new Date(this.delivery_date);
-        this.delivery_date = this.delivery_date.setDate(this.selected_date_for_date_picker.getDate() + 4);
-        this.delivery_date = new Date(this.delivery_date);
-        this.show_delivery_time = this.bookingForm.value.time_slot === 4 ? "14:00" : "14:00";
-      }
-    }
-
-    if (this.type_of_services === 1) {
-      if (this.selectBox === 2) {
-        if (this.meetHour > 13 && this.bookingForm.value.time_slot === 1) {
-          this.meetHour = this.timeOnwards;
-          this.meet_hour_error_box = true;
-          this.meet_time_error_msg = "Time cannot be greater than 13:00";
-          setTimeout(function () { a.meet_hour_error_box = false;}, 5000);
-        } 
-        else if (this.meetHour > 17 &&this.bookingForm.value.time_slot === 2) {
-          this.meetHour = this.timeOnwards;
-          this.meet_hour_error_box = true;
-          this.meet_time_error_msg = "Time cannot be greater than 17:00";
-          setTimeout(function () { a.meet_hour_error_box = false;}, 5000);
-        }
-        else if (this.meetHour > 21 &&this.bookingForm.value.time_slot === 3) {
-          this.meetHour = this.timeOnwards;
-          this.meet_hour_error_box = true;
-          this.meet_time_error_msg = "Time cannot be greater than 21:00";
-          setTimeout(function () {a.meet_hour_error_box = false;}, 5000);
-        } 
-        else if (this.meetHour > 2 &&this.bookingForm.value.time_slot === 7 ) {
-          this.meetHour = this.timeOnwards;
-          this.meet_hour_error_box = true;
-          this.meet_time_error_msg = "Time cannot be greater than 2:00";
-          setTimeout(function () {a.meet_hour_error_box = false;}, 5000);
-        }
-      }
-    }
-
-    if (this.type_of_services === 2) {
-      if (this.selectBox === 1) {
-        if (this.bookingForm.value.time_slot === 1 && this.meetHour > 15) {
-          this.meetHour = this.timeOnwards;
-          this.meet_hour_error_box = true;
-          this.meet_time_error_msg = "Time cannot be greater than 13:00";
-          setTimeout(function () {a.meet_hour_error_box = false; }, 5000);
-        }
-      }
-    }
+    hour == this.meetHour
+      ? (this.meetMin = new Date().getMinutes())
+      : (this.meetMin = 0);
   }
 
   decreaseMeetHour() {
-    this.type_of_services =this.bookingForm.controls["type"].value == "Departure" ? 1 : 2;
-    this.travel_type = this.bookingForm.controls["delivery_type"].value == "Local" ? 1 : 2;
-    let a = this;
+    let dDate = new Date();
+    let hour;
 
-    if (this.selectBox === 1) {
-      if (this.meetHour <= this.timeOnwards && this.type_of_services !== 2) {
-        this.meetHour = this.timeOnwards;
-      } else if (this.type_of_services !== 2) {
-        this.meetHour == 1 || this.meetHour == 0? (this.meetHour = 24): (this.meetHour -= 1);
-      }
-      if (this.type_of_services === 2 && this.meetHour > 0) {
-        this.meetHour == 1 || this.meetHour == 0? (this.meetHour = 24): (this.meetHour -= 1);
-      }
-    } else if (this.selectBox === 2) {
-      if (this.meetHour <= this.timeOnwards && this.type_of_services !== 2 &&this.meetHour > 0) {
-        this.meetHour == 1 || this.meetHour == 0 ? (this.meetHour = 24): (this.meetHour -= 1);
-      } else if (this.type_of_services !== 2 && this.meetHour == 0) {
-        this.meetHour = this.timeOnwards;
-      } else if (this.type_of_services === 2) {
-        if (this.meetHour === 0) {
-          this.meetHour = 23;
-        } else {
-          this.meetHour == 1 || this.meetHour == 0 ? (this.meetHour = 24) : (this.meetHour -= 1);
-        }
-      }
-    }
-
-    if (this.travel_type === 1 && this.type_of_services === 2) {
-      if (this.meetHour <= 15) {
-        this.delivery_date = new Date(this.delivery_date);
-        this.delivery_date = this.delivery_date.setDate(this.selected_date_for_date_picker.getDate());
-        this.delivery_date = new Date(this.delivery_date);
-        this.show_delivery_time = this.bookingForm.value.time_slot === 4 ? "23:55" : "14:00";
-      }
-    }
-
-    if (this.travel_type === 2 && this.type_of_services === 2) {
-      if (this.meetHour === 15) {
-        this.delivery_date = new Date(this.delivery_date);
-        this.delivery_date = this.delivery_date.setDate(this.selected_date_for_date_picker.getDate() + 3);
-        this.delivery_date = new Date(this.delivery_date);
-        this.show_delivery_time = "23:55";
-      }
-    } else if (this.type_of_services === 1) {
+    if (
+      this.bookingForm.controls["type"].value == "Departure" &&
+      this.bookingForm.controls["pickup_type"].value ==
+        "Airport: Drop off Point"
+    ) {
+      // hour = dDate.getHours() + 3
       if (
-        this.bookingForm.value.time_slot === 1 &&
-        this.selectBox === 1 &&
-        this.meetHour <= this.timeOnwards
+        this.datePipe.transform(new Date()) ==
+        this.datePipe.transform(this.selected_date_for_date_picker)
       ) {
-        this.meetHour = this.timeOnwards;
-        this.meet_hour_error_box = true;
-        this.meet_time_error_msg = "Time cannot be less than 13:00";
-      } else if (
-        this.bookingForm.value.time_slot === 1 &&
-        this.selectBox === 2 &&
-        this.meetHour > this.timeOnwards
-      ) {
-        this.meetHour = this.timeOnwards;
-        this.meet_hour_error_box = true;
-        this.meet_time_error_msg = "Time cannot be greater than 13:00";
-      } else if (
-        this.bookingForm.value.time_slot === 2 &&
-        this.selectBox === 1 &&
-        this.meetHour <= this.timeOnwards
-      ) {
-        this.meetHour = this.timeOnwards;
-        this.meet_hour_error_box = true;
-        this.meet_time_error_msg = "Time cannot be less than 17:00";
-      } else if (
-        this.bookingForm.value.time_slot === 2 &&
-        this.selectBox === 2 &&
-        this.meetHour >= this.timeOnwards
-      ) {
-        this.meetHour = this.timeOnwards;
-        this.meet_hour_error_box = true;
-        this.meet_time_error_msg = "Time cannot be greater than 17:00";
-      } else if (
-        this.bookingForm.value.time_slot === 3 &&
-        this.selectBox === 1 &&
-        this.meetHour <= this.timeOnwards
-      ) {
-        this.meetHour = this.timeOnwards;
-        this.meet_hour_error_box = true;
-        this.meet_time_error_msg = "Time cannot be less than 21:00";
-      } else if (
-        this.bookingForm.value.time_slot === 3 &&
-        this.selectBox === 2 &&
-        this.meetHour >= this.timeOnwards
-      ) {
-        this.meetHour = this.timeOnwards;
-        this.meet_hour_error_box = true;
-        this.meet_time_error_msg = "Time cannot be greater than 21:00";
-      } else if (
-        this.bookingForm.value.time_slot === 7 &&
-        this.selectBox === 1 &&
-        this.meetHour <= this.timeOnwards
-      ) {
-        this.meetHour = this.timeOnwards;
-        this.meet_hour_error_box = true;
-        this.meet_time_error_msg = "Time cannot be less than 2:00";
-      } else if (
-        this.bookingForm.value.time_slot === 7 &&
-        this.selectBox === 2 &&
-        this.meetHour >= this.timeOnwards
-      ) {
-        this.meetHour = this.timeOnwards;
-        this.meet_hour_error_box = true;
-        this.meet_time_error_msg = "Time cannot be greater than 2:00";
-      } else if (
-        this.bookingForm.value.time_slot === 9 &&
-        this.selectBox === 1 &&
-        this.meetHour <= this.timeOnwards
-      ) {
-        this.meetHour = this.timeOnwards;
-        this.meet_hour_error_box = true;
-        this.meet_time_error_msg = "Time cannot be less than 10:00";
-      } else if (
-        this.bookingForm.value.time_slot === 9 &&
-        this.selectBox === 2 &&
-        this.meetHour >= this.timeOnwards
-      ) {
-        this.meetHour = this.timeOnwards;
-        this.meet_hour_error_box = true;
-        this.meet_time_error_msg = "Time cannot be greater than 10:00";
+        hour = dDate.getHours() + 3;
       }
-      setTimeout(function () {
-        a.meet_hour_error_box = false;
-      }, 5000);
+    } else if (this.bookingForm.controls["type"].value != "Departure") {
+      if (
+        this.datePipe.transform(new Date()) ==
+        this.datePipe.transform(this.selected_date_for_date_picker)
+      ) {
+        hour = dDate.getHours();
+      } else {
+        hour = 0;
+      }
+    } else {
+      hour = 0;
     }
+
+    if (hour > 23) {
+      hour = Number(hour) - 24;
+    }
+
+    if (this.meetHour == hour || this.meetHour == 0) {
+      this.meetHour = 23;
+    } else {
+      this.meetHour -= 1;
+    }
+    {
+      this.meetHour = Number(this.meetHour);
+    }
+
+    hour == this.meetHour
+      ? (this.meetMin = new Date().getMinutes())
+      : (this.meetMin = 0);
   }
 
-  //
   increaseMeetMin() {
-    if (this.meetMin < 59) {
-      this.meetMin += 1;
+    let dDate = new Date();
+    let min;
+    let hour =
+      new Date().getHours() +
+      (this.bookingForm.controls["type"].value == "Departure" &&
+      this.bookingForm.controls["pickup_type"].value ==
+        "Airport: Drop off Point"
+        ? 3
+        : 0);
+    hour > 23 ? (hour = Number(hour) - 24) : null;
+
+    if (
+      this.bookingForm.controls["type"].value == "Departure" &&
+      this.bookingForm.controls["pickup_type"].value ==
+        "Airport: Drop off Point" &&
+      hour == this.meetHour
+    ) {
+      if (
+        this.datePipe.transform(new Date()) ==
+        this.datePipe.transform(this.selected_date_for_date_picker)
+      ) {
+        min = dDate.getMinutes();
+      }
+    } else if (this.bookingForm.controls["type"].value != "Departure") {
+      if (
+        this.datePipe.transform(new Date()) ==
+          this.datePipe.transform(this.selected_date_for_date_picker) &&
+        hour == this.meetHour
+      ) {
+        min = dDate.getMinutes();
+      } else {
+        min = 0;
+      }
     } else {
-      this.meetMin = 0;
+      min = 0;
+    }
+
+    if (this.meetMin >= 59) {
+      this.meetMin = min ? min : 0;
+    } else {
+      this.meetMin += 1;
+    }
+    {
+      this.meetMin = Number(this.meetMin);
     }
   }
 
   decreaseMeetMin() {
-    if (this.meetMin <= 59) {
-      this.meetMin = 0;
+    let dDate = new Date();
+    let min;
+    let hour =
+      new Date().getHours() +
+      (this.bookingForm.controls["type"].value == "Departure" &&
+      this.bookingForm.controls["pickup_type"].value ==
+        "Airport: Drop off Point"
+        ? 3
+        : 0);
+
+    hour > 23 ? (hour = Number(hour) - 24) : null;
+
+    if (
+      this.bookingForm.controls["type"].value == "Departure" &&
+      this.bookingForm.controls["pickup_type"].value ==
+        "Airport: Drop off Point"
+    ) {
+      // hour = dDate.getHours() + 3
+      if (
+        this.datePipe.transform(new Date()) ==
+          this.datePipe.transform(this.selected_date_for_date_picker) &&
+        hour == this.meetHour
+      ) {
+        min = dDate.getMinutes();
+      }
+    } else if (this.bookingForm.controls["type"].value != "Departure") {
+      if (
+        this.datePipe.transform(new Date()) ==
+          this.datePipe.transform(this.selected_date_for_date_picker) &&
+        hour == this.meetHour
+      ) {
+        min = dDate.getMinutes();
+      } else {
+        min = 0;
+      }
+    } else {
+      min = 0;
+    }
+
+    if (this.meetMin == min || this.meetMin == 0) {
+      this.meetMin = 59;
     } else {
       this.meetMin -= 1;
     }
+    {
+      this.meetMin = Number(this.meetMin);
+    }
   }
 
-  meetHour1:any = 0;
-  meetMin1:any = 0;
+  meetHour1: any = 0;
+  meetMin1: any = 0;
 
   hideMeet() {
-    this.meetHour  = Math.abs(Number(this.meetHour))
-    this.meetMin  = Math.abs(Number(this.meetMin))
-    if(this.meetHour > 24){
+    this.meetHour = Math.abs(Number(this.meetHour));
+    this.meetMin = Math.abs(Number(this.meetMin));
+    if (this.meetHour > 24) {
       this.printToastMsg("The Hour Should be less then or equal to 24 ");
       this.meetHour = 0;
-    }else if(this.meetMin > 60){
-      this.printToastMsg("The Min Should be less then or equal to 60 ")
+    } else if (this.meetMin > 60) {
+      this.printToastMsg("The Min Should be less then or equal to 60 ");
       this.meetMin = 0;
-    }else{
-      
-      if((this.meetHour || this.meetMin) && (this.meetHour != 0 || this.meetMin != 0)){
+    } else {
+      if (
+        (this.meetHour || this.meetMin) &&
+        (this.meetHour != 0 || this.meetMin != 0)
+      ) {
         this.showMeet = false;
-        this.meetHour1  = this.meetHour;
+        this.meetHour1 = this.meetHour;
         this.meetMin1 = this.meetMin;
         // subscription_details.show_coupons true then are distance based price calculated
-        this.subscription_details.show_coupons ? this.getSupscriptionPrice() : null
-      }else{
+        this.subscription_details.show_coupons
+          ? this.getSupscriptionPrice()
+          : null;
+      } else {
         this.printToastMsg("Please select valid time");
-      } 
+      }
     }
-    this.bookingForm.controls["time_slot"].setValue(this.bookingForm.controls["type"].value == "Departure" ? 1 : 5);
+    this.bookingForm.controls["time_slot"].setValue(
+      this.bookingForm.controls["type"].value == "Departure" ? 1 : 5
+    );
   }
 
   pick_drop_details: any = [];
@@ -2572,19 +3628,25 @@ export class BookingComponent implements OnInit {
       pickup_type: 1,
       airport_id: formValue.airport_id,
     };
-    this.subscription.subscription_validation(subscription.PICKUP_DROP_ADDRESS,reqBody).subscribe((res: any) => {
+    this.subscription
+      .subscription_validation(subscription.PICKUP_DROP_ADDRESS, reqBody)
+      .subscribe((res: any) => {
         this.pick_drop_details = res.subscriber_detail;
         this.ngxSpinner.hide();
-        // 
-        if(this.pick_drop_details.length != 0){
+        //
+        if (this.pick_drop_details.length != 0) {
           this.getdistance();
-          this.bookingForm.controls["addressLineOne"].setValue(this.pick_drop_details[0].pick_drop_address);
+          this.bookingForm.controls["addressLineOne"].setValue(
+            this.pick_drop_details[0].pick_drop_address
+          );
           // subscription_details.show_coupons true then are distance based price calculated
-          this.subscription_details.show_coupons ? this.getSupscriptionPrice()  : null
+          this.subscription_details.show_coupons
+            ? this.getSupscriptionPrice()
+            : null;
           this.fullAddressLine = this.pick_drop_details[0].pick_drop_address;
           this.bookingForm.controls["addressCity"].setValue("none");
         }
-        // 
+        //
         console.log("pickup drop", res);
       });
   }
@@ -2592,18 +3654,37 @@ export class BookingComponent implements OnInit {
   filterAirports() {
     this.airports = [];
     this.cityData.response.airport.map((item) => {
-      if (Number(item.airport_name_id) == 3 || Number(item.airport_name_id) == 7 || Number(item.airport_name_id) == 8 || Number(item.airport_name_id) == 9 || Number(item.airport_name_id) == 12 || Number(item.airport_name_id) == 13 || Number(item.airport_name_id) == 14) {
+      if (
+        Number(item.airport_name_id) == 3 ||
+        Number(item.airport_name_id) == 7 ||
+        Number(item.airport_name_id) == 8 ||
+        Number(item.airport_name_id) == 9 ||
+        Number(item.airport_name_id) == 12 ||
+        Number(item.airport_name_id) == 13 ||
+        Number(item.airport_name_id) == 14 ||
+        Number(item.airport_name_id) == 28
+      ) {
         this.airports.push(item);
       }
     });
   }
 
   // subscription functionality start
-  subscription_details: any = { show_coupons: false, remin_useage: 0, no_of_usage: 0, subscription_tokens: [], used_tokens: [],  proceed_without_payment: false };
+  subscription_details: any = {
+    show_coupons: false,
+    remin_useage: 0,
+    no_of_usage: 0,
+    subscription_tokens: [],
+    used_tokens: [],
+    proceed_without_payment: false,
+  };
 
   validateMobile(type) {
-    if(this.bookingForm.controls['delivery_type'].value == "Airport Transfer" || this.bookingForm.controls['delivery_type'].value == "Lost Luggage/Item/Not Loaded" ){
-      
+    if (
+      this.bookingForm.controls["delivery_type"].value == "Airport Transfer" ||
+      this.bookingForm.controls["delivery_type"].value ==
+        "Lost Luggage/Item/Not Loaded"
+    ) {
       this.btnDisabled = true;
       this.btnDisabled2 = true;
 
@@ -2612,144 +3693,174 @@ export class BookingComponent implements OnInit {
       // request body
       const reqBody = {
         name: formValue.name,
-        email: formValue.email,
+        email: formValue.email.toLowerCase(),
         number: formValue.mobile_number,
       };
       // validate subscription mobile number and resond otp code api
-      this.subscription.subscription_validation(subscription.VALIDATE_SUBSCRIPTION_NUMBER,reqBody).subscribe((res: any) => {
-        this.subscription_details.show_coupons = false;
-        this.ngxSpinner.hide();
-        this.printToastMsg(res.msg);
-        setTimeout(() => { 
-          this.btnDisabled = false;
-          this.btnDisabled2 = false;
-         }, 3000);
-      });
-    }
-    else{
-      this.printToastMsg('Subscription Not For Cargo Transfer');
-    }
-    
-  }
-
-
-
-  validateSubscription() {
-    if(this.bookingForm.controls['subscription_id'].value){
-      if(this.bookingForm.controls['delivery_type'].value == "Airport Transfer" || this.bookingForm.controls['delivery_type'].value == "Lost Luggage/Item/Not Loaded" ){
-        this.ngxSpinner.show();
-        const formValue = { ...this.bookingForm.value };
-        const reqBody = {subscription_id: formValue.subscription_id,};
-        // validate subscription id api
-        this.subscription.subscription_validation(subscription.VALIDATE_SUBSCRIPTION_ID, reqBody).subscribe((res: any) => {
+      this.subscription
+        .subscription_validation(
+          subscription.VALIDATE_SUBSCRIPTION_NUMBER,
+          reqBody
+        )
+        .subscribe((res: any) => {
+          this.subscription_details.show_coupons = false;
+          res.msg == "OTP Sent Successfully"
+            ? (this.is_otp_verified = true)
+            : null;
           this.ngxSpinner.hide();
           this.printToastMsg(res.msg);
-          if(res.subscription_detail){
-            this.bookingForm.controls["name"].setValue(res.subscription_detail.name);
-            this.bookingForm.controls["email"].setValue(res.subscription_detail.email);
-            this.bookingForm.controls["mobile_number"].setValue(res.subscription_detail.mobile);
-          }
+          setTimeout(() => {
+            this.btnDisabled = false;
+            this.btnDisabled2 = false;
+          }, 3000);
         });
-      }
-      else{
-        this.printToastMsg('Subscription Not For Cargo Transfer');
-      }
-    }
-    else{
-      this.printToastMsg('Please Enter the subscription number');
+    } else {
+      this.printToastMsg("Subscription Not For Cargo Transfer");
     }
   }
 
-  user_details_disable:any = false;
+  validateSubscription() {
+    if (this.bookingForm.controls["subscription_id"].value) {
+      if (
+        this.bookingForm.controls["delivery_type"].value ==
+          "Airport Transfer" ||
+        this.bookingForm.controls["delivery_type"].value ==
+          "Lost Luggage/Item/Not Loaded"
+      ) {
+        this.ngxSpinner.show();
+        const formValue = { ...this.bookingForm.value };
+        const reqBody = { subscription_id: formValue.subscription_id };
+        // validate subscription id api
+        this.subscription
+          .subscription_validation(
+            subscription.VALIDATE_SUBSCRIPTION_ID,
+            reqBody
+          )
+          .subscribe((res: any) => {
+            this.ngxSpinner.hide();
+            res.msg == "OTP Sent Successfully"
+              ? (this.is_otp_verified = true)
+              : null;
+            this.printToastMsg(res.msg);
+            if (res.subscription_detail) {
+              this.bookingForm.controls["name"].setValue(
+                res.subscription_detail.name
+              );
+              this.bookingForm.controls["email"].setValue(
+                res.subscription_detail.email
+              );
+              this.bookingForm.controls["mobile_number"].setValue(
+                res.subscription_detail.mobile
+              );
+            }
+          });
+      } else {
+        this.printToastMsg("Subscription Not For Cargo Transfer");
+      }
+    } else {
+      this.printToastMsg("Please Enter the subscription number");
+    }
+  }
+
+  user_details_disable: any = false;
   validateOtp() {
-    if(this.bookingForm.controls['otp'].value){
-      if(this.bookingForm.controls['delivery_type'].value == "Airport Transfer" || this.bookingForm.controls['delivery_type'].value == "Lost Luggage/Item/Not Loaded" ){
+    if (this.bookingForm.controls["otp"].value) {
+      if (
+        this.bookingForm.controls["delivery_type"].value ==
+          "Airport Transfer" ||
+        this.bookingForm.controls["delivery_type"].value ==
+          "Lost Luggage/Item/Not Loaded"
+      ) {
         const formValue = { ...this.bookingForm.value };
         const reqBody = {
-          email: formValue.email,
+          email: formValue.email.toLowerCase(),
           otp: formValue.otp,
           mobile: formValue.mobile_number,
           country_code: formValue.country,
         };
         if (formValue.otp) {
           this.ngxSpinner.show();
-          this.subscription.subscription_validation(subscription.OTP_VALIDATE, reqBody).subscribe((res: any) => {
-            this.bookingForm.controls["otp"].setValue("");
-            if (res.msg == "Number Verified Successfully") {
-              // res.subscriber_detail.map((res2)=>{
-              //   Number(res2.remaining_usages) == 0 ? res2.coupon_status = true : res2.coupon_status = false;
-              // })
-              // this.subscription_details.subscription_tokens = res.subscriber_detail ? res.subscriber_detail : [] ;
-              // this.format_tokens(res.subscriber_detail);
-              if(res.subscriber_detail.length != 0){
-                this.process_tokens(res.subscriber_detail);
-                this.subscription_details.show_coupons = true;
-                this.login_usr_details(formValue,res.subscriber_detail);
-              } 
-              else{
-                setTimeout(()=>{this.printToastMsg("Subscription coupons not purchased, Please buy subscription and make booking");},500);
+          this.subscription
+            .subscription_validation(subscription.OTP_VALIDATE, reqBody)
+            .subscribe((res: any) => {
+              this.bookingForm.controls["otp"].setValue("");
+              if (res.msg == "Number Verified Successfully") {
+                // res.subscriber_detail.map((res2)=>{
+                //   Number(res2.remaining_usages) == 0 ? res2.coupon_status = true : res2.coupon_status = false;
+                // })
+                // this.subscription_details.subscription_tokens = res.subscriber_detail ? res.subscriber_detail : [] ;
+                // this.format_tokens(res.subscriber_detail);
+                if (res.subscriber_detail.length != 0) {
+                  this.process_subscription_details(res.subscriber_detail);
+                  this.subscription_details.show_coupons = true;
+                  this.login_usr_details(formValue, res.subscriber_detail);
+                } else {
+                  setTimeout(() => {
+                    this.printToastMsg(
+                      "Subscription coupons not purchased, Please buy subscription and make booking"
+                    );
+                  }, 500);
+                }
+              } else {
+                this.subscription_details.show_coupons = false;
               }
-            } else {
-              this.subscription_details.show_coupons = false;
-            }
-            this.ngxSpinner.hide();
-            this.printToastMsg(res.msg);
-          });
+              this.ngxSpinner.hide();
+              this.printToastMsg(res.msg);
+            });
         } else {
           this.printToastMsg("Enter a OTP");
         }
+      } else {
+        this.printToastMsg("Subscription Not For Cargo Transfer");
       }
-      else{
-        this.printToastMsg('Subscription Not For Cargo Transfer');
-      }
-    }else{
-      this.printToastMsg('Enter Valid OTP');
+    } else {
+      this.printToastMsg("Enter Valid OTP");
     }
   }
 
-  login_usr_details(form:any ,response:any){
+  login_usr_details(form: any, response: any) {
     let loginDetails = {
-      "status": true,
-      "message": "Number Verified Successfully",
-      "customer_detail": {
-        "id_customer": response[0].id_customer,
-        "name": response[0].name,
-        "email": response[0].email,
-        "mobile": response[0].mobile,
-        "fk_tbl_customer_id_country_code": response[0].fk_tbl_customer_id_country_code ,
-        "id_country_code": response[0].fk_tbl_customer_id_country_code,
-        "mobile_number_verification": "1",
-        "client_id": response[0].client_id,
-        "client_secret": response[0].client_secret,
+      status: true,
+      message: "Number Verified Successfully",
+      customer_detail: {
+        id_customer: response[0].id_customer,
+        name: response[0].name,
+        email: response[0].email.toLowerCase(),
+        mobile: response[0].mobile,
+        fk_tbl_customer_id_country_code:
+          response[0].fk_tbl_customer_id_country_code,
+        id_country_code: response[0].fk_tbl_customer_id_country_code,
+        mobile_number_verification: "1",
+        client_id: response[0].client_id,
+        client_secret: response[0].client_secret,
       },
-      "saved_address": {
-        "registered_address": {},
-        "last_order_address": false
-      }
-    }
-    localStorage.setItem('loginUserDetails', JSON.stringify(loginDetails));
-    this.tokens.newEventFordata('LoggedIn!');
-    this.user_details_disable = true;
-   
+      saved_address: {
+        registered_address: {},
+        last_order_address: false,
+      },
+    };
+    localStorage.setItem("loginUserDetails", JSON.stringify(loginDetails));
+    this.tokens.newEventFordata("LoggedIn!");
+    this.user_details_disable =  this.is_login = true;
+
     this.accessTokenApi({
       client_id: response[0].client_id,
       client_secret: response[0].client_secret,
-      grant_type: 'client_credentials'
+      grant_type: "client_credentials",
     });
     // setTimeout(()=>{this.tokens.newEventFordata('LoggedIn!');},200);
     //['name','mobile_number','email'].map((res)=>{this.bookingForm.controls[res].disable()});
   }
 
-
   accessTokenApi(obj) {
-    this.crud.getToken(apis.GET_LOGIN_TOKEN, obj).subscribe((response:any) => {
+    this.crud.getToken(apis.GET_LOGIN_TOKEN, obj).subscribe((response: any) => {
       if (response) {
-        localStorage.setItem('accessToken', response.access_token);
+        localStorage.setItem("accessToken", response.access_token);
         this.tokens.passToken(response.access_token);
-        localStorage.setItem('carterXAccessToken',response.access_token);
+        localStorage.setItem("carterXAccessToken", response.access_token);
       }
     });
-    this.tokens.newEventFordata('LoggedIn!');
+    this.tokens.newEventFordata("LoggedIn!");
   }
 
   // format_tokens(list: any) {
@@ -2767,39 +3878,50 @@ export class BookingComponent implements OnInit {
   //       new_array.push(obj);
   //     }
   //   });
-  //   this.process_tokens(new_array);
+  //   this.process_subscription_details(new_array);
   // }
 
-  process_tokens(arr) {
+  process_subscription_details(arr) {
     let new_arr = [];
-    let cnt  = 1
+    let cnt = 1;
     arr.map((res: any, index) => {
       // console.log('expiry date ', new Date(Date.now()) <= new Date(res.expire_date))
-      if(new Date(Date.now()) <= new Date(res.expire_date) && (res.remaining_usages != '0' && res.remaining_usages != 0)){
-        res["uid"] = cnt ; 
-        res.remaining_usages == 0 ? (res.coupon_status = true) : (res.coupon_status = false);
+      if (
+        new Date(Date.now()) <= new Date(res.expire_date) &&
+        res.remaining_usages != "0" &&
+        res.remaining_usages != 0
+      ) {
+        res["uid"] = cnt;
+        res.remaining_usages == 0
+          ? (res.coupon_status = true)
+          : (res.coupon_status = false);
         new_arr.push(res);
         cnt += 1;
       }
     });
     this.subscription_details.subscription_tokens = new_arr;
-    if(this.subscription_details.subscription_tokens.length != 0){
+    if (this.subscription_details.subscription_tokens.length != 0) {
       this.subscription_details.show_coupons = true;
       this.dcrsCount = this.get_no_of_usage();
       this.buttonCount = this.get_remaining_usage();
-      let percent = (Number(this.buttonCount) / Number(this.dcrsCount) * 100 )
-      let remain_percent = 100 - Number(percent) 
-      // console.log(remain_percent)
+      let remain_percent =
+        (Number(this.buttonCount) / Number(this.dcrsCount)) * 100;
       this.elem.nativeElement.style.setProperty("--value", remain_percent);
-    }else{
+      if (this.bookingForm.controls["subscription_id"].value) {
+        let coupon = this.subscription_details.subscription_tokens.find(
+          (res) =>
+            res.confirmation_number ==
+            this.bookingForm.controls["subscription_id"].value
+        );
+        coupon ? this.select_and_unselect_cupons(coupon) : null;
+      }
+    } else {
       this.subscription_details.show_coupons = false;
     }
-    // this.elem.nativeElement.style.setProperty("--value", this.buttonCount);
-    // this.elem.nativeElement.style.setProperty("--totalPercent", this.dcrsCount);
   }
 
   select_and_unselect_cupons(arg) {
-    this.subscription_details.proceed_without_payment = false
+    this.subscription_details.proceed_without_payment = false;
     this.approximateAmount = 0;
     this.bookingForm.controls["bags"].setValue("");
 
@@ -2807,8 +3929,11 @@ export class BookingComponent implements OnInit {
       if (arg.subscription_transaction_id == res.subscription_transaction_id) {
         if (res.coupon_status == false) {
           if (this.subscription_details.used_tokens.length != 0) {
-            let index = this.subscription_details.subscription_tokens.findIndex((res) => res.uid == this.subscription_details.used_tokens[0].uid);
-            this.subscription_details.subscription_tokens[index].coupon_status = false;
+            let index = this.subscription_details.subscription_tokens.findIndex(
+              (res) => res.uid == this.subscription_details.used_tokens[0].uid
+            );
+            this.subscription_details.subscription_tokens[index].coupon_status =
+              false;
             this.subscription_details.used_tokens = [];
           }
           res.coupon_status = true;
@@ -2819,12 +3944,11 @@ export class BookingComponent implements OnInit {
           // this.dcrsCount = Number(this.get_no_of_usage()) ;
           // this.buttonCount = Number(this.get_remaining_usage()) - Number(this.subscription_details.used_tokens[0].remaining_usages);
           // let percent = (Number(this.buttonCount) / Number(this.dcrsCount) * 100 )
-          // let remain_percent = 100 - Number(percent) 
+          // let remain_percent = 100 - Number(percent)
           // console.log(remain_percent)
           // this.elem.nativeElement.style.setProperty("--value", remain_percent);
 
           // this.elem.nativeElement.style.setProperty("--totalPercent", this.dcrsCount);
-          
         } else {
           res.coupon_status = false;
 
@@ -2839,17 +3963,17 @@ export class BookingComponent implements OnInit {
           // console.log(remain_percent);
           // this.elem.nativeElement.style.setProperty("--value", remain_percent);
 
-          let index = this.subscription_details.used_tokens.findIndex((res) => res.uid == arg.uid);
+          let index = this.subscription_details.used_tokens.findIndex(
+            (res) => res.uid == arg.uid
+          );
           this.subscription_details.used_tokens.splice(index, 1);
         }
       }
     });
-    
-    
   }
 
   get_bags_subscription() {
-    if(this.subscription_details.used_tokens.length !=0){
+    if (this.subscription_details.used_tokens.length != 0) {
       if (this.bookingForm.controls["airline"].value) {
         switch (this.bookingForm.controls["transfer_type"].value) {
           // case "Local":
@@ -2860,11 +3984,11 @@ export class BookingComponent implements OnInit {
           //         arr.push(i);
           //       }
           //       return arr;
-          //     } 
+          //     }
           //     else if (Number(this.subscription_details.used_tokens[0].remaining_usages) >= 8) {
           //       return [1, 2, 3, 4, 5, 6, 7, 8];
           //     }
-          //   } 
+          //   }
           //   else if (this.bookingForm.controls["terminal"].value =="International Travel" ) {
           //     if (Number(this.subscription_details.used_tokens[0].remaining_usages) > 1 && Number(this.subscription_details.used_tokens[0].remaining_usages) < 16) {
           //       let arr = [];
@@ -2872,10 +3996,10 @@ export class BookingComponent implements OnInit {
           //         arr.push(i);
           //       }
           //       return arr;
-          //     } 
+          //     }
           //     else if (Number(this.subscription_details.used_tokens[0].remaining_usages) >= 16 ) {
           //       return [1, 2, 3, 4, 5, 6, 7, 8];
-          //     } 
+          //     }
           //     else {
           //       this.remove_bag_value();
           //       return [];
@@ -2885,7 +4009,7 @@ export class BookingComponent implements OnInit {
           //     return [];
           //   }
           //   break;
-          // 
+          //
           case "Local":
             return [1, 2, 3, 4, 5, 6, 7, 8];
             break;
@@ -2901,7 +4025,7 @@ export class BookingComponent implements OnInit {
         this.remove_bag_value();
         return [];
       }
-    }else{
+    } else {
       this.remove_bag_value();
       return [];
     }
@@ -2912,20 +4036,28 @@ export class BookingComponent implements OnInit {
   }
 
   getSupscriptionPrice() {
-    this.subscription_details.proceed_without_payment = false
+    this.subscription_details.proceed_without_payment = false;
     switch (this.bookingForm.controls["transfer_type"].value) {
       case "Local":
-        if (this.subscription_details.used_tokens.length != 0 && this.bookingForm.controls["bags"].value && this.bookingForm.controls["terminal"].value) {
+        if (
+          this.subscription_details.used_tokens.length != 0 &&
+          this.bookingForm.controls["bags"].value &&
+          this.bookingForm.controls["terminal"].value
+        ) {
           // console.log("local price.      ", Number(this.bookingForm.controls["bags"].value) *(this.bookingForm.controls["terminal"].value == "Domestic Travel" ? 1 : 2) * Number(this.subscription_details.used_tokens[0].redemption_cost));
           // this.approximateAmount = Number(this.bookingForm.controls["bags"].value) * (this.bookingForm.controls["terminal"].value == "Domestic Travel"? 1 : 2) * Number(this.subscription_details.used_tokens[0].redemption_cost);
           // this.approximateAmount == 0 ? this.subscription_details.proceed_without_payment = true : null
           this.subscription_outstation_price();
         } else {
-          this.approximateAmount = 0; 
+          this.approximateAmount = 0;
         }
         break;
       case "Outstation":
-        if (this.subscription_details.used_tokens.length != 0 && this.bookingForm.controls["bags"].value && this.bookingForm.controls["terminal"].value) {
+        if (
+          this.subscription_details.used_tokens.length != 0 &&
+          this.bookingForm.controls["bags"].value &&
+          this.bookingForm.controls["terminal"].value
+        ) {
           this.subscription_outstation_price();
         } else {
           this.approximateAmount = 0;
@@ -2935,12 +4067,12 @@ export class BookingComponent implements OnInit {
   }
 
   subscription_outstation_price() {
-    this.remaining_usages = this.total_usages = '';
-    this.subscription_details.proceed_without_payment = false
+    this.remaining_usages = this.total_usages = "";
+    this.subscription_details.proceed_without_payment = false;
     this.approximateAmount = 0;
     const formValue = { ...this.bookingForm.value };
     // Request Body
-    let amount = this.used_coupons = 0;
+    let amount = (this.used_coupons = 0);
     const reqBody = {
       order_type: 2,
       transfer_type: 2,
@@ -2971,7 +4103,9 @@ export class BookingComponent implements OnInit {
           amount = Math.round(data.price_details.price_with_gst);
 
           // outstation convinence charge for subscription
-          if (this.bookingForm.controls["transfer_type"].value == "Outstation") {
+          if (
+            this.bookingForm.controls["transfer_type"].value == "Outstation"
+          ) {
             for (var x = 0; x <= this.states.length - 1; x++) {
               // jammu and north east state
               if (this.stateName === this.states[x]) {
@@ -3014,7 +4148,10 @@ export class BookingComponent implements OnInit {
               }
 
               // serviceable city
-              if (this.airport_city_name == this.bookingForm.controls['addressCity'].value){
+              if (
+                this.airport_city_name ==
+                this.bookingForm.controls["addressCity"].value
+              ) {
                 // same city
                 if (this.distance <= 60) {
                   this.convenienceCharge =
@@ -3045,221 +4182,492 @@ export class BookingComponent implements OnInit {
                     data.conveyance_charge[6].total_price;
                   this.luggageGst = data.conveyance_charge[6].gst_price;
                 }
-              }
-              else {
+              } else {
                 // other serviceable city
                 for (var y = 0; y <= this.exsistingCityArray.length - 1; y++) {
-                  if (this.bookingForm.controls['addressCity'].value == this.exsistingCityArray[y]) {
-                    this.convenienceCharge = data.conveyance_charge[7].total_price;
+                  if (
+                    this.bookingForm.controls["addressCity"].value ==
+                    this.exsistingCityArray[y]
+                  ) {
+                    this.convenienceCharge =
+                      data.conveyance_charge[7].total_price;
                     this.luggageGst = data.conveyance_charge[7].gst_price;
                     break;
                   }
                 }
               }
-              console.log('airport terminal city and address city name  ',this.airport_city_name +'   '+ this.bookingForm.controls['addressCity'].value)
+              console.log(
+                "airport terminal city and address city name  ",
+                this.airport_city_name +
+                  "   " +
+                  this.bookingForm.controls["addressCity"].value
+              );
             }
 
-            if (amount != 0 && this.subscription_details.used_tokens.length != 0) {
-              let domestic_Or_International = this.bookingForm.controls["terminal"].value == "Domestic Travel" ? 1 : 2;
-              console.log("domestic_Or_International.  ", domestic_Or_International);
-              this.remaining_usages = Number(this.subscription_details.used_tokens[0].remaining_usages);
+            if (
+              amount != 0 &&
+              this.subscription_details.used_tokens.length != 0
+            ) {
+              let domestic_Or_International =
+                this.bookingForm.controls["terminal"].value == "Domestic Travel"
+                  ? 1
+                  : 2;
+              console.log(
+                "domestic_Or_International.  ",
+                domestic_Or_International
+              );
+              this.remaining_usages = Number(
+                this.subscription_details.used_tokens[0].remaining_usages
+              );
               //no of usages
-              let gst_with_supscription_cost = Number(this.subscription_details.used_tokens[0].subscription_cost) + (Number(this.subscription_details.used_tokens[0].subscription_cost) /100) * Number(this.subscription_details.used_tokens[0].gst_percent);
-              console.log("gst_with_supscription_cost.  .  ",gst_with_supscription_cost);
-              
-              let per_usage_cost = Math.round(Number(gst_with_supscription_cost) / Number(this.subscription_details.used_tokens[0].no_of_usages));
+              let gst_with_supscription_cost =
+                Number(
+                  this.subscription_details.used_tokens[0].subscription_cost
+                ) +
+                (Number(
+                  this.subscription_details.used_tokens[0].subscription_cost
+                ) /
+                  100) *
+                  Number(this.subscription_details.used_tokens[0].gst_percent);
+              console.log(
+                "gst_with_supscription_cost.  .  ",
+                gst_with_supscription_cost
+              );
+
+              let per_usage_cost = Math.round(
+                Number(gst_with_supscription_cost) /
+                  Number(this.subscription_details.used_tokens[0].no_of_usages)
+              );
               console.log("one_usage.  ", per_usage_cost);
               console.log("this.convenienceCharge.  ", this.convenienceCharge);
               // total outstation usage
-  
+
               // price amount for local and outstation
-              let local_and_outstation_price = this.bookingForm.controls["transfer_type"].value == "Outstation" ? (Math.round(Number(this.convenienceCharge))) : Math.round(data.price_details.price_with_gst)
-              console.log("local_and_outstation_price.          ",  local_and_outstation_price)
-  
-              let total_outstation_usage = Math.ceil(local_and_outstation_price / per_usage_cost);
+              let local_and_outstation_price =
+                this.bookingForm.controls["transfer_type"].value == "Outstation"
+                  ? Math.round(Number(this.convenienceCharge))
+                  : Math.round(data.price_details.price_with_gst);
+              console.log(
+                "local_and_outstation_price.          ",
+                local_and_outstation_price
+              );
+
+              let total_outstation_usage = Math.ceil(
+                local_and_outstation_price / per_usage_cost
+              );
               console.log("total_outstation_usage.  ", total_outstation_usage);
-  
+
               // calculation start
               let bag = formValue.bags * domestic_Or_International;
               console.log("bag.  ", bag);
-  
-              let no_of_usages = total_outstation_usage * domestic_Or_International;
+
+              let no_of_usages =
+                total_outstation_usage * domestic_Or_International;
               console.log("no_of_usages.  ", no_of_usages);
-              this.total_usages = no_of_usages + bag
-              if(Number(this.subscription_details.used_tokens[0].remaining_usages) >= (no_of_usages + bag)){
+              this.total_usages = no_of_usages + bag;
+              if (
+                Number(
+                  this.subscription_details.used_tokens[0].remaining_usages
+                ) >=
+                no_of_usages + bag
+              ) {
                 this.approximateAmount = 0;
-                this.approximateAmount == 0 ? this.subscription_details.proceed_without_payment = true : null
-                this.used_coupons = no_of_usages + bag
+                this.approximateAmount == 0
+                  ? (this.subscription_details.proceed_without_payment = true)
+                  : null;
+                this.used_coupons = no_of_usages + bag;
                 this.subscription_gst_price = 0;
                 // proceed to pay
-              } else{
-                this.used_coupons = Number(this.subscription_details.used_tokens[0].remaining_usages);
-                this.subscription_gst_price = ((Number(this.subscription_details.used_tokens[0].remaining_usages) * Number(per_usage_cost)) * Number(this.subscription_details.used_tokens[0].gst_percent)) / 100;
-                console.log('subscription_gst_price.      ',this.subscription_gst_price)
-                let exast_useage = no_of_usages + bag - Number(this.subscription_details.used_tokens[0].remaining_usages);
+              } else {
+                this.used_coupons = Number(
+                  this.subscription_details.used_tokens[0].remaining_usages
+                );
+                this.subscription_gst_price =
+                  (Number(
+                    this.subscription_details.used_tokens[0].remaining_usages
+                  ) *
+                    Number(per_usage_cost) *
+                    Number(
+                      this.subscription_details.used_tokens[0].gst_percent
+                    )) /
+                  100;
+                console.log(
+                  "subscription_gst_price.      ",
+                  this.subscription_gst_price
+                );
+                let exast_useage =
+                  no_of_usages +
+                  bag -
+                  Number(
+                    this.subscription_details.used_tokens[0].remaining_usages
+                  );
                 console.log("exast_useage.  ", exast_useage);
-                this.approximateAmount = Math.round(Number(exast_useage) * Number(per_usage_cost));
-                console.log("Math.round(Number(exast_useage) * Number(one_usage)).    ",Math.round(Number(exast_useage) * Number(per_usage_cost)));
+                this.approximateAmount = Math.round(
+                  Number(exast_useage) * Number(per_usage_cost)
+                );
+                console.log(
+                  "Math.round(Number(exast_useage) * Number(one_usage)).    ",
+                  Math.round(Number(exast_useage) * Number(per_usage_cost))
+                );
               }
             }
-          }
-          else if (this.bookingForm.controls["transfer_type"].value == "Local"){
-            let domestic_Or_International = this.bookingForm.controls["terminal"].value == "Domestic Travel" ? 1 : 2;
-            console.log("domestic_Or_International.  ", domestic_Or_International);
-            this.remaining_usages = Number(this.subscription_details.used_tokens[0].remaining_usages);
+          } else if (
+            this.bookingForm.controls["transfer_type"].value == "Local"
+          ) {
+            let domestic_Or_International =
+              this.bookingForm.controls["terminal"].value == "Domestic Travel"
+                ? 1
+                : 2;
+            console.log(
+              "domestic_Or_International.  ",
+              domestic_Or_International
+            );
+            this.remaining_usages = Number(
+              this.subscription_details.used_tokens[0].remaining_usages
+            );
             //no of usages
-            let gst_with_supscription_cost = Number(this.subscription_details.used_tokens[0].subscription_cost) + (Number(this.subscription_details.used_tokens[0].subscription_cost) /100) * Number(this.subscription_details.used_tokens[0].gst_percent);
-            console.log("gst_with_supscription_cost.  .  ",gst_with_supscription_cost);
-            
-            let per_usage_cost = Math.round(Number(gst_with_supscription_cost) / Number(this.subscription_details.used_tokens[0].no_of_usages));
+            let gst_with_supscription_cost =
+              Number(
+                this.subscription_details.used_tokens[0].subscription_cost
+              ) +
+              (Number(
+                this.subscription_details.used_tokens[0].subscription_cost
+              ) /
+                100) *
+                Number(this.subscription_details.used_tokens[0].gst_percent);
+            console.log(
+              "gst_with_supscription_cost.  .  ",
+              gst_with_supscription_cost
+            );
+
+            let per_usage_cost = Math.round(
+              Number(gst_with_supscription_cost) /
+                Number(this.subscription_details.used_tokens[0].no_of_usages)
+            );
             console.log("one_usage.  ", per_usage_cost);
 
             // redemption_cost
-            let redemption_cost = Number(this.subscription_details.used_tokens[0].redemption_cost);
-            redemption_cost = Number(redemption_cost) + Math.round(Number(redemption_cost) * Number(this.subscription_details.used_tokens[0].gst_percent) /100 );
+            let redemption_cost = Number(
+              this.subscription_details.used_tokens[0].redemption_cost
+            );
+            redemption_cost =
+              Number(redemption_cost) +
+              Math.round(
+                (Number(redemption_cost) *
+                  Number(
+                    this.subscription_details.used_tokens[0].gst_percent
+                  )) /
+                  100
+              );
             // redemption_cost = domestic_Or_International * redemption_cost;
-            console.log('redemption_cost',redemption_cost)
-            this.total_usages = (Number(formValue.bags) * domestic_Or_International)
-            if(Number(this.subscription_details.used_tokens[0].remaining_usages) < (Number(formValue.bags) * domestic_Or_International )){
-              console.log('priceing')
+            console.log("redemption_cost", redemption_cost);
+            this.total_usages =
+              Number(formValue.bags) * domestic_Or_International;
+            if (
+              Number(
+                this.subscription_details.used_tokens[0].remaining_usages
+              ) <
+              Number(formValue.bags) * domestic_Or_International
+            ) {
+              console.log("priceing");
 
-              let remaining_local_usage = (domestic_Or_International * Number(formValue.bags)) - Number(this.subscription_details.used_tokens[0].remaining_usages)
+              let remaining_local_usage =
+                domestic_Or_International * Number(formValue.bags) -
+                Number(
+                  this.subscription_details.used_tokens[0].remaining_usages
+                );
 
-              let price = Math.round(Number(per_usage_cost) * Number(remaining_local_usage));
+              let price = Math.round(
+                Number(per_usage_cost) * Number(remaining_local_usage)
+              );
               // this.approximateAmount = Math.round(Number(price) + (Number(this.bookingForm.controls["bags"].value) * Number(redemption_cost)))
-              this.approximateAmount = Math.round(Number(price) + ( Number(this.subscription_details.used_tokens[0].remaining_usages) * Number(redemption_cost)))
-              this.approximateAmount == 0 ? this.subscription_details.proceed_without_payment = true : null
+              this.approximateAmount = Math.round(
+                Number(price) +
+                  Number(
+                    this.subscription_details.used_tokens[0].remaining_usages
+                  ) *
+                    Number(redemption_cost)
+              );
+              this.approximateAmount == 0
+                ? (this.subscription_details.proceed_without_payment = true)
+                : null;
 
-              console.log('priceing',this.approximateAmount)
+              console.log("priceing", this.approximateAmount);
 
-              this.used_coupons = Number(this.subscription_details.used_tokens[0].remaining_usages) ;
-              this.subscription_gst_price = (Number(this.approximateAmount) *  Number(this.subscription_details.used_tokens[0].gst_percent)) / 100;
-             
-            }
-            else{
-              this.used_coupons = Number(formValue.bags) * Number(domestic_Or_International);
+              this.used_coupons = Number(
+                this.subscription_details.used_tokens[0].remaining_usages
+              );
+              this.subscription_gst_price =
+                (Number(this.approximateAmount) *
+                  Number(
+                    this.subscription_details.used_tokens[0].gst_percent
+                  )) /
+                100;
+            } else {
+              this.used_coupons =
+                Number(formValue.bags) * Number(domestic_Or_International);
               this.subscription_gst_price = 0;
-              this.approximateAmount = Math.round(domestic_Or_International * (Number(this.bookingForm.controls["bags"].value) * Number(redemption_cost)))
+              this.approximateAmount = Math.round(
+                domestic_Or_International *
+                  (Number(this.bookingForm.controls["bags"].value) *
+                    Number(redemption_cost))
+              );
               // this.approximateAmount = Math.round(Number(this.bookingForm.controls["bags"].value) * Number(redemption_cost))
               // this.approximateAmount = Number(this.bookingForm.controls["bags"].value) * (this.bookingForm.controls["terminal"].value == "Domestic Travel"? 1 : 2) * Number(this.subscription_details.used_tokens[0].redemption_cost);
 
-              console.log(this.approximateAmount,'-------edwed-wed-');
-              this.approximateAmount == 0 ? this.subscription_details.proceed_without_payment = true : null
+              console.log(this.approximateAmount, "-------edwed-wed-");
+              this.approximateAmount == 0
+                ? (this.subscription_details.proceed_without_payment = true)
+                : null;
             }
           }
-          
-          console.log(this.remaining_usages, 'remaining usage ***********************')
-          console.log(this.total_usages, 'total usage *************************')
-          console.log(this.used_coupons, 'exast usage *************************')
-          
+
+          console.log(
+            this.remaining_usages,
+            "remaining usage ***********************"
+          );
+          console.log(
+            this.total_usages,
+            "total usage *************************"
+          );
+          console.log(
+            this.used_coupons,
+            "exast usage *************************"
+          );
         });
     }
   }
 
   // place subscription order
-  place_subscription_order(){
+  place_subscription_order() {
     this.submitted = true;
     if (this.bookingForm.valid) {
       if (this.bookingForm.controls["term"].value != false) {
-
         if (localStorage.loginUserDetails) {
-
-          if (this.subscription_details.subscription_tokens.length !=0) {
-
-            if (this.subscription_details.used_tokens.length !=0) {
-
-              if(this.subscription_details.used_tokens.length != 0){ 
-                
+          if (this.subscription_details.subscription_tokens.length != 0) {
+            if (this.subscription_details.used_tokens.length != 0) {
+              if (this.subscription_details.used_tokens.length != 0) {
                 this.ngxSpinner.show();
                 // request body
                 const formValue = { ...this.bookingForm.value };
 
+                var customer_id;
+                var login_details = localStorage.loginUserDetails ? JSON.parse(localStorage.loginUserDetails): null;
+
+                if (login_details) {
+                  customer_id = login_details.customer_detail.id_customer;
+                }
+
+                var delivery_date_current;
+                var curDate = new Date(
+                  new Date().getFullYear(),
+                  new Date().getMonth(),
+                  new Date().getDate() +
+                    (formValue.transfer_type == "Outstation" ? 3 : 1),
+                  10,
+                  33,
+                  30,
+                  0
+                );
+                let date, month, year;
+                if (
+                  this.datePipe.transform(new Date(), "dd MMM y") ==
+                  this.datePipe.transform(
+                    this.selected_date_for_date_picker,
+                    "dd MMM y"
+                  )
+                ) {
+                  date = curDate.getDate();
+                  month = curDate.getMonth() + 1;
+                  year = curDate.getFullYear();
+                  delivery_date_current =
+                    year +
+                    "-" +
+                    (month < 10 ? "0" + month.toString() : month) +
+                    "-" +
+                    (date < 10 ? "0" + date.toString() : date);
+                } else {
+                  let dt = new Date(this.selected_date_for_date_picker);
+                  dt = new Date(
+                    dt.getFullYear(),
+                    dt.getMonth(),
+                    dt.getDate() +
+                      (formValue.transfer_type == "Outstation" ? 3 : 1),
+                    10,
+                    33,
+                    30,
+                    0
+                  );
+                  date =
+                    dt.getDate() +
+                    (formValue.transfer_type == "Outstation" ? 3 : 0);
+                  month = dt.getMonth() + 1;
+                  year = dt.getFullYear();
+                  delivery_date_current =
+                    year +
+                    "-" +
+                    (month < 10 ? "0" + month.toString() : month) +
+                    "-" +
+                    (date < 10 ? "0" + date.toString() : date);
+                }
+
                 const reqBody = {
                   service_type: formValue.type == "Departure" ? 1 : 2, // 2 for arrival, //1 for departure
                   order_type: 2,
-                  transfer_type: formValue.transfer_type == 'Local' ? 1:2,
+                  transfer_type: formValue.transfer_type == "Local" ? 1 : 2,
                   dservice_type: 7, // not confirmed
-                  order_type_str: formValue.delivery_type == "Airport Transfer" ? "Airport Transfer" : "Lost Luggage",
-                  terminal_type: formValue.terminal == "Domestic Travel" ? 2 : 1,
-                  pick_drop_point: formValue.delivery_type == "Airport Transfer" ? (formValue.pickup_type == "Airport: Drop off Point" || formValue.pickup_type == "Airport: Pickup Point" ? 1 : 2 ) : 2,
+                  order_type_str:
+                    formValue.delivery_type == "Airport Transfer"
+                      ? "Airport Transfer"
+                      : "Lost Luggage",
+                  terminal_type:
+                    formValue.terminal == "Domestic Travel" ? 2 : 1,
+                  pick_drop_point:
+                    formValue.delivery_type == "Airport Transfer"
+                      ? formValue.pickup_type == "Airport: Drop off Point" ||
+                        formValue.pickup_type == "Airport: Pickup Point"
+                        ? 1
+                        : 2
+                      : 2,
                   no_of_units: Number(formValue.bags),
-                  travell_passenger_name : formValue.name,
-                  travell_passenger_contact : formValue.mobile_number,
-                  travell_passenger_email : formValue.email,
+                  travell_passenger_name: formValue.name,
+                  travell_passenger_contact: formValue.mobile_number,
+                  travell_passenger_email: formValue.email.toLowerCase(),
                   country_code: formValue.country,
-                  subscription_transaction_id : this.subscription_details.used_tokens[0].subscription_transaction_id, // subscripion confirmation number -------
-                  order_date: this.datePipe.transform(formValue.date, "dd MMM y"),
-                  extra_weight_purched : "no",
+                  subscription_transaction_id:
+                    this.subscription_details.used_tokens[0]
+                      .subscription_transaction_id, // subscripion confirmation number -------
+                  order_date: this.datePipe.transform(
+                    this.selected_date_for_date_picker,
+                    "dd MMM y"
+                  ),
+                  extra_weight_purched: "no",
                   // formValue.transfer_type == 'Local' ? Number(formValue.bags) :
-                  exhaust_usages: Number(this.used_coupons) , // subscripion exhaust_usages -------
-                  payment_type : this.approximateAmount != 0 ? "razorpay" : "prepaid",
-                  corporate_type : 4,
-                  service_tax_amount :  Number(this.subscription_gst_price) ,  // subscripion service_tax_amount -------
-                  luggage_price : Number(this.approximateAmount) ,  // subscripion luggage_price -------
-                  total_luggage_price : this.approximateAmount,   //subscripion total_luggage_price
+                  exhaust_usages: Number(this.used_coupons), // subscripion exhaust_usages -------
+                  payment_type:
+                    this.approximateAmount != 0 ? "Online Payment" : "prepaid",
+                  corporate_type: 4,
+                  service_tax_amount: Number(this.subscription_gst_price), // subscripion service_tax_amount -------
+                  luggage_price: Number(this.approximateAmount), // subscripion luggage_price -------
+                  total_luggage_price: this.approximateAmount, //subscripion total_luggage_price
                   airport_id: formValue.airport_id,
                   city_id: formValue.city_id,
-                  flight_number: formValue.other_airline_no && formValue.other_airline_no != "none"? formValue.other_airline_no.toUpperCase() : "",
+                  flight_number:
+                    formValue.other_airline_no &&
+                    formValue.other_airline_no != "none"
+                      ? formValue.other_airline_no.toUpperCase()
+                      : "",
                   pnr_number: formValue.pnr.toUpperCase(),
-                  airport_slot_time :  (this.meetHour < 10  ? '0' : '' ) + this.meetHour + ':' + this.meetMin + (this.meetMin < 10  ? '0' : ''),  // airport_slot_time
-                  pick_drop_address: this.pick_drop_details.length != 0 && (formValue.pickup_type == "Airport: Drop off Point" || formValue.pickup_type == "Airport: Pickup Point") ? Number(this.pick_drop_details[0].pick_drop_id) : null,
-                  fk_tbl_order_id_slot : formValue.time_slot && formValue.time_slot != "none" ? formValue.time_slot : 1,
-                  // formValue.pickup_type == "Airport: Drop off Point" || formValue.pickup_type == "Airport: Pickup Point" ? formValue.pincode : (formValue.delivery_type == "Airport Transfer" ? '' : 
-                  pincode_first : (this.addressPincode ? this.addressPincode : formValue.pincode) ,
-                  pincode_second : '',
+                  airport_slot_time:
+                    (this.meetHour < 10 ? "0" : "") +
+                    this.meetHour +
+                    ":" +
+                    this.meetMin +
+                    (this.meetMin < 10 ? "0" : ""), // airport_slot_time
+                  pick_drop_address:
+                    this.pick_drop_details.length != 0 &&
+                    (formValue.pickup_type == "Airport: Drop off Point" ||
+                      formValue.pickup_type == "Airport: Pickup Point")
+                      ? Number(this.pick_drop_details[0].pick_drop_id)
+                      : null,
+                  fk_tbl_order_id_slot:
+                    formValue.pickup_type == "Airport: Drop off Point" ||
+                    formValue.pickup_type == "Airport: Pickup Point" ||
+                    formValue.time_slot == "none"
+                      ? ""
+                      : formValue.time_slot,
+                  // formValue.pickup_type == "Airport: Drop off Point" || formValue.pickup_type == "Airport: Pickup Point" ? formValue.pincode : (formValue.delivery_type == "Airport Transfer" ? '' :
+                  pincode_first: this.addressPincode
+                    ? this.addressPincode
+                    : formValue.pincode,
+                  pincode_second: "",
                   address_line_1: this.fullAddressLine,
                   address_line_2: "",
                   area: this.area,
-                  pincode: formValue.delivery_type == "Airport Transfer" ? (formValue.pickup_type == "Airport: Drop off Point" || formValue.pickup_type == "Airport: Pickup Point" ? formValue.pincode : this.addressPincode) : formValue.addressPincodes,
-                  building_number : '',
+                  pincode:
+                    formValue.delivery_type == "Airport Transfer"
+                      ? formValue.pickup_type == "Airport: Drop off Point" ||
+                        formValue.pickup_type == "Airport: Pickup Point"
+                        ? formValue.pincode
+                        : this.addressPincode
+                      : formValue.addressPincodes,
+                  building_number: "",
                   building_restriction: null,
-                  // remaining_usages: this.remaining_usages,
-                  // total_usages: this.total_usages,
-                  delivery_datetime: this.delivery_date
-                    ? this.delivery_date.toString().split(" ")[2] +
-                    " " +
-                    this.delivery_date.toString().split(" ")[1] +
-                    " " +
-                    this.delivery_date.toString().split(" ")[3] +
-                    " " +
-                    this.show_delivery_time.toString().split(" ")[0]
-                    : this.selected_date_for_date_picker,
-                    
+                  remaining_usages: this.remaining_usages,
+                  total_usages: this.total_usages,
+                  delivery_datetime:
+                    formValue.delivery_type == "Airport Transfer" &&
+                    (formValue.pickup_type == "Airport: Drop off Point" ||
+                      formValue.pickup_type == "Airport: Pickup Point")
+                      ? delivery_date_current +
+                        " " +
+                        (this.meetHour < 10 ? "0" : "") +
+                        this.meetHour +
+                        ":" +
+                        this.meetMin +
+                        (this.meetMin < 10 ? "0" : "")
+                      : this.delivery_date
+                      ? this.delivery_date.toString().split(" ")[2] +
+                        " " +
+                        this.delivery_date.toString().split(" ")[1] +
+                        " " +
+                        this.delivery_date.toString().split(" ")[3] +
+                        " " +
+                        this.show_delivery_time.toString().split(" ")[0]
+                      : this.selected_date_for_date_picker,
+                  system_info:2,
+                  customer_id: customer_id,
+                  razorpay_status: this.approximateAmount ? "success" : "",
+                  razorpay_pay_id: this.approximateAmount ? this.razorpay_payment_id : "",
                 };
 
-                console.log(reqBody, 'request body for redeem and booking');
+                console.log(reqBody, "request body for redeem and booking");
                 // REEDEME AND BOOOKING API
-                this.crud.postWithStaticTokenAirline( CORPORATE_APIS.REDEEMBOOKING, reqBody, this.token, formValue.airline, formValue.transfer_type == "Outstation" ? 2 : 1).pipe(throttleTime(250)).subscribe((data: any) => {
-                if (data.status) {
-                  console.log(data, 'api response for redeem and booking')
-                  localStorage.setItem("order", JSON.stringify([data.order_number]));
-                  localStorage.setItem("order_from", "airport");
-                  this.ngxSpinner.hide();
-                  this.router.navigate(["/order-confirmation"]);
-                  window.scrollTo(0, 0);
-                }
-              },
-              () => this.ngxSpinner.hide()
-                );
+                this.crud
+                  .postWithStaticTokenAirline(
+                    CORPORATE_APIS.REDEEMBOOKING,
+                    reqBody,
+                    this.token,
+                    formValue.airline,
+                    formValue.transfer_type == "Outstation" ? 2 : 1
+                  )
+                  .pipe(throttleTime(250))
+                  .subscribe(
+                    (data: any) => {
+                      if (data.status) {
+                        console.log(
+                          data,
+                          "api response for redeem and booking"
+                        );
+                        localStorage.setItem(
+                          "order",
+                          JSON.stringify([data.order_number])
+                        );
+                        localStorage.setItem("order_from", "airport");
+                        this.ngxSpinner.hide();
+                        this.router.navigate(["/order-confirmation"]);
+                        window.scrollTo(0, 0);
+                      }
+                    },
+                    () => this.ngxSpinner.hide()
+                  );
               } else {
                 this.printToastMsg("Please use Subscription to booking");
                 console.log("--------", this.bookingForm);
               }
-
-            }
-            else {
+            } else {
               this.printToastMsg("Please use Subscription coupons for booking");
               console.log("--------", this.bookingForm);
             }
-
-          }else{
-            this.printToastMsg("Please purchase subscription coupons and use for make booking");
+          } else {
+            this.printToastMsg(
+              "Please purchase subscription coupons and use for make booking"
+            );
             console.log("--------", this.bookingForm);
           }
-
-        }else{
+        } else {
           this.printToastMsg("Please Login and use subscription coupons");
-          console.log("--------", this.bookingForm);  
+          console.log("--------", this.bookingForm);
         }
       } else {
         this.printToastMsg("Please agree the terms and condition");
@@ -3272,22 +4680,22 @@ export class BookingComponent implements OnInit {
   }
 
   // get all remaining usage
-  get_remaining_usage(){
+  get_remaining_usage() {
     let total = 0;
-    this.subscription_details.subscription_tokens.map((res)=>{
+    this.subscription_details.subscription_tokens.map((res) => {
       // console.log(res);
       total = total + Number(res.remaining_usages);
-    })
+    });
     // console.log(total,'----------')
     return total;
   }
   // get all no of usage
-  get_no_of_usage(){
+  get_no_of_usage() {
     let total = 0;
-    this.subscription_details.subscription_tokens.map((res)=>{
+    this.subscription_details.subscription_tokens.map((res) => {
       // console.log(res);
       total = total + Number(res.no_of_usages);
-    })
+    });
     // console.log(total,'----------')
     return total;
   }
@@ -3295,10 +4703,16 @@ export class BookingComponent implements OnInit {
   getCargoContents() {
     switch (this.bookingForm.controls["parcel_type"].value) {
       case "Documents":
-        return ['Documents | Books | Files']
+        return ["Documents | Books | Files"];
         break;
-      case "Carton Box":
-        return['Documents | Books | Files','Clothes | Accessories','Dry Packed Food (non liquid)','Pickles | Uncooked Packed Food','Others'];
+      case "Cartons/Baggage":
+        return [
+          "Documents | Books | Files",
+          "Clothes | Accessories",
+          "Dry Packed Food (non liquid)",
+          "Pickles | Uncooked Packed Food",
+          "Others",
+        ];
         break;
       default:
         return [];
@@ -3308,15 +4722,46 @@ export class BookingComponent implements OnInit {
   getWeight() {
     switch (this.bookingForm.controls["parcel_type"].value) {
       case "Documents":
-        return [this.weightJson.weights[0]]
+        return [this.weightJson.weights[0]];
         break;
-      default:
-        return this.weightJson.weights;
+      case "Electronics":
+        return [
+          this.weightJson.weights[3],
+          this.weightJson.weights[4],
+          this.weightJson.weights[5],
+        ];
+        break;
+      case "Sports & Other Equipment":
+        return [
+          this.weightJson.weights[3],
+          this.weightJson.weights[4],
+          this.weightJson.weights[5],
+        ];
+        break;
+      case "Cartons/Baggage":
+        return [
+          this.weightJson.weights[1],
+          this.weightJson.weights[2],
+          this.weightJson.weights[3],
+          this.weightJson.weights[4],
+          this.weightJson.weights[5],
+        ];
+        break;
     }
   }
 
+  selectedCheckbox() {
+    if (this.selected == false) {
+      ["name", "mobile_number", "email"].map((res) => {
+        this.bookingForm.controls[res].setValue("");
+      });
+      this.user_details_disable = false;
+      this.is_otp_verified = false;
+    } else {
+      this.setLoginDetails(0);
+    }
+  }
   
-
 }
 
 // abc

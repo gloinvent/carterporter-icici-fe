@@ -1,0 +1,24 @@
+.orderStatus {
+  font-size:12px;
+  .closeBtn {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .btnWrapper {
+      position: absolute;
+      right: -15px;
+      top: -15px;
+    }
+
+    img {
+      height: 35px;
+      cursor: pointer;
+    }
+  }
+}
+
+.mat-dialog-container {
+  background: #fff !important;
+}

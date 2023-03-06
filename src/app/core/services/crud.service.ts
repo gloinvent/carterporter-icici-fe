@@ -14,7 +14,7 @@ import { Options } from "selenium-webdriver/opera";
 export class CrudService {
   loggedUser = false;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   public post(api, postdata) {
     const httpOptions = {
@@ -213,28 +213,28 @@ export class CrudService {
   //       case "IndiGo":
   //         switch (data.no_of_units) {
   //           case 1:
-  //             bagToken = "d37a1e3d0fdc52cbfc8f876876925ba3";
+  //             bagToken = "ff8bec52eed001feb1083aca060b2dd9";
   //             break;
   //           case 2:
-  //             bagToken = "d37a1e3d0fdc52cbfc8f876876925ba3";
+  //             bagToken = "69650df4209303dcb5b3a6d2d1b35f48";
   //             break;
   //           case 3:
-  //             bagToken = "e1eacd4217cfac41ca45876237b9730b";
+  //             bagToken = "7072c2ade882951246391a262091c883";
   //             break;
   //           case 4:
-  //             bagToken = "f519a8dcad9d4183345ee1df49d4f2de";
+  //             bagToken = "297e287f13f2272248a0ad88460af009";
   //             break;
   //           case 5:
-  //             bagToken = "1b135d2e4001b0edfaa0a8f5a9527396";
+  //             bagToken = "3f967f11d611fec98bdbbb80bd93c2b2";
   //             break;
   //           case 6:
-  //             bagToken = "06e8ff61632efe2b11bca3b5cacd5f82";
+  //             bagToken = "a152d9e11cae44f1c247f3b117a9e6b3";
   //             break;
   //           case 7:
-  //             bagToken = "1ae2e6ff9b277cdf21a336c54d07389b";
+  //             bagToken = "f1986bc5161a35cf4f2c8fef01a4847a";
   //             break;
   //           case 8:
-  //             bagToken = "e3ba9c652b275a11920847ca915fdd23";
+  //             bagToken = "b05c07c91570069a3e67c3a8561cd37d";
   //             break;
   //         }
   //         break;
@@ -946,51 +946,50 @@ export class CrudService {
           switch (data.no_of_units) {
             case 1:
               bagToken =
-                data.service_type == 1
-                  ? "d432cbf9786ba6e25f72914d7a276af7"
-                  : "cf26d7dcf14618ac675085e2740f5487";
+                data.service_type == 1 
+                ? "1580e768cf6d4eafe2b4aee8688b683c" 
+                : "bddc080a924ad7b929a496a7ecb7a02f"
               break;
             case 2:
-              bagToken =
-                data.service_type == 1
-                  ? "c54514fa6eb28a81c54b201362b1bfa4"
-                  : "a27f964ddca4ede0f3ae6aa51d9d5c0a";
+              bagToken = data.service_type == 1 
+              ? "4c6383ba2d782e163aec3e3ba45e9a3a" 
+              : "23f8480884f23eb3f5094b9230245c26"
               break;
             case 3:
               bagToken =
-                data.service_type == 1
-                  ? "d7da3e66dea351b34fc98221ddb2bfbb"
-                  : "9d9086b42fb5f0df427cab4b76da8105";
+                data.service_type == 1 
+                ? "e39f3f25ef89c459a8952789bc7a4ea7" 
+                : "c3108ed69a37eacc1dc46353e1f02645"
               break;
             case 4:
               bagToken =
                 data.service_type == 1
-                  ? "c51ff8cd32b71ee568c6d74d3f68a0a7"
-                  : "f3b2622d36f32b8b3cc55d8229bcfcee";
+                  ? "f8243830eb5aaf8c65425aa011a57ba1" 
+                  : "baceb41a6fe86d9380e62efbde0bd1ac"
               break;
             case 5:
               bagToken =
-                data.service_type == 1
-                  ? "fc624decfa3837a17dd0bb5d3dfd7756"
-                  : "42f91dcb86af694f61407df98ffa811f";
+                data.service_type == 1 
+                ? "73992b67aefd7048bc528fe947f85d3a" 
+                : "eda1de7d0371293f9dfe78de4ab66624"
               break;
             case 6:
               bagToken =
-                data.service_type == 1
-                  ? "35eb2ac37a892cf28fb80f3ef631f798"
-                  : "895006331b0996be63836411db2d0bef";
+                data.service_type == 1 
+                ? "236be72234b2357cd09eb5a27687fe5d" 
+                : "8a015c7484ef16bfccac2aaa90bee4fa"
               break;
             case 7:
               bagToken =
-                data.service_type == 1
-                  ? "7389189ef63fb9950ab451312a456373"
-                  : "4111e4577d97ae35a3df320400ed741b";
+                data.service_type == 1 
+                ? "991b7d5f8e750db3d6038a38a584eb9b" 
+                : "ef718bc80c6e6a1ff62ffab9674e2d98"
               break;
             case 8:
               bagToken =
-                data.service_type == 1
-                  ? "f2771b675553e32916eecdd069e4032c"
-                  : "591d131a2a88c48fc240085840cad05a";
+                data.service_type == 1 
+                ? "53755c584094db694ec401319a239f53" 
+                : "cbe7da4a5c231e99d152f218bbbcf2b8"
               break;
           }
           break;
@@ -1138,25 +1137,25 @@ export class CrudService {
             case 6:
               if (data.service_type == 1) {
                 bagToken = "f9e0c96f16ca9c29644249457e2bb08f";
-               } else {
+              } else {
                 bagToken = "8501bceea4a2a0a0f1e8c8e28b0fc4b7";
               }
               break;
             case 7:
               if (data.service_type == 1) {
-                 bagToken = "0d240687cdad4671a9ef6c8ef816ecbc";
+                bagToken = "0d240687cdad4671a9ef6c8ef816ecbc";
               } else {
                 bagToken = "760cbf334b154fc4db7f16646fbe569b";
               }
               break;
             case 8:
               if (data.service_type == 1) {
-               bagToken = "935fffeb968df1e2a28877c2a0838cba";
+                bagToken = "935fffeb968df1e2a28877c2a0838cba";
               } else {
                 bagToken = "c933e0eea3f48b193b522747e126045a";
               }
               break;
-            }
+          }
           break;
         case "AirAsia (India)":
           switch (data.no_of_units) {
@@ -1185,29 +1184,29 @@ export class CrudService {
                   : "b2dcbadc78b53167ba7fcd20a6c72bc1";
               break;
             case 5:
-               bagToken =
-               data.service_type === 1
+              bagToken =
+                data.service_type === 1
                   ? "442e7a1ed12df02f9554f2682ab3cc67"
                   : "1e94681feadf26f1fa1cba2ed355e14d";
-                 break;
+              break;
             case 6:
               bagToken =
-              data.service_type === 1
+                data.service_type === 1
                   ? "81f6023bf530fcc74c388533c9a87023"
                   : "5ab15a3c6809782dbba73fe18e0da082";
               break;
             case 7:
               bagToken =
-              data.service_type === 1
-                ? "422f5b6ca3f010f1d34ef421d0c18d3c"
-                : "83d68eda2aa0e48d79c580f673cc921b";
+                data.service_type === 1
+                  ? "422f5b6ca3f010f1d34ef421d0c18d3c"
+                  : "83d68eda2aa0e48d79c580f673cc921b";
               break;
             case 8:
-             bagToken =
-             data.service_type === 1
-                ? "3aab4323ba5b0285ded65836e99bfafa"
-                : "aa5c56b0f1f7aedd0ad7436d2a9a3a88";
-            break;
+              bagToken =
+                data.service_type === 1
+                  ? "3aab4323ba5b0285ded65836e99bfafa"
+                  : "aa5c56b0f1f7aedd0ad7436d2a9a3a88";
+              break;
           }
           break;
         case "Other Airlines":
@@ -1697,6 +1696,15 @@ export class CrudService {
     return this.http.post(environment.baseUrl + api, data);
   }
 
+  public postFormdataUploadImage2(api, data) {
+    // const httpOptions = {
+    //   headers: new HttpHeaders({
+    //     'Content-Type': 'multipart/form-data',
+    //   })
+    // };
+    return this.http.post("https://carter-cors.herokuapp.com/" + environment.baseUrl + api, data);
+  }
+
   public postOla(api, data, token) {
     const httpOptions = {
       headers: new HttpHeaders({
@@ -1754,36 +1762,114 @@ export class CrudService {
     );
   }
 
-  public postWithCorporateTokenCargoAirline(api, data, no_of_bags, type) {
+  public postWithCorporateTokenCargoAirline(api, data, no_of_weight, service_type, parcel_type) {
     var token;
 
     //* For QA
     // **********************************************************
-    // switch (no_of_bags) {
+    // switch (no_of_weight) {
     //   case "2 kgs":
-    //     switch (type) {
+    //     switch (service_type) {
     //       case "Rush Air":
-    //         token = `e7c08503c99ed8061ab4c4fac1fb123e`;
+    //         switch (parcel_type) {
+    //           case 'Cartons/Baggage':
+    //             token = `e7c08503c99ed8061ab4c4fac1fb123e`;
+    //             break;
+    //           case 'Documents':
+    //             token = `e7c08503c99ed8061ab4c4fac1fb123e`;
+    //             break;
+    //           case 'Sports & Other Equipment':
+    //             token = `e7c08503c99ed8061ab4c4fac1fb123e`;
+    //             break;
+    //           case 'Electronics':
+    //             token = `e7c08503c99ed8061ab4c4fac1fb123e`;
+    //             break;
+    //         }
     //         break;
     //       case "Rush Surface":
-    //         token = `b27bc502ac2651c9f9670e2c185b4470`;
+    //         switch (parcel_type) {
+    //           case 'Cartons/Baggage':
+    //             token = `b27bc502ac2651c9f9670e2c185b4470`;
+    //             break;
+    //           case 'Documents':
+    //             token = `b27bc502ac2651c9f9670e2c185b4470`;
+    //             break;
+    //           case 'Sports & Other Equipment':
+    //             token = `b27bc502ac2651c9f9670e2c185b4470`;
+    //             break;
+    //           case 'Electronics':
+    //             token = `b27bc502ac2651c9f9670e2c185b4470`;
+    //             break;
+    //         }
     //         break;
     //       case "Rush AirExpress":
-    //         token = `3d17654a73c0e8083e49808005843226`;
+    //         switch (parcel_type) {
+    //           case 'Cartons/Baggage':
+    //             token = `3d17654a73c0e8083e49808005843226`;
+    //             break;
+    //           case 'Documents':
+    //             token = `3d17654a73c0e8083e49808005843226`;
+    //             break;
+    //           case 'Sports & Other Equipment':
+    //             token = `3d17654a73c0e8083e49808005843226`;
+    //             break;
+    //           case 'Electronics':
+    //             token = `3d17654a73c0e8083e49808005843226`;
+    //             break;
+    //         }
     //         break;
     //     }
     //     break;
 
     //   default:
-    //     switch (type) {
+    //     switch (service_type) {
     //       case "Rush Air":
-    //         token = `b90a58dbbeba8c6c38c44ab40fffb6aa`;
+    //         switch (parcel_type) {
+    //           case 'Cartons/Baggage':
+    //             token = `b90a58dbbeba8c6c38c44ab40fffb6aa`;
+    //             break;
+    //           case 'Documents':
+    //             token = `b90a58dbbeba8c6c38c44ab40fffb6aa`;
+    //             break;
+    //           case 'Sports & Other Equipment':
+    //             token = `b90a58dbbeba8c6c38c44ab40fffb6aa`;
+    //             break;
+    //           case 'Electronics':
+    //             token = `b90a58dbbeba8c6c38c44ab40fffb6aa`;
+    //             break;
+    //         }
     //         break;
     //       case "Rush Surface":
-    //         token = `b72bf82f9293a72d4cde80ab4ba5aaff`;
+    //         switch (parcel_type) {
+    //           case 'Cartons/Baggage':
+    //             token = `b72bf82f9293a72d4cde80ab4ba5aaff`;
+    //             break;
+    //           case 'Documents':
+    //             token = `b72bf82f9293a72d4cde80ab4ba5aaff`;
+    //             break;
+    //           case 'Sports & Other Equipment':
+    //             token = `b72bf82f9293a72d4cde80ab4ba5aaff`;
+    //             break;
+    //           case 'Electronics':
+    //             token = `b72bf82f9293a72d4cde80ab4ba5aaff`;
+    //             break;
+    //         }
     //         break;
     //       case "Rush AirExpress":
-    //         token = `1679e08ebbd621cdfef473a5af506534`;
+    //         switch (parcel_type) {
+    //           case 'Cartons/Baggage':
+    //             token = `1679e08ebbd621cdfef473a5af506534`;
+    //             break;
+    //           case 'Documents':
+    //             token = `1679e08ebbd621cdfef473a5af506534`;
+    //             break;
+    //           case 'Sports & Other Equipment':
+    //             token = `1679e08ebbd621cdfef473a5af506534`;
+    //             break;
+    //           case 'Electronics':
+    //             token = `1679e08ebbd621cdfef473a5af506534`;
+    //             break;
+    //         }
     //         break;
     //     }
     //     break;
@@ -1792,125 +1878,212 @@ export class CrudService {
 
     //* For Production
     // **********************************************************
-    switch (no_of_bags) {
+    switch (no_of_weight) {
       case "2 kgs":
-        switch (type) {
+        switch (service_type) {
           case "Rush Air":
-            token = `74270889b54d540ded3eb695aff807f7`;
+            switch (parcel_type) {
+              case 'Documents':
+                token = `74270889b54d540ded3eb695aff807f7`;
+                break;
+            }
             break;
           case "Rush Surface":
-            token = `4c4b38f989db495468044326bb5c56a1`;
+            switch (parcel_type) {
+              case 'Documents':
+                token = `4c4b38f989db495468044326bb5c56a1`;
+                break;
+            }
             break;
           case "Rush AirExpress":
-            token = `aeba8e6ed1a094c6c3e36bea13aef0aa`;
+            switch (parcel_type) {
+              case 'Documents':
+                token = `74270889b54d540ded3eb695aff807f7`;
+                break;
+            }
             break;
         }
         break;
       case "5 kgs":
-        switch (type) {
+        switch (service_type) {
           case "Rush Air":
-            token = `cc9de4d4d27c0dde21ffffdb21b89417`;
+            switch (parcel_type) {
+              case 'Cartons/Baggage':
+                token = `cc9de4d4d27c0dde21ffffdb21b89417`;
+                break;
+            }
             break;
           case "Rush Surface":
-            token = `5ddefaba50d8eb1690d3c37dc6d1a56f`;
+            switch (parcel_type) {
+              case 'Cartons/Baggage':
+                token = `5ddefaba50d8eb1690d3c37dc6d1a56f`;
+                break;
+            }
             break;
           case "Rush AirExpress":
-            token = `c8d2b27d0f4402f40117f31f898bfccb`;
+            switch (parcel_type) {
+              case 'Cartons/Baggage':
+                token = `c8d2b27d0f4402f40117f31f898bfccb`;
+                break;
+            }
             break;
         }
-        break;
-      case "7 kgs":
-        switch (type) {
-          case "Rush Air":
-            token = `256ce18d912c4e57df425ec047eb58ad`;
-            break;
-          case "Rush Surface":
-            token = `7ca9a797efc399e51b2d90869108f17b`;
-            break;
-          case "Rush AirExpress":
-            token = `6b9375d765be72443d0c8f47a0639888`;
-            break;
-          }
         break;
       case "12 kgs":
-        switch (type) {
+        switch (service_type) {
           case "Rush Air":
-            token = `9c13289724f6a51f170f84ed88bbe119`;
+            switch (parcel_type) {
+              case 'Cartons/Baggage':
+                token = `9c13289724f6a51f170f84ed88bbe119`;
+                break;
+            }
             break;
           case "Rush Surface":
-            token = `ba532dc74ca196b04aeaf764fabcb61f`;
+            switch (parcel_type) {
+              case 'Cartons/Baggage':
+                token = `ba532dc74ca196b04aeaf764fabcb61f `;
+                break;
+            }
             break;
           case "Rush AirExpress":
-            token = `79142d8e87c19a211de3e0b8261f4c6b`;
-            break;
-        }
-        break;
-      case "15 kgs":
-        switch (type) {
-          case "Rush Air":
-            token = `551dd3c7742b47e900bc565f681f65d8`;
-            break;
-          case "Rush Surface":
-            token = `6f644f5cc3a55aa0516183d6dc8dd286`;
-            break;
-          case "Rush AirExpress":
-            token = `e99872197082005579d5e4127c4f67de`;
+            switch (parcel_type) {
+              case 'Cartons/Baggage':
+                token = `79142d8e87c19a211de3e0b8261f4c6b`;
+                break;
+            }
             break;
         }
         break;
       case "20 kgs":
-        switch (type) {
+        switch (service_type) {
           case "Rush Air":
-            token = `6d9a48cdf24befef999b74c21a121b40`;
+            switch (parcel_type) {
+              case 'Cartons/Baggage':
+                token = `6d9a48cdf24befef999b74c21a121b40`;
+                break;
+              case 'Sports & Other Equipment':
+                token = `256ce18d912c4e57df425ec047eb58ad`;
+                break;
+              case 'Electronics':
+                token = `8028943bb8cc1e2f7a88dc8bea8911c7`;
+                break;
+            }
             break;
           case "Rush Surface":
-            token = `0d47c23bdd3fa8ea29cfd89c6137dd6c`;
+            switch (parcel_type) {
+              case 'Cartons/Baggage':
+                token = `0d47c23bdd3fa8ea29cfd89c6137dd6c`;
+                break;
+              case 'Sports & Other Equipment':
+                token = `8a4eccd0fb71d26b899637866af4c42b`;
+                break;
+              case 'Electronics':
+                token = `11ea60609828a8f74335b030df773860`;
+                break;
+            }
             break;
           case "Rush AirExpress":
-            token = `89d34cf4efbc5eb34b86084bfd4394ac`;
-            break;
-        }
-        break;
-      case "25 kgs":
-        switch (type) {
-          case "Rush Air":
-            token = `ab6c3fd0bb069d8ac04e9ffa8cb21ca5`;
-            break;
-          case "Rush Surface":
-            token = `8a4eccd0fb71d26b899637866af4c42b`;
-            break;
-          case "Rush AirExpress":
-            token = `c05e8cf8b23836b62ec12da260deeb22`;
+            switch (parcel_type) {
+              case 'Cartons/Baggage':
+                token = `89d34cf4efbc5eb34b86084bfd4394ac`;
+                break;
+              case 'Sports & Other Equipment':
+                token = `80d02bc08cab43143fabaacba2adf075`;
+                break;
+              case 'Electronics':
+                token = `ec1352c6006e679234d5597d74e7681c`;
+                break;
+            }
             break;
         }
         break;
       case "30 kgs":
-        switch (type) {
+        switch (service_type) {
           case "Rush Air":
-            token = `ac31b9187f77b106459933b663520907`;
+            switch (parcel_type) {
+              case 'Cartons/Baggage':
+                token = `ac31b9187f77b106459933b663520907`;
+                break;
+              case 'Sports & Other Equipment':
+                token = `551dd3c7742b47e900bc565f681f65d8 `;
+                break;
+              case 'Electronics':
+                token = `4f5ca4b3937a6e73e4eb19fcea2d4254 `;
+                break;
+            }
             break;
           case "Rush Surface":
-            token = `33fe1e8547df3daa853d72eb077e7d5e`;
+            switch (parcel_type) {
+              case 'Cartons/Baggage':
+                token = `33fe1e8547df3daa853d72eb077e7d5e`;
+                break;
+              case 'Sports & Other Equipment':
+                token = `af55817f89c602b92a0d42e3c9b690ea `;
+                break;
+              case 'Electronics':
+                token = `e197ae555c46947d3517ac27c7548adf`;
+                break;
+            }
             break;
           case "Rush AirExpress":
-            token = `de97981a774fde3bca3956a0e419a3c3`;
+            switch (parcel_type) {
+              case 'Cartons/Baggage':
+                token = `de97981a774fde3bca3956a0e419a3c3`;
+                break;
+              case 'Sports & Other Equipment':
+                token = `046facea3b696a8c5d25da08ec38ac99 `;
+                break;
+              case 'Electronics':
+                token = `fad65ac4fc6470611b43ace6fcb6e215`;
+                break;
+            }
             break;
         }
         break;
       case "40 kgs":
-        switch (type) {
+        switch (service_type) {
           case "Rush Air":
-            token = `d3a331352cd4df829fb15d519c0459e0`;
+            switch (parcel_type) {
+              case 'Cartons/Baggage':
+                token = `d3a331352cd4df829fb15d519c0459e0`;
+                break;
+              case 'Sports & Other Equipment':
+                token = `cd63ad60018d31b2b2d723e15cf6f944 `;
+                break;
+              case 'Electronics':
+                token = `35f1fc63733c0f1bd018bdd00db0f471 `;
+                break;
+            }
             break;
           case "Rush Surface":
-            token = `fd36d6125c1831a0220455784b3c46e2`;
+            switch (parcel_type) {
+              case 'Cartons/Baggage':
+                token = `fd36d6125c1831a0220455784b3c46e2`;
+                break;
+              case 'Sports & Other Equipment':
+                token = `f50248d5d842dcdafe08c6b29ab4ca7b`;
+                break;
+              case 'Electronics':
+                token = `33233b1f3d84b1dbb1bae3d3723c5915`;
+                break;
+            }
             break;
           case "Rush AirExpress":
-            token = `065f033981ffbbdca42252500961e651`;
+            switch (parcel_type) {
+              case 'Cartons/Baggage':
+                token = `065f033981ffbbdca42252500961e651`;
+                break;
+              case 'Sports & Other Equipment':
+                token = `7f003bdf7516441de7700326f4af7625`;
+                break;
+              case 'Electronics':
+                token = `b7bdf130eca4173cc41edb8ceafe1b24`;
+                break;
+            }
             break;
         }
         break;
-     }
+    }
     // **********************************************************
 
     const httpOptions = {
@@ -1926,35 +2099,113 @@ export class CrudService {
     );
   }
 
-  public postWithDytnamicTokenAirline(api, data, no_of_bags, type) {
+  public postWithDytnamicTokenAirline(api, data, no_of_weight, service_type, parcel_type) {
     var token;
     //* For QA
     // **********************************************************
-    // switch (no_of_bags) {
+    // switch (no_of_weight) {
     //   case "2 kgs":
-    //     switch (type) {
+    //     switch (service_type) {
     //       case "Rush Air":
-    //         token = `e7c08503c99ed8061ab4c4fac1fb123e`;
+    //         switch (parcel_type) {
+    //           case 'Cartons/Baggage':
+    //             token = `e7c08503c99ed8061ab4c4fac1fb123e`;
+    //             break;
+    //           case 'Documents':
+    //             token = `e7c08503c99ed8061ab4c4fac1fb123e`;
+    //             break;
+    //           case 'Sports & Other Equipment':
+    //             token = `e7c08503c99ed8061ab4c4fac1fb123e`;
+    //             break;
+    //           case 'Electronics':
+    //             token = `e7c08503c99ed8061ab4c4fac1fb123e`;
+    //             break;
+    //         }
     //         break;
     //       case "Rush Surface":
-    //         token = `b27bc502ac2651c9f9670e2c185b4470`;
+    //         switch (parcel_type) {
+    //           case 'Cartons/Baggage':
+    //             token = `b27bc502ac2651c9f9670e2c185b4470`;
+    //             break;
+    //           case 'Documents':
+    //             token = `b27bc502ac2651c9f9670e2c185b4470`;
+    //             break;
+    //           case 'Sports & Other Equipment':
+    //             token = `b27bc502ac2651c9f9670e2c185b4470`;
+    //             break;
+    //           case 'Electronics':
+    //             token = `b27bc502ac2651c9f9670e2c185b4470`;
+    //             break;
+    //         }
     //         break;
     //       case "Rush AirExpress":
-    //         token = `3d17654a73c0e8083e49808005843226`;
+    //         switch (parcel_type) {
+    //           case 'Cartons/Baggage':
+    //             token = `3d17654a73c0e8083e49808005843226`;
+    //             break;
+    //           case 'Documents':
+    //             token = `3d17654a73c0e8083e49808005843226`;
+    //             break;
+    //           case 'Sports & Other Equipment':
+    //             token = `3d17654a73c0e8083e49808005843226`;
+    //             break;
+    //           case 'Electronics':
+    //             token = `3d17654a73c0e8083e49808005843226`;
+    //             break;
+    //         }
     //         break;
     //     }
     //     break;
 
     //   default:
-    //     switch (type) {
+    //     switch (service_type) {
     //       case "Rush Air":
-    //         token = `b90a58dbbeba8c6c38c44ab40fffb6aa`;
+    //         switch (parcel_type) {
+    //           case 'Cartons/Baggage':
+    //             token = `b90a58dbbeba8c6c38c44ab40fffb6aa`;
+    //             break;
+    //           case 'Documents':
+    //             token = `b90a58dbbeba8c6c38c44ab40fffb6aa`;
+    //             break;
+    //           case 'Sports & Other Equipment':
+    //             token = `b90a58dbbeba8c6c38c44ab40fffb6aa`;
+    //             break;
+    //           case 'Electronics':
+    //             token = `b90a58dbbeba8c6c38c44ab40fffb6aa`;
+    //             break;
+    //         }
     //         break;
     //       case "Rush Surface":
-    //         token = `b72bf82f9293a72d4cde80ab4ba5aaff`;
+    //         switch (parcel_type) {
+    //           case 'Cartons/Baggage':
+    //             token = `b72bf82f9293a72d4cde80ab4ba5aaff`;
+    //             break;
+    //           case 'Documents':
+    //             token = `b72bf82f9293a72d4cde80ab4ba5aaff`;
+    //             break;
+    //           case 'Sports & Other Equipment':
+    //             token = `b72bf82f9293a72d4cde80ab4ba5aaff`;
+    //             break;
+    //           case 'Electronics':
+    //             token = `b72bf82f9293a72d4cde80ab4ba5aaff`;
+    //             break;
+    //         }
     //         break;
     //       case "Rush AirExpress":
-    //         token = `1679e08ebbd621cdfef473a5af506534`;
+    //         switch (parcel_type) {
+    //           case 'Cartons/Baggage':
+    //             token = `1679e08ebbd621cdfef473a5af506534`;
+    //             break;
+    //           case 'Documents':
+    //             token = `1679e08ebbd621cdfef473a5af506534`;
+    //             break;
+    //           case 'Sports & Other Equipment':
+    //             token = `1679e08ebbd621cdfef473a5af506534`;
+    //             break;
+    //           case 'Electronics':
+    //             token = `1679e08ebbd621cdfef473a5af506534`;
+    //             break;
+    //         }
     //         break;
     //     }
     //     break;
@@ -1963,125 +2214,212 @@ export class CrudService {
 
     //* For Production
     // **********************************************************
-    switch (no_of_bags) {
+    switch (no_of_weight) {
       case "2 kgs":
-        switch (type) {
+        switch (service_type) {
           case "Rush Air":
-            token = `74270889b54d540ded3eb695aff807f7`;
+            switch (parcel_type) {
+              case 'Documents':
+                token = `74270889b54d540ded3eb695aff807f7`;
+                break;
+            }
             break;
           case "Rush Surface":
-            token = `4c4b38f989db495468044326bb5c56a1`;
+            switch (parcel_type) {
+              case 'Documents':
+                token = `4c4b38f989db495468044326bb5c56a1`;
+                break;
+            }
             break;
           case "Rush AirExpress":
-            token = `aeba8e6ed1a094c6c3e36bea13aef0aa`;
+            switch (parcel_type) {
+              case 'Documents':
+                token = `74270889b54d540ded3eb695aff807f7`;
+                break;
+            }
             break;
         }
         break;
       case "5 kgs":
-        switch (type) {
+        switch (service_type) {
           case "Rush Air":
-            token = `cc9de4d4d27c0dde21ffffdb21b89417`;
+            switch (parcel_type) {
+              case 'Cartons/Baggage':
+                token = `cc9de4d4d27c0dde21ffffdb21b89417`;
+                break;
+            }
             break;
           case "Rush Surface":
-            token = `5ddefaba50d8eb1690d3c37dc6d1a56f`;
+            switch (parcel_type) {
+              case 'Cartons/Baggage':
+                token = `5ddefaba50d8eb1690d3c37dc6d1a56f`;
+                break;
+            }
             break;
           case "Rush AirExpress":
-            token = `c8d2b27d0f4402f40117f31f898bfccb`;
+            switch (parcel_type) {
+              case 'Cartons/Baggage':
+                token = `c8d2b27d0f4402f40117f31f898bfccb`;
+                break;
+            }
             break;
         }
-        break;
-      case "7 kgs":
-        switch (type) {
-          case "Rush Air":
-            token = `256ce18d912c4e57df425ec047eb58ad`;
-            break;
-          case "Rush Surface":
-            token = `7ca9a797efc399e51b2d90869108f17b`;
-            break;
-          case "Rush AirExpress":
-            token = `6b9375d765be72443d0c8f47a0639888`;
-            break;
-          }
         break;
       case "12 kgs":
-        switch (type) {
+        switch (service_type) {
           case "Rush Air":
-            token = `9c13289724f6a51f170f84ed88bbe119`;
+            switch (parcel_type) {
+              case 'Cartons/Baggage':
+                token = `9c13289724f6a51f170f84ed88bbe119`;
+                break;
+            }
             break;
           case "Rush Surface":
-            token = `ba532dc74ca196b04aeaf764fabcb61f`;
+            switch (parcel_type) {
+              case 'Cartons/Baggage':
+                token = `ba532dc74ca196b04aeaf764fabcb61f `;
+                break;
+            }
             break;
           case "Rush AirExpress":
-            token = `79142d8e87c19a211de3e0b8261f4c6b`;
-            break;
-        }
-        break;
-      case "15 kgs":
-        switch (type) {
-          case "Rush Air":
-            token = `551dd3c7742b47e900bc565f681f65d8`;
-            break;
-          case "Rush Surface":
-            token = `6f644f5cc3a55aa0516183d6dc8dd286`;
-            break;
-          case "Rush AirExpress":
-            token = `e99872197082005579d5e4127c4f67de`;
+            switch (parcel_type) {
+              case 'Cartons/Baggage':
+                token = `79142d8e87c19a211de3e0b8261f4c6b`;
+                break;
+            }
             break;
         }
         break;
       case "20 kgs":
-        switch (type) {
+        switch (service_type) {
           case "Rush Air":
-            token = `6d9a48cdf24befef999b74c21a121b40`;
+            switch (parcel_type) {
+              case 'Cartons/Baggage':
+                token = `6d9a48cdf24befef999b74c21a121b40`;
+                break;
+              case 'Sports & Other Equipment':
+                token = `256ce18d912c4e57df425ec047eb58ad`;
+                break;
+              case 'Electronics':
+                token = `8028943bb8cc1e2f7a88dc8bea8911c7`;
+                break;
+            }
             break;
           case "Rush Surface":
-            token = `0d47c23bdd3fa8ea29cfd89c6137dd6c`;
+            switch (parcel_type) {
+              case 'Cartons/Baggage':
+                token = `0d47c23bdd3fa8ea29cfd89c6137dd6c`;
+                break;
+              case 'Sports & Other Equipment':
+                token = `8a4eccd0fb71d26b899637866af4c42b`;
+                break;
+              case 'Electronics':
+                token = `11ea60609828a8f74335b030df773860`;
+                break;
+            }
             break;
           case "Rush AirExpress":
-            token = `89d34cf4efbc5eb34b86084bfd4394ac`;
-            break;
-        }
-        break;
-      case "25 kgs":
-        switch (type) {
-          case "Rush Air":
-            token = `ab6c3fd0bb069d8ac04e9ffa8cb21ca5`;
-            break;
-          case "Rush Surface":
-            token = `8a4eccd0fb71d26b899637866af4c42b`;
-            break;
-          case "Rush AirExpress":
-            token = `c05e8cf8b23836b62ec12da260deeb22`;
+            switch (parcel_type) {
+              case 'Cartons/Baggage':
+                token = `89d34cf4efbc5eb34b86084bfd4394ac`;
+                break;
+              case 'Sports & Other Equipment':
+                token = `80d02bc08cab43143fabaacba2adf075`;
+                break;
+              case 'Electronics':
+                token = `ec1352c6006e679234d5597d74e7681c`;
+                break;
+            }
             break;
         }
         break;
       case "30 kgs":
-        switch (type) {
+        switch (service_type) {
           case "Rush Air":
-            token = `ac31b9187f77b106459933b663520907`;
+            switch (parcel_type) {
+              case 'Cartons/Baggage':
+                token = `ac31b9187f77b106459933b663520907`;
+                break;
+              case 'Sports & Other Equipment':
+                token = `551dd3c7742b47e900bc565f681f65d8 `;
+                break;
+              case 'Electronics':
+                token = `4f5ca4b3937a6e73e4eb19fcea2d4254 `;
+                break;
+            }
             break;
           case "Rush Surface":
-            token = `33fe1e8547df3daa853d72eb077e7d5e`;
+            switch (parcel_type) {
+              case 'Cartons/Baggage':
+                token = `33fe1e8547df3daa853d72eb077e7d5e`;
+                break;
+              case 'Sports & Other Equipment':
+                token = `af55817f89c602b92a0d42e3c9b690ea `;
+                break;
+              case 'Electronics':
+                token = `e197ae555c46947d3517ac27c7548adf`;
+                break;
+            }
             break;
           case "Rush AirExpress":
-            token = `de97981a774fde3bca3956a0e419a3c3`;
+            switch (parcel_type) {
+              case 'Cartons/Baggage':
+                token = `de97981a774fde3bca3956a0e419a3c3`;
+                break;
+              case 'Sports & Other Equipment':
+                token = `046facea3b696a8c5d25da08ec38ac99 `;
+                break;
+              case 'Electronics':
+                token = `fad65ac4fc6470611b43ace6fcb6e215`;
+                break;
+            }
             break;
         }
         break;
       case "40 kgs":
-        switch (type) {
+        switch (service_type) {
           case "Rush Air":
-            token = `d3a331352cd4df829fb15d519c0459e0`;
+            switch (parcel_type) {
+              case 'Cartons/Baggage':
+                token = `d3a331352cd4df829fb15d519c0459e0`;
+                break;
+              case 'Sports & Other Equipment':
+                token = `cd63ad60018d31b2b2d723e15cf6f944 `;
+                break;
+              case 'Electronics':
+                token = `35f1fc63733c0f1bd018bdd00db0f471 `;
+                break;
+            }
             break;
           case "Rush Surface":
-            token = `fd36d6125c1831a0220455784b3c46e2`;
+            switch (parcel_type) {
+              case 'Cartons/Baggage':
+                token = `fd36d6125c1831a0220455784b3c46e2`;
+                break;
+              case 'Sports & Other Equipment':
+                token = `f50248d5d842dcdafe08c6b29ab4ca7b`;
+                break;
+              case 'Electronics':
+                token = `33233b1f3d84b1dbb1bae3d3723c5915`;
+                break;
+            }
             break;
           case "Rush AirExpress":
-            token = `065f033981ffbbdca42252500961e651`;
+            switch (parcel_type) {
+              case 'Cartons/Baggage':
+                token = `065f033981ffbbdca42252500961e651`;
+                break;
+              case 'Sports & Other Equipment':
+                token = `7f003bdf7516441de7700326f4af7625`;
+                break;
+              case 'Electronics':
+                token = `b7bdf130eca4173cc41edb8ceafe1b24`;
+                break;
+            }
             break;
         }
         break;
-     }
+    }
     // **********************************************************
 
     const httpOptions = {

@@ -1,8 +1,25 @@
 <div class="bookingSection py-5" [formGroup]="bookingForm">
   <div class="container">
+    <h3 class="pt-3 heading mb-3 d-none d-md-block">
+      Redeem Subscription or Make a Booking
+    </h3>
+    <h3 class="pt-3 heading mb-3 d-md-none d-block text-center">
+      Redeem Subscription <br /><span>or</span><br />Make a Booking
+    </h3>
 
-    <h3 class="pt-3 heading mb-3 d-none d-md-block">Redeem Subscription or Make a Booking</h3>
-    <h3 class="pt-3 heading mb-3 d-md-none d-block text-center">Redeem Subscription <br><span>or</span><br>Make a Booking</h3>
+    <div class="custom-control custom-switch pt-4 d-flex" *ngIf="is_login">
+      <input
+        type="checkbox"
+        class="custom-control-input"
+        id="customSwitch1"
+        [(ngModel)]="selected"
+        [ngModelOptions]="{ standalone: true }"
+        (click)="selectedCheckbox()"
+      />
+      <label class="custom-control-label" for="customSwitch1"></label>
+      <p>I am not a traveler</p>
+    </div>
+
 
     <!--  -->
     <div class="row align-items-center">
@@ -10,14 +27,43 @@
         <fieldset class="borders">
           <legend class="w-auto">Enter Subscription Number</legend>
           <div class="subNumber">
-            <input type="text" [readonly]="user_details_disable || bookingForm.controls['delivery_type'].value == 'Cargo Transfer'"  (keypress)="validatePnr($event)" style="text-transform: uppercase;width: inherit;" maxlength="6" class="border-0" formControlName="subscription_id">
-            <button class="myBtn"  (click)="validateSubscription()"
-              [class.otp-btn-disabled]="user_details_disable || bookingForm.controls['delivery_type'].value == 'Cargo Transfer' || bookingForm.controls['subscription_id'].value.length != 6"
-              [disabled]=" user_details_disable || bookingForm.controls['delivery_type'].value == 'Cargo Transfer' || bookingForm.controls['subscription_id'].value.length != 6">Validate</button>
+            <input
+              type="text"
+              [readonly]="
+              is_login ||
+                user_details_disable ||
+                is_otp_verified ||
+                bookingForm.controls['delivery_type'].value == 'Cargo Transfer'
+              "
+              (keypress)="validatePnr($event)"
+              style="text-transform: uppercase; width: inherit"
+              maxlength="6"
+              class="border-0"
+              formControlName="subscription_id"
+            />
+            <button
+              class="myBtn"
+              (click)="validateSubscription()"
+              [class.otp-btn-disabled]="
+              is_login ||
+                user_details_disable ||
+                bookingForm.controls['delivery_type'].value ==
+                  'Cargo Transfer' ||
+                bookingForm.controls['subscription_id'].value.length != 6
+              "
+              [disabled]="
+              is_login ||
+                user_details_disable ||
+                bookingForm.controls['delivery_type'].value ==
+                  'Cargo Transfer' ||
+                bookingForm.controls['subscription_id'].value.length != 6
+              "
+            >
+              Validate
+            </button>
           </div>
         </fieldset>
       </div>
-
 
       <div class="col-md-1 texty d-none d-md-block">
         <span>OR</span>
@@ -26,91 +72,286 @@
         <span>OR</span>
       </div>
 
-
-
       <div class="col-md-7">
         <!-- name  and email-->
         <div class="row">
           <div class="col-md-5 p-md-0 pr-md-2">
-            <fieldset class="borders"
-              [style.border]="bookingForm.controls['name'].hasError('required') && bookingForm.controls['name'].touched || (bookingForm.controls['name'].invalid && bookingForm.controls['name'].untouched && submitted ) ? '1px solid #ed7533' : '1px solid #dee2e6'">
+            <fieldset
+              class="borders"
+              [style.border]="
+                (bookingForm.controls['name'].hasError('required') &&
+                  bookingForm.controls['name'].touched) ||
+                (bookingForm.controls['name'].invalid &&
+                  bookingForm.controls['name'].untouched &&
+                  submitted)
+                  ? '1px solid #ed7533'
+                  : '1px solid #dee2e6'
+              "
+            >
               <legend class="w-auto">Name</legend>
               <div class="subNumber">
-                <input maxlength="30" type="name" formControlName="name" class="border-0"
-                  (keypress)="validateName($event)" (ngModelChange)="validateNameSpace()" [readonly]="user_details_disable">
+                <input
+                  maxlength="30"
+                  type="name"
+                  formControlName="name"
+                  class="border-0"
+                  (keypress)="validateName($event)"
+                  (ngModelChange)="validateNameSpace()"
+                  [readonly]="user_details_disable || is_otp_verified"
+                />
               </div>
             </fieldset>
-            <p class="error"
-              *ngIf="bookingForm.controls['name'].hasError('required') && bookingForm.controls['name'].touched || (bookingForm.controls['name'].invalid && bookingForm.controls['name'].untouched && submitted )">
-              Name is required</p>
+            <p
+              class="error"
+              *ngIf="
+                (bookingForm.controls['name'].hasError('required') &&
+                  bookingForm.controls['name'].touched) ||
+                (bookingForm.controls['name'].invalid &&
+                  bookingForm.controls['name'].untouched &&
+                  submitted)
+              "
+            >
+              Name is required
+            </p>
           </div>
           <div class="col-md-7 p-md-0 pr-md-5 pt-2 pt-md-0">
-            <fieldset class="borders"
-              [style.border]="bookingForm.controls['email'].hasError('required') && bookingForm.controls['email'].touched || (bookingForm.controls['email'].errors && bookingForm.controls['email'].touched) || (bookingForm.controls['email'].invalid && bookingForm.controls['email'].untouched && submitted ) ? '1px solid #ed7533' : '1px solid #dee2e6'">
+            <fieldset
+              class="borders"
+              [style.border]="
+                (bookingForm.controls['email'].hasError('required') &&
+                  bookingForm.controls['email'].touched) ||
+                (bookingForm.controls['email'].errors &&
+                  bookingForm.controls['email'].touched) ||
+                (bookingForm.controls['email'].invalid &&
+                  bookingForm.controls['email'].untouched &&
+                  submitted)
+                  ? '1px solid #ed7533'
+                  : '1px solid #dee2e6'
+              "
+            >
               <legend class="w-auto">Email</legend>
               <div class="subNumber">
-                <input [readonly]="user_details_disable" class="border-0" formControlName="email" type="email" name="email">
+                <input
+                  [readonly]="user_details_disable || is_otp_verified"
+                  class="border-0"
+                  formControlName="email"
+                  type="email"
+                  name="email"
+                />
               </div>
             </fieldset>
-            <p class="error"
-              *ngIf="bookingForm.controls['email'].hasError('required') && bookingForm.controls['email'].touched || (bookingForm.controls['email'].errors && bookingForm.controls['email'].touched) || (bookingForm.controls['email'].invalid && bookingForm.controls['email'].untouched && submitted )">
-              Enter The Valid Email</p>
+            <p
+              class="error"
+              *ngIf="
+                (bookingForm.controls['email'].hasError('required') &&
+                  bookingForm.controls['email'].touched) ||
+                (bookingForm.controls['email'].errors &&
+                  bookingForm.controls['email'].touched) ||
+                (bookingForm.controls['email'].invalid &&
+                  bookingForm.controls['email'].untouched &&
+                  submitted)
+              "
+            >
+              Enter The Valid Email
+            </p>
           </div>
         </div>
         <!-- mobile no -->
         <div class="row pt-2 align-items-center">
           <div class="col-md-5 p-md-0 pr-md-2">
-            <fieldset class="borders"
-              [style.border]="bookingForm.controls['mobile_number'].hasError('required') && bookingForm.controls['mobile_number'].touched || (bookingForm.controls['mobile_number'].errors && bookingForm.controls['mobile_number'].touched) || (bookingForm.controls['mobile_number'].invalid && bookingForm.controls['mobile_number'].untouched && submitted) ? '1px solid #ed7533' : '1px solid #dee2e6'">
+            <fieldset
+              class="borders"
+              [style.border]="
+                (bookingForm.controls['mobile_number'].hasError('required') &&
+                  bookingForm.controls['mobile_number'].touched) ||
+                (bookingForm.controls['mobile_number'].errors &&
+                  bookingForm.controls['mobile_number'].touched) ||
+                (bookingForm.controls['mobile_number'].invalid &&
+                  bookingForm.controls['mobile_number'].untouched &&
+                  submitted)
+                  ? '1px solid #ed7533'
+                  : '1px solid #dee2e6'
+              "
+            >
               <legend class="w-auto">Mobile No.</legend>
               <div class="subNumber align-items-baseline">
-                <div class="dropdown" style="max-width: fit-content;">
-                  <button class="dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown"
-                    aria-haspopup="true" aria-expanded="false">
-                    +{{bookingForm.controls['country'].value == '' ? 'Country Code' :
-                    bookingForm.controls['country'].value}}
+                <div class="dropdown" style="max-width: fit-content">
+                  <button
+                    class="dropdown-toggle"
+                    type="button"
+                    id="dropdownMenuButton"
+                    data-toggle="dropdown"
+                    aria-haspopup="true"
+                    aria-expanded="false"
+                  >
+                    +{{
+                      bookingForm.controls["country"].value == ""
+                        ? "Country Code"
+                        : bookingForm.controls["country"].value
+                    }}
                   </button>
-                  <ul style="background: #fff;" class="dropdown-menu text-left p-0"
-                    aria-labelledby="dropdownMenuButton">
-                    <li style="font-size: 11px;" class="dropdown-item borders" *ngFor="let item of countryCodeList"
-                      (click)="handleDropdownEvent('country',item)">
-                      +{{item.country_code}} - {{item.country_name}}</li>
+                  <ul
+                    style="background: #fff"
+                    class="dropdown-menu text-left p-0"
+                    aria-labelledby="dropdownMenuButton"
+                  >
+                    <li
+                      style="font-size: 11px"
+                      class="dropdown-item borders"
+                      *ngFor="let item of countryCodeList"
+                      (click)="handleDropdownEvent('country', item)"
+                    >
+                      +{{ item.country_code }} - {{ item.country_name }}
+                    </li>
                   </ul>
                 </div>
-                <input type="tel" allowOnly="[^0-9]" minlength="10" maxlength="10" numbersOnly [readonly]="user_details_disable"
-                  formControlName="mobile_number" class="border-0" (keypress)="numberOnly($event)">
+                <input
+                  type="tel"
+                  allowOnly="[^0-9]"
+                  minlength="10"
+                  maxlength="10"
+                  numbersOnly
+                  [readonly]="user_details_disable || is_otp_verified"
+                  formControlName="mobile_number"
+                  class="border-0"
+                  (keypress)="numberOnly($event)"
+                />
               </div>
             </fieldset>
-            <p class="error"
-              *ngIf="bookingForm.controls['mobile_number'].hasError('required') && bookingForm.controls['mobile_number'].touched || (bookingForm.controls['mobile_number'].errors && bookingForm.controls['mobile_number'].touched) || (bookingForm.controls['mobile_number'].invalid && bookingForm.controls['mobile_number'].untouched && submitted)">
-              Please Enter The Valid Mobile Number</p>
+            <p
+              class="error"
+              *ngIf="
+                (bookingForm.controls['mobile_number'].hasError('required') &&
+                  bookingForm.controls['mobile_number'].touched) ||
+                (bookingForm.controls['mobile_number'].errors &&
+                  bookingForm.controls['mobile_number'].touched) ||
+                (bookingForm.controls['mobile_number'].invalid &&
+                  bookingForm.controls['mobile_number'].untouched &&
+                  submitted)
+              "
+            >
+              Please Enter The Valid Mobile Number
+            </p>
           </div>
 
           <div class="col-md-3 py-2 py-md-0">
-            <button class="myBtn mt-2 mt-md-0 float-right float-md-none" [class.otp-btn-disabled]="user_details_disable || bookingForm.controls['delivery_type'].value == 'Cargo Transfer' || btnDisabled || (bookingForm.controls['name'].status == 'INVALID') || (bookingForm.controls['email'].status == 'INVALID') || (bookingForm.controls['mobile_number'].status == 'INVALID')"
-              [disabled]="user_details_disable || bookingForm.controls['delivery_type'].value == 'Cargo Transfer' || btnDisabled || (bookingForm.controls['name'].status == 'INVALID') || (bookingForm.controls['email'].status == 'INVALID') ||  (bookingForm.controls['mobile_number'].status == 'INVALID')"
-              (click)="validateMobile(1)">OTP
-              Validate</button>
+            <button
+              class="myBtn mt-2 mt-md-0 float-right float-md-none"
+              [class.otp-btn-disabled]="
+              is_login ||
+                user_details_disable ||
+                bookingForm.controls['delivery_type'].value ==
+                  'Cargo Transfer' ||
+                btnDisabled ||
+                bookingForm.controls['name'].status == 'INVALID' ||
+                bookingForm.controls['email'].status == 'INVALID' ||
+                bookingForm.controls['mobile_number'].status == 'INVALID'
+              "
+              [disabled]="
+              is_login ||
+                user_details_disable ||
+                bookingForm.controls['delivery_type'].value ==
+                  'Cargo Transfer' ||
+                btnDisabled ||
+                bookingForm.controls['name'].status == 'INVALID' ||
+                bookingForm.controls['email'].status == 'INVALID' ||
+                bookingForm.controls['mobile_number'].status == 'INVALID'
+              "
+              (click)="validateMobile(1)"
+            >
+              OTP Validate
+            </button>
           </div>
         </div>
         <!-- otp -->
         <div class="row pt-2 align-items-center">
-          <div class="col-md-5 p-md-0 pr-md-2 ">
+          <div class="col-md-5 p-md-0 pr-md-2">
             <fieldset class="borders">
-              <legend class="w-auto">Enter the OTP you Received</legend>
-              <div class="subNumber d-flex align-items-center justify-content-between">
-                <input style="width: inherit;" (keypress)="numberOnly($event)" maxlength="4" type="tel" numberOnly formControlName="otp"
-                  class="border-0" [readonly]="user_details_disable || bookingForm.controls['delivery_type'].value == 'Cargo Transfer'">
-                <button [class.otp-btn-disabled]="user_details_disable || bookingForm.controls['delivery_type'].value == 'Cargo Transfer'" [disabled]="user_details_disable || bookingForm.controls['delivery_type'].value == 'Cargo Transfer'" class="myBtn mr-0 mr-md-3 d-md-none" (click)="validateOtp()">Validate</button>
+              <legend class="w-auto">Enter the OTP you received</legend>
+              <div
+                class="subNumber d-flex align-items-center justify-content-between"
+              >
+                <input
+                  style="width: inherit"
+                  (keypress)="numberOnly($event)"
+                  maxlength="4"
+                  type="tel"
+                  numberOnly
+                  formControlName="otp"
+                  class="border-0"
+                  [readonly]="
+                  is_login ||
+                    user_details_disable ||
+                    bookingForm.controls['delivery_type'].value ==
+                      'Cargo Transfer'
+                  "
+                />
+                <button
+                  [class.otp-btn-disabled]="
+                  is_login ||
+                    user_details_disable ||
+                    bookingForm.controls['delivery_type'].value ==
+                      'Cargo Transfer'
+                  "
+                  [disabled]="
+                  is_login ||
+                    user_details_disable ||
+                    bookingForm.controls['delivery_type'].value ==
+                      'Cargo Transfer'
+                  "
+                  class="myBtn mr-0 mr-md-3 d-md-none"
+                  (click)="validateOtp()"
+                >
+                  Validate
+                </button>
               </div>
             </fieldset>
           </div>
           <div
-            class="col-md-7 py-2 py-md-0 d-flex d-md-block justify-content-between justify-content-md-end flex-row-reverse">
-            <button class="myBtn mr-0 mr-md-3 d-none d-md-inline" (click)="validateOtp()" [class.otp-btn-disabled]="user_details_disable || bookingForm.controls['delivery_type'].value == 'Cargo Transfer'" [disabled]="user_details_disable || bookingForm.controls['delivery_type'].value == 'Cargo Transfer'">Validate</button>
-            <button class="myBtn mt-2" [class.otp-btn-disabled]="user_details_disable || bookingForm.controls['delivery_type'].value == 'Cargo Transfer' || btnDisabled || (bookingForm.controls['name'].status == 'INVALID') || (bookingForm.controls['email'].status == 'INVALID') || (bookingForm.controls['mobile_number'].status == 'INVALID')"
-              [disabled]="user_details_disable || bookingForm.controls['delivery_type'].value == 'Cargo Transfer' || btnDisabled || (bookingForm.controls['name'].status == 'INVALID') || (bookingForm.controls['email'].status == 'INVALID') ||  (bookingForm.controls['mobile_number'].status == 'INVALID')"
-              (click)="validateMobile(2)">Send Code Again</button>
+            class="col-md-7 py-2 py-md-0 d-flex d-md-block justify-content-between justify-content-md-end flex-row-reverse"
+          >
+            <button
+              class="myBtn mr-0 mr-md-3 d-none d-md-inline"
+              (click)="validateOtp()"
+              [class.otp-btn-disabled]="
+              is_login ||
+                user_details_disable ||
+                bookingForm.controls['delivery_type'].value == 'Cargo Transfer'
+              "
+              [disabled]="
+              is_login ||
+                user_details_disable ||
+                bookingForm.controls['delivery_type'].value == 'Cargo Transfer'
+              "
+            >
+              Validate
+            </button>
+            <button
+              class="myBtn mt-2"
+              [class.otp-btn-disabled]="
+              is_login ||
+                user_details_disable ||
+                bookingForm.controls['delivery_type'].value ==
+                  'Cargo Transfer' ||
+                btnDisabled ||
+                bookingForm.controls['name'].status == 'INVALID' ||
+                bookingForm.controls['email'].status == 'INVALID' ||
+                bookingForm.controls['mobile_number'].status == 'INVALID'
+              "
+              [disabled]="
+              is_login ||
+                user_details_disable ||
+                bookingForm.controls['delivery_type'].value ==
+                  'Cargo Transfer' ||
+                btnDisabled ||
+                bookingForm.controls['name'].status == 'INVALID' ||
+                bookingForm.controls['email'].status == 'INVALID' ||
+                bookingForm.controls['mobile_number'].status == 'INVALID'
+              "
+              (click)="validateMobile(2)"
+            >
+              Send Code Again
+            </button>
           </div>
         </div>
       </div>
@@ -121,187 +362,443 @@
     <div class="row align-items-center pt-5" *ngIf="false">
       <!-- name  and email-->
       <div class="col-md-4 mb-2 mb-md-0">
-        <fieldset class="borders"
-          [style.border]="bookingForm.controls['name'].hasError('required') && bookingForm.controls['name'].touched || (bookingForm.controls['name'].invalid && bookingForm.controls['name'].untouched && submitted ) ? '1px solid #ed7533' : '1px solid #dee2e6'">
+        <fieldset
+          class="borders"
+          [style.border]="
+            (bookingForm.controls['name'].hasError('required') &&
+              bookingForm.controls['name'].touched) ||
+            (bookingForm.controls['name'].invalid &&
+              bookingForm.controls['name'].untouched &&
+              submitted)
+              ? '1px solid #ed7533'
+              : '1px solid #dee2e6'
+          "
+        >
           <legend class="w-auto">Name</legend>
           <div class="subNumber">
-            <input type="name" maxlength="30" formControlName="name" name="name" class="border-0"
-              (keypress)="validateName($event)" (ngModelChange)="validateNameSpace()">
+            <input
+              type="name"
+              maxlength="30"
+              formControlName="name"
+              name="name"
+              class="border-0"
+              (keypress)="validateName($event)"
+              (ngModelChange)="validateNameSpace()"
+            />
           </div>
         </fieldset>
-        <p class="error"
-          *ngIf="bookingForm.controls['name'].hasError('required') && bookingForm.controls['name'].touched || (bookingForm.controls['name'].invalid && bookingForm.controls['name'].untouched && submitted )">
-          Name is required</p>
+        <p
+          class="error"
+          *ngIf="
+            (bookingForm.controls['name'].hasError('required') &&
+              bookingForm.controls['name'].touched) ||
+            (bookingForm.controls['name'].invalid &&
+              bookingForm.controls['name'].untouched &&
+              submitted)
+          "
+        >
+          Name is required
+        </p>
       </div>
-      <div class="col-md-4  mb-2 mb-md-0">
-        <fieldset class="borders"
-          [style.border]="bookingForm.controls['email'].hasError('required') && bookingForm.controls['email'].touched || (bookingForm.controls['email'].errors && bookingForm.controls['email'].touched) || (bookingForm.controls['email'].invalid && bookingForm.controls['email'].untouched && submitted ) ? '1px solid #ed7533' : '1px solid #dee2e6'">
+      <div class="col-md-4 mb-2 mb-md-0">
+        <fieldset
+          class="borders"
+          [style.border]="
+            (bookingForm.controls['email'].hasError('required') &&
+              bookingForm.controls['email'].touched) ||
+            (bookingForm.controls['email'].errors &&
+              bookingForm.controls['email'].touched) ||
+            (bookingForm.controls['email'].invalid &&
+              bookingForm.controls['email'].untouched &&
+              submitted)
+              ? '1px solid #ed7533'
+              : '1px solid #dee2e6'
+          "
+        >
           <legend class="w-auto">Email</legend>
           <div class="subNumber">
-            <input class="border-0" formControlName="email" type="email" name="email">
+            <input
+              class="border-0"
+              formControlName="email"
+              type="email"
+              name="email"
+            />
           </div>
         </fieldset>
-        <p class="error"
-          *ngIf="bookingForm.controls['email'].hasError('required') && bookingForm.controls['email'].touched || (bookingForm.controls['email'].errors && bookingForm.controls['email'].touched) || (bookingForm.controls['email'].invalid && bookingForm.controls['email'].untouched && submitted )">
-          Enter The Valid Email</p>
+        <p
+          class="error"
+          *ngIf="
+            (bookingForm.controls['email'].hasError('required') &&
+              bookingForm.controls['email'].touched) ||
+            (bookingForm.controls['email'].errors &&
+              bookingForm.controls['email'].touched) ||
+            (bookingForm.controls['email'].invalid &&
+              bookingForm.controls['email'].untouched &&
+              submitted)
+          "
+        >
+          Enter The Valid Email
+        </p>
       </div>
       <!-- mobile no -->
-      <div class="col-md-4  mb-2 mb-md-0">
-        <fieldset class="borders"
-          [style.border]="bookingForm.controls['mobile_number'].hasError('required') && bookingForm.controls['mobile_number'].touched || (bookingForm.controls['mobile_number'].errors && bookingForm.controls['mobile_number'].touched) || (bookingForm.controls['mobile_number'].invalid && bookingForm.controls['mobile_number'].untouched && submitted) ? '1px solid #ed7533' : '1px solid #dee2e6'">
+      <div class="col-md-4 mb-2 mb-md-0">
+        <fieldset
+          class="borders"
+          [style.border]="
+            (bookingForm.controls['mobile_number'].hasError('required') &&
+              bookingForm.controls['mobile_number'].touched) ||
+            (bookingForm.controls['mobile_number'].errors &&
+              bookingForm.controls['mobile_number'].touched) ||
+            (bookingForm.controls['mobile_number'].invalid &&
+              bookingForm.controls['mobile_number'].untouched &&
+              submitted)
+              ? '1px solid #ed7533'
+              : '1px solid #dee2e6'
+          "
+        >
           <legend class="w-auto">Mobile No.</legend>
           <div class="subNumber align-items-baseline">
-            <div class="dropdown" style="max-width: fit-content;">
-              <button class="dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown"
-                aria-haspopup="true" aria-expanded="false">
-                +{{bookingForm.controls['country'].value == '' ? 'Country Code' :
-                bookingForm.controls['country'].value}}
+            <div class="dropdown" style="max-width: fit-content">
+              <button
+                class="dropdown-toggle"
+                type="button"
+                id="dropdownMenuButton"
+                data-toggle="dropdown"
+                aria-haspopup="true"
+                aria-expanded="false"
+              >
+                +{{
+                  bookingForm.controls["country"].value == ""
+                    ? "Country Code"
+                    : bookingForm.controls["country"].value
+                }}
               </button>
-              <ul style="background: #fff;" class="dropdown-menu text-left p-0" aria-labelledby="dropdownMenuButton">
-                <li style="font-size: 11px;" class="dropdown-item borders" *ngFor="let item of countryCodeList"
-                  (click)="handleDropdownEvent('country',item)">
-                  +{{item.country_code}} - {{item.country_name}}</li>
+              <ul
+                style="background: #fff"
+                class="dropdown-menu text-left p-0"
+                aria-labelledby="dropdownMenuButton"
+              >
+                <li
+                  style="font-size: 11px"
+                  class="dropdown-item borders"
+                  *ngFor="let item of countryCodeList"
+                  (click)="handleDropdownEvent('country', item)"
+                >
+                  +{{ item.country_code }} - {{ item.country_name }}
+                </li>
               </ul>
             </div>
-            <input type="tel" allowOnly="[^0-9]" minlength="10" maxlength="10" numbersOnly
-              formControlName="mobile_number" class="border-0" (keypress)="numberOnly($event)">
+            <input
+              type="tel"
+              allowOnly="[^0-9]"
+              minlength="10"
+              maxlength="10"
+              numbersOnly
+              formControlName="mobile_number"
+              class="border-0"
+              (keypress)="numberOnly($event)"
+            />
           </div>
         </fieldset>
-        <p class="error"
-          *ngIf="bookingForm.controls['mobile_number'].hasError('required') && bookingForm.controls['mobile_number'].touched || (bookingForm.controls['mobile_number'].errors && bookingForm.controls['mobile_number'].touched) || (bookingForm.controls['mobile_number'].invalid && bookingForm.controls['mobile_number'].untouched && submitted)">
-          Please Enter The Valid Mobile Number</p>
+        <p
+          class="error"
+          *ngIf="
+            (bookingForm.controls['mobile_number'].hasError('required') &&
+              bookingForm.controls['mobile_number'].touched) ||
+            (bookingForm.controls['mobile_number'].errors &&
+              bookingForm.controls['mobile_number'].touched) ||
+            (bookingForm.controls['mobile_number'].invalid &&
+              bookingForm.controls['mobile_number'].untouched &&
+              submitted)
+          "
+        >
+          Please Enter The Valid Mobile Number
+        </p>
       </div>
     </div>
     <!-- contacts details end-->
 
     <!--  -->
-    <div class="row pt-3" *ngIf="subscription_details.show_coupons == true && subscription_details.subscription_tokens.length!=0">
+    <div
+      class="row pt-3"
+      *ngIf="
+        subscription_details.show_coupons == true &&
+        subscription_details.subscription_tokens.length != 0
+      "
+    >
       <div class="col-md-12 redeem d-flex">
         <div>
-          <div role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="50">
+          <div
+            role="progressbar"
+            aria-valuenow="0"
+            aria-valuemin="0"
+            aria-valuemax="50"
+          >
             <p class="usages">Usages</p>
-            <p>{{buttonCount}}/{{dcrsCount}}</p>
+            <p>{{ buttonCount }}/{{ dcrsCount }}</p>
           </div>
         </div>
         <div class="redeemCodeSection d-flex">
-          <div class="redeemCode"
-            (click)="item.remaining_usages != 0 && item.remaining_usages != '0' ? select_and_unselect_cupons(item) : null"
-            [style.background-color]="item.coupon_status ? '#1a7dc1' : '#fff' "
-            [style.color]="item.coupon_status  ?  '#fff' : '#1a7dc1' "
-            *ngFor="let item of subscription_details.subscription_tokens; index as i">
+          <div
+            class="redeemCode"
+            (click)="
+              item.remaining_usages != 0 && item.remaining_usages != '0'
+                ? select_and_unselect_cupons(item)
+                : null
+            "
+            [style.background-color]="item.coupon_status ? '#1a7dc1' : '#fff'"
+            [style.color]="item.coupon_status ? '#fff' : '#1a7dc1'"
+            *ngFor="
+              let item of subscription_details.subscription_tokens;
+              index as i
+            "
+          >
             <!-- #{{item.remaining_usages ? item.remaining_usages : 0}} -->
-            <p class="m-0">Usage {{item.remaining_usages}}/{{item.no_of_usages}}</p>
+            <p class="m-0">
+              Usage {{ item.remaining_usages }}/{{ item.no_of_usages }}
+            </p>
             <!-- {{item.subscriber_name}} -->
             <!-- <span class="ml-2"></span> -->
-            <p class="m-0">{{item.confirmation_number}}</p>
+            <p class="m-0">{{ item.confirmation_number }}</p>
           </div>
         </div>
       </div>
     </div>
     <!--  -->
 
-    <div class="row dropdownSection pt-md-4 pt-2  mb-3">
-
-
+    <div class="row dropdownSection pt-md-4 pt-2 mb-3">
       <!-- delivery type -->
-      <div class="col-md-4  mb-3">
-        <fieldset class="borders"
-          [style.border]="bookingForm.controls['delivery_type'].hasError('required') && bookingForm.controls['delivery_type'].touched || (bookingForm.controls['delivery_type'].invalid && bookingForm.controls['delivery_type'].untouched && submitted ) ? '1px solid #ed7533' : '1px solid #dee2e6'">
+      <div class="col-md-4 mb-3">
+        <fieldset
+          class="borders"
+          [style.border]="
+            (bookingForm.controls['delivery_type'].hasError('required') &&
+              bookingForm.controls['delivery_type'].touched) ||
+            (bookingForm.controls['delivery_type'].invalid &&
+              bookingForm.controls['delivery_type'].untouched &&
+              submitted)
+              ? '1px solid #ed7533'
+              : '1px solid #dee2e6'
+          "
+        >
           <legend class="w-auto">Delivery Type</legend>
           <div class="subNumber">
             <div class="dropdown">
-              <button class="dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown"
-                aria-haspopup="true" aria-expanded="false">
-                {{bookingForm.controls['delivery_type'].value == '' ? 'Delivery Type' :
-                bookingForm.controls['delivery_type'].value}}
+              <button
+                class="dropdown-toggle"
+                type="button"
+                id="dropdownMenuButton"
+                data-toggle="dropdown"
+                aria-haspopup="true"
+                aria-expanded="false"
+              >
+                {{
+                  bookingForm.controls["delivery_type"].value == ""
+                    ? "Delivery Type"
+                    : bookingForm.controls["delivery_type"].value
+                }}
               </button>
               <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                <a class="dropdown-item"
-                  *ngFor="let item of ['Airport Transfer','Cargo Transfer','Lost Luggage/Item/Not Loaded']"
-                  (click)="handleDropdownEvent('delivery_type',item)">{{item}}</a>
+                <a
+                  class="dropdown-item"
+                  *ngFor="
+                    let item of [
+                      'Airport Transfer',
+                      'Cargo Transfer',
+                      'Lost Luggage/Item/Not Loaded'
+                    ]
+                  "
+                  (click)="handleDropdownEvent('delivery_type', item)"
+                  >{{ item }}</a
+                >
               </div>
             </div>
           </div>
         </fieldset>
-        <p class="error"
-          *ngIf="bookingForm.controls['delivery_type'].hasError('required') && bookingForm.controls['delivery_type'].touched || (bookingForm.controls['delivery_type'].invalid && bookingForm.controls['delivery_type'].untouched && submitted )">
-          Please Select Transfer type</p>
+        <p
+          class="error"
+          *ngIf="
+            (bookingForm.controls['delivery_type'].hasError('required') &&
+              bookingForm.controls['delivery_type'].touched) ||
+            (bookingForm.controls['delivery_type'].invalid &&
+              bookingForm.controls['delivery_type'].untouched &&
+              submitted)
+          "
+        >
+          Please Select Transfer type
+        </p>
       </div>
       <!-- delivery type End -->
 
-
       <!-- Airport Transfer section start -->
 
-      <ng-container *ngIf="bookingForm.controls['delivery_type'].value == 'Airport Transfer'">
+      <ng-container
+        *ngIf="
+          bookingForm.controls['delivery_type'].value == 'Airport Transfer'
+        "
+      >
         <!-- Transfer type -->
-        <div class="col-md-2  mb-3" *ngIf="false">
-          <fieldset class="borders"
-            [style.border]="bookingForm.controls['transfer_type'].hasError('required') && bookingForm.controls['transfer_type'].touched || (bookingForm.controls['transfer_type'].invalid && bookingForm.controls['transfer_type'].untouched && submitted ) ? '1px solid #ed7533' : '1px solid #dee2e6'">
+        <div class="col-md-2 mb-3" *ngIf="false">
+          <fieldset
+            class="borders"
+            [style.border]="
+              (bookingForm.controls['transfer_type'].hasError('required') &&
+                bookingForm.controls['transfer_type'].touched) ||
+              (bookingForm.controls['transfer_type'].invalid &&
+                bookingForm.controls['transfer_type'].untouched &&
+                submitted)
+                ? '1px solid #ed7533'
+                : '1px solid #dee2e6'
+            "
+          >
             <legend class="w-auto">Transfer Type</legend>
             <div class="subNumber">
               <div class="dropdown">
-                <button class="dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown"
-                  aria-haspopup="true" aria-expanded="false">
-                  {{bookingForm.controls['transfer_type'].value == '' ? 'Transfer Type' :
-                  bookingForm.controls['transfer_type'].value}}
+                <button
+                  class="dropdown-toggle"
+                  type="button"
+                  id="dropdownMenuButton"
+                  data-toggle="dropdown"
+                  aria-haspopup="true"
+                  aria-expanded="false"
+                >
+                  {{
+                    bookingForm.controls["transfer_type"].value == ""
+                      ? "Transfer Type"
+                      : bookingForm.controls["transfer_type"].value
+                  }}
                 </button>
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                  <a class="dropdown-item" *ngFor="let item of ['Local','Outstation']"
-                    (click)="handleDropdownEvent('transfer_type',item)">{{item}}</a>
+                  <a
+                    class="dropdown-item"
+                    *ngFor="let item of ['Local', 'Outstation']"
+                    (click)="handleDropdownEvent('transfer_type', item)"
+                    >{{ item }}</a
+                  >
                 </div>
               </div>
             </div>
           </fieldset>
-          <p class="error"
-            *ngIf="bookingForm.controls['transfer_type'].hasError('required') && bookingForm.controls['transfer_type'].touched || (bookingForm.controls['transfer_type'].invalid && bookingForm.controls['transfer_type'].untouched && submitted )">
-            Please Select Transfer type</p>
+          <p
+            class="error"
+            *ngIf="
+              (bookingForm.controls['transfer_type'].hasError('required') &&
+                bookingForm.controls['transfer_type'].touched) ||
+              (bookingForm.controls['transfer_type'].invalid &&
+                bookingForm.controls['transfer_type'].untouched &&
+                submitted)
+            "
+          >
+            Please Select Transfer type
+          </p>
         </div>
         <!-- Transfer type End -->
 
-
         <!-- select airline start-->
-        <div class="col-md-2  mb-3">
-          <fieldset class="borders"
-            [style.border]="bookingForm.controls['airline'].hasError('required') && bookingForm.controls['airline'].touched || (bookingForm.controls['airline'].invalid && bookingForm.controls['airline'].untouched && submitted ) ? '1px solid #ed7533' : '1px solid #dee2e6'">
+        <div class="col-md-2 mb-3">
+          <fieldset
+            class="borders"
+            [style.border]="
+              (bookingForm.controls['airline'].hasError('required') &&
+                bookingForm.controls['airline'].touched) ||
+              (bookingForm.controls['airline'].invalid &&
+                bookingForm.controls['airline'].untouched &&
+                submitted)
+                ? '1px solid #ed7533'
+                : '1px solid #dee2e6'
+            "
+          >
             <legend class="w-auto">Select Airline</legend>
             <div class="subNumber">
               <div class="dropdown">
-                <button class="dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown"
-                  aria-haspopup="true" aria-expanded="false">
-                  {{bookingForm.controls['airline'].value == '' ? 'Airline' :
-                  bookingForm.controls['airline'].value}}
+                <button
+                  class="dropdown-toggle"
+                  type="button"
+                  id="dropdownMenuButton"
+                  data-toggle="dropdown"
+                  aria-haspopup="true"
+                  aria-expanded="false"
+                >
+                  {{
+                    bookingForm.controls["airline"].value == ""
+                      ? "Airline"
+                      : bookingForm.controls["airline"].value
+                  }}
                 </button>
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                  <a class="dropdown-item"
-                    *ngFor="let item of ['Other Airlines','IndiGo','Vistara','AirAsia (India)','Spicejet','Akasa Air']"
-                    (click)="handleDropdownEvent('airline',item)">
-                    {{item}}
+                  <a
+                    class="dropdown-item"
+                    *ngFor="
+                      let item of [
+                        'Other Airlines',
+                        'IndiGo',
+                        'Vistara',
+                        'AirAsia (India)',
+                        'Spicejet',
+                        'Akasa Air'
+                      ]
+                    "
+                    (click)="handleDropdownEvent('airline', item)"
+                  >
+                    {{ item }}
                   </a>
                 </div>
               </div>
             </div>
           </fieldset>
-          <p class="error"
-            *ngIf="bookingForm.controls['airline'].hasError('required') && bookingForm.controls['airline'].touched || (bookingForm.controls['airline'].invalid && bookingForm.controls['airline'].untouched && submitted )">
-            Please Select Airline</p>
+          <p
+            class="error"
+            *ngIf="
+              (bookingForm.controls['airline'].hasError('required') &&
+                bookingForm.controls['airline'].touched) ||
+              (bookingForm.controls['airline'].invalid &&
+                bookingForm.controls['airline'].untouched &&
+                submitted)
+            "
+          >
+            Please Select Airline
+          </p>
         </div>
         <!-- select airline end -->
 
-
         <!-- Type Depatur or Arraival start-->
         <div class="col-md-2 mb-3 mb-md-0">
-          <fieldset class="borders"
-            [style.border]="bookingForm.controls['type'].hasError('required') && bookingForm.controls['type'].touched || (bookingForm.controls['type'].invalid && bookingForm.controls['type'].untouched && submitted ) ? '1px solid #ed7533' : '1px solid #dee2e6'">
+          <fieldset
+            class="borders"
+            [style.border]="
+              (bookingForm.controls['type'].hasError('required') &&
+                bookingForm.controls['type'].touched) ||
+              (bookingForm.controls['type'].invalid &&
+                bookingForm.controls['type'].untouched &&
+                submitted)
+                ? '1px solid #ed7533'
+                : '1px solid #dee2e6'
+            "
+          >
             <legend class="w-auto">Departure or Arrival</legend>
             <div class="subNumber">
               <div class="dropdown">
-                <button class="dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown"
-                  aria-haspopup="true" aria-expanded="false">
-                  {{bookingForm.controls['type'].value == '' ? 'Type' : bookingForm.controls['type'].value}}
+                <button
+                  class="dropdown-toggle"
+                  type="button"
+                  id="dropdownMenuButton"
+                  data-toggle="dropdown"
+                  aria-haspopup="true"
+                  aria-expanded="false"
+                >
+                  {{
+                    bookingForm.controls["type"].value == ""
+                      ? "Type"
+                      : bookingForm.controls["type"].value
+                  }}
                 </button>
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                  <a class="dropdown-item" *ngFor="let item of ['Departure','Arrival']"
-                    (click)="handleDropdownEvent('type',item)">{{item}}</a>
+                  <a
+                    class="dropdown-item"
+                    *ngFor="let item of ['Departure', 'Arrival']"
+                    (click)="handleDropdownEvent('type', item)"
+                    >{{ item }}</a
+                  >
                 </div>
               </div>
             </div>
@@ -309,52 +806,193 @@
         </div>
         <!-- Type Depatur or Arraival end-->
 
-
         <!-- Terminal start -->
-        <div class="col-md-3  mb-3">
-          <fieldset class="borders"
-            [style.border]="bookingForm.controls['terminal'].hasError('required') && bookingForm.controls['terminal'].touched || (bookingForm.controls['terminal'].invalid && bookingForm.controls['terminal'].untouched && submitted ) ? '1px solid #ed7533' : '1px solid #dee2e6'">
+        <div class="col-md-3 mb-3">
+          <fieldset
+            class="borders"
+            [style.border]="
+              (bookingForm.controls['terminal'].hasError('required') &&
+                bookingForm.controls['terminal'].touched) ||
+              (bookingForm.controls['terminal'].invalid &&
+                bookingForm.controls['terminal'].untouched &&
+                submitted)
+                ? '1px solid #ed7533'
+                : '1px solid #dee2e6'
+            "
+          >
             <legend class="w-auto">Domestic / International Travel</legend>
             <div class="subNumber">
               <div class="dropdown">
-                <button class="dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown"
-                  aria-haspopup="true" aria-expanded="false">
-                  {{bookingForm.controls['terminal'].value == '' ? 'Select Travel' :
-                  bookingForm.controls['terminal'].value}}
+                <button
+                  class="dropdown-toggle"
+                  type="button"
+                  id="dropdownMenuButton"
+                  data-toggle="dropdown"
+                  aria-haspopup="true"
+                  aria-expanded="false"
+                >
+                  {{
+                    bookingForm.controls["terminal"].value == ""
+                      ? "Select Travel"
+                      : bookingForm.controls["terminal"].value
+                  }}
                 </button>
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                  <a class="dropdown-item" *ngFor="let item of ['Domestic Travel','International Travel']"
-                    (click)="handleDropdownEvent('terminal',item)">{{item}}</a>
+                  <a
+                    class="dropdown-item"
+                    *ngFor="
+                      let item of ['Domestic Travel', 'International Travel']
+                    "
+                    (click)="handleDropdownEvent('terminal', item)"
+                    >{{ item }}</a
+                  >
                 </div>
               </div>
             </div>
           </fieldset>
-          <p class="error"
-            *ngIf="bookingForm.controls['terminal'].hasError('required') && bookingForm.controls['terminal'].touched || (bookingForm.controls['terminal'].invalid && bookingForm.controls['terminal'].untouched && submitted )">
-            Please Select Terminal</p>
+          <p
+            class="error"
+            *ngIf="
+              (bookingForm.controls['terminal'].hasError('required') &&
+                bookingForm.controls['terminal'].touched) ||
+              (bookingForm.controls['terminal'].invalid &&
+                bookingForm.controls['terminal'].untouched &&
+                submitted)
+            "
+          >
+            Please Select Terminal
+          </p>
         </div>
         <!-- Terminal end -->
 
+        <!-- Select Pickup start  -->
+        <div class="col-md-3 mb-3">
+          <fieldset
+            class="borders"
+            [style.border]="
+              (bookingForm.controls['pickup_type'].hasError('required') &&
+                bookingForm.controls['pickup_type'].touched) ||
+              (bookingForm.controls['pickup_type'].invalid &&
+                bookingForm.controls['pickup_type'].untouched &&
+                submitted)
+                ? '1px solid #ed7533'
+                : '1px solid #dee2e6'
+            "
+          >
+            <legend class="w-auto">
+              Select
+              {{
+                bookingForm.controls["type"].value != "Departure"
+                  ? "Delivery"
+                  : "Pickup"
+              }}
+            </legend>
+            <div class="subNumber">
+              <div class="dropdown">
+                <button
+                  class="dropdown-toggle"
+                  type="button"
+                  id="dropdownMenuButton"
+                  data-toggle="dropdown"
+                  aria-haspopup="true"
+                  aria-expanded="false"
+                >
+                  {{
+                    bookingForm.controls["pickup_type"].value
+                      ? bookingForm.controls["pickup_type"].value
+                      : "SelectPickup"
+                  }}
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                  <a
+                    class="dropdown-item"
+                    *ngFor="
+                      let item of [
+                        bookingForm.controls['type'].value == 'Departure'
+                          ? 'Airport: Drop off Point'
+                          : 'Airport: Pickup Point',
+                        bookingForm.controls['type'].value != 'Departure'
+                          ? 'Doorstep Delivery'
+                          : 'Doorstep Pickup'
+                      ]
+                    "
+                    (click)="handleDropdownEvent('pickup_type', item)"
+                    >{{ item }}</a
+                  >
+                </div>
+              </div>
+            </div>
+          </fieldset>
+          <div
+            class="message"
+            *ngIf="
+              bookingForm.controls['pickup_type'].value ==
+                'Airport: Drop off Point' ||
+              bookingForm.controls['pickup_type'].value ==
+                'Airport: Pickup Point'
+            "
+          >
+            <span class="mIcon">i</span>
+            <p>
+              {{
+                bookingForm.controls["pickup_type"].value ==
+                "Airport: Drop off Point"
+                  ? "CarterX personnel allocated will meet you at the drop off point for service to Check-in counter."
+                  : "CarterX personnel will meet you at baggage belt."
+              }}
+            </p>
+          </div>
+          <div
+            class="message"
+            *ngIf="
+              bookingForm.controls['pickup_type'].value == 'Doorstep Pickup' ||
+              bookingForm.controls['pickup_type'].value == 'Doorstep Delivery'
+            "
+          >
+            <span class="mIcon">i</span>
+            <p>
+              {{
+                bookingForm.controls["pickup_type"].value != "Doorstep Delivery"
+                  ? "CarterX personnel allocated will meet you at the Doorstep for service to Check-in counter."
+                  : "CarterX personnel will meet you at baggage belt."
+              }}
+            </p>
+          </div>
+        </div>
+        <!-- Select Pickup end  -->
 
         <!-- Date time picker start -->
-        <div class="col-md-3  mb-3">
+        <div class="col-md-3 mb-3">
           <fieldset class="borders d-flex">
             <legend class="w-auto">Date of Service</legend>
 
             <!-- Select Date -->
             <div class="dateSection border-left-0 w-100 position-relative">
-              <input class="" id="datePicker" formControlName="date" [(ngModel)]="selected_date_for_date_picker"
-                [owlDateTimeTrigger]="dt1" [min]="Currentdate" [owlDateTime]="dt1" placeholder="Date Time" style="
+              <input
+                class=""
+                id="datePicker"
+                [ngModelOptions]="{ standalone: true }"
+                [(ngModel)]="selected_date_for_date_picker"
+                [owlDateTimeTrigger]="dt1"
+                [min]="Currentdate"
+                [owlDateTime]="dt1"
+                placeholder="Date Time"
+                style="
                   opacity: 0;
                   width: calc(100% + 20px);
                   height: 30px;
                   cursor: pointer;
                   position: absolute;
-                " (click)="click($event)" />
+                "
+                (click)="click($event)"
+              />
 
-              <owl-date-time [pickerType]="'calendar'" #dt1 (afterPickerClosed)="datePickerOnChange()">
+              <owl-date-time
+                [pickerType]="'calendar'"
+                #dt1
+                (afterPickerClosed)="datePickerOnChange()"
+              >
               </owl-date-time>
-
 
               <p class="mb-0" *ngIf="showDate.length != 0">
                 <span class="bags ml-2" *ngIf="showDate[0] == 'Mon'">
@@ -379,7 +1017,9 @@
                   Sunday,
                 </span>
                 <span class="bagNumber">{{ showDate[2] }}</span>
-                <span class="bags ml-2">{{ showDate[1] }}, {{ showDate[3] }}</span>
+                <span class="bags ml-2"
+                  >{{ showDate[1] }}, {{ showDate[3] }}</span
+                >
               </p>
             </div>
             <div>
@@ -388,47 +1028,6 @@
           </fieldset>
         </div>
         <!-- Date time picker end -->
-
-
-        <!-- Select Pickup start  -->
-        <div class="col-md-3  mb-3">
-          <fieldset class="borders"
-            [style.border]="bookingForm.controls['pickup_type'].hasError('required') && bookingForm.controls['pickup_type'].touched || (bookingForm.controls['pickup_type'].invalid && bookingForm.controls['pickup_type'].untouched && submitted ) ? '1px solid #ed7533' : '1px solid #dee2e6'">
-            <legend class="w-auto">Select {{bookingForm.controls['type'].value != 'Departure' ? 'Delivery' : 'Pickup'}}
-            </legend>
-            <div class="subNumber">
-              <div class="dropdown">
-                <button class="dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown"
-                  aria-haspopup="true" aria-expanded="false">
-                  {{bookingForm.controls['pickup_type'].value ? bookingForm.controls['pickup_type'].value :
-                  'SelectPickup'}}
-                </button>
-                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                  <a class="dropdown-item"
-                    *ngFor="let item of [bookingForm.controls['type'].value == 'Departure' ? 'Airport: Drop off Point' : 'Airport: Pickup Point',bookingForm.controls['type'].value != 'Departure'? 'Doorstep Delivery' : 'Doorstep Pickup']"
-                    (click)="handleDropdownEvent('pickup_type',item)">{{item}}</a>
-                </div>
-              </div>
-            </div>
-          </fieldset>
-          <div class="message"
-            *ngIf="bookingForm.controls['pickup_type'].value == 'Airport: Drop off Point' || bookingForm.controls['pickup_type'].value == 'Airport: Pickup Point'">
-            <span class="mIcon">i</span>
-            <p>
-              {{bookingForm.controls['pickup_type'].value == 'Airport: Drop off Point' ?
-              "CarterX personnel allocated will meet you at the drop off point for service to Check-in counter." :
-              'CarterX personnel will meet you at baggage belt.'}}</p>
-          </div>
-          <div class="message"
-            *ngIf="bookingForm.controls['pickup_type'].value == 'Doorstep Pickup' || bookingForm.controls['pickup_type'].value == 'Doorstep Delivery'">
-            <span class="mIcon">i</span>
-            <p>{{bookingForm.controls['pickup_type'].value != 'Doorstep Delivery' ?
-              "CarterX personnel allocated will meet you at the Doorstep for service to Check-in counter." :
-              'CarterX personnel will meet you at baggage belt.'}}</p>
-          </div>
-        </div>
-        <!-- Select Pickup end  -->
-
 
         <!-- select city start  -->
         <!-- <div class="col-md-3  mb-3">
@@ -455,107 +1054,231 @@
         </div> -->
         <!-- select city end -->
 
-
         <!-- select airport start -->
-        <div class="col-md-3  mb-3">
-          <fieldset class="borders"
-            [style.border]="bookingForm.controls['airport_id'].hasError('required') && bookingForm.controls['airport_id'].touched || (bookingForm.controls['airport_id'].invalid && bookingForm.controls['airport_id'].untouched && submitted ) ? '1px solid #ed7533' : '1px solid #dee2e6'">
+        <div class="col-md-3 mb-3">
+          <fieldset
+            class="borders"
+            [style.border]="
+              (bookingForm.controls['airport_id'].hasError('required') &&
+                bookingForm.controls['airport_id'].touched) ||
+              (bookingForm.controls['airport_id'].invalid &&
+                bookingForm.controls['airport_id'].untouched &&
+                submitted)
+                ? '1px solid #ed7533'
+                : '1px solid #dee2e6'
+            "
+          >
             <legend class="w-auto">Select Airport</legend>
             <div class="subNumber">
               <div class="dropdown">
-                <button class="dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown"
-                  aria-haspopup="true" aria-expanded="false">
-                  {{selected_airport ? selected_airport : 'Select Airport'}}
+                <button
+                  class="dropdown-toggle"
+                  type="button"
+                  id="dropdownMenuButton"
+                  data-toggle="dropdown"
+                  aria-haspopup="true"
+                  aria-expanded="false"
+                >
+                  {{ selected_airport ? selected_airport : "Select Airport" }}
                 </button>
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                  <a class="dropdown-item" *ngFor="let airport of airports"
-                    (click)="handleDropdownEvent('airport',airport)"> {{ airport.airport_name }}</a>
+                  <a
+                    class="dropdown-item"
+                    *ngFor="let airport of airports"
+                    (click)="handleDropdownEvent('airport', airport)"
+                  >
+                    {{ airport.airport_name }}</a
+                  >
                 </div>
               </div>
             </div>
           </fieldset>
-          <p class="error"
-            *ngIf="bookingForm.controls['airport_id'].hasError('required') && bookingForm.controls['airport_id'].touched || (bookingForm.controls['airport_id'].invalid && bookingForm.controls['airport_id'].untouched && submitted )">
+          <p
+            class="error"
+            *ngIf="
+              (bookingForm.controls['airport_id'].hasError('required') &&
+                bookingForm.controls['airport_id'].touched) ||
+              (bookingForm.controls['airport_id'].invalid &&
+                bookingForm.controls['airport_id'].untouched &&
+                submitted)
+            "
+          >
             Please Select Airport
           </p>
-          <div class="message" *ngIf="bookingForm.controls['type'].value != 'Departure'">
+          <div
+            class="message"
+            *ngIf="bookingForm.controls['type'].value != 'Departure'"
+          >
             <span class="mIcon">i</span>
-            <p>CarterX personnel will be allocated 30 minutes prior to your flight landing time.</p>
+            <p>
+              CarterX personnel will be allocated 30 minutes prior to your
+              flight landing time.
+            </p>
           </div>
         </div>
         <!-- select airport end-->
 
         <!--  -->
-        <div class="col-md-4 mb-3" *ngIf="bookingForm.controls['pickup_type'].value != 'Airport: Drop off Point' && bookingForm.controls['pickup_type'].value != 'Airport: Pickup Point'">
-          <fieldset class="borders"
-            [style.border]="(bookingForm.controls['addressLineOne'].hasError('required') && bookingForm.controls['addressLineOne'].touched || bookingForm.controls['addressLineOne'].invalid && bookingForm.controls['addressLineOne'].untouched) && submitted  ? '1px solid #ed7533' : '1px solid #dee2e6'">
-            <legend class="w-auto">{{bookingForm.controls['type'].value != 'Departure' ? 'Delivery' : 'Pickup'}}
+        <div
+          class="col-md-4 mb-3"
+          *ngIf="
+            bookingForm.controls['pickup_type'].value !=
+              'Airport: Drop off Point' &&
+            bookingForm.controls['pickup_type'].value != 'Airport: Pickup Point'
+          "
+        >
+          <fieldset
+            class="borders"
+            [style.border]="
+              ((bookingForm.controls['addressLineOne'].hasError('required') &&
+                bookingForm.controls['addressLineOne'].touched) ||
+                (bookingForm.controls['addressLineOne'].invalid &&
+                  bookingForm.controls['addressLineOne'].untouched)) &&
+              submitted
+                ? '1px solid #ed7533'
+                : '1px solid #dee2e6'
+            "
+          >
+            <legend class="w-auto">
+              {{
+                bookingForm.controls["type"].value != "Departure"
+                  ? "Delivery"
+                  : "Pickup"
+              }}
               Address
             </legend>
 
             <!-- arraival -->
             <!-- bookingForm.controls['pickup_type'].value == 'Airport: Drop off Point' || bookingForm.controls['pickup_type'].value == 'Airport: Pickup Point' -->
-            <div class="subNumber"
-              *ngIf="false">
+            <div class="subNumber" *ngIf="false">
               <div class="dropdown">
-                <button class="dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown"
-                  aria-haspopup="true" aria-expanded="false">
-                  {{fullAddressLine ? fullAddressLine : 'Select Address'}}
+                <button
+                  class="dropdown-toggle"
+                  type="button"
+                  id="dropdownMenuButton"
+                  data-toggle="dropdown"
+                  aria-haspopup="true"
+                  aria-expanded="false"
+                >
+                  {{ fullAddressLine ? fullAddressLine : "Select Address" }}
                 </button>
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                   <!-- getAddress() -->
-                  <a class="dropdown-item" *ngFor="let item of pick_drop_details"
-                    (click)="handleDropdownEvent('address',item)">{{item.pick_drop_address}}</a>
+                  <a
+                    class="dropdown-item"
+                    *ngFor="let item of pick_drop_details"
+                    (click)="handleDropdownEvent('address', item)"
+                    >{{ item.pick_drop_address }}</a
+                  >
                 </div>
               </div>
             </div>
 
-
             <!-- pickup -->
             <div
-              *ngIf="bookingForm.controls['pickup_type'].value == 'Doorstep Pickup' || bookingForm.controls['pickup_type'].value == 'Doorstep Delivery'">
-              <div class="full-address pointor" (click)="showAddressDropDown = !showAddressDropDown">{{fullAddressLine ?
-                fullAddressLine : 'Enter Address'}}</div>
-              <div class="customDropdownAddressLocal position-absolute shadow text-center"
-                (window:mouseup)="autoCloseForDropdown($event)" *ngIf="showAddressDropDown">
+              *ngIf="
+                bookingForm.controls['pickup_type'].value ==
+                  'Doorstep Pickup' ||
+                bookingForm.controls['pickup_type'].value == 'Doorstep Delivery'
+              "
+            >
+              <div
+                class="full-address pointor"
+                (click)="showAddressDropDown = !showAddressDropDown"
+              >
+                {{ fullAddressLine ? fullAddressLine : "Enter Address" }}
+              </div>
+              <div
+                class="customDropdownAddressLocal position-absolute shadow text-center"
+                (window:mouseup)="autoCloseForDropdown($event)"
+                *ngIf="showAddressDropDown"
+              >
                 <div>
-                  <div class="mb-0 pb-2 pt-2 text-left" style="padding-left: 14px;">
+                  <div
+                    class="mb-0 pb-2 pt-2 text-left"
+                    style="padding-left: 14px"
+                  >
                     <div class="addressText">Apartment / Road / Area *</div>
-                    <input class="addressInput" type="text" id="autocomplete"
-                      placeholder="Enter Apartment / Road / Area" ngx-google-places-autocomplete #placesRef="ngx-places"
-                      (onAddressChange)="handleAddressChange($event)" formControlName="addressLineOne" />
+                    <input
+                      class="addressInput"
+                      type="text"
+                      id="autocomplete"
+                      placeholder="Enter Apartment / Road / Area"
+                      ngx-google-places-autocomplete
+                      #placesRef="ngx-places"
+                      (onAddressChange)="handleAddressChange($event)"
+                      formControlName="addressLineOne"
+                    />
 
                     <div class="addressText">House / Flat / Door no.</div>
-                    <input class="addressInput" type="text" formControlName="addressLineTwo"
-                      placeholder="Enter Apartment / Road / Area">
+                    <input
+                      class="addressInput"
+                      type="text"
+                      formControlName="addressLineTwo"
+                      placeholder="Enter Apartment / Road / Area"
+                    />
 
                     <div class="addressText">City *</div>
-                    <input class="addressInput" disabled formControlName="addressCity" type="text"
-                      placeholder="Enter City">
+                    <input
+                      class="addressInput"
+                      disabled
+                      formControlName="addressCity"
+                      type="text"
+                      placeholder="Enter City"
+                    />
                     <!-- *ngIf="bookingForm.controls['transfer_type'].value == 'Outstation'" -->
                     <ng-container>
                       <div class="addressText">Pincode *</div>
-                      <input class="addressInput" formControlName="addressPincodes" type="text" numbersOnly
-                        maxlength="6" [readonly]="show_pincode" placeholder="Enter Pincode">
+                      <input
+                        class="addressInput"
+                        formControlName="addressPincodes"
+                        type="text"
+                        numbersOnly
+                        maxlength="6"
+                        [readonly]="show_pincode"
+                        placeholder="Enter Pincode"
+                      />
                     </ng-container>
-
                   </div>
                 </div>
                 <div>
-                  <button (click)="submitAddress(1)" style="padding: 3px 10px 2px;" class="myBtn">Submit</button>
+                  <button
+                    (click)="submitAddress(1)"
+                    style="padding: 3px 10px 2px"
+                    class="myBtn"
+                  >
+                    Submit
+                  </button>
                 </div>
               </div>
             </div>
             <!--  -->
           </fieldset>
-          <p class="error"
-            *ngIf="(bookingForm.controls['addressLineOne'].hasError('required') && bookingForm.controls['addressLineOne'].touched || bookingForm.controls['addressLineOne'].invalid && bookingForm.controls['addressLineOne'].untouched) && submitted ">
+          <p
+            class="error"
+            *ngIf="
+              ((bookingForm.controls['addressLineOne'].hasError('required') &&
+                bookingForm.controls['addressLineOne'].touched) ||
+                (bookingForm.controls['addressLineOne'].invalid &&
+                  bookingForm.controls['addressLineOne'].untouched)) &&
+              submitted
+            "
+          >
             Enter The Valid
-            {{bookingForm.controls['type'].value != 'Departure' ? 'Delivery' : 'Pickup'}}
+            {{
+              bookingForm.controls["type"].value != "Departure"
+                ? "Delivery"
+                : "Pickup"
+            }}
             Address
           </p>
-          <div class="message"
-            *ngIf="bookingForm.controls['pickup_type'].value == 'Doorstep Pickup' || bookingForm.controls['pickup_type'].value == 'Doorstep Delivery'">
+          <div
+            class="message"
+            *ngIf="
+              bookingForm.controls['pickup_type'].value == 'Doorstep Pickup' ||
+              bookingForm.controls['pickup_type'].value == 'Doorstep Delivery'
+            "
+          >
             <span class="mIcon">i</span>
             <p>Delivery for outstation addresses are 4-7 days</p>
           </div>
@@ -563,188 +1286,440 @@
         <!--  -->
 
         <!-- Time solot start  -->
-        <div class="col-md-3  mb-3"
-          *ngIf="bookingForm.controls['pickup_type'].value == 'Doorstep Pickup' || bookingForm.controls['pickup_type'].value == 'Doorstep Delivery'">
-          <fieldset class="borders"
-            [style.border]="bookingForm.controls['time_slot'].hasError('required') && bookingForm.controls['time_slot'].touched || (bookingForm.controls['time_slot'].invalid && bookingForm.controls['time_slot'].untouched && submitted ) ? '1px solid #ed7533' : '1px solid #dee2e6'">
+        <div
+          class="col-md-3 mb-3"
+          *ngIf="
+            bookingForm.controls['pickup_type'].value == 'Doorstep Pickup' ||
+            bookingForm.controls['pickup_type'].value == 'Doorstep Delivery'
+          "
+        >
+          <fieldset
+            class="borders"
+            [style.border]="
+              (bookingForm.controls['time_slot'].hasError('required') &&
+                bookingForm.controls['time_slot'].touched) ||
+              (bookingForm.controls['time_slot'].invalid &&
+                bookingForm.controls['time_slot'].untouched &&
+                submitted)
+                ? '1px solid #ed7533'
+                : '1px solid #dee2e6'
+            "
+          >
             <legend class="w-auto">Select Slot</legend>
             <div class="subNumber">
               <div class="dropdown">
-                <button class="dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown"
-                  aria-haspopup="true" aria-expanded="false">
-                  {{selected_time_slot ? selected_time_slot : 'Select Slot'}}
+                <button
+                  class="dropdown-toggle"
+                  type="button"
+                  id="dropdownMenuButton"
+                  data-toggle="dropdown"
+                  aria-haspopup="true"
+                  aria-expanded="false"
+                >
+                  {{ selected_time_slot ? selected_time_slot : "Select Slot" }}
                 </button>
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                  <a class="dropdown-item" *ngFor="let time of filtered_tilme_slot"
-                    (click)="handleDropdownEvent('time_slot',time)"> {{ bookingForm.controls['type'].value ==
-                    'Departure' ? time.time_description : time.slot_name }}</a>
+                  <a
+                    class="dropdown-item"
+                    *ngFor="let time of filtered_tilme_slot"
+                    (click)="handleDropdownEvent('time_slot', time)"
+                  >
+                    {{
+                      bookingForm.controls["type"].value == "Departure"
+                        ? time.time_description
+                        : time.slot_name
+                    }}</a
+                  >
                 </div>
               </div>
             </div>
           </fieldset>
-          <p class="error"
-            *ngIf="bookingForm.controls['time_slot'].hasError('required') && bookingForm.controls['time_slot'].touched || (bookingForm.controls['time_slot'].invalid && bookingForm.controls['time_slot'].untouched && submitted )">
+          <p
+            class="error"
+            *ngIf="
+              (bookingForm.controls['time_slot'].hasError('required') &&
+                bookingForm.controls['time_slot'].touched) ||
+              (bookingForm.controls['time_slot'].invalid &&
+                bookingForm.controls['time_slot'].untouched &&
+                submitted)
+            "
+          >
             Please Select Slot
+          </p>
+          <p class="error" *ngIf="filtered_tilme_slot.length == 0">
+            * No slots available for this date
           </p>
         </div>
         <!-- Time solot end -->
 
-
         <!-- select bags start -->
         <div class="col-md-2 mb-3">
-          <fieldset class="borders"
-            [style.border]="bookingForm.controls['bags'].hasError('required') && bookingForm.controls['bags'].touched || (bookingForm.controls['bags'].invalid && bookingForm.controls['bags'].untouched && submitted ) ? '1px solid #ed7533' : '1px solid #dee2e6'">
+          <fieldset
+            class="borders"
+            [style.border]="
+              (bookingForm.controls['bags'].hasError('required') &&
+                bookingForm.controls['bags'].touched) ||
+              (bookingForm.controls['bags'].invalid &&
+                bookingForm.controls['bags'].untouched &&
+                submitted)
+                ? '1px solid #ed7533'
+                : '1px solid #dee2e6'
+            "
+          >
             <legend class="w-auto">Number of Bags</legend>
             <div class="subNumber">
-              <div class="dropdown bagsDropdown" (window:mouseup)="bagsDropdownOnClick($event)">
-                <button class="dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown"
-                  aria-haspopup="true" aria-expanded="false">
-                  {{bookingForm.controls['bags'].value ? bookingForm.controls['bags'].value + ( bookingForm.controls['bags'].value == 1 || bookingForm.controls['bags'].value== '1' ? ' Bag' : ' Bags') : 'Select Bag'}}
+              <div
+                class="dropdown bagsDropdown"
+                (window:mouseup)="bagsDropdownOnClick($event)"
+              >
+                <button
+                  class="dropdown-toggle"
+                  type="button"
+                  id="dropdownMenuButton"
+                  data-toggle="dropdown"
+                  aria-haspopup="true"
+                  aria-expanded="false"
+                >
+                  {{
+                    bookingForm.controls["bags"].value
+                      ? bookingForm.controls["bags"].value +
+                        (bookingForm.controls["bags"].value == 1 ||
+                        bookingForm.controls["bags"].value == "1"
+                          ? " Bag"
+                          : "
+                  Bags")
+                      : "Select Bag"
+                  }}
                 </button>
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                  <a class="dropdown-item"
-                    *ngFor="let bag of (subscription_details.show_coupons ? get_bags_subscription() :get_bags())"
-                    (click)="handleDropdownEvent('bags',bag)">{{subscription_details.show_coupons  ? bag : bag.no_of_bags}} {{subscription_details.show_coupons  ? (bag == 1 ? 'bag' : 'bags') : (bag.no_of_bags == 1 ? 'bag' : 'bags')}}</a>
+                  <a
+                    class="dropdown-item"
+                    *ngFor="
+                      let bag of subscription_details.show_coupons
+                        ? get_bags_subscription()
+                        : get_bags()
+                    "
+                    (click)="handleDropdownEvent('bags', bag)"
+                    >{{
+                      subscription_details.show_coupons ? bag : bag.no_of_bags
+                    }}
+                    {{
+                      subscription_details.show_coupons
+                        ? bag == 1
+                          ? "bag"
+                          : "bags"
+                        : bag.no_of_bags == 1
+                        ? "bag"
+                        : "bags"
+                    }}</a
+                  >
                 </div>
               </div>
             </div>
           </fieldset>
-          <p class="error"
-            *ngIf="bookingForm.controls['bags'].hasError('required') && bookingForm.controls['bags'].touched || (bookingForm.controls['bags'].invalid && bookingForm.controls['bags'].untouched && submitted )">
+          <p
+            class="error"
+            *ngIf="
+              (bookingForm.controls['bags'].hasError('required') &&
+                bookingForm.controls['bags'].touched) ||
+              (bookingForm.controls['bags'].invalid &&
+                bookingForm.controls['bags'].untouched &&
+                submitted)
+            "
+          >
             Please Select Bag
           </p>
         </div>
         <!-- select bags end -->
 
         <!-- select other airline option-->
-        <div class="col-md-3  mb-3" *ngIf="bookingForm.controls['airline'].value == 'Other Airlines'">
-          <fieldset class="borders"
-            [style.border]="(bookingForm.controls['other_airline'].hasError('required') && bookingForm.controls['other_airline'].touched || bookingForm.controls['other_airline'].invalid && bookingForm.controls['other_airline'].untouched) && submitted  ? '1px solid #ed7533' : '1px solid #dee2e6'">
+        <div
+          class="col-md-3 mb-3"
+          *ngIf="bookingForm.controls['airline'].value == 'Other Airlines'"
+        >
+          <fieldset
+            class="borders"
+            [style.border]="
+              ((bookingForm.controls['other_airline'].hasError('required') &&
+                bookingForm.controls['other_airline'].touched) ||
+                (bookingForm.controls['other_airline'].invalid &&
+                  bookingForm.controls['other_airline'].untouched)) &&
+              submitted
+                ? '1px solid #ed7533'
+                : '1px solid #dee2e6'
+            "
+          >
             <legend class="w-auto">Enter Airline Name</legend>
-            <input type="text" maxlength="30" class="border-0" placeholder="Enter Airline Name"
-              formControlName="other_airline">
+            <input
+              type="text"
+              maxlength="30"
+              class="border-0"
+              placeholder="Enter Airline Name"
+              formControlName="other_airline"
+            />
           </fieldset>
-          <p class="error"
-            *ngIf="(bookingForm.controls['other_airline'].hasError('required') && bookingForm.controls['other_airline'].touched || bookingForm.controls['other_airline'].invalid && bookingForm.controls['other_airline'].untouched) && submitted ">
-            Please Enter The Airline</p>
+          <p
+            class="error"
+            *ngIf="
+              ((bookingForm.controls['other_airline'].hasError('required') &&
+                bookingForm.controls['other_airline'].touched) ||
+                (bookingForm.controls['other_airline'].invalid &&
+                  bookingForm.controls['other_airline'].untouched)) &&
+              submitted
+            "
+          >
+            Please Enter The Airline
+          </p>
         </div>
         <!-- select airline end -->
 
         <!-- select other airline Number-->
-        <div class="col-md-3  mb-3">
-          <fieldset class="borders"
-            [style.border]="(bookingForm.controls['other_airline_no'].hasError('required') && bookingForm.controls['other_airline_no'].touched || bookingForm.controls['other_airline_no'].invalid && bookingForm.controls['other_airline_no'].untouched) && submitted  ? '1px solid #ed7533' : '1px solid #dee2e6'">
+        <div class="col-md-3 mb-3">
+          <fieldset
+            class="borders"
+            [style.border]="
+              ((bookingForm.controls['other_airline_no'].hasError('required') &&
+                bookingForm.controls['other_airline_no'].touched) ||
+                (bookingForm.controls['other_airline_no'].invalid &&
+                  bookingForm.controls['other_airline_no'].untouched)) &&
+              submitted
+                ? '1px solid #ed7533'
+                : '1px solid #dee2e6'
+            "
+          >
             <legend class="w-auto">Enter Flight Number</legend>
-            <input maxlength="10" style="text-transform: uppercase;" type="text" class="border-0" (keypress)="validateFlightNo($event)"
-              placeholder="Enter Flight Number" formControlName="other_airline_no">
+            <input
+              maxlength="10"
+              style="text-transform: uppercase"
+              type="text"
+              class="border-0"
+              (keypress)="validateFlightNo($event)"
+              placeholder="Enter Flight Number"
+              formControlName="other_airline_no"
+            />
           </fieldset>
-          <p class="error"
-            *ngIf="(bookingForm.controls['other_airline_no'].hasError('required') && bookingForm.controls['other_airline_no'].touched || bookingForm.controls['other_airline_no'].invalid && bookingForm.controls['other_airline_no'].untouched) && submitted ">
-            Please Enter The Airline No.</p>
+          <p
+            class="error"
+            *ngIf="
+              ((bookingForm.controls['other_airline_no'].hasError('required') &&
+                bookingForm.controls['other_airline_no'].touched) ||
+                (bookingForm.controls['other_airline_no'].invalid &&
+                  bookingForm.controls['other_airline_no'].untouched)) &&
+              submitted
+            "
+          >
+            Please Enter The Airline No.
+          </p>
         </div>
         <!-- select airline Number end -->
 
         <!-- PNR start -->
-        <div class="col-md-2  mb-3">
-          <fieldset class="borders"
-            [style.border]="bookingForm.controls['pnr'].hasError('required') && bookingForm.controls['pnr'].touched || (bookingForm.controls['pnr'].errors && bookingForm.controls['pnr'].touched) || (bookingForm.controls['pnr'].invalid && bookingForm.controls['pnr'].untouched && submitted) ? '1px solid #ed7533' : '1px solid #dee2e6'">
+        <div class="col-md-2 mb-3">
+          <fieldset
+            class="borders"
+            [style.border]="
+              (bookingForm.controls['pnr'].hasError('required') &&
+                bookingForm.controls['pnr'].touched) ||
+              (bookingForm.controls['pnr'].errors &&
+                bookingForm.controls['pnr'].touched) ||
+              (bookingForm.controls['pnr'].invalid &&
+                bookingForm.controls['pnr'].untouched &&
+                submitted)
+                ? '1px solid #ed7533'
+                : '1px solid #dee2e6'
+            "
+          >
             <legend class="w-auto">Enter PNR</legend>
-            <input (keypress)="validatePnr($event)" style="text-transform: uppercase;" type="text" class="border-0"
-              placeholder="Enter Pnr" formControlName="pnr" minlength="6" maxlength=6>
+            <input
+              (keypress)="validatePnr($event)"
+              style="text-transform: uppercase"
+              type="text"
+              class="border-0"
+              placeholder="Enter Pnr"
+              formControlName="pnr"
+              minlength="6"
+              maxlength="6"
+            />
           </fieldset>
-          <p class="error"
-            *ngIf="bookingForm.controls['pnr'].hasError('required') && bookingForm.controls['pnr'].touched || (bookingForm.controls['pnr'].errors && bookingForm.controls['pnr'].touched) || (bookingForm.controls['pnr'].invalid && bookingForm.controls['pnr'].untouched && submitted)">
+          <p
+            class="error"
+            *ngIf="
+              (bookingForm.controls['pnr'].hasError('required') &&
+                bookingForm.controls['pnr'].touched) ||
+              (bookingForm.controls['pnr'].errors &&
+                bookingForm.controls['pnr'].touched) ||
+              (bookingForm.controls['pnr'].invalid &&
+                bookingForm.controls['pnr'].untouched &&
+                submitted)
+            "
+          >
             Enter The Valid PNR
           </p>
         </div>
         <!-- PNR end -->
 
-
         <!-- Time line start -->
-        <div class="col-md-3  mb-3 position-relative"
-          *ngIf="bookingForm.controls['pickup_type'].value == 'Airport: Drop off Point' || bookingForm.controls['pickup_type'].value == 'Airport: Pickup Point'">
-          <fieldset class="borders"
-            [style.border]="bookingForm.controls['time_slot'].hasError('required') && bookingForm.controls['time_slot'].touched || (bookingForm.controls['time_slot'].invalid && bookingForm.controls['time_slot'].untouched && submitted ) ? '1px solid #ed7533' : '1px solid #dee2e6'">
-            <legend class="w-auto">Select Time to meet CarterX at Airport</legend>
+        <div
+          class="col-md-3 mb-3 position-relative"
+          *ngIf="
+            bookingForm.controls['pickup_type'].value ==
+              'Airport: Drop off Point' ||
+            bookingForm.controls['pickup_type'].value == 'Airport: Pickup Point'
+          "
+        >
+          <fieldset
+            class="borders"
+            [style.border]="
+              (bookingForm.controls['time_slot'].hasError('required') &&
+                bookingForm.controls['time_slot'].touched) ||
+              (bookingForm.controls['time_slot'].invalid &&
+                bookingForm.controls['time_slot'].untouched &&
+                submitted)
+                ? '1px solid #ed7533'
+                : '1px solid #dee2e6'
+            "
+          >
+            <legend class="w-auto">
+              Select Time to meet CarterX at Airport
+            </legend>
 
             <!--  -->
-            <div class="meetCarterXadropadown pointor customDrop d-flex justify-content-between align-items-center"
-              (click)="openMeet($event)">
+            <div
+              class="meetCarterXadropadown pointor customDrop d-flex justify-content-between align-items-center"
+              (click)="openMeet($event)"
+            >
               <p class="mb-0 pl-3">
-                <span *ngIf="meetHour1 < 10">0</span>{{meetHour1 }} :
-                <span *ngIf="meetMin1 < 10">0</span>{{meetMin1 }}
+                <span *ngIf="meetHour1 < 10">0</span>{{ meetHour1 }} :
+                <span *ngIf="meetMin1 < 10">0</span>{{ meetMin1 }}
                 <!-- <img class="float-right mr-4 mt-2 text-center"
                   src="../../../../../../../assets/images/Drop-Arrow_Orange.png" /> -->
               </p>
             </div>
-            <div class="meetCarterXDropdown shadow position-absolute" *ngIf="showMeet">
+            <div
+              class="meetCarterXDropdown shadow position-absolute"
+              *ngIf="showMeet"
+            >
               <div class="d-flex mt-2 pt-3">
                 <div class="ml-auto" style="width: 35%">
                   <p class="hour font-weight-bold text-center">Hour</p>
                   <p class="text-center" (click)="increaseMeetHour($event)">
-                    <img class="rotate text-center" src="../../../../../../../assets/images/Drop-Arrow_Orange.png" />
+                    <img
+                      class="rotate text-center"
+                      src="../../../../../../../assets/images/Drop-Arrow_Orange.png"
+                    />
                   </p>
                   <p class="text-center">
-                    <input (keypress)="numberOnly($event)" type="text" maxlength="2" class="text-center" style="border: none; cursor: pointer;" [(ngModel)]="meetHour" [ngModelOptions]="{standalone: true}">
-               
+                    <input
+                      (keypress)="numberOnly($event)"
+                      type="text"
+                      maxlength="2"
+                      class="text-center"
+                      style="border: none; cursor: pointer"
+                      [(ngModel)]="meetHour"
+                      [ngModelOptions]="{ standalone: true }"
+                    />
+
                     <!-- <span *ngIf="meetHour < 10">0</span>{{ meetHour }} -->
                   </p>
                   <p class="text-center" (click)="decreaseMeetHour()">
-                    <img class="text-center" src="../../../../../../../assets/images/Drop-Arrow_Orange.png" />
+                    <img
+                      class="text-center"
+                      src="../../../../../../../assets/images/Drop-Arrow_Orange.png"
+                    />
                   </p>
                 </div>
 
                 <div class="mr-auto" style="width: 35%">
                   <p class="hour font-weight-bold text-center">Min</p>
                   <p class="text-center" (click)="increaseMeetMin()">
-                    <img class="rotate text-center" src="../../../../../../../assets/images/Drop-Arrow_Orange.png" />
+                    <img
+                      class="rotate text-center"
+                      src="../../../../../../../assets/images/Drop-Arrow_Orange.png"
+                    />
                   </p>
                   <p class="text-center">
                     <!-- <span *ngIf="meetMin < 10">0</span>{{ meetMin }} -->
-                    <input type="text" (keypress)="numberOnly($event)" class="text-center"  style="border: none; cursor: pointer;" maxlength="2" [(ngModel)]="meetMin" [ngModelOptions]="{standalone: true}">
+                    <input
+                      type="text"
+                      (keypress)="numberOnly($event)"
+                      class="text-center"
+                      style="border: none; cursor: pointer"
+                      maxlength="2"
+                      [(ngModel)]="meetMin"
+                      [ngModelOptions]="{ standalone: true }"
+                    />
                   </p>
                   <p class="text-center" (click)="decreaseMeetMin()">
-                    <img class="text-center" src="../../../../../../../assets/images/Drop-Arrow_Orange.png" />
+                    <img
+                      class="text-center"
+                      src="../../../../../../../assets/images/Drop-Arrow_Orange.png"
+                    />
                   </p>
                 </div>
               </div>
               <div class="pb-3 text-center">
-                <button class="myBtn" (click)="hideMeet()">
-                  CONFIRM
-                </button>
+                <button class="myBtn" (click)="hideMeet()">CONFIRM</button>
               </div>
             </div>
             <!--  -->
-
           </fieldset>
-          <p class="error"
-            *ngIf="bookingForm.controls['time_slot'].hasError('required') && bookingForm.controls['time_slot'].touched || (bookingForm.controls['time_slot'].invalid && bookingForm.controls['time_slot'].untouched && submitted )">
-            Please Select Slot</p>
-          <div class="message"
-            *ngIf="bookingForm.controls['terminal'].value == 'Domestic Travel' || bookingForm.controls['terminal'].value == 'International Travel'">
+          <p
+            class="error"
+            *ngIf="
+              (bookingForm.controls['time_slot'].hasError('required') &&
+                bookingForm.controls['time_slot'].touched) ||
+              (bookingForm.controls['time_slot'].invalid &&
+                bookingForm.controls['time_slot'].untouched &&
+                submitted)
+            "
+          >
+            Please Select Slot
+          </p>
+          <div
+            class="message"
+            *ngIf="
+              bookingForm.controls['terminal'].value == 'Domestic Travel' ||
+              bookingForm.controls['terminal'].value == 'International Travel'
+            "
+          >
             <span class="mIcon">i</span>
             <p>
-              {{bookingForm.controls['terminal'].value == 'Domestic Travel' ?
-              "Ensure 1 hour prior." :
-              'Ensure 3 hour prior.'}}</p>
+              {{
+                bookingForm.controls["terminal"].value == "Domestic Travel"
+                  ? "Ensure 1 hour prior."
+                  : "Ensure 3 hour prior."
+              }}
+            </p>
           </div>
         </div>
         <!-- Time line end -->
-
-
       </ng-container>
       <!-- Airport Transfer section end -->
 
       <!-- Cargo Transfer section start -->
 
-      <ng-container *ngIf="bookingForm.controls['delivery_type'].value == 'Cargo Transfer'">
+      <ng-container
+        *ngIf="bookingForm.controls['delivery_type'].value == 'Cargo Transfer'"
+      >
         <!-- Terminal start -->
-        <div class="col-md-3  mb-3">
-          <fieldset class="borders"
-            [style.border]="bookingForm.controls['terminal'].hasError('required') && bookingForm.controls['terminal'].touched || (bookingForm.controls['terminal'].invalid && bookingForm.controls['terminal'].untouched && submitted ) ? '1px solid #ed7533' : '1px solid #dee2e6'">
+        <div class="col-md-3 mb-3">
+          <fieldset
+            class="borders"
+            [style.border]="
+              (bookingForm.controls['terminal'].hasError('required') &&
+                bookingForm.controls['terminal'].touched) ||
+              (bookingForm.controls['terminal'].invalid &&
+                bookingForm.controls['terminal'].untouched &&
+                submitted)
+                ? '1px solid #ed7533'
+                : '1px solid #dee2e6'
+            "
+          >
             <legend class="w-auto">Domestic Cargo</legend>
             <div class="subNumber">
-              <span class="pt-1">{{bookingForm.controls['terminal'].value}}</span>
+              <span class="pt-1">{{
+                bookingForm.controls["terminal"].value
+              }}</span>
               <!-- <div class="dropdown">
                 <button class="dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown"
                   aria-haspopup="true" aria-expanded="false">
@@ -758,105 +1733,236 @@
               </div> -->
             </div>
           </fieldset>
-          <p class="error"
-            *ngIf="bookingForm.controls['terminal'].hasError('required') && bookingForm.controls['terminal'].touched || (bookingForm.controls['terminal'].invalid && bookingForm.controls['terminal'].untouched && submitted )">
-            Please Select Terminal</p>
+          <p
+            class="error"
+            *ngIf="
+              (bookingForm.controls['terminal'].hasError('required') &&
+                bookingForm.controls['terminal'].touched) ||
+              (bookingForm.controls['terminal'].invalid &&
+                bookingForm.controls['terminal'].untouched &&
+                submitted)
+            "
+          >
+            Please Select Terminal
+          </p>
         </div>
         <!-- Terminal end -->
 
         <!-- cargo type start -->
-        <div class="col-md-3  mb-3">
-          <fieldset class="borders"
-            [style.border]="bookingForm.controls['cargo_terminal'].hasError('required') && bookingForm.controls['cargo_terminal'].touched || (bookingForm.controls['cargo_terminal'].invalid && bookingForm.controls['cargo_terminal'].untouched && submitted ) ? '1px solid #ed7533' : '1px solid #dee2e6'">
+        <div class="col-md-3 mb-3">
+          <fieldset
+            class="borders"
+            [style.border]="
+              (bookingForm.controls['cargo_terminal'].hasError('required') &&
+                bookingForm.controls['cargo_terminal'].touched) ||
+              (bookingForm.controls['cargo_terminal'].invalid &&
+                bookingForm.controls['cargo_terminal'].untouched &&
+                submitted)
+                ? '1px solid #ed7533'
+                : '1px solid #dee2e6'
+            "
+          >
             <legend class="w-auto">Service Type</legend>
             <div class="subNumber">
               <div class="dropdown">
-                <button class="dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown"
-                  aria-haspopup="true" aria-expanded="false">
-                  {{bookingForm.controls['cargo_terminal'].value == '' && bookingForm.controls['cargo_terminal'].value
-                  !='none' ? 'Select Cargo Type' :
-                  bookingForm.controls['cargo_terminal'].value}}
+                <button
+                  class="dropdown-toggle"
+                  type="button"
+                  id="dropdownMenuButton"
+                  data-toggle="dropdown"
+                  aria-haspopup="true"
+                  aria-expanded="false"
+                >
+                  {{
+                    bookingForm.controls["cargo_terminal"].value == "" &&
+                    bookingForm.controls["cargo_terminal"].value != "none"
+                      ? "Select Cargo Type"
+                      : bookingForm.controls["cargo_terminal"].value
+                  }}
                 </button>
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                  <a class="dropdown-item" *ngFor="let item of ['Rush Air','Rush Surface','Rush AirExpress']"
-                    (click)="handleDropdownEvent('cargo_terminal',item)">{{item}}</a>
+                  <a
+                    class="dropdown-item"
+                    *ngFor="
+                      let item of [
+                        'Rush Air',
+                        'Rush Surface',
+                        'Rush AirExpress'
+                      ]
+                    "
+                    (click)="handleDropdownEvent('cargo_terminal', item)"
+                    >{{ item }}</a
+                  >
                 </div>
               </div>
             </div>
           </fieldset>
-          <p class="error"
-            *ngIf="bookingForm.controls['cargo_terminal'].hasError('required') && bookingForm.controls['cargo_terminal'].touched || (bookingForm.controls['cargo_terminal'].invalid && bookingForm.controls['cargo_terminal'].untouched && submitted )">
-            Please Select Service Type</p>
+          <p
+            class="error"
+            *ngIf="
+              (bookingForm.controls['cargo_terminal'].hasError('required') &&
+                bookingForm.controls['cargo_terminal'].touched) ||
+              (bookingForm.controls['cargo_terminal'].invalid &&
+                bookingForm.controls['cargo_terminal'].untouched &&
+                submitted)
+            "
+          >
+            Please Select Service Type
+          </p>
         </div>
         <!-- cargo type end -->
 
         <!-- type of parcel start -->
-        <div class="col-md-3  mb-3">
-          <fieldset class="borders"
-            [style.border]="bookingForm.controls['parcel_type'].hasError('required') && bookingForm.controls['parcel_type'].touched || (bookingForm.controls['parcel_type'].invalid && bookingForm.controls['parcel_type'].untouched && submitted ) ? '1px solid #ed7533' : '1px solid #dee2e6'">
+        <div class="col-md-3 mb-3">
+          <fieldset
+            class="borders"
+            [style.border]="
+              (bookingForm.controls['parcel_type'].hasError('required') &&
+                bookingForm.controls['parcel_type'].touched) ||
+              (bookingForm.controls['parcel_type'].invalid &&
+                bookingForm.controls['parcel_type'].untouched &&
+                submitted)
+                ? '1px solid #ed7533'
+                : '1px solid #dee2e6'
+            "
+          >
             <legend class="w-auto">Select Type of Parcel</legend>
             <div class="subNumber">
               <div class="dropdown">
-                <button class="dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown"
-                  aria-haspopup="true" aria-expanded="false">
-                  {{bookingForm.controls['parcel_type'].value == '' ? 'Select Parcel Type' :
-                  bookingForm.controls['parcel_type'].value}}
+                <button
+                  class="dropdown-toggle"
+                  type="button"
+                  id="dropdownMenuButton"
+                  data-toggle="dropdown"
+                  aria-haspopup="true"
+                  aria-expanded="false"
+                >
+                  {{
+                    bookingForm.controls["parcel_type"].value == ""
+                      ? "Select Parcel Type"
+                      : bookingForm.controls["parcel_type"].value
+                  }}
                 </button>
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                  <a class="dropdown-item" *ngFor="let item of ['Carton Box','Documents','Sports & Other Equipment','Electronics']"
-                    (click)="handleDropdownEvent('parcel_type',item)">{{item}}</a>
+                  <a
+                    class="dropdown-item"
+                    *ngFor="
+                      let item of [
+                        'Cartons/Baggage',
+                        'Documents',
+                        'Sports & Other Equipment',
+                        'Electronics'
+                      ]
+                    "
+                    (click)="handleDropdownEvent('parcel_type', item)"
+                    >{{ item }}</a
+                  >
                 </div>
               </div>
             </div>
           </fieldset>
-          <p class="error"
-            *ngIf="bookingForm.controls['parcel_type'].hasError('required') && bookingForm.controls['cargo_terminal'].touched || (bookingForm.controls['parcel_type'].invalid && bookingForm.controls['parcel_type'].untouched && submitted )">
-            Please Select Type of Parcel</p>
+          <p
+            class="error"
+            *ngIf="
+              (bookingForm.controls['parcel_type'].hasError('required') &&
+                bookingForm.controls['cargo_terminal'].touched) ||
+              (bookingForm.controls['parcel_type'].invalid &&
+                bookingForm.controls['parcel_type'].untouched &&
+                submitted)
+            "
+          >
+            Please Select Type of Parcel
+          </p>
         </div>
         <!-- type of parcel end -->
 
         <!-- no. of booking start -->
-        <div class="col-md-2  mb-3">
-          <fieldset class="borders"
-            [style.border]="bookingForm.controls['no_of_booking'].hasError('required') && bookingForm.controls['no_of_booking'].touched || (bookingForm.controls['no_of_booking'].invalid && bookingForm.controls['no_of_booking'].untouched && submitted ) ? '1px solid #ed7533' : '1px solid #dee2e6'">
+        <div class="col-md-2 mb-3">
+          <fieldset
+            class="borders"
+            [style.border]="
+              (bookingForm.controls['no_of_booking'].hasError('required') &&
+                bookingForm.controls['no_of_booking'].touched) ||
+              (bookingForm.controls['no_of_booking'].invalid &&
+                bookingForm.controls['no_of_booking'].untouched &&
+                submitted)
+                ? '1px solid #ed7533'
+                : '1px solid #dee2e6'
+            "
+          >
             <legend class="w-auto">Number of Bookings</legend>
             <div class="subNumber">
               <div class="dropdown">
-                <button class="dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown"
-                  aria-haspopup="true" aria-expanded="false">
-                  {{bookingForm.controls['no_of_booking'].value == '' ? 'Number of Bookings' :
-                  bookingForm.controls['no_of_booking'].value}}
+                <button
+                  class="dropdown-toggle"
+                  type="button"
+                  id="dropdownMenuButton"
+                  data-toggle="dropdown"
+                  aria-haspopup="true"
+                  aria-expanded="false"
+                >
+                  {{
+                    bookingForm.controls["no_of_booking"].value == ""
+                      ? "Number of Bookings"
+                      : bookingForm.controls["no_of_booking"].value
+                  }}
                 </button>
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                  <a class="dropdown-item" *ngFor="let item of [1,2,3,4]"
-                    (click)="handleDropdownEvent('no_of_booking',item)">{{item}}</a>
+                  <a
+                    class="dropdown-item"
+                    *ngFor="let item of [1, 2, 3, 4]"
+                    (click)="handleDropdownEvent('no_of_booking', item)"
+                    >{{ item }}</a
+                  >
                 </div>
               </div>
             </div>
           </fieldset>
-          <p class="error"
-            *ngIf="bookingForm.controls['no_of_booking'].hasError('required') && bookingForm.controls['cargo_terminal'].touched || (bookingForm.controls['no_of_booking'].invalid && bookingForm.controls['no_of_booking'].untouched && submitted )">
-            Please Select No. of Booking</p>
+          <p
+            class="error"
+            *ngIf="
+              (bookingForm.controls['no_of_booking'].hasError('required') &&
+                bookingForm.controls['cargo_terminal'].touched) ||
+              (bookingForm.controls['no_of_booking'].invalid &&
+                bookingForm.controls['no_of_booking'].untouched &&
+                submitted)
+            "
+          >
+            Please Select No. of Booking
+          </p>
         </div>
         <!-- no. of booking end -->
 
         <!-- Date time picker start -->
-        <div class="col-md-3  mb-3">
+        <div class="col-md-3 mb-3">
           <fieldset class="borders d-flex">
             <legend class="w-auto">Date of Service</legend>
 
             <!-- Select Date -->
             <div class="dateSection border-left-0 w-100 position-relative">
-              <input id="datePicker" formControlName="date" [(ngModel)]="selected_date_for_date_picker"
-                [owlDateTimeTrigger]="dt1" [min]="Currentdate" [owlDateTime]="dt1" placeholder="Date Time" style="
-                            opacity: 0;
-                            width: calc(100% + 20px);
-                            height: 30px;
-                            cursor: pointer;
-                            position: absolute;
-                          " (click)="click($event)" />
+              <input
+                id="datePicker"
+                [ngModelOptions]="{ standalone: true }"
+                [(ngModel)]="selected_date_for_date_picker"
+                [owlDateTimeTrigger]="dt1"
+                [min]="Currentdate"
+                [owlDateTime]="dt1"
+                placeholder="Date Time"
+                style="
+                  opacity: 0;
+                  width: calc(100% + 20px);
+                  height: 30px;
+                  cursor: pointer;
+                  position: absolute;
+                "
+                (click)="click($event)"
+              />
 
-              <owl-date-time [pickerType]="'calendar'" #dt1 (afterPickerClosed)="setUpDate()">
+              <owl-date-time
+                [pickerType]="'calendar'"
+                #dt1
+                (afterPickerClosed)="setUpDate()"
+              >
               </owl-date-time>
 
               <p class="mb-0" *ngIf="showDate.length != 0">
@@ -882,7 +1988,9 @@
                   Sunday,
                 </span>
                 <span class="bagNumber">{{ showDate[2] }}</span>
-                <span class="bags ml-2">{{ showDate[1] }}, {{ showDate[3] }}</span>
+                <span class="bags ml-2"
+                  >{{ showDate[1] }}, {{ showDate[3] }}</span
+                >
               </p>
             </div>
             <div>
@@ -892,123 +2000,266 @@
         </div>
         <!-- Date time picker end -->
 
-
         <!-- select contents start -->
-        <div class="col-md-4  mb-3" *ngIf="bookingForm.controls['parcel_type'].value != 'Sports & Other Equipment' && bookingForm.controls['parcel_type'].value != 'Electronics'">
-          <fieldset class="borders"
-            [style.border]="bookingForm.controls['cargo_content'].hasError('required') && bookingForm.controls['cargo_content'].touched || (bookingForm.controls['cargo_content'].invalid && bookingForm.controls['cargo_content'].untouched && submitted ) ? '1px solid #ed7533' : '1px solid #dee2e6'">
+        <div
+          class="col-md-4 mb-3"
+          *ngIf="
+            bookingForm.controls['parcel_type'].value !=
+              'Sports & Other Equipment' &&
+            bookingForm.controls['parcel_type'].value != 'Electronics'
+          "
+        >
+          <fieldset
+            class="borders"
+            [style.border]="
+              (bookingForm.controls['cargo_content'].hasError('required') &&
+                bookingForm.controls['cargo_content'].touched) ||
+              (bookingForm.controls['cargo_content'].invalid &&
+                bookingForm.controls['cargo_content'].untouched &&
+                submitted)
+                ? '1px solid #ed7533'
+                : '1px solid #dee2e6'
+            "
+          >
             <legend class="w-auto">Select Contents</legend>
             <div class="subNumber">
               <div class="dropdown">
-                <button class="dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown"
-                  aria-haspopup="true" aria-expanded="false">
-                  {{bookingForm.controls['cargo_content'].value == '' ? 'Select Contents' :
-                  bookingForm.controls['cargo_content'].value}}
+                <button
+                  class="dropdown-toggle"
+                  type="button"
+                  id="dropdownMenuButton"
+                  data-toggle="dropdown"
+                  aria-haspopup="true"
+                  aria-expanded="false"
+                >
+                  {{
+                    bookingForm.controls["cargo_content"].value == ""
+                      ? "Select Contents"
+                      : bookingForm.controls["cargo_content"].value
+                  }}
                 </button>
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                  <a class="dropdown-item"
+                  <a
+                    class="dropdown-item"
                     *ngFor="let item of getCargoContents()"
-                    (click)="handleDropdownEvent('cargo_content',item)">{{item}}</a>
+                    (click)="handleDropdownEvent('cargo_content', item)"
+                    >{{ item }}</a
+                  >
                 </div>
               </div>
             </div>
           </fieldset>
-          <p class="error"
-            *ngIf="bookingForm.controls['cargo_content'].hasError('required') && bookingForm.controls['cargo_terminal'].touched || (bookingForm.controls['cargo_content'].invalid && bookingForm.controls['cargo_content'].untouched && submitted )">
-            Please Select Contents</p>
+          <p
+            class="error"
+            *ngIf="
+              (bookingForm.controls['cargo_content'].hasError('required') &&
+                bookingForm.controls['cargo_terminal'].touched) ||
+              (bookingForm.controls['cargo_content'].invalid &&
+                bookingForm.controls['cargo_content'].untouched &&
+                submitted)
+            "
+          >
+            Please Select Contents
+          </p>
         </div>
         <!-- select contents end -->
 
-
         <!-- select other content option-->
-        <div class="col-md-3  mb-3" *ngIf="bookingForm.controls['cargo_content'].value == 'Others'">
-          <fieldset class="borders"
-            [style.border]="(bookingForm.controls['other_content'].hasError('required') && bookingForm.controls['other_content'].touched || bookingForm.controls['other_content'].invalid && bookingForm.controls['other_airline'].untouched) && submitted  ? '1px solid #ed7533' : '1px solid #dee2e6'">
+        <div
+          class="col-md-3 mb-3"
+          *ngIf="bookingForm.controls['cargo_content'].value == 'Others'"
+        >
+          <fieldset
+            class="borders"
+            [style.border]="
+              ((bookingForm.controls['other_content'].hasError('required') &&
+                bookingForm.controls['other_content'].touched) ||
+                (bookingForm.controls['other_content'].invalid &&
+                  bookingForm.controls['other_airline'].untouched)) &&
+              submitted
+                ? '1px solid #ed7533'
+                : '1px solid #dee2e6'
+            "
+          >
             <legend class="w-auto">Other Content</legend>
-            <input type="text" class="border-0" placeholder="Enter Content" formControlName="other_content">
+            <input
+              type="text"
+              class="border-0"
+              placeholder="Enter Content"
+              formControlName="other_content"
+            />
           </fieldset>
-          <p class="error"
-            *ngIf="(bookingForm.controls['other_content'].hasError('required') && bookingForm.controls['other_content'].touched || bookingForm.controls['other_content'].invalid && bookingForm.controls['other_content'].untouched) && submitted ">
-            Please Enter The Other Content</p>
+          <p
+            class="error"
+            *ngIf="
+              ((bookingForm.controls['other_content'].hasError('required') &&
+                bookingForm.controls['other_content'].touched) ||
+                (bookingForm.controls['other_content'].invalid &&
+                  bookingForm.controls['other_content'].untouched)) &&
+              submitted
+            "
+          >
+            Please Enter The Other Content
+          </p>
         </div>
         <!-- select other content end -->
 
-
         <!-- select weight start -->
-        <div class="col-md-3  mb-3">
-          <fieldset class="borders"
-            [style.border]="bookingForm.controls['weight'].hasError('required') && bookingForm.controls['weight'].touched || (bookingForm.controls['weight'].invalid && bookingForm.controls['weight'].untouched && submitted ) ? '1px solid #ed7533' : '1px solid #dee2e6'">
+        <div class="col-md-3 mb-3">
+          <fieldset
+            class="borders"
+            [style.border]="
+              (bookingForm.controls['weight'].hasError('required') &&
+                bookingForm.controls['weight'].touched) ||
+              (bookingForm.controls['weight'].invalid &&
+                bookingForm.controls['weight'].untouched &&
+                submitted)
+                ? '1px solid #ed7533'
+                : '1px solid #dee2e6'
+            "
+          >
             <legend class="w-auto">Select Weight</legend>
             <div class="subNumber">
               <div class="dropdown">
-                <button class="dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown"
-                  aria-haspopup="true" aria-expanded="false">
-                  {{bookingForm.controls['weight'].value == '' ? 'Select Weight' :
-                  bookingForm.controls['weight'].value}}
+                <button
+                  class="dropdown-toggle"
+                  type="button"
+                  id="dropdownMenuButton"
+                  data-toggle="dropdown"
+                  aria-haspopup="true"
+                  aria-expanded="false"
+                >
+                  {{
+                    bookingForm.controls["weight"].value == ""
+                      ? "Select Weight"
+                      : bookingForm.controls["weight"].value
+                  }}
                 </button>
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                  <a class="dropdown-item d-flex justify-content-between px-2" *ngFor="let weight of
-                  (bookingForm.controls['cargo_terminal'].value == '' ? [] : getWeight())"
-                    (click)="handleDropdownEvent('weight',weight)">
+                  <a
+                    class="dropdown-item d-flex justify-content-between px-2"
+                    *ngFor="
+                      let weight of bookingForm.controls['cargo_terminal']
+                        .value == ''
+                        ? []
+                        : getWeight()
+                    "
+                    (click)="handleDropdownEvent('weight', weight)"
+                  >
                     <div>
-                      {{weight.no_of_weight}}
+                      {{ weight.no_of_weight }}
                     </div>
-                    <div>
-                      ₹{{weight.price ? weight.price : '' }}
-                    </div>
+                    <div>₹{{ weight.price ? weight.price : "" }}</div>
                   </a>
                 </div>
               </div>
             </div>
           </fieldset>
-          <p class="error"
-            *ngIf="bookingForm.controls['weight'].hasError('required') && bookingForm.controls['cargo_terminal'].touched || (bookingForm.controls['weight'].invalid && bookingForm.controls['weight'].untouched && submitted )">
-            Please Select Weight</p>
+          <p
+            class="error"
+            *ngIf="
+              (bookingForm.controls['weight'].hasError('required') &&
+                bookingForm.controls['cargo_terminal'].touched) ||
+              (bookingForm.controls['weight'].invalid &&
+                bookingForm.controls['weight'].untouched &&
+                submitted)
+            "
+          >
+            Please Select Weight
+          </p>
         </div>
         <!-- select weight end -->
 
-
         <!-- select pickup address start -->
         <div class="col-md-4 mb-3">
-          <fieldset class="borders"
-            [style.border]="(bookingForm.controls['addressLineOne'].hasError('required') && bookingForm.controls['addressLineOne'].touched || bookingForm.controls['addressLineOne'].invalid && bookingForm.controls['addressLineOne'].untouched) && submitted  ? '1px solid #ed7533' : '1px solid #dee2e6'">
+          <fieldset
+            class="borders"
+            [style.border]="
+              ((bookingForm.controls['addressLineOne'].hasError('required') &&
+                bookingForm.controls['addressLineOne'].touched) ||
+                (bookingForm.controls['addressLineOne'].invalid &&
+                  bookingForm.controls['addressLineOne'].untouched)) &&
+              submitted
+                ? '1px solid #ed7533'
+                : '1px solid #dee2e6'
+            "
+          >
             <legend class="w-auto">Pickup Address</legend>
             <!-- pickup -->
             <div>
-              <div class="full-address pointor" (click)="showAddressDropDown = !showAddressDropDown">{{fullAddressLine ?
-                fullAddressLine : 'Enter Pickup Address'}}</div>
-              <div class="customDropdownAddressLocal position-absolute shadow text-center"
-                (window:mouseup)="autoCloseForDropdown($event)" *ngIf="showAddressDropDown">
+              <div
+                class="full-address pointor"
+                (click)="showAddressDropDown = !showAddressDropDown"
+              >
+                {{ fullAddressLine ? fullAddressLine : "Enter Pickup Address" }}
+              </div>
+              <div
+                class="customDropdownAddressLocal position-absolute shadow text-center"
+                (window:mouseup)="autoCloseForDropdown($event)"
+                *ngIf="showAddressDropDown"
+              >
                 <div>
-                  <div class="mb-0 pb-2 pt-2 text-left" style="padding-left: 14px;">
+                  <div
+                    class="mb-0 pb-2 pt-2 text-left"
+                    style="padding-left: 14px"
+                  >
                     <div class="addressText">Apartment / Road / Area *</div>
-                    <input class="addressInput" type="text" id="autocomplete"
-                      placeholder="Enter Apartment / Road / Area" ngx-google-places-autocomplete #placesRef="ngx-places"
-                      (onAddressChange)="handleAddressChangeCargo($event, 1)" formControlName="addressLineOne" />
+                    <input
+                      class="addressInput"
+                      type="text"
+                      id="autocomplete"
+                      placeholder="Enter Apartment / Road / Area"
+                      ngx-google-places-autocomplete
+                      #placesRef="ngx-places"
+                      (onAddressChange)="handleAddressChangeCargo($event, 1)"
+                      formControlName="addressLineOne"
+                    />
 
                     <div class="addressText">House / Flat / Door no.</div>
-                    <input class="addressInput" type="text" formControlName="addressLineTwo"
-                      placeholder="Enter Apartment / Road / Area">
+                    <input
+                      class="addressInput"
+                      type="text"
+                      formControlName="addressLineTwo"
+                      placeholder="Enter Apartment / Road / Area"
+                    />
 
                     <div class="addressText">City *</div>
-                    <input class="addressInput" disabled formControlName="addressCity" type="text"
-                      placeholder="Enter City">
-                    
+                    <input
+                      class="addressInput"
+                      disabled
+                      formControlName="addressCity"
+                      type="text"
+                      placeholder="Enter City"
+                    />
+
                     <!-- <div class="addressText" *ngIf="bookingForm.controls['cargo_terminal'].value == 'Rush Surface'">Pincode *</div>
                     <input *ngIf="bookingForm.controls['cargo_terminal'].value == 'Rush Surface'" class="addressInput" maxlength="6" formControlName="addressPincodes" type="text"
                       placeholder="Enter pincode"> -->
-
                   </div>
                 </div>
                 <div>
-                  <button (click)="submitAddress(1)" style="padding: 3px 10px 2px;" class="myBtn">Submit</button>
+                  <button
+                    (click)="submitAddress(1)"
+                    style="padding: 3px 10px 2px"
+                    class="myBtn"
+                  >
+                    Submit
+                  </button>
                 </div>
               </div>
             </div>
             <!--  -->
           </fieldset>
-          <p class="error"
-            *ngIf="(bookingForm.controls['addressLineOne'].hasError('required') && bookingForm.controls['addressLineOne'].touched || bookingForm.controls['addressLineOne'].invalid && bookingForm.controls['addressLineOne'].untouched) && submitted ">
+          <p
+            class="error"
+            *ngIf="
+              ((bookingForm.controls['addressLineOne'].hasError('required') &&
+                bookingForm.controls['addressLineOne'].touched) ||
+                (bookingForm.controls['addressLineOne'].invalid &&
+                  bookingForm.controls['addressLineOne'].untouched)) &&
+              submitted
+            "
+          >
             Enter The Valid Pick-up Address
           </p>
         </div>
@@ -1016,120 +2267,288 @@
 
         <!-- select delivery address start -->
         <div class="col-md-4 mb-3">
-          <fieldset class="borders"
-            [style.border]="(bookingForm.controls['deliveryAddressLineOne'].hasError('required') && bookingForm.controls['deliveryAddressLineOne'].touched || bookingForm.controls['deliveryAddressLineOne'].invalid && bookingForm.controls['deliveryAddressLineOne'].untouched) && submitted  ? '1px solid #ed7533' : '1px solid #dee2e6'">
+          <fieldset
+            class="borders"
+            [style.border]="
+              ((bookingForm.controls['deliveryAddressLineOne'].hasError(
+                'required'
+              ) &&
+                bookingForm.controls['deliveryAddressLineOne'].touched) ||
+                (bookingForm.controls['deliveryAddressLineOne'].invalid &&
+                  bookingForm.controls['deliveryAddressLineOne'].untouched)) &&
+              submitted
+                ? '1px solid #ed7533'
+                : '1px solid #dee2e6'
+            "
+          >
             <legend class="w-auto">Delivery Address</legend>
             <!-- pickup -->
             <div>
-              <div class="full-address pointor" (click)="showAddressDropDownDelivery = !showAddressDropDownDelivery">
-                {{fullDeliveryAddressLine ? fullDeliveryAddressLine : 'Enter Delivery Address'}}</div>
-              <div class="customDropdownAddressLocal position-absolute shadow text-center"
-                (window:mouseup)="autoCloseForDropdown($event)" *ngIf="showAddressDropDownDelivery">
+              <div
+                class="full-address pointor"
+                (click)="
+                  showAddressDropDownDelivery = !showAddressDropDownDelivery
+                "
+              >
+                {{
+                  fullDeliveryAddressLine
+                    ? fullDeliveryAddressLine
+                    : "Enter Delivery Address"
+                }}
+              </div>
+              <div
+                class="customDropdownAddressLocal position-absolute shadow text-center"
+                (window:mouseup)="autoCloseForDropdown($event)"
+                *ngIf="showAddressDropDownDelivery"
+              >
                 <div>
-                  <div class="mb-0 pb-2 pt-2 text-left" style="padding-left: 14px;">
+                  <div
+                    class="mb-0 pb-2 pt-2 text-left"
+                    style="padding-left: 14px"
+                  >
                     <div class="addressText">Apartment / Road / Area *</div>
-                    <input class="addressInput" type="text" id="autocomplete"
-                      placeholder="Enter Apartment / Road / Area" ngx-google-places-autocomplete #placesRef="ngx-places"
-                      (onAddressChange)="bookingForm.controls['cargo_terminal'].value == 'Rush Surface' ? handleAddressChangeCargoSurface($event, 2) : handleAddressChangeCargo($event, 2)"
-                      formControlName="deliveryAddressLineOne" />
+                    <input
+                      class="addressInput"
+                      type="text"
+                      id="autocomplete"
+                      placeholder="Enter Apartment / Road / Area"
+                      ngx-google-places-autocomplete
+                      #placesRef="ngx-places"
+                      (onAddressChange)="
+                        bookingForm.controls['cargo_terminal'].value ==
+                        'Rush Surface'
+                          ? handleAddressChangeCargoSurface($event, 2)
+                          : handleAddressChangeCargo($event, 2)
+                      "
+                      formControlName="deliveryAddressLineOne"
+                    />
 
                     <div class="addressText">House / Flat / Door no.</div>
-                    <input class="addressInput" type="text" formControlName="deliveryAddressLineTwo"
-                      placeholder="Enter Apartment / Road / Area">
+                    <input
+                      class="addressInput"
+                      type="text"
+                      formControlName="deliveryAddressLineTwo"
+                      placeholder="Enter Apartment / Road / Area"
+                    />
 
                     <div class="addressText">City *</div>
-                    <input class="addressInput" disabled formControlName="deliveryAddressCity" type="text"
-                      placeholder="Enter City">
-                    
-                    <!-- Rush Surface -->
-                    <div class="addressText" *ngIf="bookingForm.controls['cargo_terminal'].value == 'Rush Surface'">Pincode *</div>
-                    <input class="addressInput" [readonly]="show_pincode" *ngIf="bookingForm.controls['cargo_terminal'].value == 'Rush Surface'" maxlength="6" [(ngModel)]="deliveryPincode" [ngModelOptions]="{standalone: true}" type="text"
-                      placeholder="Enter City">
+                    <input
+                      class="addressInput"
+                      disabled
+                      formControlName="deliveryAddressCity"
+                      type="text"
+                      placeholder="Enter City"
+                    />
 
+                    <!-- Rush Surface -->
+                    <div
+                      class="addressText"
+                      *ngIf="
+                        bookingForm.controls['cargo_terminal'].value ==
+                        'Rush Surface'
+                      "
+                    >
+                      Pincode *
+                    </div>
+                    <input
+                      class="addressInput"
+                      [readonly]="show_pincode"
+                      *ngIf="
+                        bookingForm.controls['cargo_terminal'].value ==
+                        'Rush Surface'
+                      "
+                      maxlength="6"
+                      [(ngModel)]="deliveryPincode"
+                      [ngModelOptions]="{ standalone: true }"
+                      type="text"
+                      placeholder="Enter City"
+                    />
                   </div>
                 </div>
                 <div>
-                  <button (click)="bookingForm.controls['cargo_terminal'].value == 'Rush Surface' ? (show_pincode == true ? this.setSurfaceAddress() : this.cargoPicodeVerification()) : submitAddress(2)" style="padding: 3px 10px 2px;" class="myBtn">Submit</button>
+                  <button
+                    (click)="
+                      bookingForm.controls['cargo_terminal'].value ==
+                      'Rush Surface'
+                        ? show_pincode == true
+                          ? this.setSurfaceAddress()
+                          : this.cargoPicodeVerification()
+                        : submitAddress(2)
+                    "
+                    style="padding: 3px 10px 2px"
+                    class="myBtn"
+                  >
+                    Submit
+                  </button>
                 </div>
               </div>
             </div>
             <!--  -->
           </fieldset>
-          <p class="error"
-            *ngIf="(bookingForm.controls['deliveryAddressLineOne'].hasError('required') && bookingForm.controls['deliveryAddressLineOne'].touched || bookingForm.controls['deliveryAddressLineOne'].invalid && bookingForm.controls['deliveryAddressLineOne'].untouched) && submitted ">
+          <p
+            class="error"
+            *ngIf="
+              ((bookingForm.controls['deliveryAddressLineOne'].hasError(
+                'required'
+              ) &&
+                bookingForm.controls['deliveryAddressLineOne'].touched) ||
+                (bookingForm.controls['deliveryAddressLineOne'].invalid &&
+                  bookingForm.controls['deliveryAddressLineOne'].untouched)) &&
+              submitted
+            "
+          >
             Enter The Valid Delivery Address
           </p>
         </div>
         <!-- select delivery address end -->
 
-
-
-        <div class="col-md-4  mb-3">
-          <fieldset class="borders"
-            [style.border]="bookingForm.controls['time_slot'].hasError('required') && bookingForm.controls['time_slot'].touched || (bookingForm.controls['time_slot'].invalid && bookingForm.controls['time_slot'].untouched && submitted ) ? '1px solid #ed7533' : '1px solid #dee2e6'">
+        <div class="col-md-4 mb-3">
+          <fieldset
+            class="borders"
+            [style.border]="
+              (bookingForm.controls['time_slot'].hasError('required') &&
+                bookingForm.controls['time_slot'].touched) ||
+              (bookingForm.controls['time_slot'].invalid &&
+                bookingForm.controls['time_slot'].untouched &&
+                submitted)
+                ? '1px solid #ed7533'
+                : '1px solid #dee2e6'
+            "
+          >
             <legend class="w-auto">Select Slot</legend>
             <div class="subNumber">
               <div class="dropdown">
-                <button class="dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown"
-                  aria-haspopup="true" aria-expanded="false">
-                  {{selected_time_slot ? selected_time_slot : 'Select Slot'}}
+                <button
+                  class="dropdown-toggle"
+                  type="button"
+                  id="dropdownMenuButton"
+                  data-toggle="dropdown"
+                  aria-haspopup="true"
+                  aria-expanded="false"
+                >
+                  {{ selected_time_slot ? selected_time_slot : "Select Slot" }}
                 </button>
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                  <a class="dropdown-item" *ngFor="let time of time_slots"
-                    (click)="handleDropdownEvent('time_slots',time)"> {{ time.time_description }}</a>
+                  <a
+                    class="dropdown-item"
+                    *ngFor="let time of time_slots"
+                    (click)="handleDropdownEvent('time_slots', time)"
+                  >
+                    {{ time.time_description }}</a
+                  >
                 </div>
               </div>
             </div>
           </fieldset>
-          <p class="error"
-            *ngIf="bookingForm.controls['time_slot'].hasError('required') && bookingForm.controls['time_slot'].touched || (bookingForm.controls['time_slot'].invalid && bookingForm.controls['time_slot'].untouched && submitted )">
+          <p
+            class="error"
+            *ngIf="
+              (bookingForm.controls['time_slot'].hasError('required') &&
+                bookingForm.controls['time_slot'].touched) ||
+              (bookingForm.controls['time_slot'].invalid &&
+                bookingForm.controls['time_slot'].untouched &&
+                submitted)
+            "
+          >
             Please Select Slot
           </p>
         </div>
-
       </ng-container>
 
       <!-- Cargo Transfer section end -->
 
       <!-- Lost luggage section start -->
 
-      <ng-container *ngIf="bookingForm.controls['delivery_type'].value == 'Lost Luggage/Item/Not Loaded'">
-
+      <ng-container
+        *ngIf="
+          bookingForm.controls['delivery_type'].value ==
+          'Lost Luggage/Item/Not Loaded'
+        "
+      >
         <!-- select airline start-->
-        <div class="col-md-2  mb-3">
-          <fieldset class="borders"
-            [style.border]="bookingForm.controls['airline'].hasError('required') && bookingForm.controls['airline'].touched || (bookingForm.controls['airline'].invalid && bookingForm.controls['airline'].untouched && submitted ) ? '1px solid #ed7533' : '1px solid #dee2e6'">
+        <div class="col-md-2 mb-3">
+          <fieldset
+            class="borders"
+            [style.border]="
+              (bookingForm.controls['airline'].hasError('required') &&
+                bookingForm.controls['airline'].touched) ||
+              (bookingForm.controls['airline'].invalid &&
+                bookingForm.controls['airline'].untouched &&
+                submitted)
+                ? '1px solid #ed7533'
+                : '1px solid #dee2e6'
+            "
+          >
             <legend class="w-auto">Select Airline</legend>
             <div class="subNumber">
               <div class="dropdown">
-                <button class="dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown"
-                  aria-haspopup="true" aria-expanded="false">
-                  {{bookingForm.controls['airline'].value == '' ? 'Airline' :
-                  bookingForm.controls['airline'].value}}
+                <button
+                  class="dropdown-toggle"
+                  type="button"
+                  id="dropdownMenuButton"
+                  data-toggle="dropdown"
+                  aria-haspopup="true"
+                  aria-expanded="false"
+                >
+                  {{
+                    bookingForm.controls["airline"].value == ""
+                      ? "Airline"
+                      : bookingForm.controls["airline"].value
+                  }}
                 </button>
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                  <a class="dropdown-item"
-                    *ngFor="let item of ['Other Airlines','IndiGo','Vistara','AirAsia (India)','Spicejet','Akasa Air']"
-                    (click)="handleDropdownEvent('airline',item)">
-                    {{item}}
+                  <a
+                    class="dropdown-item"
+                    *ngFor="
+                      let item of [
+                        'Other Airlines',
+                        'IndiGo',
+                        'Vistara',
+                        'AirAsia (India)',
+                        'Spicejet',
+                        'Akasa Air'
+                      ]
+                    "
+                    (click)="handleDropdownEvent('airline', item)"
+                  >
+                    {{ item }}
                   </a>
                 </div>
               </div>
             </div>
           </fieldset>
-          <p class="error"
-            *ngIf="bookingForm.controls['airline'].hasError('required') && bookingForm.controls['airline'].touched || (bookingForm.controls['airline'].invalid && bookingForm.controls['airline'].untouched && submitted )">
-            Please Select Airline</p>
+          <p
+            class="error"
+            *ngIf="
+              (bookingForm.controls['airline'].hasError('required') &&
+                bookingForm.controls['airline'].touched) ||
+              (bookingForm.controls['airline'].invalid &&
+                bookingForm.controls['airline'].untouched &&
+                submitted)
+            "
+          >
+            Please Select Airline
+          </p>
         </div>
         <!-- select airline end -->
 
         <!-- Type Depatur or Arraival start-->
         <div class="col-md-2 mb-3 mb-md-0">
-          <fieldset class="borders"
-            [style.border]="bookingForm.controls['type'].hasError('required') && bookingForm.controls['type'].touched || (bookingForm.controls['type'].invalid && bookingForm.controls['type'].untouched && submitted ) ? '1px solid #ed7533' : '1px solid #dee2e6'">
+          <fieldset
+            class="borders"
+            [style.border]="
+              (bookingForm.controls['type'].hasError('required') &&
+                bookingForm.controls['type'].touched) ||
+              (bookingForm.controls['type'].invalid &&
+                bookingForm.controls['type'].untouched &&
+                submitted)
+                ? '1px solid #ed7533'
+                : '1px solid #dee2e6'
+            "
+          >
             <legend class="w-auto">Arrival</legend>
             <div class="subNumber">
-              <span class="pt-1">{{bookingForm.controls['type'].value}}</span>
+              <span class="pt-1">{{ bookingForm.controls["type"].value }}</span>
               <!-- <div class="dropdown">
                       <button class="dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown"
                         aria-haspopup="true" aria-expanded="false">
@@ -1146,47 +2565,95 @@
         <!-- Type Depatur or Arraival end-->
 
         <!-- Terminal start -->
-        <div class="col-md-3  mb-3">
-          <fieldset class="borders"
-            [style.border]="bookingForm.controls['terminal'].hasError('required') && bookingForm.controls['terminal'].touched || (bookingForm.controls['terminal'].invalid && bookingForm.controls['terminal'].untouched && submitted ) ? '1px solid #ed7533' : '1px solid #dee2e6'">
+        <div class="col-md-3 mb-3">
+          <fieldset
+            class="borders"
+            [style.border]="
+              (bookingForm.controls['terminal'].hasError('required') &&
+                bookingForm.controls['terminal'].touched) ||
+              (bookingForm.controls['terminal'].invalid &&
+                bookingForm.controls['terminal'].untouched &&
+                submitted)
+                ? '1px solid #ed7533'
+                : '1px solid #dee2e6'
+            "
+          >
             <legend class="w-auto">Domestic / International Travel</legend>
             <div class="subNumber">
               <div class="dropdown">
-                <button class="dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown"
-                  aria-haspopup="true" aria-expanded="false">
-                  {{bookingForm.controls['terminal'].value == '' ? 'Select Travel' :
-                  bookingForm.controls['terminal'].value}}
+                <button
+                  class="dropdown-toggle"
+                  type="button"
+                  id="dropdownMenuButton"
+                  data-toggle="dropdown"
+                  aria-haspopup="true"
+                  aria-expanded="false"
+                >
+                  {{
+                    bookingForm.controls["terminal"].value == ""
+                      ? "Select Travel"
+                      : bookingForm.controls["terminal"].value
+                  }}
                 </button>
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                  <a class="dropdown-item" *ngFor="let item of ['Domestic Travel','International Travel']"
-                    (click)="handleDropdownEvent('terminal',item)">{{item}}</a>
+                  <a
+                    class="dropdown-item"
+                    *ngFor="
+                      let item of ['Domestic Travel', 'International Travel']
+                    "
+                    (click)="handleDropdownEvent('terminal', item)"
+                    >{{ item }}</a
+                  >
                 </div>
               </div>
             </div>
           </fieldset>
-          <p class="error"
-            *ngIf="bookingForm.controls['terminal'].hasError('required') && bookingForm.controls['terminal'].touched || (bookingForm.controls['terminal'].invalid && bookingForm.controls['terminal'].untouched && submitted )">
-            Please Select Terminal</p>
+          <p
+            class="error"
+            *ngIf="
+              (bookingForm.controls['terminal'].hasError('required') &&
+                bookingForm.controls['terminal'].touched) ||
+              (bookingForm.controls['terminal'].invalid &&
+                bookingForm.controls['terminal'].untouched &&
+                submitted)
+            "
+          >
+            Please Select Terminal
+          </p>
         </div>
         <!-- Terminal end -->
 
         <!-- Date time picker start -->
-        <div class="col-md-3  mb-3">
+        <div class="col-md-3 mb-3">
           <fieldset class="borders d-flex">
             <legend class="w-auto">Date of Service</legend>
 
             <!-- Select Date -->
             <div class="dateSection border-left-0 w-100 position-relative">
-              <input class="" id="datePicker" formControlName="date" [(ngModel)]="selected_date_for_date_picker"
-                [owlDateTimeTrigger]="dt1" [min]="Currentdate" [owlDateTime]="dt1" placeholder="Date Time" style="
-                        opacity: 0;
-                        width: calc(100% + 20px);
-                        height: 30px;
-                        cursor: pointer;
-                        position: absolute;
-                      " (click)="click($event)" />
+              <input
+                class=""
+                id="datePicker"
+                [ngModelOptions]="{ standalone: true }"
+                [(ngModel)]="selected_date_for_date_picker"
+                [owlDateTimeTrigger]="dt1"
+                [min]="Currentdate"
+                [owlDateTime]="dt1"
+                placeholder="Date Time"
+                style="
+                  opacity: 0;
+                  width: calc(100% + 20px);
+                  height: 30px;
+                  cursor: pointer;
+                  position: absolute;
+                "
+                (click)="click($event)"
+              />
 
-              <owl-date-time [pickerType]="'calendar'" #dt1 (afterPickerClosed)="datePickerOnChange()">
+              <owl-date-time
+                [pickerType]="'calendar'"
+                #dt1
+                (afterPickerClosed)="datePickerOnChange()"
+              >
               </owl-date-time>
 
               <p class="mb-0">
@@ -1212,7 +2679,9 @@
                   Sunday,
                 </span>
                 <span class="bagNumber">{{ showDate[2] }}</span>
-                <span class="bags ml-2">{{ showDate[1] }}, {{ showDate[3] }}</span>
+                <span class="bags ml-2"
+                  >{{ showDate[1] }}, {{ showDate[3] }}</span
+                >
               </p>
             </div>
             <div>
@@ -1223,197 +2692,587 @@
         <!-- Date time picker end -->
 
         <!-- select airport start -->
-        <div class="col-md-3  mb-3">
-          <fieldset class="borders"
-            [style.border]="bookingForm.controls['airport_id'].hasError('required') && bookingForm.controls['airport_id'].touched || (bookingForm.controls['airport_id'].invalid && bookingForm.controls['airport_id'].untouched && submitted ) ? '1px solid #ed7533' : '1px solid #dee2e6'">
+        <div class="col-md-3 mb-3">
+          <fieldset
+            class="borders"
+            [style.border]="
+              (bookingForm.controls['airport_id'].hasError('required') &&
+                bookingForm.controls['airport_id'].touched) ||
+              (bookingForm.controls['airport_id'].invalid &&
+                bookingForm.controls['airport_id'].untouched &&
+                submitted)
+                ? '1px solid #ed7533'
+                : '1px solid #dee2e6'
+            "
+          >
             <legend class="w-auto">Select Airport</legend>
             <div class="subNumber">
               <div class="dropdown">
-                <button class="dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown"
-                  aria-haspopup="true" aria-expanded="false">
-                  {{selected_airport ? selected_airport : 'Select Airport'}}
+                <button
+                  class="dropdown-toggle"
+                  type="button"
+                  id="dropdownMenuButton"
+                  data-toggle="dropdown"
+                  aria-haspopup="true"
+                  aria-expanded="false"
+                >
+                  {{ selected_airport ? selected_airport : "Select Airport" }}
                 </button>
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                  <a class="dropdown-item" *ngFor="let airport of airports"
-                    (click)="handleDropdownEvent('airport',airport)">
-                    {{ airport.airport_name }}</a>
+                  <a
+                    class="dropdown-item"
+                    *ngFor="let airport of airports"
+                    (click)="handleDropdownEvent('airport', airport)"
+                  >
+                    {{ airport.airport_name }}</a
+                  >
                 </div>
               </div>
             </div>
           </fieldset>
-          <p class="error"
-            *ngIf="bookingForm.controls['airport_id'].hasError('required') && bookingForm.controls['airport_id'].touched || (bookingForm.controls['airport_id'].invalid && bookingForm.controls['airport_id'].untouched && submitted )">
+          <p
+            class="error"
+            *ngIf="
+              (bookingForm.controls['airport_id'].hasError('required') &&
+                bookingForm.controls['airport_id'].touched) ||
+              (bookingForm.controls['airport_id'].invalid &&
+                bookingForm.controls['airport_id'].untouched &&
+                submitted)
+            "
+          >
             Please Select Airport
           </p>
         </div>
         <!-- select airport end-->
 
-
-         <!-- Select Delivery Address start -->
-         <div class="col-md-4 mb-3">
-          <fieldset class="borders"
-            [style.border]="(bookingForm.controls['addressLineOne'].hasError('required') && bookingForm.controls['addressLineOne'].touched || bookingForm.controls['addressLineOne'].invalid && bookingForm.controls['addressLineOne'].untouched) && submitted  ? '1px solid #ed7533' : '1px solid #dee2e6'">
+        <!-- Select Delivery Address start -->
+        <div class="col-md-4 mb-3">
+          <fieldset
+            class="borders"
+            [style.border]="
+              ((bookingForm.controls['addressLineOne'].hasError('required') &&
+                bookingForm.controls['addressLineOne'].touched) ||
+                (bookingForm.controls['addressLineOne'].invalid &&
+                  bookingForm.controls['addressLineOne'].untouched)) &&
+              submitted
+                ? '1px solid #ed7533'
+                : '1px solid #dee2e6'
+            "
+          >
             <legend class="w-auto">Delivery Address</legend>
 
             <!-- pickup -->
             <div>
-              <div class="full-address pointor" (click)="showAddressDropDown = !showAddressDropDown">{{fullAddressLine ?
-                fullAddressLine : 'Enter Address'}}</div>
-              <div class="customDropdownAddressLocal position-absolute shadow text-center"
-                (window:mouseup)="autoCloseForDropdown($event)" *ngIf="showAddressDropDown">
+              <div
+                class="full-address pointor"
+                (click)="showAddressDropDown = !showAddressDropDown"
+              >
+                {{ fullAddressLine ? fullAddressLine : "Enter Address" }}
+              </div>
+              <div
+                class="customDropdownAddressLocal position-absolute shadow text-center"
+                (window:mouseup)="autoCloseForDropdown($event)"
+                *ngIf="showAddressDropDown"
+              >
                 <div>
-                  <div class="mb-0 pb-2 pt-2 text-left" style="padding-left: 14px;">
+                  <div
+                    class="mb-0 pb-2 pt-2 text-left"
+                    style="padding-left: 14px"
+                  >
                     <div class="addressText">Apartment / Road / Area *</div>
-                    <input class="addressInput" type="text" id="autocomplete"
-                      placeholder="Enter Apartment / Road / Area" ngx-google-places-autocomplete #placesRef="ngx-places"
-                      (onAddressChange)="handleAddressChange($event)" formControlName="addressLineOne" />
+                    <input
+                      class="addressInput"
+                      type="text"
+                      id="autocomplete"
+                      placeholder="Enter Apartment / Road / Area"
+                      ngx-google-places-autocomplete
+                      #placesRef="ngx-places"
+                      (onAddressChange)="handleAddressChange($event)"
+                      formControlName="addressLineOne"
+                    />
 
                     <div class="addressText">House / Flat / Door no.</div>
-                    <input class="addressInput" type="text" formControlName="addressLineTwo"
-                      placeholder="Enter Apartment / Road / Area">
+                    <input
+                      class="addressInput"
+                      type="text"
+                      formControlName="addressLineTwo"
+                      placeholder="Enter Apartment / Road / Area"
+                    />
 
                     <div class="addressText">City *</div>
-                    <input class="addressInput" disabled formControlName="addressCity" type="text"
-                      placeholder="Enter City">
+                    <input
+                      class="addressInput"
+                      disabled
+                      formControlName="addressCity"
+                      type="text"
+                      placeholder="Enter City"
+                    />
                     <!-- *ngIf="bookingForm.controls['transfer_type'].value == 'Outstation'" -->
                     <ng-container>
                       <div class="addressText">Pincode *</div>
-                      <input class="addressInput" [readonly]="show_pincode" formControlName="addressPincodes" type="text" numbersOnly
-                        maxlength="6" placeholder="Enter Pincode">
+                      <input
+                        class="addressInput"
+                        [readonly]="show_pincode"
+                        formControlName="addressPincodes"
+                        type="text"
+                        numbersOnly
+                        maxlength="6"
+                        placeholder="Enter Pincode"
+                      />
                     </ng-container>
-
                   </div>
                 </div>
                 <div>
-                  <button (click)="submitAddress(1)" style="padding: 3px 10px 2px;" class="myBtn">Submit</button>
+                  <button
+                    (click)="submitAddress(1)"
+                    style="padding: 3px 10px 2px"
+                    class="myBtn"
+                  >
+                    Submit
+                  </button>
                 </div>
               </div>
             </div>
             <!--  -->
           </fieldset>
-          <p class="error"
-            *ngIf="(bookingForm.controls['addressLineOne'].hasError('required') && bookingForm.controls['addressLineOne'].touched || bookingForm.controls['addressLineOne'].invalid && bookingForm.controls['addressLineOne'].untouched) && submitted ">
+          <p
+            class="error"
+            *ngIf="
+              ((bookingForm.controls['addressLineOne'].hasError('required') &&
+                bookingForm.controls['addressLineOne'].touched) ||
+                (bookingForm.controls['addressLineOne'].invalid &&
+                  bookingForm.controls['addressLineOne'].untouched)) &&
+              submitted
+            "
+          >
             Enter The Valid Delivery Address
           </p>
         </div>
         <!-- Select Delivery Address end -->
 
-
         <!-- select bags start -->
         <div class="col-md-2 mb-3">
-          <fieldset class="borders"
-            [style.border]="bookingForm.controls['bags'].hasError('required') && bookingForm.controls['bags'].touched || (bookingForm.controls['bags'].invalid && bookingForm.controls['bags'].untouched && submitted ) ? '1px solid #ed7533' : '1px solid #dee2e6'">
+          <fieldset
+            class="borders"
+            [style.border]="
+              (bookingForm.controls['bags'].hasError('required') &&
+                bookingForm.controls['bags'].touched) ||
+              (bookingForm.controls['bags'].invalid &&
+                bookingForm.controls['bags'].untouched &&
+                submitted)
+                ? '1px solid #ed7533'
+                : '1px solid #dee2e6'
+            "
+          >
             <legend class="w-auto">Number of Bags</legend>
             <div class="subNumber">
-              <div class="dropdown bagsDropdown" (window:mouseup)="bagsDropdownOnClick($event)">
-                <button class="dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown"
-                  aria-haspopup="true" aria-expanded="false">
-                  {{bookingForm.controls['bags'].value ? bookingForm.controls['bags'].value + ( bookingForm.controls['bags'].value == 1 || bookingForm.controls['bags'].value== '1' ? ' Bag' : ' Bags') : 'Select Bag'}}
+              <div
+                class="dropdown bagsDropdown"
+                (window:mouseup)="bagsDropdownOnClick($event)"
+              >
+                <button
+                  class="dropdown-toggle"
+                  type="button"
+                  id="dropdownMenuButton"
+                  data-toggle="dropdown"
+                  aria-haspopup="true"
+                  aria-expanded="false"
+                >
+                  {{
+                    bookingForm.controls["bags"].value
+                      ? bookingForm.controls["bags"].value +
+                        (bookingForm.controls["bags"].value == 1 ||
+                        bookingForm.controls["bags"].value == "1"
+                          ? " Bag"
+                          : "
+                  Bags")
+                      : "Select Bag"
+                  }}
                 </button>
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                  <a class="dropdown-item"
-                    *ngFor="let bag of (subscription_details.show_coupons? get_bags_subscription() :get_bags())"
-                    (click)="handleDropdownEvent('bags',bag)">{{subscription_details.show_coupons  ? bag : bag.no_of_bags}} {{subscription_details.show_coupons  ? (bag == 1 ? 'bag' : 'bags') : (bag.no_of_bags == 1 ? 'bag' : 'bags')}}</a>
+                  <a
+                    class="dropdown-item"
+                    *ngFor="
+                      let bag of subscription_details.show_coupons
+                        ? get_bags_subscription()
+                        : get_bags()
+                    "
+                    (click)="handleDropdownEvent('bags', bag)"
+                    >{{
+                      subscription_details.show_coupons ? bag : bag.no_of_bags
+                    }}
+                    {{
+                      subscription_details.show_coupons
+                        ? bag == 1
+                          ? "bag"
+                          : "bags"
+                        : bag.no_of_bags == 1
+                        ? "bag"
+                        : "bags"
+                    }}</a
+                  >
                 </div>
               </div>
             </div>
           </fieldset>
-          <p class="error"
-            *ngIf="bookingForm.controls['bags'].hasError('required') && bookingForm.controls['bags'].touched || (bookingForm.controls['bags'].invalid && bookingForm.controls['bags'].untouched && submitted )">
+          <p
+            class="error"
+            *ngIf="
+              (bookingForm.controls['bags'].hasError('required') &&
+                bookingForm.controls['bags'].touched) ||
+              (bookingForm.controls['bags'].invalid &&
+                bookingForm.controls['bags'].untouched &&
+                submitted)
+            "
+          >
             Please Select Bag
           </p>
         </div>
         <!-- select bags end -->
 
         <!-- PNR start -->
-        <div class="col-md-2  mb-3">
-          <fieldset class="borders"
-            [style.border]="bookingForm.controls['pnr'].hasError('required') && bookingForm.controls['pnr'].touched || (bookingForm.controls['pnr'].errors && bookingForm.controls['pnr'].touched) || (bookingForm.controls['pnr'].invalid && bookingForm.controls['pnr'].untouched && submitted) ? '1px solid #ed7533' : '1px solid #dee2e6'">
+        <div class="col-md-2 mb-3">
+          <fieldset
+            class="borders"
+            [style.border]="
+              (bookingForm.controls['pnr'].hasError('required') &&
+                bookingForm.controls['pnr'].touched) ||
+              (bookingForm.controls['pnr'].errors &&
+                bookingForm.controls['pnr'].touched) ||
+              (bookingForm.controls['pnr'].invalid &&
+                bookingForm.controls['pnr'].untouched &&
+                submitted)
+                ? '1px solid #ed7533'
+                : '1px solid #dee2e6'
+            "
+          >
             <legend class="w-auto">Enter PNR</legend>
-            <input (keypress)="validatePnr($event)" style="text-transform: uppercase;" type="text" class="border-0"
-              placeholder="Enter Pnr" formControlName="pnr" minlength="6" maxlength=6>
+            <input
+              (keypress)="validatePnr($event)"
+              style="text-transform: uppercase"
+              type="text"
+              class="border-0"
+              placeholder="Enter Pnr"
+              formControlName="pnr"
+              minlength="6"
+              maxlength="6"
+            />
           </fieldset>
-          <p class="error"
-            *ngIf="bookingForm.controls['pnr'].hasError('required') && bookingForm.controls['pnr'].touched || (bookingForm.controls['pnr'].errors && bookingForm.controls['pnr'].touched) || (bookingForm.controls['pnr'].invalid && bookingForm.controls['pnr'].untouched && submitted)">
+          <p
+            class="error"
+            *ngIf="
+              (bookingForm.controls['pnr'].hasError('required') &&
+                bookingForm.controls['pnr'].touched) ||
+              (bookingForm.controls['pnr'].errors &&
+                bookingForm.controls['pnr'].touched) ||
+              (bookingForm.controls['pnr'].invalid &&
+                bookingForm.controls['pnr'].untouched &&
+                submitted)
+            "
+          >
             Enter The Valid PNR
           </p>
         </div>
         <!-- PNR end -->
 
         <!-- select other airline option-->
-        <div class="col-md-3  mb-3" *ngIf="bookingForm.controls['airline'].value == 'Other Airlines'">
-          <fieldset class="borders"
-            [style.border]="(bookingForm.controls['other_airline'].hasError('required') && bookingForm.controls['other_airline'].touched || bookingForm.controls['other_airline'].invalid && bookingForm.controls['other_airline'].untouched) && submitted  ? '1px solid #ed7533' : '1px solid #dee2e6'">
+        <div
+          class="col-md-3 mb-3"
+          *ngIf="bookingForm.controls['airline'].value == 'Other Airlines'"
+        >
+          <fieldset
+            class="borders"
+            [style.border]="
+              ((bookingForm.controls['other_airline'].hasError('required') &&
+                bookingForm.controls['other_airline'].touched) ||
+                (bookingForm.controls['other_airline'].invalid &&
+                  bookingForm.controls['other_airline'].untouched)) &&
+              submitted
+                ? '1px solid #ed7533'
+                : '1px solid #dee2e6'
+            "
+          >
             <legend class="w-auto">Enter Airline Name</legend>
-            <input type="text" maxlength="30" class="border-0" placeholder="Enter Airline Name"
-              formControlName="other_airline">
+            <input
+              type="text"
+              maxlength="30"
+              class="border-0"
+              placeholder="Enter Airline Name"
+              formControlName="other_airline"
+            />
           </fieldset>
-          <p class="error"
-            *ngIf="(bookingForm.controls['other_airline'].hasError('required') && bookingForm.controls['other_airline'].touched || bookingForm.controls['other_airline'].invalid && bookingForm.controls['other_airline'].untouched) && submitted ">
-            Please Enter The Airline</p>
+          <p
+            class="error"
+            *ngIf="
+              ((bookingForm.controls['other_airline'].hasError('required') &&
+                bookingForm.controls['other_airline'].touched) ||
+                (bookingForm.controls['other_airline'].invalid &&
+                  bookingForm.controls['other_airline'].untouched)) &&
+              submitted
+            "
+          >
+            Please Enter The Airline
+          </p>
         </div>
         <!-- select airline end -->
 
         <!-- select other airline Number-->
-        <div class="col-md-3  mb-3">
-          <fieldset class="borders"
-            [style.border]="(bookingForm.controls['other_airline_no'].hasError('required') && bookingForm.controls['other_airline_no'].touched || bookingForm.controls['other_airline_no'].invalid && bookingForm.controls['other_airline_no'].untouched) && submitted  ? '1px solid #ed7533' : '1px solid #dee2e6'">
+        <div class="col-md-3 mb-3">
+          <fieldset
+            class="borders"
+            [style.border]="
+              ((bookingForm.controls['other_airline_no'].hasError('required') &&
+                bookingForm.controls['other_airline_no'].touched) ||
+                (bookingForm.controls['other_airline_no'].invalid &&
+                  bookingForm.controls['other_airline_no'].untouched)) &&
+              submitted
+                ? '1px solid #ed7533'
+                : '1px solid #dee2e6'
+            "
+          >
             <legend class="w-auto">Enter Flight Number</legend>
-            <input maxlength="10" style="text-transform: uppercase;" type="text" class="border-0" (keypress)="validateFlightNo($event)"
-              placeholder="Enter Flight Number" formControlName="other_airline_no">
+            <input
+              maxlength="10"
+              style="text-transform: uppercase"
+              type="text"
+              class="border-0"
+              (keypress)="validateFlightNo($event)"
+              placeholder="Enter Flight Number"
+              formControlName="other_airline_no"
+            />
           </fieldset>
-          <p class="error"
-            *ngIf="(bookingForm.controls['other_airline_no'].hasError('required') && bookingForm.controls['other_airline_no'].touched || bookingForm.controls['other_airline_no'].invalid && bookingForm.controls['other_airline_no'].untouched) && submitted ">
-            Please Enter The Airline No.</p>
+          <p
+            class="error"
+            *ngIf="
+              ((bookingForm.controls['other_airline_no'].hasError('required') &&
+                bookingForm.controls['other_airline_no'].touched) ||
+                (bookingForm.controls['other_airline_no'].invalid &&
+                  bookingForm.controls['other_airline_no'].untouched)) &&
+              submitted
+            "
+          >
+            Please Enter The Airline No.
+          </p>
           <div class="message">
             <span class="mIcon">i</span>
             <p>
-              *Authorization Letter required. CarterX will call after order is made with details.
+              *Authorization Letter required. CarterX will call after order is
+              made with details.
             </p>
           </div>
         </div>
         <!-- select airline Number end -->
-
       </ng-container>
 
       <!-- Lost luggage section end -->
-
     </div>
 
-    <div class="row description m-pickup-address" *ngIf="(bookingForm.controls['pickup_type'].value == 'Airport: Drop off Point' || bookingForm.controls['pickup_type'].value == 'Airport: Pickup Point') && fullAddressLine && bookingForm.controls['delivery_type'].value != 'Cargo Transfer'">
-      <div class="pickup-poit-address d-flex align-items-center"><span style="margin-bottom: 4px;" class="mIcon" >i</span> {{fullAddressLine}} </div>
+    <div
+      class="row description d-md-block d-lg-block d-none"
+      style="margin: 0 1px"
+      *ngIf="bookingForm.controls['delivery_type'].value == 'Airport Transfer'"
+    >
+      <p
+        class="medium fnt-22 d-flex align-items-center"
+        style="gap: 5px"
+        *ngIf="
+          bookingForm.controls['type'].value == 'Departure' &&
+          bookingForm.controls['pickup_type'].value == 'Airport: Drop off Point'
+        "
+      >
+        <span class="mIcon">i</span> Carside (lane4) → Airport Assistance →
+        Check-in counter
+      </p>
+      <p
+        class="medium fnt-22 d-flex align-items-center"
+        style="gap: 5px"
+        *ngIf="
+          bookingForm.controls['type'].value == 'Departure' &&
+          bookingForm.controls['pickup_type'].value == 'Doorstep Pickup'
+        "
+      >
+        <span class="mIcon">i</span> Doorstep → Airport Assistance → Check-in
+        counter
+      </p>
+      <p
+        class="medium fnt-22 d-flex align-items-center"
+        style="gap: 5px"
+        *ngIf="
+          bookingForm.controls['type'].value == 'Arrival' &&
+          bookingForm.controls['pickup_type'].value == 'Airport: Pickup Point'
+        "
+      >
+        <span class="mIcon">i</span> Baggage Belts → Airport Assistance →
+        Carside (parking/cabs)
+      </p>
+      <p
+        class="medium fnt-22 d-flex align-items-center"
+        style="gap: 5px"
+        *ngIf="
+          bookingForm.controls['type'].value == 'Arrival' &&
+          bookingForm.controls['pickup_type'].value == 'Doorstep Delivery'
+        "
+      >
+        <span class="mIcon">i</span> Baggage Belt → Airport Assistance →
+        Doorstep
+      </p>
     </div>
 
-    <div class="row description ">
+    <div
+      class="row description d-md-none d-lg-none d-block text-center"
+      style="margin: 0 1px"
+      *ngIf="bookingForm.controls['delivery_type'].value == 'Airport Transfer'"
+    >
+      <div
+        class="mb-4 medium fnt-22 d-flex align-items-center justify-content-center flex-column"
+        style="gap: 5px"
+        *ngIf="
+          bookingForm.controls['type'].value == 'Departure' &&
+          bookingForm.controls['pickup_type'].value == 'Airport: Drop off Point'
+        "
+      >
+        <p class="m-0">Carside (lane4)</p>
+        <p class="m-0">↓</p>
+        <p class="m-0">Airport Assistance</p>
+        <p class="m-0">↓</p>
+        <p class="m-0">Check-in counter</p>
+      </div>
+      <div
+        class="mb-4 medium fnt-22 d-flex align-items-center justify-content-center flex-column"
+        style="gap: 5px"
+        *ngIf="
+          bookingForm.controls['type'].value == 'Departure' &&
+          bookingForm.controls['pickup_type'].value == 'Doorstep Pickup'
+        "
+      >
+        <p class="m-0">Doorstep</p>
+        <p class="m-0">↓</p>
+        <p class="m-0">Airport Assistance</p>
+        <p class="m-0">↓</p>
+        <p class="m-0">Check-in counter</p>
+      </div>
+      <div
+        class="mb-4 medium fnt-22 d-flex align-items-center justify-content-center flex-column"
+        style="gap: 5px"
+        *ngIf="
+          bookingForm.controls['type'].value == 'Arrival' &&
+          bookingForm.controls['pickup_type'].value == 'Airport: Pickup Point'
+        "
+      >
+        <p class="m-0">Baggage Belts</p>
+        <p class="m-0">↓</p>
+        <p class="m-0">Airport Assistance</p>
+        <p class="m-0">↓</p>
+        <p class="m-0">Carside (parking/cabs)</p>
+      </div>
+      <div
+        class="mb-4 medium fnt-22 d-flex align-items-center justify-content-center flex-column"
+        style="gap: 5px"
+        *ngIf="
+          bookingForm.controls['type'].value == 'Arrival' &&
+          bookingForm.controls['pickup_type'].value == 'Doorstep Delivery'
+        "
+      >
+        <p class="m-0">Baggage Belt</p>
+        <p class="m-0">↓</p>
+        <p class="m-0">Airport Assistance</p>
+        <p class="m-0">↓</p>
+        <p class="m-0">Doorstep</p>
+      </div>
+    </div>
+
+    <div
+      class="row description m-pickup-address"
+      *ngIf="
+        (bookingForm.controls['pickup_type'].value ==
+          'Airport: Drop off Point' ||
+          bookingForm.controls['pickup_type'].value ==
+            'Airport: Pickup Point') &&
+        fullAddressLine &&
+        bookingForm.controls['delivery_type'].value != 'Cargo Transfer' &&
+        false
+      "
+    >
+      <div class="pickup-poit-address d-flex align-items-center">
+        <span style="margin-bottom: 4px" class="mIcon">i</span>
+        {{ fullAddressLine }}
+      </div>
+    </div>
+
+    <div class="row description">
       <div class="col-md-9">
         <div class="d-flex">
           <div class="pr-3 mt-1 round">
             <input type="checkbox" formControlName="term" id="checkbox" />
-            <label for="checkbox"
-              [style.border]="!bookingForm.controls['term'].value && submitted ? '2px solid #f47521': ''"></label>
+            <label
+              for="checkbox"
+              [style.border]="
+                !bookingForm.controls['term'].value && submitted
+                  ? '2px solid #f47521'
+                  : ''
+              "
+            ></label>
           </div>
           <div>
-            <p class="paragraph mb-1">I am above 18 years old and agree and understand the
-              <a class="staticLink" target="_blank" routerLink="/information/terms-and-conditions">
-                Terms And Condition</a> and <a class="staticLink" target="_blank"
-                routerLink="/information/privacy-policy">
-                Privacy Policy.</a> {{ bookingForm.controls['delivery_type'].value == 'Lost Luggage/Item/Not Loaded' ?
-              '' :
-              airport_cargo_txt
+            <p class="paragraph mb-1">
+              I am above 18 years old and agree and understand the
+              <a
+                class="staticLink"
+                target="_blank"
+                routerLink="/information/terms-and-conditions"
+              >
+                Terms And Condition</a
+              >
+              and
+              <a
+                class="staticLink"
+                target="_blank"
+                routerLink="/information/privacy-policy"
+              >
+                Privacy Policy.</a
+              >
+              {{
+                bookingForm.controls["delivery_type"].value ==
+                "Lost Luggage/Item/Not Loaded"
+                  ? ""
+                  : airport_cargo_txt
               }}
             </p>
           </div>
         </div>
         <div class="pb-4 pb-md-0 hyper-link-section">
-          <a class="pr-3 staticLink" style="padding-left: 29px;" target="_blank"
-            [routerLink]="bookingForm.controls['delivery_type'].value != 'Cargo Transfer' ? '/information/departure-details' : '/cargo/booking-information'">
-            {{bookingForm.controls['delivery_type'].value == 'Cargo Transfer' ? 'Cargo Booking Information' :
-            'Airport Transfer Booking Information'}}
+          <a
+            class="pr-3 staticLink"
+            style="padding-left: 29px"
+            target="_blank"
+            [routerLink]="
+              bookingForm.controls['delivery_type'].value != 'Cargo Transfer'
+                ? '/information/booking-information'
+                : '/cargo/booking-information'
+            "
+          >
+            {{
+              bookingForm.controls["delivery_type"].value == "Cargo Transfer"
+                ? "Cargo Booking Information"
+                : "Airport Transfer Booking Information"
+            }}
           </a>
-          <a class="staticLink pl-md-0" style="padding-left: 29px;" target="_blank"
-            [routerLink]="bookingForm.controls['delivery_type'].value != 'Cargo Transfer' ? '/information/cancellation-and-refund' : '/cargo/cancellation-and-refund-policy'">
-            {{bookingForm.controls['delivery_type'].value != 'Cargo Transfer' ? 'Cancellation & Refund Policy' :
-            ' Cargo Cancellation & Refund Policy'}}</a>
+          <a
+            class="staticLink pl-md-0"
+            style="padding-left: 29px"
+            target="_blank"
+            [routerLink]="
+              bookingForm.controls['delivery_type'].value != 'Cargo Transfer'
+                ? '/information/cancellation-and-refund'
+                : '/cargo/cancellation-and-refund-policy'
+            "
+          >
+            {{
+              bookingForm.controls["delivery_type"].value != "Cargo Transfer"
+                ? "Cancellation & Refund Policy"
+                : " Cargo Cancellation & Refund Policy"
+            }}</a
+          >
           <!--  -->
           <!-- <a class="staticLink pl-md-0" style="padding-left: 29px;" target="_blank" *ngIf="bookingForm.controls['delivery_type'].value == 'Cargo Transfer'" href="/assets/wordFile/PACKINGLIST.docx" download="">
             Packing List </a> -->
@@ -1424,39 +3283,71 @@
         </div>
       </div>
       <div class="col-md-3">
-        <div class="d-flex justify-content-end" *ngIf="approximateAmount && approximateAmount !=0">
+        <div
+          class="d-flex justify-content-end"
+          *ngIf="approximateAmount && approximateAmount != 0"
+        >
           <div>
             <div class="d-flex justify-content-end ammountSection">
               <p class="priceIcon">₹</p>
-              <p class="font-weight-bold mb-0"
-                *ngIf="bookingForm.controls['delivery_type'].value == 'Airport Transfer'">
-                {{approximateAmount ? approximateAmount : ''}}</p>
-              <p class="font-weight-bold mb-0"
-                *ngIf="bookingForm.controls['delivery_type'].value != 'Airport Transfer'">
-                {{approximateAmount ? getAmount() : ''}}</p>
+              <p
+                class="font-weight-bold mb-0"
+                *ngIf="
+                  bookingForm.controls['delivery_type'].value ==
+                  'Airport Transfer'
+                "
+              >
+                {{ approximateAmount ? approximateAmount : "" }}
+              </p>
+              <p
+                class="font-weight-bold mb-0"
+                *ngIf="
+                  bookingForm.controls['delivery_type'].value !=
+                  'Airport Transfer'
+                "
+              >
+                {{ approximateAmount ? getAmount() : "" }}
+              </p>
             </div>
             <div>
               <p class="gst">Inclusive of GST</p>
             </div>
           </div>
         </div>
-        <div class="mb-3" style="float:right;"
-          *ngIf="show_delivery && delivery_date!='' && bookingForm.controls['delivery_type'].value == 'Airport Transfer'">
-          <p class="mb-0 text-right" style="font-size: 12px; font-weight:600;">{{bookingForm.controls['type'].value}}
-            Delivery
-            Timeline: </p>
-          <div class="d-flex" style="font-size: 12px; font-weight:500;">
+        <div
+          class="mb-3"
+          style="float: right"
+          *ngIf="
+            bookingForm.controls['transfer_type'].value &&
+            show_delivery &&
+            delivery_date != '' &&
+            bookingForm.controls['delivery_type'].value == 'Airport Transfer'
+          "
+        >
+          <p class="mb-0 text-right" style="font-size: 12px; font-weight: 600">
+            {{ bookingForm.controls["type"].value }} Delivery Timeline:
+          </p>
+          <div class="d-flex" style="font-size: 12px; font-weight: 500">
             {{ delivery_date.toString().split(" ")[2] }}
             {{ delivery_date.toString().split(" ")[1] }}
             {{ delivery_date.toString().split(" ")[3] }}
-            <p class="mb-0">&nbsp;{{ afterBefore }} {{ show_delivery_time }} hours</p>
+            <p class="mb-0">
+              &nbsp;{{ afterBefore }} {{ show_delivery_time }} hours
+            </p>
           </div>
         </div>
-        <div class="mb-3" style="float:right;"
-          *ngIf="showDeliveryDate!='' && bookingForm.controls['delivery_type'].value == 'Cargo Transfer'">
-          <div class="d-flex" style="font-size: 12px; font-weight:600;">
-            {{showDeliveryDate.toString().split(' ')[2]}} {{showDeliveryDate.toString().split(' ')[1]}}
-            {{showDeliveryDate.toString().split(' ')[3]}}
+        <div
+          class="mb-3"
+          style="float: right"
+          *ngIf="
+            showDeliveryDate != '' &&
+            bookingForm.controls['delivery_type'].value == 'Cargo Transfer'
+          "
+        >
+          <div class="d-flex" style="font-size: 12px; font-weight: 600">
+            {{ showDeliveryDate.toString().split(" ")[2] }}
+            {{ showDeliveryDate.toString().split(" ")[1] }}
+            {{ showDeliveryDate.toString().split(" ")[3] }}
             Before 11:55 PM
           </div>
         </div>
@@ -1465,7 +3356,17 @@
     <div class="row description pb-4">
       <div class="col-md-12 text-right">
         <!-- <h1 class="no-need-pay" *ngIf="subscription_details.proceed_without_payment && subscription_details.used_tokens.length !=0">No need to pay</h1> -->
-        <button class="bookBtn" (click)="subscription_details.proceed_without_payment && subscription_details.used_tokens.length !=0 ? place_subscription_order() : proceedToPay()">PROCEED</button>
+        <button
+          class="bookBtn"
+          (click)="
+            subscription_details.proceed_without_payment &&
+            subscription_details.used_tokens.length != 0
+              ? place_subscription_order()
+              : proceedToPay()
+          "
+        >
+          PROCEED
+        </button>
         <!-- <button class="bookBtn" (click)="placeCargoOrder()">cargo order</button> -->
       </div>
     </div>

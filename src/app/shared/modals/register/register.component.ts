@@ -1,3 +1,4 @@
+import { NgxSpinnerService } from 'ngx-spinner';
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
@@ -27,24 +28,24 @@ export class RegisterComponent implements OnInit {
 
   constructor(private modalService: NgbModal, public dialogRef: MatDialogRef<RegisterComponent>, private fb: FormBuilder,
                private crudService: CrudService,  private _snackbar: MatSnackBar,  public dialog: MatDialog,
-               private token: PassArrayService) { }
+               private token: PassArrayService, private spinner:NgxSpinnerService) { }
 
   ngOnInit() {
     this.registerForm = this.fb.group({
       name: ['', Validators.required],
       mobile: ['', [
         Validators.required,
-        Validators.minLength(7),
-        Validators.maxLength(13),
+        Validators.minLength(10),
+        Validators.maxLength(10),
         Validators.pattern('[0-9]+')
       ]],
-      email: ['', Validators.required],
+      email: ['', Validators.compose([ Validators.required,Validators.email, Validators.pattern(/\S+@\S+\.\S+/),]),],
       id_country_code: ['+91']
     });
 
     this.registerForm.valueChanges.subscribe( value => {
       this.mobileNo = value;
-      if (this.mobileNo.mobile.length > 6 && this.mobileNo.mobile.length < 14 && !this.registerForm.invalid) {
+      if (this.mobileNo.mobile.length == 10 && !this.registerForm.invalid) {
         this.disableButton = false;
       } else {
         this.disableButton = true;
@@ -79,10 +80,10 @@ export class RegisterComponent implements OnInit {
   }
 
   register() {
-
+    this.spinner.show();
     let obj = {
     name: this.registerForm.get('name').value,
-    email: this.registerForm.get('email').value,
+    email: this.registerForm.get('email').value.toLowerCase(),
     mobile: this.registerForm.get('mobile').value,
     other_comments:"",
     date_of_birth:"",
@@ -100,6 +101,7 @@ export class RegisterComponent implements OnInit {
 
     this.crudService.postFormdata(apis.USER_REGISTER, obj).subscribe(
       response => {
+        this.spinner.hide();
         this.res = response;
         if (this.res.status) {
           this._snackbar.open(this.res.message, 'X', {duration: 3000, verticalPosition: 'top'
@@ -111,7 +113,7 @@ export class RegisterComponent implements OnInit {
         }
       },
       err => {
-        
+        this.spinner.hide();
       });
   }
 

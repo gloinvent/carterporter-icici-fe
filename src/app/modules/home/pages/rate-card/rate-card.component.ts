@@ -22,15 +22,15 @@ export class RateCardComponent implements OnInit {
     {
       type: "Prestige",
       airline: "Other & Partner Airlines",
-      price: "INR 1950",
+      price: "INR 1799",
       no_of_usage: "4 Usage",
     },
-    {
-      type: "Prestige+",
-      airline: "Other & Partner Airlines",
-      price: "INR 3799",
-      no_of_usage: "8 Usage",
-    },
+    // {
+    //   type: "Prestige+",
+    //   airline: "Other & Partner Airlines",
+    //   price: "INR 3799",
+    //   no_of_usage: "8 Usage",
+    // },
   ];
 
   // local
@@ -39,16 +39,16 @@ export class RateCardComponent implements OnInit {
     purchase: [
       {
         type: "Other Airlines",
-        one_bag: "INR 599",
-        subsequent_bag: "INR 599",
-        distance_from_airport: "For Up to 60 Kms",
+        one_bag: "INR 699",
+        subsequent_bag: "INR 699",
+        distance_from_airport: "For Up to 75 Kms",
         express_service: "INR 900",
       },
       {
         type: "Partner Airlines",
-        one_bag: "INR 325 - 700",
-        subsequent_bag: "INR 325 - 700",
-        distance_from_airport: "For Up to 60 Kms",
+        one_bag: "INR 600 - 700",
+        subsequent_bag: "INR 600 - 700",
+        distance_from_airport: "For Up to 75 Kms",
         express_service: "INR 900",
       },
     ],
@@ -56,7 +56,7 @@ export class RateCardComponent implements OnInit {
     // Subscription title
     subscription_title: {
       title:
-        "61 - above 500 Kms. Rates of the distance will be deducted from the value of the subscription and bags will be of usage value",
+        "76 - above 500 Kms. Rates of the distance will be deducted from the value of the subscription and bags will be of usage value",
     },
 
     // Subscription Details
@@ -65,14 +65,14 @@ export class RateCardComponent implements OnInit {
         type: "Domestic Departure/Arrival",
         one_bag: "1 Bag = 1 Usage",
         subsequent_bag: "Each Bag will be deducted against 1 Usage",
-        distance_from_airport: "For Up to 60 Kms",
+        distance_from_airport: "For Up to 75 Kms",
         refund: "Usages and value will be credited back",
       },
       {
         type: "International Departure/Arrival",
         one_bag: "1 Bag = 2 Usage",
         subsequent_bag: "Each Bag will be deducted against 2 Usage",
-        distance_from_airport: "For Up to 60 Kms",
+        distance_from_airport: "For Up to 75 Kms",
         refund: "Usages and value will be credited back",
       },
     ],
@@ -107,7 +107,7 @@ export class RateCardComponent implements OnInit {
         type: "Other & Partner Airlines",
         one_bag: "INR 1250 - 2250",
         subsequent_bag: "INR 599",
-        distance_from_airport: "For Up to 61 - 150 Kms",
+        distance_from_airport: "For Up to 76 - 150 Kms",
         pickup_delivery: "4 - 7 Days ",
         refund: "",
       },
@@ -139,7 +139,7 @@ export class RateCardComponent implements OnInit {
 
     // Subscription title
     subscription_title: [
-      "61 - above 500 Kms. Rates of the distance will be deducted from the value of the subscription and bags will be of usage value",
+      "76 - above 500 Kms. Rates of the distance will be deducted from the value of the subscription and bags will be of usage value",
     ],
 
     // Subscription Details
@@ -183,44 +183,42 @@ export class RateCardComponent implements OnInit {
   };
 
   //cargo
-  cargo:any = {
-    cargo_list:[
+  cargo: any = {
+    cargo_list: [
       {
-        type:'Domestic Cargo - Surface, 4-7 Days Delivery',
-        per_kg: 'INR 100',
-        handling_cost: 'INR 200',
-        local_pick_up:'INR 300',
-        local_delivery: 'INR 300 '
+        type: "Domestic Cargo - Surface, 4-7 Days Delivery",
+        per_kg: "INR 100",
+        handling_cost: "INR 200",
+        local_pick_up: "INR 300",
+        local_delivery: "INR 300 ",
       },
       {
-        type:'Domestic Cargo - Air, Up to 4 days to delivery',
-        per_kg: 'INR 250',
-        handling_cost: 'INR 400',
-        local_pick_up:'INR 300',
-        local_delivery: 'INR 300 '
+        type: "Domestic Cargo - Air, Up to 4 days to delivery",
+        per_kg: "INR 250",
+        handling_cost: "INR 400",
+        local_pick_up: "INR 300",
+        local_delivery: "INR 300 ",
       },
       {
-        type:'Domestic Cargo - Air Express, Delivery in 48 hours',
-        per_kg: 'INR 450',
-        handling_cost: 'INR 400',
-        local_pick_up:'INR 300',
-        local_delivery: 'INR 300 '
-      }
+        type: "Domestic Cargo - Air Express, Delivery in 48 hours",
+        per_kg: "INR 450",
+        handling_cost: "INR 400",
+        local_pick_up: "INR 300",
+        local_delivery: "INR 300 ",
+      },
     ],
-    terms:[
-      'No packing material will be provided. ',
-      'All packages will be inspected before order is picked. Maximum charge from an order of INR 300 will be withheld before refund if puck up is not completed after inspection.'
+    terms: [
+      "No packing material will be provided. ",
+      "All packages will be inspected before order is picked. Maximum charge from an order of INR 300 will be withheld before refund if puck up is not completed after inspection.",
     ],
-    gst:[
-      'All rates are exclusive of GST of 12%'
-    ],
+    gst: ["All rates are exclusive of GST of 12%"],
     order_modification: [
-      'All TVs and Other Electronic or oversized items will be charged at an extra cost of INR 450 per Kg as Order Modicication. They should be in original packing. Order modification should be paid before delivery. Order modification can be for additional luggage and removal of luggage as well. Any refunds will be made to source account.'
+      "All TVs and Other Electronic or oversized items will be charged at an extra cost of INR 450 per Kg as Order Modicication. They should be in original packing. Order modification should be paid before delivery. Order modification can be for additional luggage and removal of luggage as well. Any refunds will be made to source account.",
     ],
     max_size_carterx: [
-      '32 Kgs and 70 Linear inches. Air cargo and Air Express may have other rules on weight and carriage'
-    ]
-  }
+      "32 Kgs and 70 Linear inches. Air cargo and Air Express may have other rules on weight and carriage",
+    ],
+  };
 
   constructor(
     private dialog: MatDialog,

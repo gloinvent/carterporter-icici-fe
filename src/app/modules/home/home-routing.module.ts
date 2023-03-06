@@ -24,6 +24,8 @@ import { CargoTransferTermsAndConditionComponent } from "./pages/homepage/home-d
 import { OrderConfirmComponent } from "./components/order-confirm/order-confirm.component";
 import { MyTripComponent } from "./components/my-trip/my-trip.component";
 import { SubscriptionConfirmationComponent } from "./components/subscription-confirmation/subscription-confirmation.component";
+import { HelpDetailsComponent } from "./components/track-order/help-details/help-details.component";
+import { OrderDetailsComponent } from "./components/track-order/order-details/order-details.component";
 
 const routes: Routes = [
   { path: "about-us", component: AboutUsComponent },
@@ -59,7 +61,7 @@ const routes: Routes = [
 
   { path: "information/arrival-details", component: ArrivalDetailsComponent },
   {
-    path: "information/departure-details",
+    path: "information/booking-information",
     component: DepartureDetailsComponent,
   },
   { path: "how-its-work", component: NewHowitsworkMobileComponent },
@@ -83,6 +85,9 @@ const routes: Routes = [
     path: "subscription-confirmation",
     component: SubscriptionConfirmationComponent,
   },
+
+  { path: "help-details/:ticket_number", component: HelpDetailsComponent },
+  { path: "order-details/:order_number", component: OrderDetailsComponent },
 ];
 
 @NgModule({
