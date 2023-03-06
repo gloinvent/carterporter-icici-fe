@@ -4756,7 +4756,7 @@ export class BookingComponent implements OnInit {
         this.bookingForm.controls[res].setValue("");
       });
       this.user_details_disable = false;
-      // this.is_otp_verified = false;
+      this.is_otp_verified = false;
     } else {
       this.setLoginDetails(0);
     }
