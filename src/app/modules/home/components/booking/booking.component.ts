@@ -3913,7 +3913,7 @@ export class BookingComponent implements OnInit {
             res.confirmation_number ==
             this.bookingForm.controls["subscription_id"].value
         );
-        this.select_and_unselect_cupons(coupon);
+        coupon ? this.select_and_unselect_cupons(coupon) : null;
       }
     } else {
       this.subscription_details.show_coupons = false;
