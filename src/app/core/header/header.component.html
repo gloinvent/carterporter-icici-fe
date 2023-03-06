@@ -63,11 +63,11 @@
           <li class="nav-item">
             <a class="nav-link navList" routerLink="/home" [routerLinkActive]="'active'">Home</a>
           </li>
-          <li class="nav-item">
+          <li class="nav-item" *ngIf="false">
             <a class="nav-link navList" routerLink="/about-us" target="_blank" [routerLinkActive]="'active'">About
               Us</a>
           </li>
-          <li class="nav-item">
+          <li class="nav-item" *ngIf="false">
             <a class="nav-link navList" target="_blank" routerLink="/ratecard" [routerLinkActive]="'active'">Rate
               Card</a>
           </li>
@@ -84,7 +84,7 @@
               </li>
             </ul>
           </li>
-          <li class="nav-item">
+          <li class="nav-item" *ngIf="userName">
             <button [class.not-allowed]="!userName" class="nav-link navList"
               style="border: none; background: none;cursor: pointer;" [disabled]='disableMyTrips' routerLink="/my-trips"
               href="#" [routerLinkActive]="'active'">Track Order</button>
