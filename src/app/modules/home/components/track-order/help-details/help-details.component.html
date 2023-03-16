@@ -98,8 +98,10 @@
                                             <img *ngIf='img.split(".").pop() == "png" || img.split(".").pop() == "jpeg" || img.split(".").pop() == "jpg" '
                                                 class="pointor" src="{{img}}" alt="" (click)="imgSrc = img"
                                                 data-toggle="modal" data-target="#myModalMobile">
-                                            <a *ngIf='img.split(".").pop() == "pdf"' href="{{img}}" target="_blank">
-                                                <img class="pdf" src="../../../../../../assets/icons/icons-pdf-.png">
+                                            <a *ngIf='img.split(".").pop() == "pdf" || img.split(".").pop() == "docx" || img.split(".").pop() == "doc"'
+                                                href="{{img}}" target="_blank">
+                                                <img class="pdf"
+                                                    [src]="img.split('.').pop() == 'pdf' ? '/assets/icons/icons-pdf-.png' : '/assets/icons/doc-icon.png'">
                                             </a>
                                             <img *ngIf='img.split(".").pop() == "mp4" || img.split(".").pop() == "m4v" || img.split(".").pop() == "mov" '
                                                 class="pointor pdf" src="../../../../../../assets/icons/video.png"
@@ -138,20 +140,25 @@
 
                                                 <div class="col-12 mb-2" *ngIf="response.images_files !=''">
                                                     <p class="fnt-14 medium m-0 pb-2">Attachment</p>
-                                                    <div class="d-flex align-items-center overflow-auto scroll-hide gap-15">
+                                                    <div
+                                                        class="d-flex align-items-center overflow-auto scroll-hide gap-15">
                                                         <!-- {{process_image(item.images_files)}} rgrtgrtgrtgtrg -->
                                                         <div class="complaint_image"
                                                             *ngFor="let img of process_image(response.images_files)">
                                                             <!-- {{img}} -->
                                                             <img *ngIf='img.split(".").pop() == "png" || img.split(".").pop() == "jpeg" || img.split(".").pop() == "jpg" '
-                                                                class="pointor" src="{{img}}" alt="" (click)="imgSrc = img"
-                                                                data-toggle="modal" data-target="#myModalMobile">
-                                                            <a *ngIf='img.split(".").pop() == "pdf"' href="{{img}}" target="_blank">
-                                                                <img class="pdf" src="../../../../../../assets/icons/icons-pdf-.png">
+                                                                class="pointor" src="{{img}}" alt=""
+                                                                (click)="imgSrc = img" data-toggle="modal"
+                                                                data-target="#myModalMobile">
+                                                            <a *ngIf='img.split(".").pop() == "pdf" || img.split(".").pop() == "docx" || img.split(".").pop() == "doc"'
+                                                                href="{{img}}" target="_blank">
+                                                                <img class="pdf"
+                                                                    [src]="img.split('.').pop() == 'pdf' ? '/assets/icons/icons-pdf-.png' : '/assets/icons/doc-icon.png'">
                                                             </a>
                                                             <img *ngIf='img.split(".").pop() == "mp4" || img.split(".").pop() == "m4v" || img.split(".").pop() == "mov" '
-                                                                class="pointor pdf" src="../../../../../../assets/icons/video.png"
-                                                                alt="" (click)="imgSrc = img" data-toggle="modal"
+                                                                class="pointor pdf"
+                                                                src="../../../../../../assets/icons/video.png" alt=""
+                                                                (click)="imgSrc = img" data-toggle="modal"
                                                                 data-target="#myModalVideoMobile">
                                                         </div>
                                                     </div>
@@ -168,7 +175,8 @@
         </div>
     </div>
 
-    <div class="ticket-not-available d-flex align-items-center justify-content-center" *ngIf="navbarItem.length == 0" style="height: 80vh;">
+    <div class="ticket-not-available d-flex align-items-center justify-content-center" *ngIf="navbarItem.length == 0"
+        style="height: 80vh;">
         <p *ngIf="data_not_available">Ticket Not Found!</p>
     </div>
 

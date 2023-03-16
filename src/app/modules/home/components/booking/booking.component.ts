@@ -4262,7 +4262,8 @@ export class BookingComponent implements OnInit {
               console.log("bag.  ", bag);
 
               let no_of_usages =
-                total_outstation_usage * domestic_Or_International;
+                total_outstation_usage;
+                // * domestic_Or_International
               console.log("no_of_usages.  ", no_of_usages);
               this.total_usages = no_of_usages + bag;
               if (

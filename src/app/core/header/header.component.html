@@ -75,7 +75,12 @@
             <a class="nav-link navList" [href]="'https://blog.carterx.in/'" target="_blank"
               [routerLinkActive]="'active'">Blog</a>
           </li>
-          <li class="nav-item position-relative">
+          <li class="nav-item" *ngIf="userName">
+            <button [class.not-allowed]="!userName" class="nav-link navList"
+              style="border: none; background: none;cursor: pointer;" [disabled]='disableMyTrips' routerLink="/my-trips"
+              href="#" [routerLinkActive]="'active'">Track Order</button>
+          </li>
+          <li class="nav-item position-relative customer-signin px-3 px-md-0 px-lg-0" style="width:fit-content;">
             <a class="nav-link navList" style="cursor: pointer;text-transform: capitalize;" (click)="userName ? logoutDropDown() : signin()"
               [routerLinkActive]="'active'">{{userName ? userName : 'Sign In'}}</a>
             <ul *ngIf="userName && dropdownFlag" class='demoCls' [ngClass]="dropdownFlag ? 'showLogout' : ''">
@@ -84,11 +89,7 @@
               </li>
             </ul>
           </li>
-          <li class="nav-item" *ngIf="userName">
-            <button [class.not-allowed]="!userName" class="nav-link navList"
-              style="border: none; background: none;cursor: pointer;" [disabled]='disableMyTrips' routerLink="/my-trips"
-              href="#" [routerLinkActive]="'active'">Track Order</button>
-          </li>
+         
         </ul>
       </div>
     </div>

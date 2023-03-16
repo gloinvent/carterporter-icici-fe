@@ -26,6 +26,8 @@ export var apis = {
   CREATE_TICKET: "r=v4/helpassistance-api/createticket",
   GET_TICKET_TOPICS: "r=v4/helpassistance-api/get-ticket-topic",
   FETCH_TICKET_DETAIL: "r=v4/helpassistance-api/fetch-ticket-detail",
+  DOWNLOAD_ORDERS:"r=v3/thirdparty-corporate-api/download-orders",
+  REMOVE_CSV_FILE:"r=v3/thirdparty-corporate-api/remove-csv-file"
 };
 
 export const CORPORATE_APIS = {
