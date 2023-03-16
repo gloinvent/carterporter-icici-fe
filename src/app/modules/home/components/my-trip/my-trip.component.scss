@@ -128,3 +128,43 @@
     margin: 20px 10px !important;
   }
 }
+
+.border-bottom-mytrip{
+  border-bottom: 1px groove #e9e8e8;
+}
+
+.select{
+  transition: .5s;
+  background: #f07639;
+  color: #fff;
+  opacity: 0.8;
+}
+
+.select:hover{
+  transition: .5s;
+  opacity: 1;
+}
+
+.download-icon{
+  transition: .5s;
+  font-family: 'FontAwesome' !important;
+  color: #f07639;
+}
+
+.download-csv:hover .download-icon{
+  transition: .5s;
+  font-size: 14px !important;
+}
+.remove-search{
+    transition: 0.5s;
+    border: 2px solid #ff000061;
+    border-radius: 50px;
+    height: 25px;
+    width: 25px;
+    margin: 0 0 0 10px;
+}
+
+.remove-search-icon{
+  font-family: 'FontAwesome' !important;
+  color: #ff0000d6;
+}

@@ -68,12 +68,12 @@ export class HelpAssistanceComponent implements OnInit {
       "pdf",
       "jpg",
       "doc",
-      "heif",
-      "hevc",
       "mov",
       "mp4",
       "m4v",
     ];
+    // "heif",
+    //   "hevc",
     let accepted_file_array = [];
     let arr = Object.values(files);
     arr.map((file, index) => {
@@ -102,7 +102,7 @@ export class HelpAssistanceComponent implements OnInit {
     });
     if (accepted_file_array.length == 0) {
       this.helpForm.controls["help_files"].setValue("");
-      this.printToastMsg('Accepted Format : png, jpeg, jpg, pdf, mov, mp4, m4v')
+      this.printToastMsg('Accepted Format : png, jpeg, jpg, pdf, mov, mp4, m4v, doc')
     } else {
       // Object.map(this.files)
     }

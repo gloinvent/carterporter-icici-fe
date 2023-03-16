@@ -1,3 +1,4 @@
+import { DownlodeCsvComponent } from './../track-order/downlode-csv/downlode-csv.component';
 import { CrudService } from "src/app/core/services/crud.service";
 import { OrderDetailsComponent } from "./../track-order/order-details/order-details.component";
 import { HelpAssistanceComponent } from "./../track-order/help-assistance/help-assistance.component";
@@ -30,6 +31,8 @@ export class MyTripComponent implements OnInit {
   public loading = false;
   custId: any;
   total_page_count: any = 0;
+  search_order_no: any
+  is_search_order: any = false
 
   no_data_found= false;
 
@@ -70,7 +73,8 @@ export class MyTripComponent implements OnInit {
     this.cdr.detectChanges();
     let obj = { 
       id_customer: this.custId.customer_detail.id_customer,
-      corporate_orders:0
+      corporate_orders:0,
+      order_number: this.search_order_no && this.is_search_order ? this.search_order_no : null
      };
     this.TripsordersService.getOrdersAndTrips(obj, count).subscribe(
       (orders) => {
@@ -204,4 +208,48 @@ export class MyTripComponent implements OnInit {
       }
     }
   }
+
+  openDownloadCsv() {
+    const dialogRef = this.modal.open(DownlodeCsvComponent, {
+      width: "350px",
+      // height: "270px",
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      console.log("The dialog was closed");
+    });
+  }
+
+  search_order() {
+    if (this.search_order_no) {
+      // if (!this.is_search_order) {
+        this.is_search_order = true
+        this.accessTokenApi()
+      // } else {
+      //   this.search_order_no = '';
+      //   this.count = 1;
+      //   this.is_search_order = false
+      //   this.accessTokenApi();
+      // }
+    } else {
+
+    }
+  }
+
+  search_order_valueChange(event) {
+    if (event == '' && this.is_search_order) {
+      this.search_order_no = '';
+      this.count = 1;
+      this.is_search_order = false
+      this.accessTokenApi();
+    }
+  }
+
+  remove_search_value(){
+        this.search_order_no = '';
+        this.count = 1;
+        this.is_search_order = false
+        this.accessTokenApi();
+    } 
+
 }
