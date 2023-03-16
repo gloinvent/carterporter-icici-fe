@@ -182,8 +182,8 @@ export class OrderDetailsComponent implements OnInit {
     this.ngxSpinner.show();
     let reqBody = {
       id_order: order_id,
+      corporate_orders:0,
       id_customer: login ? login.customer_detail.id_customer : '',
-      corporate_orders:"",
     }
 
     this.TripsordersService
