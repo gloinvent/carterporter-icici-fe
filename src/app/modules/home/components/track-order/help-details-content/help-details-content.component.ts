@@ -28,7 +28,10 @@ export class HelpDetailsContentComponent implements OnInit {
           list[0].split(".").pop() == "pdf" ||
           list[0].split(".").pop() == "mov" ||
           list[0].split(".").pop() == "mp4" ||
-          list[0].split(".").pop() == "m4v"
+          list[0].split(".").pop() == "m4v"||
+          list[0].split(".").pop() == "doc" ||
+          list[0].split(".").pop() == "docx" 
+
         ) {
           list.map((res) => {
             list1.push((environment.baseUrl == 'https://hyd.carterx.in/index.php?' ? "https://hyd.carterx.in/uploads/ticket_images/" : "https://app.carterx.in/uploads/ticket_images/") + res);

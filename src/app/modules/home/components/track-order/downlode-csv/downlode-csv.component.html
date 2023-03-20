@@ -1,0 +1,87 @@
+<div class="container">
+    <div class="row">
+        <div class="col-12 p-0">
+            <!-- close icon -->
+            <div class="position-relative w-100" aria-label="Close">
+                <img (click)="dialogRef.close()" class="position-absolute close-image pointor"
+                    src="/assets/icons/Close Button.png">
+            </div>
+            <!--  -->
+            <div class="downlode-csv mt-3">
+                <fieldset class="d-flex position-relative">
+                    <legend class="w-auto">From Date</legend>
+                    <div class="from-date">
+                        <input class="" id="datePicker" [(ngModel)]="from_date_datepicker"
+                            [ngModelOptions]="{ standalone: true }" [owlDateTimeTrigger]="dt1" [owlDateTime]="dt1"
+                            placeholder="From Date" style="
+                                opacity: 0;
+                                width: calc(100% - 10px);
+                                height: 30px;
+                                cursor: pointer;
+                                position: absolute;
+                            " (click)="click($event)" />
+
+                        <owl-date-time [pickerType]="'calendar'" #dt1 (afterPickerClosed)="datePickerOnChange(1)">
+                        </owl-date-time>
+                        <p class="mb-0" *ngIf="showDate.length != 0">
+                            <span class="bags ml-2" *ngIf="showDate[0] == 'Mon'"> Monday, </span>
+                            <span class="bags ml-2" *ngIf="showDate[0] == 'Tue'"> Tuesday, </span>
+                            <span class="bags ml-2" *ngIf="showDate[0] == 'Wed'"> Wednesday, </span>
+                            <span class="bags ml-2" *ngIf="showDate[0] == 'Thu'"> Thursday, </span>
+                            <span class="bags ml-2" *ngIf="showDate[0] == 'Fri'">Friday, </span>
+                            <span class="bags ml-2" *ngIf="showDate[0] == 'Sat'"> Saturday, </span>
+                            <span class="bags ml-2" *ngIf="showDate[0] == 'Sun'"> Sunday, </span>
+                            <span class="bagNumber">{{ showDate[2] }}</span>
+                            <span class="bags ml-2">{{ showDate[1] }}, {{ showDate[3] }}</span>
+                        </p>
+                    </div>
+                </fieldset>
+
+                <fieldset class="d-flex position-relative mt-3">
+                    <legend class="w-auto">To Date</legend>
+                    <div class="to-date">
+                        <input class="" id="datePicker" [(ngModel)]="to_date_datepicker"
+                            [ngModelOptions]="{ standalone: true }" [owlDateTimeTrigger]="dt2"
+                            [min]="from_date_datepicker" [owlDateTime]="dt2" placeholder="To date" style="
+                            opacity: 0;
+                            width: calc(100% - 10px);
+                            height: 30px;
+                            cursor: pointer;
+                            position: absolute;
+                        " (click)="click($event)" />
+
+                        <owl-date-time [pickerType]="'calendar'" #dt2 (afterPickerClosed)="datePickerOnChange(2)">
+                        </owl-date-time>
+
+                        <p class="mb-0" *ngIf="showToDate.length != 0">
+                            <span class="bags ml-2" *ngIf="showToDate[0] == 'Mon'"> Monday, </span>
+                            <span class="bags ml-2" *ngIf="showToDate[0] == 'Tue'"> Tuesday, </span>
+                            <span class="bags ml-2" *ngIf="showToDate[0] == 'Wed'"> Wednesday, </span>
+                            <span class="bags ml-2" *ngIf="showToDate[0] == 'Thu'"> Thursday, </span>
+                            <span class="bags ml-2" *ngIf="showToDate[0] == 'Fri'">Friday, </span>
+                            <span class="bags ml-2" *ngIf="showToDate[0] == 'Sat'"> Saturday, </span>
+                            <span class="bags ml-2" *ngIf="showToDate[0] == 'Sun'"> Sunday, </span>
+                            <span class="bagNumber">{{ showToDate[2] }}</span>
+                            <span class="bags ml-2">{{ showToDate[1] }}, {{ showToDate[3] }}</span>
+                        </p>
+                    </div>
+                </fieldset>
+
+                <p class="myBtn pointor" (click)="generate_csv_file()">
+                    Proceed
+                </p>
+            </div>
+
+            <div class="row footer-style bold">
+                <div class="col-6 text-center">
+                  <a class="static-links" routerLink="/information/privacy-policy" target="_blank">Privacy Policy
+                  </a>
+                </div>
+                <div class="col-6 text-center">
+                  <a class="static-links" routerLink="/information/terms-and-conditions" target="_blank">Terms and
+                    Condition</a>
+                </div>
+              </div>
+        </div>
+    </div>
+</div>

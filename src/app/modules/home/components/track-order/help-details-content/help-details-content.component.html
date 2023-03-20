@@ -27,8 +27,10 @@
         <div class="complaint_image" *ngFor="let img of process_image(content.images_files)">
           <img *ngIf='img.split(".").pop() == "png" || img.split(".").pop() == "jpeg" || img.split(".").pop() == "jpg" '
             class="pointor" src="{{img}}" alt="" (click)="imgSrc = img" data-toggle="modal" data-target="#myModal">
-          <a *ngIf='img.split(".").pop() == "pdf"' href="{{img}}" target="_blank">
-            <img class="pdf" src="../../../../../../assets/icons/icons-pdf-.png">
+          <a *ngIf='img.split(".").pop() == "pdf" || img.split(".").pop() == "docx" || img.split(".").pop() == "doc"'
+            href="{{img}}" target="_blank">
+            <img class="pdf"
+              [src]="img.split('.').pop() == 'pdf' ? '/assets/icons/icons-pdf-.png' : '/assets/icons/doc-icon.png'">
           </a>
           <img *ngIf='img.split(".").pop() == "mp4" || img.split(".").pop() == "m4v" || img.split(".").pop() == "mov" '
             class="pointor pdf" src="../../../../../../assets/icons/video.png" alt="" (click)="imgSrc = img"
@@ -60,17 +62,22 @@
               <p class="fnt-14 medium m-0 w-120">Status</p>
               <p class="m-0 fnt-14" style="text-transform:capitalize">{{ item.status }}</p>
             </div>
-            
+
             <div class="col-12 mb-2" *ngIf="item.images_files !=''">
               <p class="fnt-14 medium m-0 pb-2">Attachment</p>
               <div class="d-flex align-items-center overflow-auto scroll-hide gap-15">
                 <div class="complaint_image" *ngFor="let img of process_image(item.images_files)">
-                  <img *ngIf='img.split(".").pop() == "png" || img.split(".").pop() == "jpeg" || img.split(".").pop() == "jpg" '
-                    class="pointor" src="{{img}}" alt="" (click)="imgSrc = img" data-toggle="modal" data-target="#myModal">
-                  <a *ngIf='img.split(".").pop() == "pdf"' href="{{img}}" target="_blank">
-                    <img class="pdf" src="../../../../../../assets/icons/icons-pdf-.png">
+                  <img
+                    *ngIf='img.split(".").pop() == "png" || img.split(".").pop() == "jpeg" || img.split(".").pop() == "jpg" '
+                    class="pointor" src="{{img}}" alt="" (click)="imgSrc = img" data-toggle="modal"
+                    data-target="#myModal">
+                  <a *ngIf='img.split(".").pop() == "pdf" || img.split(".").pop() == "docx" || img.split(".").pop() == "doc"'
+                    href="{{img}}" target="_blank">
+                    <img class="pdf"
+                      [src]="img.split('.').pop() == 'pdf' ? '/assets/icons/icons-pdf-.png' : '/assets/icons/doc-icon.png'">
                   </a>
-                  <img *ngIf='img.split(".").pop() == "mp4" || img.split(".").pop() == "m4v" || img.split(".").pop() == "mov" '
+                  <img
+                    *ngIf='img.split(".").pop() == "mp4" || img.split(".").pop() == "m4v" || img.split(".").pop() == "mov" '
                     class="pointor pdf" src="../../../../../../assets/icons/video.png" alt="" (click)="imgSrc = img"
                     data-toggle="modal" data-target="#myModalVideo">
                 </div>
@@ -107,7 +114,7 @@
         <button type="button" #closebutton class="close" data-dismiss="modal">&times;</button>
       </div>
       <div class="modal-body">
-        <video width="100%" src="{{imgSrc}}"  controls autoplay>
+        <video width="100%" src="{{imgSrc}}" controls autoplay>
           <!-- <source src="{{imgSrc}}" type="video/quicktime"> -->
           <!-- type="video/mp4" -->
         </video>

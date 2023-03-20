@@ -1,0 +1,50 @@
+.close-image{
+    right: -21px;
+    top: -21px;
+    width: 40px;
+}
+
+legend {
+    color: #ed7533;
+    font-size: 11px;
+    margin-bottom: 0px;
+  }
+
+  fieldset {
+    padding: 0 10px 8px 10px;
+    font-size: 14px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+
+    .dropdown-item {
+      font-size: 14px;
+    }
+  }
+
+  .myBtn {
+    transition: .5s;
+    border-radius: 20px;
+    border: solid 1px #f47521;
+    background-color: #f47521;
+    color: #fff;
+    font-size: 14px;
+    padding: 6px 20px;
+    width: fit-content;
+    margin: 14px auto;
+    opacity: 0.8;
+  }
+
+  .myBtn:hover{
+    opacity: 1;
+    transition: .5s;
+  }
+
+
+  .owl-dt-calendar-table .owl-dt-calendar-cell-selected {
+    background-color: #ff6300 !important;
+  }
+
+  .static-links{
+    color: #00bff3;
+    font-size: 10px;
+  }
