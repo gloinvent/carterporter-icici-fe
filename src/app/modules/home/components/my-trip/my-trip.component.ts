@@ -74,7 +74,8 @@ export class MyTripComponent implements OnInit {
     let obj = { 
       id_customer: this.custId.customer_detail.id_customer,
       corporate_orders:0,
-      order_number: this.search_order_no && this.is_search_order ? this.search_order_no : null
+      order_number: this.search_order_no && this.is_search_order ? this.search_order_no : null,
+      airline_id:'',
      };
     this.TripsordersService.getOrdersAndTrips(obj, count).subscribe(
       (orders) => {
