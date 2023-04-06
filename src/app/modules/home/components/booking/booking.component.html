@@ -520,7 +520,7 @@
 
     <!--  -->
     <div
-      class="row pt-3"
+      class="row pt-3  my-2"
       *ngIf="
         subscription_details.show_coupons == true &&
         subscription_details.subscription_tokens.length != 0
@@ -535,7 +535,7 @@
             aria-valuemax="50"
           >
             <p class="usages">Usages</p>
-            <p>{{ buttonCount }}/{{ dcrsCount }}</p>
+            <p style="font-size: 12px;">{{ buttonCount }}/{{ dcrsCount }}</p>
           </div>
         </div>
         <div class="redeemCodeSection d-flex">
@@ -560,6 +560,7 @@
             <!-- {{item.subscriber_name}} -->
             <!-- <span class="ml-2"></span> -->
             <p class="m-0">{{ item.confirmation_number }}</p>
+            <p class="m-0" *ngIf="item.expire_date">{{ item.expire_date | date }}</p>
           </div>
         </div>
       </div>
